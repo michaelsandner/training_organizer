@@ -48,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: win-build
-          path: build/win
+          path: build/windows
 
   analyzer:
     runs-on: ubuntu-latest
