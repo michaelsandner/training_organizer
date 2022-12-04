@@ -2,22 +2,70 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:training_organizer/trainee.dart';
 
+enum Group {
+  waitingList,
+  group1,
+  group2,
+  group3,
+  group4,
+  group5,
+  wednesday,
+  all,
+}
+
 @immutable
 class AppState with EquatableMixin {
   final List<Trainee> trainees;
+  final List<Trainee> selectedTrainees;
+
+  final Group? selectedGroup;
 
   const AppState({
     required this.trainees,
+    required this.selectedGroup,
+    required this.selectedTrainees,
   });
 
   factory AppState.initial() {
-    return AppState(trainees: List<Trainee>.empty());
+    return AppState(
+      trainees: [
+        Trainee(
+          surname: 'Musterman',
+          forename: 'Max',
+          email: 'email@email.de',
+          dateOfBirth: DateTime.parse('2000-10-10'),
+          trainingGroup: Group.waitingList,
+        ),
+        Trainee(
+          surname: 'Musterman',
+          forename: 'Manuel',
+          email: 'email@email.de',
+          dateOfBirth: DateTime.parse('2000-10-10'),
+          trainingGroup: Group.group1,
+        ),
+        Trainee(
+          surname: 'Musterman',
+          forename: 'Mathilda',
+          email: 'email@email.de',
+          dateOfBirth: DateTime.parse('2000-10-10'),
+          trainingGroup: Group.group2,
+        )
+      ],
+      selectedGroup: Group.all,
+      selectedTrainees: List<Trainee>.empty(),
+    );
   }
 
   AppState copyWith({
     List<Trainee>? trainees,
+    Group? selectedGroup,
+    List<Trainee>? selectedTrainees,
   }) {
-    return AppState(trainees: trainees ?? this.trainees);
+    return AppState(
+      trainees: trainees ?? this.trainees,
+      selectedGroup: selectedGroup ?? this.selectedGroup,
+      selectedTrainees: selectedTrainees ?? this.selectedTrainees,
+    );
   }
 
   List<String> getAllEmailAdresses() {
@@ -26,5 +74,9 @@ class AppState with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [trainees];
+  List<Object?> get props => [
+        trainees,
+        selectedGroup,
+        selectedTrainees,
+      ];
 }

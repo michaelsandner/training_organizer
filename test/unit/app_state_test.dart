@@ -3,12 +3,22 @@ import 'package:training_organizer/app_state.dart';
 import 'package:training_organizer/trainee.dart';
 
 void main() {
-  test('get all email adresses', () {
-    final inputState = AppState(trainees: [
-      Trainee(email: 'aaa@b.de'),
-      Trainee(email: 'bbb@a.de'),
-    ]);
+  group('AppState', () {
+    group('Given each trainee has an email adress', () {
+      group('When getAllEmailAdresses', () {
+        test('Then all email adresses should be returned', () {
+          final inputState = AppState(
+            trainees: [
+              Trainee(email: 'aaa@b.de'),
+              Trainee(email: 'bbb@a.de'),
+            ],
+            selectedTrainees: const [],
+            selectedGroup: null,
+          );
 
-    expect(inputState.getAllEmailAdresses(), ['aaa@b.de', 'bbb@a.de']);
+          expect(inputState.getAllEmailAdresses(), ['aaa@b.de', 'bbb@a.de']);
+        });
+      });
+    });
   });
 }
