@@ -11,9 +11,38 @@ class TraineeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ImportButton(),
+            ExportButton(),
+          ],
+        ),
         DropDown(),
         Expanded(child: TraineeList()),
       ],
+    );
+  }
+}
+
+class ImportButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<AppCubit>();
+    return ElevatedButton(
+      onPressed: () => cubit.loadFile(),
+      child: const Text('Import'),
+    );
+  }
+}
+
+class ExportButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<AppCubit>();
+    return ElevatedButton(
+      onPressed: () => cubit.saveFile(),
+      child: const Text('Export'),
     );
   }
 }

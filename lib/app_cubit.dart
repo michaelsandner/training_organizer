@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:external_path/external_path.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/app_state.dart';
 import 'package:training_organizer/trainee.dart';
@@ -10,23 +15,49 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void updateTrainee(Trainee trainee) {
-    // remove trainee from list
     var currentList = [...state.trainees];
 
     currentList.removeWhere((element) => element == trainee);
 
-    // update group
     final updatedTrainee =
         trainee.copyWithNewGroup(getUpdatedGroup(trainee.trainingGroup!));
 
-    // add to list
     currentList.add(updatedTrainee);
 
     emit(state.copyWith(
       trainees: currentList,
     ));
-    // to update view
     setSelectedGroup(updatedTrainee.trainingGroup);
+  }
+
+  Future<void> loadFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      File file = File(result.files.single.path!);
+
+      String jsonString = await file.readAsString();
+      Map<String, dynamic> inputMap = jsonDecode(jsonString);
+
+      var list = inputMap['trainees'] as List;
+      List<Trainee> traineeList = list.map((t) => Trainee.fromJson(t)).toList();
+
+      emit(state.copyWith(trainees: traineeList));
+      setSelectedGroup(Group.all);
+    }
+  }
+
+  Future<void> saveFile() async {
+    String localPath = await ExternalPath.getExternalStoragePublicDirectory(
+        ExternalPath.DIRECTORY_DOWNLOADS);
+
+    File saveFile = File('$localPath/t.json');
+
+    Map<String, dynamic> map = {
+      'trainees': state.trainees,
+    };
+    String json = jsonEncode(map);
+
+    await saveFile.writeAsString(json);
   }
 
   Group getUpdatedGroup(Group currentGroup) {
