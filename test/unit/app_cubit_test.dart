@@ -33,7 +33,7 @@ void main() {
           'Then trainee should be updated to group 5',
           seed: () => state,
           build: () => cubit,
-          act: (cubit) => cubit.updateTrainee(trainee),
+          act: (cubit) => cubit.upgradeTrainee(trainee),
           expect: () => [
             state.copyWith(
               trainees: [
@@ -72,7 +72,7 @@ void main() {
           'Then trainee should be updated to group 1',
           seed: () => state,
           build: () => cubit,
-          act: (cubit) => cubit.updateTrainee(trainee),
+          act: (cubit) => cubit.upgradeTrainee(trainee),
           expect: () => [
             state.copyWith(
               trainees: [
@@ -111,7 +111,7 @@ void main() {
           'Then trainee should be updated to group 2',
           seed: () => state,
           build: () => cubit,
-          act: (cubit) => cubit.updateTrainee(trainee),
+          act: (cubit) => cubit.upgradeTrainee(trainee),
           expect: () => [
             state.copyWith(
               trainees: [
@@ -150,7 +150,7 @@ void main() {
           'Then trainee should be updated to group 4',
           seed: () => state,
           build: () => cubit,
-          act: (cubit) => cubit.updateTrainee(trainee),
+          act: (cubit) => cubit.upgradeTrainee(trainee),
           expect: () => [
             state.copyWith(
               trainees: [
@@ -189,7 +189,7 @@ void main() {
           'Then trainee should be updated to group 3',
           seed: () => state,
           build: () => cubit,
-          act: (cubit) => cubit.updateTrainee(trainee),
+          act: (cubit) => cubit.upgradeTrainee(trainee),
           expect: () => [
             state.copyWith(
               trainees: [
@@ -228,7 +228,7 @@ void main() {
           'Then trainee should be updated to group wednesday',
           seed: () => state,
           build: () => cubit,
-          act: (cubit) => cubit.updateTrainee(trainee),
+          act: (cubit) => cubit.upgradeTrainee(trainee),
           expect: () => [
             state.copyWith(
               trainees: [

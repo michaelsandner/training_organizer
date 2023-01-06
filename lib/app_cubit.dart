@@ -14,13 +14,38 @@ class AppCubit extends Cubit<AppState> {
     emit(state.copyWith(selectedTrainees: state.trainees));
   }
 
-  void updateTrainee(Trainee trainee) {
+  bool isDowngradePossible(Trainee trainee) {
+    return trainee.trainingGroup != Group.waitingList &&
+        trainee.trainingGroup != Group.group5;
+  }
+
+  bool isUpgradePossible(Trainee trainee) {
+    return trainee.trainingGroup != Group.wednesday;
+  }
+
+  void upgradeTrainee(Trainee trainee) {
     var currentList = [...state.trainees];
 
     currentList.removeWhere((element) => element == trainee);
 
     final updatedTrainee =
-        trainee.copyWithNewGroup(getUpdatedGroup(trainee.trainingGroup!));
+        trainee.copyWithNewGroup(getUpgradedGroup(trainee.trainingGroup!));
+
+    currentList.add(updatedTrainee);
+
+    emit(state.copyWith(
+      trainees: currentList,
+    ));
+    setSelectedGroup(updatedTrainee.trainingGroup);
+  }
+
+  void downgradeTrainee(Trainee trainee) {
+    var currentList = [...state.trainees];
+
+    currentList.removeWhere((element) => element == trainee);
+
+    final updatedTrainee =
+        trainee.copyWithNewGroup(getDowngradedGroup(trainee.trainingGroup!));
 
     currentList.add(updatedTrainee);
 
@@ -60,7 +85,7 @@ class AppCubit extends Cubit<AppState> {
     await saveFile.writeAsString(json);
   }
 
-  Group getUpdatedGroup(Group currentGroup) {
+  Group getUpgradedGroup(Group currentGroup) {
     switch (currentGroup) {
       case Group.waitingList:
         return Group.group5;
@@ -74,6 +99,23 @@ class AppCubit extends Cubit<AppState> {
         return Group.group3;
       case Group.group3:
         return Group.wednesday;
+      default:
+        return currentGroup;
+    }
+  }
+
+  Group getDowngradedGroup(Group currentGroup) {
+    switch (currentGroup) {
+      case Group.group1:
+        return Group.group5;
+      case Group.group2:
+        return Group.group1;
+      case Group.group4:
+        return Group.group2;
+      case Group.group3:
+        return Group.group4;
+      case Group.wednesday:
+        return Group.group3;
       default:
         return currentGroup;
     }
