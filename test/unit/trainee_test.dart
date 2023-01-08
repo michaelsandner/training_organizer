@@ -60,7 +60,7 @@ void main() {
           'forename': 'Max',
           'email': 'email@web.de',
           'dateOfBirth': '2000-05-01',
-          'trainingGroup': 'Group.group1'
+          'trainingGroup': 'group1'
         };
 
         final output = input.toJson();

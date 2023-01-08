@@ -117,7 +117,13 @@ class Trainee {
         'email': email,
         'dateOfBirth':
             dateOfBirth != null ? formatter.format(dateOfBirth!) : null,
-        'trainingGroup':
-            trainingGroup ?? trainingGroup.toString().split('.').last,
+        'trainingGroup': getTrainingGroupValue(),
       };
+
+  String? getTrainingGroupValue() {
+    if (trainingGroup != null) {
+      return trainingGroup.toString().split('.').last;
+    }
+    return null;
+  }
 }
