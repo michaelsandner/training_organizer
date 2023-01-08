@@ -45,7 +45,114 @@ void main() {
                   trainingGroup: Group.group5,
                 ),
               ],
+              selectedGroup: Group.waitingList,
+            ),
+            state.copyWith(
+                trainees: [
+                  Trainee(
+                    surname: 'Musterman',
+                    forename: 'Max',
+                    email: 'email@email.de',
+                    dateOfBirth: '2000-10-10',
+                    trainingGroup: Group.group5,
+                  ),
+                ],
+                selectedGroup: Group.group5,
+                selectedTrainees: [
+                  Trainee(
+                    surname: 'Musterman',
+                    forename: 'Max',
+                    email: 'email@email.de',
+                    dateOfBirth: '2000-10-10',
+                    trainingGroup: Group.group5,
+                  )
+                ])
+          ],
+        );
+      });
+      group('When updateTrainee twice', () {
+        blocTest<AppCubit, AppState>(
+          'Then trainee should be updated to group 1',
+          seed: () => state,
+          build: () => cubit,
+          act: (cubit) {
+            cubit.upgradeTrainee(trainee);
+            cubit.upgradeTrainee(trainee.copyWithNewGroup(Group.group5));
+          },
+          expect: () => [
+            state.copyWith(
+              trainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.group5,
+                ),
+              ],
+              selectedGroup: Group.waitingList,
+            ),
+            state.copyWith(
+              trainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.group5,
+                ),
+              ],
               selectedGroup: Group.group5,
+              selectedTrainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.group5,
+                )
+              ],
+            ),
+            state.copyWith(
+                trainees: [
+                  Trainee(
+                    surname: 'Musterman',
+                    forename: 'Max',
+                    email: 'email@email.de',
+                    dateOfBirth: '2000-10-10',
+                    trainingGroup: Group.group1,
+                  ),
+                ],
+                selectedGroup: Group.group5,
+                selectedTrainees: [
+                  Trainee(
+                    surname: 'Musterman',
+                    forename: 'Max',
+                    email: 'email@email.de',
+                    dateOfBirth: '2000-10-10',
+                    trainingGroup: Group.group5,
+                  )
+                ]),
+            state.copyWith(
+              trainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.group1,
+                ),
+              ],
+              selectedGroup: Group.group1,
+              selectedTrainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.group1,
+                )
+              ],
             )
           ],
         );
@@ -101,7 +208,28 @@ void main() {
                   trainingGroup: Group.group1,
                 ),
               ],
+              selectedGroup: Group.group5,
+            ),
+            state.copyWith(
+              trainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.group1,
+                ),
+              ],
               selectedGroup: Group.group1,
+              selectedTrainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.group1,
+                )
+              ],
             )
           ],
         );
@@ -140,7 +268,28 @@ void main() {
                   trainingGroup: Group.group2,
                 ),
               ],
+              selectedGroup: Group.group1,
+            ),
+            state.copyWith(
+              trainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.group2,
+                ),
+              ],
               selectedGroup: Group.group2,
+              selectedTrainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.group2,
+                )
+              ],
             )
           ],
         );
@@ -179,7 +328,28 @@ void main() {
                   trainingGroup: Group.group4,
                 ),
               ],
+              selectedGroup: Group.group2,
+            ),
+            state.copyWith(
+              trainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.group4,
+                ),
+              ],
               selectedGroup: Group.group4,
+              selectedTrainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.group4,
+                )
+              ],
             )
           ],
         );
@@ -218,7 +388,28 @@ void main() {
                   trainingGroup: Group.group3,
                 ),
               ],
+              selectedGroup: Group.group4,
+            ),
+            state.copyWith(
+              trainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.group3,
+                ),
+              ],
               selectedGroup: Group.group3,
+              selectedTrainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.group3,
+                )
+              ],
             )
           ],
         );
@@ -257,7 +448,28 @@ void main() {
                   trainingGroup: Group.wednesday,
                 ),
               ],
+              selectedGroup: Group.group3,
+            ),
+            state.copyWith(
+              trainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.wednesday,
+                ),
+              ],
               selectedGroup: Group.wednesday,
+              selectedTrainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.wednesday,
+                )
+              ],
             )
           ],
         );
