@@ -118,6 +118,6 @@ class Trainee {
         'dateOfBirth':
             dateOfBirth != null ? formatter.format(dateOfBirth!) : null,
         'trainingGroup':
-            trainingGroup == null ? null : trainingGroup.toString(),
+            trainingGroup ?? trainingGroup.toString().split('.').last,
       };
 }

@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:external_path/external_path.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/app_state.dart';
+import 'package:training_organizer/file_service.dart';
 import 'package:training_organizer/trainee.dart';
 
 class AppCubit extends Cubit<AppState> {
@@ -56,12 +54,10 @@ class AppCubit extends Cubit<AppState> {
   }
 
   Future<void> loadFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if (result != null) {
-      File file = File(result.files.single.path!);
+    String? json = await FileService.importFile();
 
-      String jsonString = await file.readAsString();
-      Map<String, dynamic> inputMap = jsonDecode(jsonString);
+    if (json != null) {
+      Map<String, dynamic> inputMap = jsonDecode(json);
 
       var list = inputMap['trainees'] as List;
       List<Trainee> traineeList = list.map((t) => Trainee.fromJson(t)).toList();
@@ -72,17 +68,12 @@ class AppCubit extends Cubit<AppState> {
   }
 
   Future<void> saveFile() async {
-    String localPath = await ExternalPath.getExternalStoragePublicDirectory(
-        ExternalPath.DIRECTORY_DOWNLOADS);
-
-    File saveFile = File('$localPath/t.json');
-
     Map<String, dynamic> map = {
       'trainees': state.trainees,
     };
     String json = jsonEncode(map);
 
-    await saveFile.writeAsString(json);
+    await FileService.exportFile(json);
   }
 
   Group getUpgradedGroup(Group currentGroup) {
