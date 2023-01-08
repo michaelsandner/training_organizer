@@ -48,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: win-build
-          path: build/windows
+          path: build/windows/runner/Release
 
   build_android:
     runs-on: ubuntu-latest
@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: android-build
-          path: build/android
+          path: build/app/outputs/flutter-apk/app-release.apk
 
   analyzer:
     runs-on: ubuntu-latest
