@@ -16,26 +16,26 @@ void main() {
 
         final output = Trainee.fromJson(inputJson);
 
-        expect(output.dateOfBirth, DateTime(2000, 5, 1));
+        expect(output.dateOfBirth, '2000-05-01');
         expect(output.surname, 'Mustermann');
         expect(output.forename, 'Max');
         expect(output.email, 'email@web.de');
       });
     });
 
-    group('Given dateOfBirth and group are null', () {
+    group('Given group are null', () {
       test('Then dateOfBirth and group should be null', () {
         final inputJson = {
           'surname': 'Mustermann',
           'forename': 'Max',
           'email': 'email@web.de',
-          'dateOfBirth': null,
+          'dateOfBirth': '',
           'trainingGroup': null
         };
 
         final output = Trainee.fromJson(inputJson);
 
-        expect(output.dateOfBirth, null);
+        expect(output.dateOfBirth, '');
         expect(output.trainingGroup, null);
         expect(output.surname, 'Mustermann');
         expect(output.forename, 'Max');
@@ -51,7 +51,7 @@ void main() {
           surname: 'Mustermann',
           forename: 'Max',
           email: 'email@web.de',
-          dateOfBirth: DateTime(2000, 5, 1),
+          dateOfBirth: '2000-05-01',
           trainingGroup: Group.group1,
         );
 
@@ -69,13 +69,13 @@ void main() {
       });
     });
 
-    group('Given dateOfBirth and group are null', () {
+    group('Given group are null', () {
       test('Then dateOfBirth and group should be null', () {
         final input = Trainee(
           surname: 'Mustermann',
           forename: 'Max',
           email: 'email@web.de',
-          dateOfBirth: null,
+          dateOfBirth: '',
           trainingGroup: null,
         );
 
@@ -83,7 +83,7 @@ void main() {
           'surname': 'Mustermann',
           'forename': 'Max',
           'email': 'email@web.de',
-          'dateOfBirth': null,
+          'dateOfBirth': '',
           'trainingGroup': null
         };
 
