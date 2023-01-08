@@ -1,20 +1,17 @@
-import 'package:intl/intl.dart';
 import 'package:training_organizer/app_state.dart';
 
 class Trainee {
   final String surname;
   final String forename;
   final String email;
-  final DateTime? dateOfBirth;
+  final String dateOfBirth;
   final Group? trainingGroup;
-
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   Trainee({
     this.surname = '',
     this.forename = '',
     this.email = '',
-    this.dateOfBirth,
+    this.dateOfBirth = '',
     this.trainingGroup,
   });
 
@@ -23,9 +20,7 @@ class Trainee {
         surname: json['surname'] ?? '',
         forename: json['forename'] ?? '',
         email: json['email'] ?? '',
-        dateOfBirth: json['dateOfBirth'] != null
-            ? DateTime.parse(json['dateOfBirth'])
-            : null,
+        dateOfBirth: json['dateOfBirth'] ?? '',
         trainingGroup: mapGroupToEnum(json['trainingGroup']));
   }
 
@@ -115,8 +110,7 @@ class Trainee {
         'surname': surname,
         'forename': forename,
         'email': email,
-        'dateOfBirth':
-            dateOfBirth != null ? formatter.format(dateOfBirth!) : null,
+        'dateOfBirth': dateOfBirth,
         'trainingGroup': getTrainingGroupValue(),
       };
 

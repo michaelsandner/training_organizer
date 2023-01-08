@@ -12,6 +12,18 @@ class AppCubit extends Cubit<AppState> {
     emit(state.copyWith(selectedTrainees: state.trainees));
   }
 
+  void addTrainee(Trainee trainee) {
+    final updatedTraineeList = [...state.trainees];
+
+    if (state.trainees.contains(trainee)) {
+      return;
+    }
+    updatedTraineeList.add(trainee);
+
+    emit(state.copyWith(trainees: updatedTraineeList));
+    setSelectedGroup(Group.all);
+  }
+
   bool isDowngradePossible(Trainee trainee) {
     return trainee.trainingGroup != Group.waitingList &&
         trainee.trainingGroup != Group.group5;
