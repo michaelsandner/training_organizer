@@ -15,6 +15,25 @@ class FileService {
   }
 
   static Future<void> exportFile(String json) async {
+    if (Platform.isWindows) {
+      await exportFileOnWindows(json);
+    } else {
+      await exportFileOnAndroid(json);
+    }
+  }
+
+  static Future<void> exportFileOnWindows(String json) async {
+    String? outputFile = await FilePicker.platform.saveFile(
+        dialogTitle: 'Please select an output file:', fileName: 't.json');
+
+    if (outputFile != null) {
+      File saveFile = File(outputFile);
+
+      await saveFile.writeAsString(json);
+    }
+  }
+
+  static Future<void> exportFileOnAndroid(String json) async {
     String localPath = await ExternalPath.getExternalStoragePublicDirectory(
         ExternalPath.DIRECTORY_DOWNLOADS);
 
