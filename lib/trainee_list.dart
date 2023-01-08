@@ -5,7 +5,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/app_cubit.dart';
 import 'package:training_organizer/app_state.dart';
 
-class TraineeList extends StatelessWidget {
+class TraineeList extends StatefulWidget {
+  @override
+  State<TraineeList> createState() => _TraineeListState();
+}
+
+class _TraineeListState extends State<TraineeList> {
+  void refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<AppCubit>();
@@ -38,7 +47,10 @@ class TraineeList extends StatelessWidget {
                   width: 30,
                   child: IconButton(
                     onPressed: cubit.isUpgradePossible(trainee)
-                        ? () => cubit.upgradeTrainee(trainee)
+                        ? () {
+                            cubit.upgradeTrainee(trainee);
+                            refresh();
+                          }
                         : null,
                     icon: const Icon(Icons.upgrade_sharp),
                     color: Colors.green,
@@ -50,7 +62,10 @@ class TraineeList extends StatelessWidget {
                     angle: pi,
                     child: IconButton(
                       onPressed: cubit.isDowngradePossible(trainee)
-                          ? () => cubit.downgradeTrainee(trainee)
+                          ? () {
+                              cubit.downgradeTrainee(trainee);
+                              refresh();
+                            }
                           : null,
                       icon: const Icon(Icons.upgrade_sharp),
                       color: Colors.red,

@@ -34,7 +34,7 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void upgradeTrainee(Trainee trainee) {
-    var currentList = [...state.trainees];
+    final currentList = [...state.trainees];
 
     currentList.removeWhere((element) => element == trainee);
 
@@ -109,16 +109,17 @@ class AppCubit extends Cubit<AppState> {
 
   Group getDowngradedGroup(Group currentGroup) {
     switch (currentGroup) {
-      case Group.group1:
-        return Group.group5;
-      case Group.group2:
-        return Group.group1;
-      case Group.group4:
-        return Group.group2;
-      case Group.group3:
-        return Group.group4;
       case Group.wednesday:
         return Group.group3;
+      case Group.group3:
+        return Group.group4;
+      case Group.group4:
+        return Group.group2;
+      case Group.group2:
+        return Group.group1;
+      case Group.group1:
+        return Group.group5;
+
       default:
         return currentGroup;
     }
