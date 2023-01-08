@@ -9,18 +9,21 @@ class TraineeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ImportButton(),
-            ExportButton(),
-          ],
-        ),
-        DropDown(),
-        Expanded(child: TraineeList()),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ImportButton(),
+              ExportButton(),
+            ],
+          ),
+          DropDown(),
+          Expanded(child: TraineeList()),
+        ],
+      ),
     );
   }
 }
