@@ -37,9 +37,9 @@ class _TraineeListState extends State<TraineeList> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(trainee.forename),
-                      const SizedBox(width: 10),
                       Text(trainee.surname),
+                      const SizedBox(width: 10),
+                      Text(trainee.forename),
                       const SizedBox(
                         width: 10,
                       ),

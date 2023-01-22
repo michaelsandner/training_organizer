@@ -134,6 +134,10 @@ class AppCubit extends Cubit<AppState> {
           .where((element) => element.trainingGroup == selectedValue)
           .toList();
 
+      if (selectedValue != Group.waitingList) {
+        filteredItems.sort((a, b) => a.surname.compareTo(b.surname));
+      }
+
       emit(state.copyWith(
           selectedGroup: selectedValue, selectedTrainees: filteredItems));
     }
