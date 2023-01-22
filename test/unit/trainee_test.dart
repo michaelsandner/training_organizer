@@ -11,7 +11,8 @@ void main() {
           'forename': 'Max',
           'email': 'email@web.de',
           'dateOfBirth': '2000-05-01',
-          'trainingGroup': 'groupA'
+          'trainingGroup': 'groupA',
+          'phone': '000111'
         };
 
         final output = Trainee.fromJson(inputJson);
@@ -20,6 +21,7 @@ void main() {
         expect(output.surname, 'Mustermann');
         expect(output.forename, 'Max');
         expect(output.email, 'email@web.de');
+        expect(output.phone, '000111');
       });
     });
 
@@ -30,6 +32,7 @@ void main() {
           'forename': 'Max',
           'email': 'email@web.de',
           'dateOfBirth': '',
+          'phone': '',
           'trainingGroup': null
         };
 
@@ -40,6 +43,7 @@ void main() {
         expect(output.surname, 'Mustermann');
         expect(output.forename, 'Max');
         expect(output.email, 'email@web.de');
+        expect(output.phone, '');
       });
     });
   });
@@ -51,6 +55,7 @@ void main() {
           surname: 'Mustermann',
           forename: 'Max',
           email: 'email@web.de',
+          phone: '000111',
           dateOfBirth: '2000-05-01',
           trainingGroup: Group.group1,
         );
@@ -59,6 +64,7 @@ void main() {
           'surname': 'Mustermann',
           'forename': 'Max',
           'email': 'email@web.de',
+          'phone': '000111',
           'dateOfBirth': '2000-05-01',
           'trainingGroup': 'group1'
         };
@@ -75,6 +81,7 @@ void main() {
           surname: 'Mustermann',
           forename: 'Max',
           email: 'email@web.de',
+          phone: '000111',
           dateOfBirth: '',
           trainingGroup: null,
         );
@@ -83,6 +90,7 @@ void main() {
           'surname': 'Mustermann',
           'forename': 'Max',
           'email': 'email@web.de',
+          'phone': '000111',
           'dateOfBirth': '',
           'trainingGroup': null
         };

@@ -6,6 +6,7 @@ class Trainee {
   final String email;
   final String dateOfBirth;
   final Group? trainingGroup;
+  final String phone;
 
   Trainee({
     this.surname = '',
@@ -13,6 +14,7 @@ class Trainee {
     this.email = '',
     this.dateOfBirth = '',
     this.trainingGroup,
+    this.phone = '',
   });
 
   factory Trainee.fromJson(dynamic json) {
@@ -21,6 +23,7 @@ class Trainee {
         forename: json['forename'] ?? '',
         email: json['email'] ?? '',
         dateOfBirth: json['dateOfBirth'] ?? '',
+        phone: json['phone'] ?? '',
         trainingGroup: mapGroupToEnum(json['trainingGroup']));
   }
 
@@ -93,6 +96,7 @@ class Trainee {
       surname: surname,
       forename: forename,
       email: email,
+      phone: phone,
       trainingGroup: group,
     );
   }
@@ -111,6 +115,7 @@ class Trainee {
         'forename': forename,
         'email': email,
         'dateOfBirth': dateOfBirth,
+        'phone': phone,
         'trainingGroup': getTrainingGroupValue(),
       };
 

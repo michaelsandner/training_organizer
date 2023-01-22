@@ -34,6 +34,7 @@ class AppState with EquatableMixin {
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
+          phone: '01000 1100',
           trainingGroup: Group.waitingList,
         ),
         Trainee(
@@ -41,6 +42,7 @@ class AppState with EquatableMixin {
           forename: 'Manuel',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
+          phone: '0000 000',
           trainingGroup: Group.group1,
         ),
         Trainee(
@@ -48,6 +50,7 @@ class AppState with EquatableMixin {
           forename: 'Mathilda',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
+          phone: '0100 023892',
           trainingGroup: Group.group2,
         )
       ],

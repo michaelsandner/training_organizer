@@ -97,12 +97,14 @@ class _AddTraineeState extends State<AddTrainee> {
                             forename: foreNameController.text,
                             surname: sureNameController.text,
                             email: emailController.text,
+                            phone: phoneController.text,
                             dateOfBirth: dateOfBirthController.text,
                             trainingGroup: Group.waitingList);
                         cubit.addTrainee(newTrainee);
                         foreNameController.clear();
                         sureNameController.clear();
                         emailController.clear();
+                        phoneController.clear();
                         dateOfBirthController.clear();
                         phoneController.clear();
                       }

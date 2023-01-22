@@ -40,6 +40,10 @@ class _TraineeListState extends State<TraineeList> {
                       Text(trainee.forename),
                       const SizedBox(width: 10),
                       Text(trainee.surname),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(trainee.phone),
                     ],
                   ),
                 ),
