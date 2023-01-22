@@ -1,17 +1,30 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:external_path/external_path.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 
 class FileService {
   static Future<String?> importFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if (result != null) {
-      File file = File(result.files.single.path!);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['json'],
+    );
 
+    if (result == null) {
+      return null;
+    }
+
+    if (kIsWeb) {
+      String test = utf8.decode(result.files.single.bytes!);
+      return test;
+    } else {
+      File file;
+      file = File(result.files.single.path!);
       return await file.readAsString();
     }
-    return null;
   }
 
   static Future<void> exportFile(String json) async {

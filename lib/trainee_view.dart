@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/app_cubit.dart';
@@ -17,7 +18,7 @@ class TraineeView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ImportButton(),
-              ExportButton(),
+              if (!kIsWeb) ExportButton(),
             ],
           ),
           DropDown(),
