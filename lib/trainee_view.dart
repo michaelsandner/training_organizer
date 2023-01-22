@@ -21,10 +21,34 @@ class TraineeView extends StatelessWidget {
               if (!kIsWeb) ExportButton(),
             ],
           ),
-          DropDown(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SelectedCount(),
+              DropDown(),
+            ],
+          ),
           Expanded(child: TraineeList()),
         ],
       ),
+    );
+  }
+}
+
+class SelectedCount extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AppCubit, AppState>(
+      builder: (context, state) {
+        final count = state.selectedTrainees.length;
+        return SizedBox(
+          width: 100,
+          child: Text(
+            'Count: $count',
+            style: const TextStyle(fontSize: 20),
+          ),
+        );
+      },
     );
   }
 }
