@@ -138,4 +138,27 @@ class AppCubit extends Cubit<AppState> {
           selectedGroup: selectedValue, selectedTrainees: filteredItems));
     }
   }
+
+  String getSelectedGroupName() {
+    switch (state.selectedGroup) {
+      case Group.group1:
+        return 'Block 1';
+      case Group.group2:
+        return 'Block 2';
+      case Group.group3:
+        return 'Block 3';
+      case Group.group4:
+        return 'Block 4';
+      case Group.group5:
+        return 'Block 5';
+      case Group.wednesday:
+        return 'Mittwoch';
+      case Group.waitingList:
+        return 'Warteliste';
+      case Group.all:
+        return 'All';
+      default:
+        return 'null';
+    }
+  }
 }

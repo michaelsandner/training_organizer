@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/add_trainee.dart';
 import 'package:training_organizer/app_cubit.dart';
+import 'package:training_organizer/pdf_view.dart';
 import 'package:training_organizer/trainee_view.dart';
 
 void main() {
@@ -61,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
@@ -69,7 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
           bottom: const TabBar(tabs: [
             Tab(icon: Icon(Icons.accessibility)),
-            Tab(icon: Icon(Icons.add_box))
+            Tab(icon: Icon(Icons.add_box)),
+            Tab(icon: Icon(Icons.document_scanner)),
           ]),
         ),
         body: Center(
@@ -78,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: TabBarView(children: [
               const TraineeView(),
               AddTrainee(),
+              PdfView(),
             ]),
           ),
         ),
