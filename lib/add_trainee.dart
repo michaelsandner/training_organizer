@@ -94,11 +94,11 @@ class _AddTraineeState extends State<AddTrainee> {
                       // the form is invalid.
                       if (formKey.currentState!.validate()) {
                         final newTrainee = Trainee(
-                            forename: foreNameController.text,
-                            surname: sureNameController.text,
-                            email: emailController.text,
-                            phone: phoneController.text,
-                            dateOfBirth: dateOfBirthController.text,
+                            forename: foreNameController.text.trim(),
+                            surname: sureNameController.text.trim(),
+                            email: emailController.text.trim(),
+                            phone: phoneController.text.trim(),
+                            dateOfBirth: dateOfBirthController.text.trim(),
                             trainingGroup: Group.waitingList);
                         cubit.addTrainee(newTrainee);
                         foreNameController.clear();
