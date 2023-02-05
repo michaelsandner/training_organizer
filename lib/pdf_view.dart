@@ -65,6 +65,10 @@ class PdfView extends StatelessWidget {
                         ),
                         pw.Padding(
                           padding: const pw.EdgeInsets.symmetric(horizontal: 5),
+                          child: pw.Text(trainee.phone),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.symmetric(horizontal: 5),
                           child: pw.Text(trainee.dateOfBirth),
                         ),
                         pw.SizedBox(width: 10),
