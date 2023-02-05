@@ -80,7 +80,10 @@ class AppState with EquatableMixin {
   @override
   List<Object?> get props => [
         trainees,
+        trainees.length,
         trainees.last.trainingGroup,
+        trainees.last.email,
+        trainees.last.phone,
         selectedGroup,
         selectedTrainees,
       ];

@@ -96,6 +96,21 @@ class Trainee {
     }
   }
 
+  Trainee copyWith({
+    Group? trainingGroup,
+    String? email,
+    String? phone,
+  }) {
+    return Trainee(
+      dateOfBirth: dateOfBirth,
+      surname: surname,
+      forename: forename,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      trainingGroup: trainingGroup ?? this.trainingGroup,
+    );
+  }
+
   Trainee copyWithNewGroup(Group group) {
     return Trainee(
       dateOfBirth: dateOfBirth,

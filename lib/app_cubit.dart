@@ -24,6 +24,16 @@ class AppCubit extends Cubit<AppState> {
     setSelectedGroup(Group.all);
   }
 
+  void editTrainee(Trainee trainee, String? newPhone, String? newEmail) {
+    final selectedGrouop = state.selectedGroup;
+    List<Trainee> updatedTraineeList = [...state.trainees];
+    updatedTraineeList.removeWhere((element) => element == trainee);
+    updatedTraineeList.add(trainee.copyWith(phone: newPhone, email: newEmail));
+    emit(state.copyWith(trainees: updatedTraineeList));
+    setSelectedGroup(Group.active);
+    setSelectedGroup(selectedGrouop);
+  }
+
   bool isDowngradePossible(Trainee trainee) {
     return trainee.trainingGroup != Group.waitingList &&
         trainee.trainingGroup != Group.group5;
