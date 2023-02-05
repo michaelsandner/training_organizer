@@ -476,6 +476,67 @@ void main() {
       });
     });
 
+    group('Given trainee in Group wednesday', () {
+      late Trainee trainee;
+      setUp(() {
+        trainee = Trainee(
+          surname: 'Musterman',
+          forename: 'Max',
+          email: 'email@email.de',
+          dateOfBirth: '2000-10-10',
+          trainingGroup: Group.wednesday,
+        );
+        state = cubit.state.copyWith(
+          trainees: [trainee],
+          selectedGroup: Group.wednesday,
+          selectedTrainees: List<Trainee>.empty(),
+        );
+      });
+      group('When updateTrainee', () {
+        blocTest<AppCubit, AppState>(
+          'Then trainee should be updated to group active',
+          seed: () => state,
+          build: () => cubit,
+          act: (cubit) => cubit.upgradeTrainee(trainee),
+          expect: () => [
+            state.copyWith(
+              trainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.active,
+                ),
+              ],
+              selectedGroup: Group.wednesday,
+            ),
+            state.copyWith(
+              trainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.active,
+                ),
+              ],
+              selectedGroup: Group.active,
+              selectedTrainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.active,
+                )
+              ],
+            )
+          ],
+        );
+      });
+    });
+
     group('Given trainee does not exist in trainee list', () {
       late Trainee trainee;
       setUp(() {

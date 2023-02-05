@@ -10,6 +10,7 @@ enum Group {
   group4,
   group5,
   wednesday,
+  active,
   all,
 }
 

@@ -43,6 +43,8 @@ class Trainee {
         return '5';
       case Group.wednesday:
         return 'M';
+      case Group.active:
+        return 'A';
       default:
         return '';
     }
@@ -64,6 +66,8 @@ class Trainee {
         return 'Block 5';
       case Group.wednesday:
         return 'Mittwoch';
+      case Group.active:
+        return 'Aktiv';
       default:
         return '';
     }
@@ -85,6 +89,8 @@ class Trainee {
         return Group.group1;
       case 'wednesday':
         return Group.wednesday;
+      case 'active':
+        return Group.active;
       default:
         return null;
     }

@@ -30,7 +30,7 @@ class AppCubit extends Cubit<AppState> {
   }
 
   bool isUpgradePossible(Trainee trainee) {
-    return trainee.trainingGroup != Group.wednesday;
+    return trainee.trainingGroup != Group.active;
   }
 
   void upgradeTrainee(Trainee trainee) {
@@ -102,6 +102,8 @@ class AppCubit extends Cubit<AppState> {
         return Group.group3;
       case Group.group3:
         return Group.wednesday;
+      case Group.wednesday:
+        return Group.active;
       default:
         return currentGroup;
     }
@@ -109,6 +111,8 @@ class AppCubit extends Cubit<AppState> {
 
   Group getDowngradedGroup(Group currentGroup) {
     switch (currentGroup) {
+      case Group.active:
+        return Group.wednesday;
       case Group.wednesday:
         return Group.group3;
       case Group.group3:
@@ -157,6 +161,8 @@ class AppCubit extends Cubit<AppState> {
         return 'Block 5';
       case Group.wednesday:
         return 'Mittwoch';
+      case Group.active:
+        return "Aktiv";
       case Group.waitingList:
         return 'Warteliste';
       case Group.all:
