@@ -55,36 +55,17 @@ class _AddTraineeState extends State<AddTrainee> {
                 controller: emailController,
                 decoration: const InputDecoration(hintText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Bitte Email angeben';
-                  }
-                  return null;
-                },
               ),
               TextFormField(
                 controller: phoneController,
                 decoration: const InputDecoration(hintText: 'Tel.'),
                 keyboardType: TextInputType.phone,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Bitte Tel. angeben';
-                  }
-                  return null;
-                },
               ),
               TextFormField(
                 controller: dateOfBirthController,
                 decoration: const InputDecoration(hintText: 'Geb. Datum'),
                 keyboardType: TextInputType.datetime,
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Bitte Geburtsdatum angeben';
-                  }
-
-                  return null;
-                },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
