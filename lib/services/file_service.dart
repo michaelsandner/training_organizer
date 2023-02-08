@@ -37,7 +37,7 @@ class FileService {
 
   static Future<void> exportFileOnWindows(String json) async {
     String? outputFile = await FilePicker.platform.saveFile(
-        dialogTitle: 'Please select an output file:', fileName: 't.json');
+        dialogTitle: 'Please select an output file:', fileName: getFileName());
 
     if (outputFile != null) {
       File saveFile = File(outputFile);
@@ -50,8 +50,18 @@ class FileService {
     String localPath = await ExternalPath.getExternalStoragePublicDirectory(
         ExternalPath.DIRECTORY_DOWNLOADS);
 
-    File saveFile = File('$localPath/t.json');
+    final fileName = getFileName();
+
+    File saveFile = File('$localPath/$fileName');
 
     await saveFile.writeAsString(json);
+  }
+
+  static String getFileName() {
+    final currentYear = DateTime.now().year;
+    final currentMonth = DateTime.now().month;
+    final currentDay = DateTime.now().day;
+
+    return 'export_${currentYear}_${currentMonth}_$currentDay.json';
   }
 }
