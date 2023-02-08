@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/app_state.dart';
-import 'package:training_organizer/file_service.dart';
-import 'package:training_organizer/trainee.dart';
+import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/model/trainee.dart';
+import 'package:training_organizer/services/file_service.dart';
 
 class AppCubit extends Cubit<AppState> {
   AppCubit() : super(AppState.initial());

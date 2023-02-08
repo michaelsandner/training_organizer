@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/app_cubit.dart';
-import 'package:training_organizer/app_state.dart';
-import 'package:training_organizer/trainee.dart';
+import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/model/trainee.dart';
 
 class TraineeList extends StatefulWidget {
   @override

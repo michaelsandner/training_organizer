@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/app_state.dart';
-import 'package:training_organizer/trainee.dart';
+import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/model/trainee.dart';
 
 void main() {
   group('fromJson', () {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/add_trainee.dart';
-import 'package:training_organizer/app_cubit.dart';
-import 'package:training_organizer/pdf_view.dart';
-import 'package:training_organizer/trainee_view.dart';
+import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/view/add_trainee.dart';
+import 'package:training_organizer/view/pdf_view.dart';
+import 'package:training_organizer/view/trainee_view.dart';
 
 void main() {
   runApp(const MyApp());

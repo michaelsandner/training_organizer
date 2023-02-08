@@ -1,4 +1,4 @@
-import 'package:training_organizer/app_state.dart';
+import 'package:training_organizer/cubit/app_state.dart';
 
 class Trainee {
   final String surname;

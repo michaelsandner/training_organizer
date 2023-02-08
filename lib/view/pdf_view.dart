@@ -7,8 +7,8 @@ import 'package:pdf/pdf.dart';
 // ignore: depend_on_referenced_packages
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-import 'package:training_organizer/app_cubit.dart';
-import 'package:training_organizer/trainee.dart';
+import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/model/trainee.dart';
 
 class PdfView extends StatelessWidget {
   @override

@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/app_cubit.dart';
-import 'package:training_organizer/app_state.dart';
-import 'package:training_organizer/trainee_list.dart';
+import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/view/trainee_list.dart';
 
 class TraineeView extends StatelessWidget {
   const TraineeView({Key? key}) : super(key: key);
