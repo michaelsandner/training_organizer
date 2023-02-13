@@ -1,4 +1,5 @@
 import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/model/badge.dart';
 
 class Trainee {
   final String surname;
@@ -7,6 +8,9 @@ class Trainee {
   final String dateOfBirth;
   final Group? trainingGroup;
   final String phone;
+  final String comment;
+  final bool isMember;
+  final Badge? badge;
 
   Trainee({
     this.surname = '',
@@ -15,6 +19,9 @@ class Trainee {
     this.dateOfBirth = '',
     this.trainingGroup,
     this.phone = '',
+    this.comment = '',
+    this.isMember = false,
+    this.badge,
   });
 
   factory Trainee.fromJson(dynamic json) {
@@ -24,7 +31,10 @@ class Trainee {
         email: json['email'] ?? '',
         dateOfBirth: json['dateOfBirth'] ?? '',
         phone: json['phone'] ?? '',
-        trainingGroup: mapGroupToEnum(json['trainingGroup']));
+        trainingGroup: mapGroupToEnum(json['trainingGroup']),
+        comment: json['comment'] ?? '',
+        isMember: json['isMember'] ?? false,
+        badge: json['badge'] == null ? null : mapBadge(json['badge']));
   }
 
   String get groupShortName {
@@ -73,6 +83,25 @@ class Trainee {
     }
   }
 
+  static Badge? mapBadge(Map<String, dynamic> badge) {
+    switch (badge['name']) {
+      case 'Bronze':
+        return BronzeBadge.fromJson(badge);
+      case 'Silber':
+        return SilverBadge.fromJson(badge);
+      case 'Gold':
+        return GoldBadge.fromJson(badge);
+      case 'RettungsschwimmerBronze':
+        return RettungsschwimmerBronzeBadge.fromJson(badge);
+      case 'RettungsschwimmerSilber':
+        return RettungsschwimmerSilverBadge.fromJson(badge);
+      case 'RettungsschwimmerGold':
+        return RettungsschwimmerBronzeBadge.fromJson(badge);
+      default:
+        return null;
+    }
+  }
+
   static Group? mapGroupToEnum(String? groupName) {
     switch (groupName) {
       case 'waitingList':
@@ -100,6 +129,9 @@ class Trainee {
     Group? trainingGroup,
     String? email,
     String? phone,
+    String? comment,
+    bool? isMember,
+    Badge? badge,
   }) {
     return Trainee(
       dateOfBirth: dateOfBirth,
@@ -108,6 +140,9 @@ class Trainee {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       trainingGroup: trainingGroup ?? this.trainingGroup,
+      comment: comment ?? this.comment,
+      isMember: isMember ?? this.isMember,
+      badge: badge ?? this.badge,
     );
   }
 
@@ -119,6 +154,7 @@ class Trainee {
       email: email,
       phone: phone,
       trainingGroup: group,
+      badge: badge,
     );
   }
 
@@ -138,6 +174,9 @@ class Trainee {
         'dateOfBirth': dateOfBirth,
         'phone': phone,
         'trainingGroup': getTrainingGroupValue(),
+        'comment': comment,
+        'isMember': isMember,
+        'badge': badge == null ? null : badge!.toJson(),
       };
 
   String? getTrainingGroupValue() {

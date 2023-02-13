@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/model/badge.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 void main() {
@@ -12,7 +13,10 @@ void main() {
           'email': 'email@web.de',
           'dateOfBirth': '2000-05-01',
           'trainingGroup': 'groupA',
-          'phone': '000111'
+          'phone': '000111',
+          'comment': 'this is a comment',
+          'isMember': true,
+          'badge': {'name': 'Bronze', 'date': '2020-09-09 00:00:00.000'},
         };
 
         final output = Trainee.fromJson(inputJson);
@@ -22,6 +26,10 @@ void main() {
         expect(output.forename, 'Max');
         expect(output.email, 'email@web.de');
         expect(output.phone, '000111');
+        expect(output.comment, 'this is a comment');
+        expect(output.isMember, true);
+        expect(output.badge!.name, 'Bronze');
+        expect(output.badge!.date, DateTime(2020, 9, 9));
       });
     });
 
@@ -33,7 +41,8 @@ void main() {
           'email': 'email@web.de',
           'dateOfBirth': '',
           'phone': '',
-          'trainingGroup': null
+          'trainingGroup': null,
+          'badge': null,
         };
 
         final output = Trainee.fromJson(inputJson);
@@ -44,6 +53,7 @@ void main() {
         expect(output.forename, 'Max');
         expect(output.email, 'email@web.de');
         expect(output.phone, '');
+        expect(output.badge, null);
       });
     });
   });
@@ -58,6 +68,9 @@ void main() {
           phone: '000111',
           dateOfBirth: '2000-05-01',
           trainingGroup: Group.group1,
+          comment: 'this is a comment',
+          isMember: true,
+          badge: BronzeBadge(),
         );
 
         final expectedJson = {
@@ -66,7 +79,10 @@ void main() {
           'email': 'email@web.de',
           'phone': '000111',
           'dateOfBirth': '2000-05-01',
-          'trainingGroup': 'group1'
+          'trainingGroup': 'group1',
+          'comment': 'this is a comment',
+          'isMember': true,
+          'badge': {'name': 'Bronze', 'date': null},
         };
 
         final output = input.toJson();
@@ -84,6 +100,7 @@ void main() {
           phone: '000111',
           dateOfBirth: '',
           trainingGroup: null,
+          badge: null,
         );
 
         final expectedJson = {
@@ -92,7 +109,10 @@ void main() {
           'email': 'email@web.de',
           'phone': '000111',
           'dateOfBirth': '',
-          'trainingGroup': null
+          'trainingGroup': null,
+          'comment': '',
+          'isMember': false,
+          'badge': null,
         };
 
         final output = input.toJson();
