@@ -88,7 +88,7 @@ class _EmailButton extends StatelessWidget {
       child: IconButton(
         onPressed: () => cubit.sendMail(email, foreName),
         icon: const Icon(Icons.mail),
-        color: Colors.yellow,
+        color: Colors.blue,
       ),
     );
   }

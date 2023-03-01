@@ -149,10 +149,26 @@ class AppCubit extends Cubit<AppState> {
     return current.name;
   }
 
+  Future<void> sendMailToSelectedGroup() async {
+    String email = '';
+    for (var element in state.selectedTrainees) {
+      email += ',${element.email}';
+    }
+
+    final Uri uri = Uri.parse('mailto:$email');
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
+  }
+
   Future<void> sendMail(String email, String foreName) async {
-    final String subject = Uri.encodeComponent(
-        'Aufnahme für das Schimmtraining der Wasserwacht Langenzenn');
-    final String body = Uri.encodeComponent('''hallo zusammen :)
+    Uri uri = Uri.parse('mailto:$email');
+
+    if (state.selectedGroup == Group.waitingList) {
+      final String subject = Uri.encodeComponent(
+          'Aufnahme für das Schimmtraining der Wasserwacht Langenzenn');
+      final String body = Uri.encodeComponent('''hallo zusammen :)
         leider hat es etwas gedauert aber nun freuen wir euch mitteilen zu dürfen, dass $foreName endlich bei uns im Schwimmtraining mitmachen darf.
         Dafür würden wir $foreName gerne zum Schnuppern am XXX um 17:00 Uhr am Hallenbad Langenzenn einladen.
         Wir treffen uns kurz vorher um ein paar Fragen auszutauschen und gemeinsam die Abläufe zu erklären.
@@ -162,8 +178,8 @@ class AppCubit extends Cubit<AppState> {
 
         Euer Wasserwacht-Team
          ''');
-    final Uri uri = Uri.parse('mailto:$email?subject=$subject&body=$body');
-
+      uri = Uri.parse('mailto:$email?subject=$subject&body=$body');
+    }
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     }

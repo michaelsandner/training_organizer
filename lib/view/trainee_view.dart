@@ -25,6 +25,7 @@ class TraineeView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SelectedCount(),
+              const _EmailButton(),
               DropDown(),
             ],
           ),
@@ -49,6 +50,24 @@ class SelectedCount extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _EmailButton extends StatelessWidget {
+  const _EmailButton();
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<AppCubit>();
+
+    return SizedBox(
+      width: 30,
+      child: IconButton(
+        onPressed: () => cubit.sendMailToSelectedGroup(),
+        icon: const Icon(Icons.mail),
+        color: Colors.blue,
+      ),
     );
   }
 }
