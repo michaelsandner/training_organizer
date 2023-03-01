@@ -5,6 +5,7 @@ import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/model/training_group.dart';
 import 'package:training_organizer/services/file_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppCubit extends Cubit<AppState> {
   AppCubit() : super(AppState.initial());
@@ -146,5 +147,25 @@ class AppCubit extends Cubit<AppState> {
     final current =
         trainingGroups.singleWhere((element) => element.group == group);
     return current.name;
+  }
+
+  Future<void> sendMail(String email, String foreName) async {
+    final String subject = Uri.encodeComponent(
+        'Aufnahme für das Schimmtraining der Wasserwacht Langenzenn');
+    final String body = Uri.encodeComponent('''hallo zusammen :)
+        leider hat es etwas gedauert aber nun freuen wir euch mitteilen zu dürfen, dass $foreName endlich bei uns im Schwimmtraining mitmachen darf.
+        Dafür würden wir $foreName gerne zum Schnuppern am XXX um 17:00 Uhr am Hallenbad Langenzenn einladen.
+        Wir treffen uns kurz vorher um ein paar Fragen auszutauschen und gemeinsam die Abläufe zu erklären.
+        Bitte gebt uns bescheid ob ihr noch Interesse habt und ob ihr am Termin teilnehmen könnt.
+
+        Viele Grüße
+
+        Euer Wasserwacht-Team
+         ''');
+    final Uri uri = Uri.parse('mailto:$email?subject=$subject&body=$body');
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
   }
 }

@@ -55,6 +55,10 @@ class _TraineeListState extends State<TraineeList> {
                         width: 10,
                       ),
                       Text(trainee.phone),
+                      _EmailButton(
+                        email: trainee.email,
+                        foreName: trainee.forename,
+                      ),
                     ],
                   ),
                 ),
@@ -63,6 +67,29 @@ class _TraineeListState extends State<TraineeList> {
           },
         );
       },
+    );
+  }
+}
+
+class _EmailButton extends StatelessWidget {
+  final String email;
+  final String foreName;
+  const _EmailButton({
+    required this.email,
+    required this.foreName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<AppCubit>();
+
+    return SizedBox(
+      width: 30,
+      child: IconButton(
+        onPressed: () => cubit.sendMail(email, foreName),
+        icon: const Icon(Icons.mail),
+        color: Colors.yellow,
+      ),
     );
   }
 }
