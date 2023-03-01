@@ -84,8 +84,8 @@ class DropDown extends StatelessWidget {
         return DropdownButton<Group>(
             value: state.selectedGroup,
             items: Group.values
-                .map<DropdownMenuItem<Group>>((Group value) =>
-                    DropdownMenuItem(value: value, child: Text(value.name)))
+                .map<DropdownMenuItem<Group>>((Group value) => DropdownMenuItem(
+                    value: value, child: Text(cubit.getEnumGroupName(value))))
                 .toList(),
             onChanged: (Group? value) => cubit.setSelectedGroup(value));
       },

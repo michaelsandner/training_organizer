@@ -19,7 +19,7 @@ class AppState with EquatableMixin {
   final List<Trainee> trainees;
   final List<Trainee> selectedTrainees;
 
-  final Group? selectedGroup;
+  final Group selectedGroup;
 
   const AppState({
     required this.trainees,

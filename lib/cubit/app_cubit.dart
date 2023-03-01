@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/trainee.dart';
+import 'package:training_organizer/model/training_group.dart';
 import 'package:training_organizer/services/file_service.dart';
 
 class AppCubit extends Cubit<AppState> {
@@ -99,44 +100,21 @@ class AppCubit extends Cubit<AppState> {
   }
 
   Group getUpgradedGroup(Group currentGroup) {
-    switch (currentGroup) {
-      case Group.waitingList:
-        return Group.group5;
-      case Group.group5:
-        return Group.group1;
-      case Group.group1:
-        return Group.group2;
-      case Group.group2:
-        return Group.group4;
-      case Group.group4:
-        return Group.group3;
-      case Group.group3:
-        return Group.wednesday;
-      case Group.wednesday:
-        return Group.active;
-      default:
-        return currentGroup;
+    final current =
+        trainingGroups.singleWhere((element) => element.group == currentGroup);
+    if (current.nextGroup == null) {
+      return currentGroup;
     }
+    return current.nextGroup!;
   }
 
   Group getDowngradedGroup(Group currentGroup) {
-    switch (currentGroup) {
-      case Group.active:
-        return Group.wednesday;
-      case Group.wednesday:
-        return Group.group3;
-      case Group.group3:
-        return Group.group4;
-      case Group.group4:
-        return Group.group2;
-      case Group.group2:
-        return Group.group1;
-      case Group.group1:
-        return Group.group5;
-
-      default:
-        return currentGroup;
+    final current =
+        trainingGroups.singleWhere((element) => element.group == currentGroup);
+    if (current.lastGroup == null) {
+      return currentGroup;
     }
+    return current.lastGroup!;
   }
 
   void setSelectedGroup(Group? selectedValue) {
@@ -158,27 +136,15 @@ class AppCubit extends Cubit<AppState> {
   }
 
   String getSelectedGroupName() {
-    switch (state.selectedGroup) {
-      case Group.group1:
-        return 'Block 1';
-      case Group.group2:
-        return 'Block 2';
-      case Group.group3:
-        return 'Block 3';
-      case Group.group4:
-        return 'Block 4';
-      case Group.group5:
-        return 'Block 5';
-      case Group.wednesday:
-        return 'Mittwoch';
-      case Group.active:
-        return "Aktiv";
-      case Group.waitingList:
-        return 'Warteliste';
-      case Group.all:
-        return 'All';
-      default:
-        return 'null';
+    return getEnumGroupName(state.selectedGroup);
+  }
+
+  String getEnumGroupName(Group? group) {
+    if (group == null || group == Group.all) {
+      return 'All';
     }
+    final current =
+        trainingGroups.singleWhere((element) => element.group == group);
+    return current.name;
   }
 }
