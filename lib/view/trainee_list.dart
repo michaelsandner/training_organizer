@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/trainee.dart';
+import 'package:training_organizer/services/platform_service.dart';
 
 class TraineeList extends StatefulWidget {
   @override
@@ -20,52 +21,94 @@ class _TraineeListState extends State<TraineeList> {
   Widget build(BuildContext context) {
     return BlocBuilder<AppCubit, AppState>(
       builder: (context, state) {
-        return ListView.builder(
-          itemCount: state.selectedTrainees.length,
-          itemBuilder: (BuildContext context, int index) {
+        return Table(
+          defaultColumnWidth: const IntrinsicColumnWidth(),
+          columnWidths: const <int, TableColumnWidth>{
+            0: IntrinsicColumnWidth(),
+            1: IntrinsicColumnWidth(),
+            2: IntrinsicColumnWidth(),
+            3: IntrinsicColumnWidth(),
+            4: IntrinsicColumnWidth(),
+          },
+          children:
+              List<TableRow>.generate(state.selectedTrainees.length, (index) {
             final trainee = state.selectedTrainees[index];
-            return ListTile(
-                title: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            return TableRow(
               children: [
-                if (state.selectedGroup == Group.all)
-                  SizedBox(
-                    width: 30,
-                    child: Text(trainee.groupShortName),
-                  ),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      UpAndDownButtons(refresh: refresh, trainee: trainee),
-                      EditButton(
-                        refresh: refresh,
-                        trainee: trainee,
-                      ),
-                      SizedBox(
-                        width: 150,
-                        child: Text(trainee.surname),
-                      ),
-                      const SizedBox(width: 10),
-                      SizedBox(
-                        width: 100,
-                        child: Text(trainee.forename),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(trainee.phone),
-                      _EmailButton(
-                        email: trainee.email,
-                        foreName: trainee.forename,
-                      ),
-                    ],
+                _EmailButton(
+                  email: trainee.email,
+                  foreName: trainee.forename,
+                ),
+                EditButton(
+                  refresh: refresh,
+                  trainee: trainee,
+                ),
+                UpAndDownButtons(refresh: refresh, trainee: trainee),
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        if (state.selectedGroup == Group.all && !isMobile())
+                          Text(trainee.groupShortName),
+                        if (state.selectedGroup == Group.all && !isMobile())
+                          const SizedBox(width: 10),
+                        Text(trainee.surname),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(trainee.forename),
+                      ],
+                    ),
                   ),
                 ),
+                if (!isMobile())
+                  TableCell(
+                    verticalAlignment: TableCellVerticalAlignment.middle,
+                    child: Text(trainee.phone),
+                  ),
               ],
-            ));
-          },
+            );
+          }),
         );
+        // return ListView.builder(
+        //   itemCount: state.selectedTrainees.length,
+        //   itemBuilder: (BuildContext context, int index) {
+        //     final trainee = state.selectedTrainees[index];
+        //     return Row(
+        //       mainAxisAlignment: MainAxisAlignment.start,
+        //       children: [
+        //         if (state.selectedGroup == Group.all && !isMobile())
+        //           SizedBox(
+        //             width: 30,
+        //             child: Text(trainee.groupShortName),
+        //           ),
+        //         Expanded(
+        //           child: Row(
+        //             mainAxisAlignment: MainAxisAlignment.start,
+        //             children: [
+        //               _EmailButton(
+        //                 email: trainee.email,
+        //                 foreName: trainee.forename,
+        //               ),
+        //               EditButton(
+        //                 refresh: refresh,
+        //                 trainee: trainee,
+        //               ),
+        //               UpAndDownButtons(refresh: refresh, trainee: trainee),
+        //               Text(trainee.surname),
+        //               const SizedBox(width: 10),
+        //               Text(trainee.forename),
+        //               const SizedBox(width: 10),
+        //               if (!isMobile()) Text(trainee.phone),
+        //             ],
+        //           ),
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // );
       },
     );
   }
@@ -83,13 +126,10 @@ class _EmailButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<AppCubit>();
 
-    return SizedBox(
-      width: 30,
-      child: IconButton(
-        onPressed: () => cubit.sendMail(email, foreName),
-        icon: const Icon(Icons.mail),
-        color: Colors.blue,
-      ),
+    return IconButton(
+      onPressed: () => cubit.sendMail(email, foreName),
+      icon: const Icon(Icons.mail),
+      color: Colors.blue,
     );
   }
 }
@@ -117,61 +157,58 @@ class _EditButtonState extends State<EditButton> {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<AppCubit>();
-    return SizedBox(
-      width: 30,
-      child: IconButton(
-        onPressed: () => showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text('Edit'),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextFormField(
-                      controller: _emailController,
-                      decoration: const InputDecoration(hintText: 'Email'),
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                    TextFormField(
-                      controller: _phoneController,
-                      decoration: const InputDecoration(hintText: 'Phone'),
-                      keyboardType: TextInputType.phone,
-                    ),
-                  ],
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.red),
-                        foregroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white)),
-                    child: const Text('Abbrechen'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+    return IconButton(
+      onPressed: () => showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Edit'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(hintText: 'Email'),
+                    keyboardType: TextInputType.emailAddress,
                   ),
-                  TextButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.green),
-                        foregroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white)),
-                    child: const Text('Speichern'),
-                    onPressed: () {
-                      cubit.editTrainee(widget.trainee, _phoneController.text,
-                          _emailController.text);
-                      Navigator.pop(context);
-                      widget.refresh();
-                    },
+                  TextFormField(
+                    controller: _phoneController,
+                    decoration: const InputDecoration(hintText: 'Phone'),
+                    keyboardType: TextInputType.phone,
                   ),
                 ],
-              );
-            }),
-        icon: const Icon(Icons.edit),
-        color: Colors.orange,
-      ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.red),
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white)),
+                  child: const Text('Abbrechen'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                TextButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.green),
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white)),
+                  child: const Text('Speichern'),
+                  onPressed: () {
+                    cubit.editTrainee(widget.trainee, _phoneController.text,
+                        _emailController.text);
+                    Navigator.pop(context);
+                    widget.refresh();
+                  },
+                ),
+              ],
+            );
+          }),
+      icon: const Icon(Icons.edit),
+      color: Colors.orange,
     );
   }
 }
@@ -189,33 +226,27 @@ class UpAndDownButtons extends StatelessWidget {
     final cubit = context.read<AppCubit>();
     return Row(
       children: [
-        SizedBox(
-          width: 30,
+        IconButton(
+          onPressed: cubit.isUpgradePossible(trainee)
+              ? () {
+                  cubit.upgradeTrainee(trainee);
+                  refresh();
+                }
+              : null,
+          icon: const Icon(Icons.upgrade_sharp),
+          color: Colors.green,
+        ),
+        Transform.rotate(
+          angle: pi,
           child: IconButton(
-            onPressed: cubit.isUpgradePossible(trainee)
+            onPressed: cubit.isDowngradePossible(trainee)
                 ? () {
-                    cubit.upgradeTrainee(trainee);
+                    cubit.downgradeTrainee(trainee);
                     refresh();
                   }
                 : null,
             icon: const Icon(Icons.upgrade_sharp),
-            color: Colors.green,
-          ),
-        ),
-        SizedBox(
-          width: 40,
-          child: Transform.rotate(
-            angle: pi,
-            child: IconButton(
-              onPressed: cubit.isDowngradePossible(trainee)
-                  ? () {
-                      cubit.downgradeTrainee(trainee);
-                      refresh();
-                    }
-                  : null,
-              icon: const Icon(Icons.upgrade_sharp),
-              color: Colors.red,
-            ),
+            color: Colors.red,
           ),
         ),
       ],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/services/platform_service.dart';
 import 'package:training_organizer/view/trainee_list.dart';
 
 class TraineeView extends StatelessWidget {
@@ -11,7 +12,8 @@ class TraineeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding:
+          isMobile() ? const EdgeInsets.all(5) : const EdgeInsets.all(16.0),
       child: Column(
         children: [
           Row(
@@ -61,13 +63,10 @@ class _EmailButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<AppCubit>();
 
-    return SizedBox(
-      width: 30,
-      child: IconButton(
-        onPressed: () => cubit.sendMailToSelectedGroup(),
-        icon: const Icon(Icons.mail),
-        color: Colors.blue,
-      ),
+    return IconButton(
+      onPressed: () => cubit.sendMailToSelectedGroup(),
+      icon: const Icon(Icons.mail),
+      color: Colors.blue,
     );
   }
 }
