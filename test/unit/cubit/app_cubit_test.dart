@@ -20,7 +20,7 @@ void main() {
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
-          trainingGroup: FilterableGroup.waitingList,
+          trainingGroup: Group.waitingList,
         );
         state = cubit.state.copyWith(
           trainees: [trainee],
@@ -42,7 +42,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group5,
+                  trainingGroup: Group.group5,
                 ),
               ],
               selectedGroup: FilterableGroup.waitingList,
@@ -54,7 +54,7 @@ void main() {
                     forename: 'Max',
                     email: 'email@email.de',
                     dateOfBirth: '2000-10-10',
-                    trainingGroup: FilterableGroup.group5,
+                    trainingGroup: Group.group5,
                   ),
                 ],
                 selectedGroup: FilterableGroup.group5,
@@ -64,7 +64,7 @@ void main() {
                     forename: 'Max',
                     email: 'email@email.de',
                     dateOfBirth: '2000-10-10',
-                    trainingGroup: FilterableGroup.group5,
+                    trainingGroup: Group.group5,
                   )
                 ])
           ],
@@ -77,8 +77,7 @@ void main() {
           build: () => cubit,
           act: (cubit) {
             cubit.upgradeTrainee(trainee);
-            cubit.upgradeTrainee(
-                trainee.copyWithNewGroup(FilterableGroup.group5));
+            cubit.upgradeTrainee(trainee.copyWithNewGroup(Group.group5));
           },
           expect: () => [
             state.copyWith(
@@ -88,7 +87,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group5,
+                  trainingGroup: Group.group5,
                 ),
               ],
               selectedGroup: FilterableGroup.waitingList,
@@ -100,7 +99,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group5,
+                  trainingGroup: Group.group5,
                 ),
               ],
               selectedGroup: FilterableGroup.group5,
@@ -110,7 +109,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group5,
+                  trainingGroup: Group.group5,
                 )
               ],
             ),
@@ -121,7 +120,7 @@ void main() {
                     forename: 'Max',
                     email: 'email@email.de',
                     dateOfBirth: '2000-10-10',
-                    trainingGroup: FilterableGroup.group1,
+                    trainingGroup: Group.group1,
                   ),
                 ],
                 selectedGroup: FilterableGroup.group5,
@@ -131,7 +130,7 @@ void main() {
                     forename: 'Max',
                     email: 'email@email.de',
                     dateOfBirth: '2000-10-10',
-                    trainingGroup: FilterableGroup.group5,
+                    trainingGroup: Group.group5,
                   )
                 ]),
             state.copyWith(
@@ -141,7 +140,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group1,
+                  trainingGroup: Group.group1,
                 ),
               ],
               selectedGroup: FilterableGroup.group1,
@@ -151,7 +150,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group1,
+                  trainingGroup: Group.group1,
                 )
               ],
             )
@@ -165,7 +164,7 @@ void main() {
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
-          trainingGroup: FilterableGroup.waitingList,
+          trainingGroup: Group.waitingList,
         );
         blocTest<AppCubit, AppState>(
           'Then trainee should not be added to trainee list',
@@ -184,7 +183,7 @@ void main() {
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
-          trainingGroup: FilterableGroup.group5,
+          trainingGroup: Group.group5,
         );
         state = cubit.state.copyWith(
           trainees: [trainee],
@@ -206,7 +205,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group1,
+                  trainingGroup: Group.group1,
                 ),
               ],
               selectedGroup: FilterableGroup.group5,
@@ -218,7 +217,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group1,
+                  trainingGroup: Group.group1,
                 ),
               ],
               selectedGroup: FilterableGroup.group1,
@@ -228,7 +227,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group1,
+                  trainingGroup: Group.group1,
                 )
               ],
             )
@@ -244,7 +243,7 @@ void main() {
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
-          trainingGroup: FilterableGroup.group1,
+          trainingGroup: Group.group1,
         );
         state = cubit.state.copyWith(
           trainees: [trainee],
@@ -266,7 +265,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group2,
+                  trainingGroup: Group.group2,
                 ),
               ],
               selectedGroup: FilterableGroup.group1,
@@ -278,7 +277,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group2,
+                  trainingGroup: Group.group2,
                 ),
               ],
               selectedGroup: FilterableGroup.group2,
@@ -288,7 +287,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group2,
+                  trainingGroup: Group.group2,
                 )
               ],
             )
@@ -304,7 +303,7 @@ void main() {
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
-          trainingGroup: FilterableGroup.group2,
+          trainingGroup: Group.group2,
         );
         state = cubit.state.copyWith(
           trainees: [trainee],
@@ -326,7 +325,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group4,
+                  trainingGroup: Group.group4,
                 ),
               ],
               selectedGroup: FilterableGroup.group2,
@@ -338,7 +337,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group4,
+                  trainingGroup: Group.group4,
                 ),
               ],
               selectedGroup: FilterableGroup.group4,
@@ -348,7 +347,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group4,
+                  trainingGroup: Group.group4,
                 )
               ],
             )
@@ -364,7 +363,7 @@ void main() {
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
-          trainingGroup: FilterableGroup.group4,
+          trainingGroup: Group.group4,
         );
         state = cubit.state.copyWith(
           trainees: [trainee],
@@ -386,7 +385,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group3,
+                  trainingGroup: Group.group3,
                 ),
               ],
               selectedGroup: FilterableGroup.group4,
@@ -398,7 +397,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group3,
+                  trainingGroup: Group.group3,
                 ),
               ],
               selectedGroup: FilterableGroup.group3,
@@ -408,7 +407,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.group3,
+                  trainingGroup: Group.group3,
                 )
               ],
             )
@@ -424,7 +423,7 @@ void main() {
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
-          trainingGroup: FilterableGroup.group3,
+          trainingGroup: Group.group3,
         );
         state = cubit.state.copyWith(
           trainees: [trainee],
@@ -446,7 +445,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.wednesday,
+                  trainingGroup: Group.wednesday,
                 ),
               ],
               selectedGroup: FilterableGroup.group3,
@@ -458,7 +457,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.wednesday,
+                  trainingGroup: Group.wednesday,
                 ),
               ],
               selectedGroup: FilterableGroup.wednesday,
@@ -468,7 +467,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.wednesday,
+                  trainingGroup: Group.wednesday,
                 )
               ],
             )
@@ -485,7 +484,7 @@ void main() {
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
-          trainingGroup: FilterableGroup.wednesday,
+          trainingGroup: Group.wednesday,
         );
         state = cubit.state.copyWith(
           trainees: [trainee],
@@ -507,7 +506,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.active,
+                  trainingGroup: Group.active,
                 ),
               ],
               selectedGroup: FilterableGroup.wednesday,
@@ -519,7 +518,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.active,
+                  trainingGroup: Group.active,
                 ),
               ],
               selectedGroup: FilterableGroup.active,
@@ -529,7 +528,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.active,
+                  trainingGroup: Group.active,
                 )
               ],
             )
@@ -546,7 +545,7 @@ void main() {
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
-          trainingGroup: FilterableGroup.waitingList,
+          trainingGroup: Group.waitingList,
         );
         state = cubit.state.copyWith(
           trainees: [trainee],
@@ -560,7 +559,7 @@ void main() {
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
-          trainingGroup: FilterableGroup.waitingList,
+          trainingGroup: Group.waitingList,
         );
         blocTest<AppCubit, AppState>(
           'Then trainee should be added to trainee list',
@@ -575,14 +574,14 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.waitingList,
+                  trainingGroup: Group.waitingList,
                 ),
                 Trainee(
                   surname: 'Musterfrau',
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: FilterableGroup.waitingList,
+                  trainingGroup: Group.waitingList,
                 ),
               ],
               selectedGroup: FilterableGroup.all,
@@ -594,14 +593,14 @@ void main() {
                     forename: 'Max',
                     email: 'email@email.de',
                     dateOfBirth: '2000-10-10',
-                    trainingGroup: FilterableGroup.waitingList,
+                    trainingGroup: Group.waitingList,
                   ),
                   Trainee(
                     surname: 'Musterfrau',
                     forename: 'Max',
                     email: 'email@email.de',
                     dateOfBirth: '2000-10-10',
-                    trainingGroup: FilterableGroup.waitingList,
+                    trainingGroup: Group.waitingList,
                   ),
                 ],
                 selectedGroup: FilterableGroup.all,
@@ -611,14 +610,14 @@ void main() {
                     forename: 'Max',
                     email: 'email@email.de',
                     dateOfBirth: '2000-10-10',
-                    trainingGroup: FilterableGroup.waitingList,
+                    trainingGroup: Group.waitingList,
                   ),
                   Trainee(
                     surname: 'Musterfrau',
                     forename: 'Max',
                     email: 'email@email.de',
                     dateOfBirth: '2000-10-10',
-                    trainingGroup: FilterableGroup.waitingList,
+                    trainingGroup: Group.waitingList,
                   ),
                 ]),
           ],

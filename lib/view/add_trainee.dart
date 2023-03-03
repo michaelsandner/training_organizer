@@ -16,7 +16,7 @@ class _AddTraineeState extends State<AddTrainee> {
   TextEditingController emailController = TextEditingController();
   TextEditingController dateOfBirthController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  FilterableGroup? group = FilterableGroup.waitingList;
+  Group? group = Group.waitingList;
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +68,15 @@ class _AddTraineeState extends State<AddTrainee> {
                 decoration: const InputDecoration(hintText: 'Geb. Datum'),
                 keyboardType: TextInputType.datetime,
               ),
-              DropdownButton<FilterableGroup>(
-                value: state.selectedGroup,
-                items: FilterableGroup.values
-                    .map<DropdownMenuItem<FilterableGroup>>(
-                        (FilterableGroup value) => DropdownMenuItem(
+              DropdownButton<Group>(
+                value: group,
+                items: Group.values
+                    .map<DropdownMenuItem<Group>>((Group value) =>
+                        DropdownMenuItem(
                             value: value,
-                            child: Text(cubit.getEnumGroupName(value))))
+                            child: Text(cubit.getNameForGroupEnum(value))))
                     .toList(),
-                onChanged: (FilterableGroup? value) => setState(() {
+                onChanged: (Group? value) => setState(() {
                   group = value;
                 }),
               ),
@@ -93,7 +93,7 @@ class _AddTraineeState extends State<AddTrainee> {
                             email: emailController.text.trim(),
                             phone: phoneController.text.trim(),
                             dateOfBirth: dateOfBirthController.text.trim(),
-                            trainingGroup: group);
+                            trainingGroup: group ?? Group.waitingList);
                         cubit.addTrainee(newTrainee);
                         foreNameController.clear();
                         sureNameController.clear();

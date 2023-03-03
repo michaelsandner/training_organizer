@@ -22,58 +22,60 @@ class _TraineeListState extends State<TraineeList> {
     final screenSize = MediaQuery.of(context).size;
     return BlocBuilder<AppCubit, AppState>(
       builder: (context, state) {
-        return Table(
-          defaultColumnWidth: const IntrinsicColumnWidth(),
-          columnWidths: const <int, TableColumnWidth>{
-            0: IntrinsicColumnWidth(),
-            1: IntrinsicColumnWidth(),
-            2: IntrinsicColumnWidth(),
-            3: IntrinsicColumnWidth(),
-            4: IntrinsicColumnWidth(),
-          },
-          children:
-              List<TableRow>.generate(state.selectedTrainees.length, (index) {
-            final trainee = state.selectedTrainees[index];
-            return TableRow(
-              children: [
-                _EmailButton(
-                  email: trainee.email,
-                  foreName: trainee.forename,
-                ),
-                EditButton(
-                  refresh: refresh,
-                  trainee: trainee,
-                ),
-                UpAndDownButtons(refresh: refresh, trainee: trainee),
-                TableCell(
-                  verticalAlignment: TableCellVerticalAlignment.middle,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: [
-                        if (state.selectedGroup == FilterableGroup.all &&
-                            !isMobile(screenSize))
-                          Text(trainee.groupShortName),
-                        if (state.selectedGroup == FilterableGroup.all &&
-                            !isMobile(screenSize))
-                          const SizedBox(width: 10),
-                        Text(trainee.surname),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(trainee.forename),
-                      ],
-                    ),
+        return SingleChildScrollView(
+          child: Table(
+            defaultColumnWidth: const IntrinsicColumnWidth(),
+            columnWidths: const <int, TableColumnWidth>{
+              0: IntrinsicColumnWidth(),
+              1: IntrinsicColumnWidth(),
+              2: IntrinsicColumnWidth(),
+              3: IntrinsicColumnWidth(),
+              4: IntrinsicColumnWidth(),
+            },
+            children:
+                List<TableRow>.generate(state.selectedTrainees.length, (index) {
+              final trainee = state.selectedTrainees[index];
+              return TableRow(
+                children: [
+                  _EmailButton(
+                    email: trainee.email,
+                    foreName: trainee.forename,
                   ),
-                ),
-                if (!isMobile(screenSize))
+                  EditButton(
+                    refresh: refresh,
+                    trainee: trainee,
+                  ),
+                  UpAndDownButtons(refresh: refresh, trainee: trainee),
                   TableCell(
                     verticalAlignment: TableCellVerticalAlignment.middle,
-                    child: Text(trainee.phone),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        children: [
+                          if (state.selectedGroup == FilterableGroup.all &&
+                              !isMobile(screenSize))
+                            Text(trainee.groupShortName),
+                          if (state.selectedGroup == FilterableGroup.all &&
+                              !isMobile(screenSize))
+                            const SizedBox(width: 10),
+                          Text(trainee.surname),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(trainee.forename),
+                        ],
+                      ),
+                    ),
                   ),
-              ],
-            );
-          }),
+                  if (!isMobile(screenSize))
+                    TableCell(
+                      verticalAlignment: TableCellVerticalAlignment.middle,
+                      child: Text(trainee.phone),
+                    ),
+                ],
+              );
+            }),
+          ),
         );
         // return ListView.builder(
         //   itemCount: state.selectedTrainees.length,

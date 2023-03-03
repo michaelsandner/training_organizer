@@ -107,7 +107,7 @@ class DropDown extends StatelessWidget {
                 .map<DropdownMenuItem<FilterableGroup>>(
                     (FilterableGroup value) => DropdownMenuItem(
                         value: value,
-                        child: Text(cubit.getEnumGroupName(value))))
+                        child: Text(cubit.getNameForFilteredGroupEnum(value))))
                 .toList(),
             onChanged: (FilterableGroup? value) =>
                 cubit.setSelectedGroup(value));

@@ -37,12 +37,12 @@ class AppCubit extends Cubit<AppState> {
   }
 
   bool isDowngradePossible(Trainee trainee) {
-    return trainee.trainingGroup != FilterableGroup.waitingList &&
-        trainee.trainingGroup != FilterableGroup.group5;
+    return trainee.trainingGroup != Group.waitingList &&
+        trainee.trainingGroup != Group.group5;
   }
 
   bool isUpgradePossible(Trainee trainee) {
-    return trainee.trainingGroup != FilterableGroup.active;
+    return trainee.trainingGroup != Group.active;
   }
 
   void upgradeTrainee(Trainee trainee) {
@@ -51,14 +51,14 @@ class AppCubit extends Cubit<AppState> {
     currentList.removeWhere((element) => element == trainee);
 
     final updatedTrainee =
-        trainee.copyWithNewGroup(getUpgradedGroup(trainee.trainingGroup!));
+        trainee.copyWithNewGroup(getUpgradedGroup(trainee.trainingGroup));
 
     currentList.add(updatedTrainee);
 
     emit(state.copyWith(
       trainees: currentList,
     ));
-    setSelectedGroup(updatedTrainee.trainingGroup);
+    setSelectedGroup(getFilteredGroup(updatedTrainee.trainingGroup));
   }
 
   void downgradeTrainee(Trainee trainee) {
@@ -67,14 +67,14 @@ class AppCubit extends Cubit<AppState> {
     currentList.removeWhere((element) => element == trainee);
 
     final updatedTrainee =
-        trainee.copyWithNewGroup(getDowngradedGroup(trainee.trainingGroup!));
+        trainee.copyWithNewGroup(getDowngradedGroup(trainee.trainingGroup));
 
     currentList.add(updatedTrainee);
 
     emit(state.copyWith(
       trainees: currentList,
     ));
-    setSelectedGroup(updatedTrainee.trainingGroup);
+    setSelectedGroup(getFilteredGroup(updatedTrainee.trainingGroup));
   }
 
   Future<void> loadFile() async {
@@ -100,7 +100,7 @@ class AppCubit extends Cubit<AppState> {
     await FileService.exportFile(json);
   }
 
-  FilterableGroup getUpgradedGroup(FilterableGroup currentGroup) {
+  Group getUpgradedGroup(Group currentGroup) {
     final current =
         trainingGroups.singleWhere((element) => element.group == currentGroup);
     if (current.nextGroup == null) {
@@ -109,7 +109,7 @@ class AppCubit extends Cubit<AppState> {
     return current.nextGroup!;
   }
 
-  FilterableGroup getDowngradedGroup(FilterableGroup currentGroup) {
+  Group getDowngradedGroup(Group currentGroup) {
     final current =
         trainingGroups.singleWhere((element) => element.group == currentGroup);
     if (current.lastGroup == null) {
@@ -119,12 +119,12 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void setSelectedGroup(FilterableGroup? selectedValue) {
-    if (selectedValue == FilterableGroup.all) {
+    if (selectedValue == null || selectedValue == FilterableGroup.all) {
       emit(state.copyWith(
           selectedGroup: selectedValue, selectedTrainees: state.trainees));
     } else {
       final filteredItems = state.trainees
-          .where((element) => element.trainingGroup == selectedValue)
+          .where((element) => element.trainingGroup == getGroup(selectedValue))
           .toList();
 
       if (selectedValue != FilterableGroup.waitingList) {
@@ -136,14 +136,67 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  String getSelectedGroupName() {
-    return getEnumGroupName(state.selectedGroup);
+  FilterableGroup getFilteredGroup(Group group) {
+    switch (group) {
+      case Group.waitingList:
+        return FilterableGroup.waitingList;
+      case Group.group1:
+        return FilterableGroup.group1;
+      case Group.group2:
+        return FilterableGroup.group2;
+      case Group.group3:
+        return FilterableGroup.group3;
+      case Group.group4:
+        return FilterableGroup.group4;
+      case Group.group5:
+        return FilterableGroup.group5;
+      case Group.wednesday:
+        return FilterableGroup.wednesday;
+      case Group.active:
+        return FilterableGroup.active;
+    }
   }
 
-  String getEnumGroupName(FilterableGroup? group) {
-    if (group == null || group == FilterableGroup.all) {
+  Group getGroup(FilterableGroup filterableGroup) {
+    switch (filterableGroup) {
+      case FilterableGroup.waitingList:
+        return Group.waitingList;
+      case FilterableGroup.group1:
+        return Group.group1;
+      case FilterableGroup.group2:
+        return Group.group2;
+      case FilterableGroup.group3:
+        return Group.group3;
+      case FilterableGroup.group4:
+        return Group.group4;
+      case FilterableGroup.group5:
+        return Group.group5;
+      case FilterableGroup.wednesday:
+        return Group.wednesday;
+      case FilterableGroup.active:
+        return Group.active;
+      default:
+        return Group.waitingList;
+    }
+  }
+
+  String getSelectedGroupName() {
+    return getNameForFilteredGroupEnum(state.selectedGroup);
+  }
+
+  String getNameForFilteredGroupEnum(FilterableGroup? filterableGroup) {
+    if (filterableGroup == null || filterableGroup == FilterableGroup.all) {
       return 'All';
     }
+
+    final group = getGroup(filterableGroup);
+
+    final current =
+        trainingGroups.singleWhere((element) => element.group == group);
+    return current.name;
+  }
+
+  String getNameForGroupEnum(Group? group) {
     final current =
         trainingGroups.singleWhere((element) => element.group == group);
     return current.name;

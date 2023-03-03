@@ -67,7 +67,7 @@ void main() {
           email: 'email@web.de',
           phone: '000111',
           dateOfBirth: '2000-05-01',
-          trainingGroup: FilterableGroup.group1,
+          trainingGroup: Group.group1,
           comment: 'this is a comment',
           isMember: true,
           badge: BronzeBadge(),
@@ -99,7 +99,7 @@ void main() {
           email: 'email@web.de',
           phone: '000111',
           dateOfBirth: '',
-          trainingGroup: null,
+          trainingGroup: Group.waitingList,
           badge: null,
         );
 

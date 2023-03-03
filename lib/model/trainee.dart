@@ -6,7 +6,7 @@ class Trainee {
   final String forename;
   final String email;
   final String dateOfBirth;
-  final FilterableGroup? trainingGroup;
+  final Group trainingGroup;
   final String phone;
   final String comment;
   final bool isMember;
@@ -17,7 +17,7 @@ class Trainee {
     this.forename = '',
     this.email = '',
     this.dateOfBirth = '',
-    this.trainingGroup,
+    this.trainingGroup = Group.waitingList,
     this.phone = '',
     this.comment = '',
     this.isMember = false,
@@ -39,21 +39,21 @@ class Trainee {
 
   String get groupShortName {
     switch (trainingGroup) {
-      case FilterableGroup.waitingList:
+      case Group.waitingList:
         return 'W';
-      case FilterableGroup.group1:
+      case Group.group1:
         return '1';
-      case FilterableGroup.group2:
+      case Group.group2:
         return '2';
-      case FilterableGroup.group3:
+      case Group.group3:
         return '3';
-      case FilterableGroup.group4:
+      case Group.group4:
         return '4';
-      case FilterableGroup.group5:
+      case Group.group5:
         return '5';
-      case FilterableGroup.wednesday:
+      case Group.wednesday:
         return 'M';
-      case FilterableGroup.active:
+      case Group.active:
         return 'A';
       default:
         return '';
@@ -62,21 +62,21 @@ class Trainee {
 
   String get groupName {
     switch (trainingGroup) {
-      case FilterableGroup.waitingList:
+      case Group.waitingList:
         return 'Warteliste';
-      case FilterableGroup.group1:
+      case Group.group1:
         return 'Block 1';
-      case FilterableGroup.group2:
+      case Group.group2:
         return 'Block 2';
-      case FilterableGroup.group3:
+      case Group.group3:
         return 'Block 3';
-      case FilterableGroup.group4:
+      case Group.group4:
         return 'Block 4';
-      case FilterableGroup.group5:
+      case Group.group5:
         return 'Block 5';
-      case FilterableGroup.wednesday:
+      case Group.wednesday:
         return 'Mittwoch';
-      case FilterableGroup.active:
+      case Group.active:
         return 'Aktiv';
       default:
         return '';
@@ -102,31 +102,31 @@ class Trainee {
     }
   }
 
-  static FilterableGroup? mapGroupToEnum(String? groupName) {
+  static Group mapGroupToEnum(String? groupName) {
     switch (groupName) {
       case 'waitingList':
-        return FilterableGroup.waitingList;
+        return Group.waitingList;
       case 'group5':
-        return FilterableGroup.group5;
+        return Group.group5;
       case 'group4':
-        return FilterableGroup.group4;
+        return Group.group4;
       case 'group3':
-        return FilterableGroup.group3;
+        return Group.group3;
       case 'group2':
-        return FilterableGroup.group2;
+        return Group.group2;
       case 'group1':
-        return FilterableGroup.group1;
+        return Group.group1;
       case 'wednesday':
-        return FilterableGroup.wednesday;
+        return Group.wednesday;
       case 'active':
-        return FilterableGroup.active;
+        return Group.active;
       default:
-        return null;
+        return Group.waitingList;
     }
   }
 
   Trainee copyWith({
-    FilterableGroup? trainingGroup,
+    Group? trainingGroup,
     String? email,
     String? phone,
     String? comment,
@@ -146,7 +146,7 @@ class Trainee {
     );
   }
 
-  Trainee copyWithNewGroup(FilterableGroup group) {
+  Trainee copyWithNewGroup(Group group) {
     return Trainee(
       dateOfBirth: dateOfBirth,
       surname: surname,

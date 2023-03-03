@@ -14,6 +14,17 @@ enum FilterableGroup {
   all,
 }
 
+enum Group {
+  waitingList,
+  group1,
+  group2,
+  group3,
+  group4,
+  group5,
+  wednesday,
+  active,
+}
+
 @immutable
 class AppState with EquatableMixin {
   final List<Trainee> trainees;
@@ -36,7 +47,7 @@ class AppState with EquatableMixin {
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
           phone: '01000 1100',
-          trainingGroup: FilterableGroup.waitingList,
+          trainingGroup: Group.waitingList,
         ),
         Trainee(
           surname: 'Musterman',
@@ -44,7 +55,7 @@ class AppState with EquatableMixin {
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
           phone: '0000 000',
-          trainingGroup: FilterableGroup.group1,
+          trainingGroup: Group.group1,
         ),
         Trainee(
           surname: 'Musterman',
@@ -52,7 +63,7 @@ class AppState with EquatableMixin {
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
           phone: '0100 023892',
-          trainingGroup: FilterableGroup.group2,
+          trainingGroup: Group.group2,
         )
       ],
       selectedGroup: FilterableGroup.all,
