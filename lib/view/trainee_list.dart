@@ -29,8 +29,9 @@ class _TraineeListState extends State<TraineeList> {
               0: IntrinsicColumnWidth(),
               1: IntrinsicColumnWidth(),
               2: IntrinsicColumnWidth(),
-              3: IntrinsicColumnWidth(),
-              4: IntrinsicColumnWidth(),
+              3: FlexColumnWidth(),
+              4: FlexColumnWidth(),
+              5: FlexColumnWidth(),
             },
             children:
                 List<TableRow>.generate(state.selectedTrainees.length, (index) {
@@ -70,6 +71,11 @@ class _TraineeListState extends State<TraineeList> {
                   if (!isMobile(screenSize))
                     TableCell(
                       verticalAlignment: TableCellVerticalAlignment.middle,
+                      child: Text(trainee.dateOfBirth),
+                    ),
+                  if (!isMobile(screenSize))
+                    TableCell(
+                      verticalAlignment: TableCellVerticalAlignment.middle,
                       child: Text(trainee.phone),
                     ),
                 ],
@@ -77,43 +83,6 @@ class _TraineeListState extends State<TraineeList> {
             }),
           ),
         );
-        // return ListView.builder(
-        //   itemCount: state.selectedTrainees.length,
-        //   itemBuilder: (BuildContext context, int index) {
-        //     final trainee = state.selectedTrainees[index];
-        //     return Row(
-        //       mainAxisAlignment: MainAxisAlignment.start,
-        //       children: [
-        //         if (state.selectedGroup == Group.all && !isMobile())
-        //           SizedBox(
-        //             width: 30,
-        //             child: Text(trainee.groupShortName),
-        //           ),
-        //         Expanded(
-        //           child: Row(
-        //             mainAxisAlignment: MainAxisAlignment.start,
-        //             children: [
-        //               _EmailButton(
-        //                 email: trainee.email,
-        //                 foreName: trainee.forename,
-        //               ),
-        //               EditButton(
-        //                 refresh: refresh,
-        //                 trainee: trainee,
-        //               ),
-        //               UpAndDownButtons(refresh: refresh, trainee: trainee),
-        //               Text(trainee.surname),
-        //               const SizedBox(width: 10),
-        //               Text(trainee.forename),
-        //               const SizedBox(width: 10),
-        //               if (!isMobile()) Text(trainee.phone),
-        //             ],
-        //           ),
-        //         ),
-        //       ],
-        //     );
-        //   },
-        // );
       },
     );
   }
