@@ -11,9 +11,11 @@ class TraineeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Padding(
-      padding:
-          isMobile() ? const EdgeInsets.all(5) : const EdgeInsets.all(16.0),
+      padding: isMobile(screenSize)
+          ? const EdgeInsets.all(5)
+          : const EdgeInsets.all(16.0),
       child: Column(
         children: [
           Row(

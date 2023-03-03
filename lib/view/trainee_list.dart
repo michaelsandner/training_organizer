@@ -19,6 +19,7 @@ class _TraineeListState extends State<TraineeList> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return BlocBuilder<AppCubit, AppState>(
       builder: (context, state) {
         return Table(
@@ -50,9 +51,11 @@ class _TraineeListState extends State<TraineeList> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       children: [
-                        if (state.selectedGroup == Group.all && !isMobile())
+                        if (state.selectedGroup == Group.all &&
+                            !isMobile(screenSize))
                           Text(trainee.groupShortName),
-                        if (state.selectedGroup == Group.all && !isMobile())
+                        if (state.selectedGroup == Group.all &&
+                            !isMobile(screenSize))
                           const SizedBox(width: 10),
                         Text(trainee.surname),
                         const SizedBox(
@@ -63,7 +66,7 @@ class _TraineeListState extends State<TraineeList> {
                     ),
                   ),
                 ),
-                if (!isMobile())
+                if (!isMobile(screenSize))
                   TableCell(
                     verticalAlignment: TableCellVerticalAlignment.middle,
                     child: Text(trainee.phone),
