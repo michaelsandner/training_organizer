@@ -17,6 +17,7 @@ class _AddTraineeState extends State<AddTrainee> {
   TextEditingController emailController = TextEditingController();
   TextEditingController dateOfBirthController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController registrationDateController = TextEditingController();
   Group? group = Group.waitingList;
 
   @override
@@ -72,6 +73,14 @@ class _AddTraineeState extends State<AddTrainee> {
                 dateLabelText: 'Geb. Datum',
                 controller: dateOfBirthController,
               ),
+              DateTimePicker(
+                dateMask: 'dd.MM.yyyy',
+                initialDate: DateTime.now(),
+                lastDate: DateTime.now(),
+                firstDate: DateTime(2023),
+                dateLabelText: 'Anmeldedatum',
+                controller: registrationDateController,
+              ),
               DropdownButton<Group>(
                 value: group,
                 items: Group.values
@@ -97,6 +106,8 @@ class _AddTraineeState extends State<AddTrainee> {
                             email: emailController.text.trim(),
                             phone: phoneController.text.trim(),
                             dateOfBirth: dateOfBirthController.text.trim(),
+                            registrationDate:
+                                registrationDateController.text.trim(),
                             trainingGroup: group ?? Group.waitingList);
                         cubit.addTrainee(newTrainee);
                         foreNameController.clear();

@@ -5,7 +5,7 @@ import 'package:training_organizer/model/trainee.dart';
 
 void main() {
   group('fromJson', () {
-    group('Given each field has a value', () {
+    group('Given fields have values', () {
       test('Then each value should be set', () {
         final inputJson = {
           'surname': 'Mustermann',
@@ -33,27 +33,31 @@ void main() {
       });
     });
 
-    group('Given group are null', () {
-      test('Then dateOfBirth and group should be null', () {
+    group('Given field do not have values', () {
+      test('Then each value should be a default value', () {
         final inputJson = {
-          'surname': 'Mustermann',
-          'forename': 'Max',
-          'email': 'email@web.de',
-          'dateOfBirth': '',
-          'phone': '',
+          'surname': null,
+          'forename': null,
+          'email': null,
+          'dateOfBirth': null,
           'trainingGroup': null,
+          'phone': null,
+          'comment': null,
+          'isMember': null,
           'badge': null,
         };
 
         final output = Trainee.fromJson(inputJson);
 
         expect(output.dateOfBirth, '');
-        expect(output.trainingGroup, null);
-        expect(output.surname, 'Mustermann');
-        expect(output.forename, 'Max');
-        expect(output.email, 'email@web.de');
+        expect(output.surname, '');
+        expect(output.forename, '');
+        expect(output.email, '');
         expect(output.phone, '');
+        expect(output.comment, '');
+        expect(output.isMember, false);
         expect(output.badge, null);
+        expect(output.trainingGroup, Group.waitingList);
       });
     });
   });
@@ -67,6 +71,7 @@ void main() {
           email: 'email@web.de',
           phone: '000111',
           dateOfBirth: '2000-05-01',
+          registrationDate: '01.01.2023',
           trainingGroup: Group.group1,
           comment: 'this is a comment',
           isMember: true,
@@ -79,40 +84,11 @@ void main() {
           'email': 'email@web.de',
           'phone': '000111',
           'dateOfBirth': '2000-05-01',
+          'registrationDate': '01.01.2023',
           'trainingGroup': 'group1',
           'comment': 'this is a comment',
           'isMember': true,
           'badge': {'name': 'Bronze', 'date': null},
-        };
-
-        final output = input.toJson();
-
-        expect(output, expectedJson);
-      });
-    });
-
-    group('Given group are null', () {
-      test('Then dateOfBirth and group should be null', () {
-        final input = Trainee(
-          surname: 'Mustermann',
-          forename: 'Max',
-          email: 'email@web.de',
-          phone: '000111',
-          dateOfBirth: '',
-          trainingGroup: Group.waitingList,
-          badge: null,
-        );
-
-        final expectedJson = {
-          'surname': 'Mustermann',
-          'forename': 'Max',
-          'email': 'email@web.de',
-          'phone': '000111',
-          'dateOfBirth': '',
-          'trainingGroup': null,
-          'comment': '',
-          'isMember': false,
-          'badge': null,
         };
 
         final output = input.toJson();

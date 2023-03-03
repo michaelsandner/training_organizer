@@ -76,6 +76,11 @@ class _TraineeListState extends State<TraineeList> {
                   if (!isMobile(screenSize))
                     TableCell(
                       verticalAlignment: TableCellVerticalAlignment.middle,
+                      child: Text(trainee.registrationDate),
+                    ),
+                  if (!isMobile(screenSize))
+                    TableCell(
+                      verticalAlignment: TableCellVerticalAlignment.middle,
                       child: Text(trainee.phone),
                     ),
                 ],

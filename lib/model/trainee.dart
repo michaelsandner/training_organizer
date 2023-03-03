@@ -6,6 +6,7 @@ class Trainee {
   final String forename;
   final String email;
   final String dateOfBirth;
+  final String registrationDate;
   final Group trainingGroup;
   final String phone;
   final String comment;
@@ -17,6 +18,7 @@ class Trainee {
     this.forename = '',
     this.email = '',
     this.dateOfBirth = '',
+    this.registrationDate = '',
     this.trainingGroup = Group.waitingList,
     this.phone = '',
     this.comment = '',
@@ -30,6 +32,7 @@ class Trainee {
         forename: json['forename'] ?? '',
         email: json['email'] ?? '',
         dateOfBirth: json['dateOfBirth'] ?? '',
+        registrationDate: json['registrationDate'] ?? '',
         phone: json['phone'] ?? '',
         trainingGroup: mapGroupToEnum(json['trainingGroup']),
         comment: json['comment'] ?? '',
@@ -132,9 +135,12 @@ class Trainee {
     String? comment,
     bool? isMember,
     Badge? badge,
+    String? dateOfBirth,
+    String? registrationDate,
   }) {
     return Trainee(
-      dateOfBirth: dateOfBirth,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      registrationDate: registrationDate ?? this.registrationDate,
       surname: surname,
       forename: forename,
       email: email ?? this.email,
@@ -149,6 +155,7 @@ class Trainee {
   Trainee copyWithNewGroup(Group group) {
     return Trainee(
       dateOfBirth: dateOfBirth,
+      registrationDate: registrationDate,
       surname: surname,
       forename: forename,
       email: email,
@@ -172,6 +179,7 @@ class Trainee {
         'forename': forename,
         'email': email,
         'dateOfBirth': dateOfBirth,
+        'registrationDate': registrationDate,
         'phone': phone,
         'trainingGroup': getTrainingGroupValue(),
         'comment': comment,
@@ -179,10 +187,7 @@ class Trainee {
         'badge': badge == null ? null : badge!.toJson(),
       };
 
-  String? getTrainingGroupValue() {
-    if (trainingGroup != null) {
-      return trainingGroup.toString().split('.').last;
-    }
-    return null;
+  String getTrainingGroupValue() {
+    return trainingGroup.toString().split('.').last;
   }
 }
