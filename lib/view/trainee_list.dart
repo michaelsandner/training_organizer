@@ -51,10 +51,10 @@ class _TraineeListState extends State<TraineeList> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       children: [
-                        if (state.selectedGroup == Group.all &&
+                        if (state.selectedGroup == FilterableGroup.all &&
                             !isMobile(screenSize))
                           Text(trainee.groupShortName),
-                        if (state.selectedGroup == Group.all &&
+                        if (state.selectedGroup == FilterableGroup.all &&
                             !isMobile(screenSize))
                           const SizedBox(width: 10),
                         Text(trainee.surname),

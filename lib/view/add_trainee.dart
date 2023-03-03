@@ -16,6 +16,7 @@ class _AddTraineeState extends State<AddTrainee> {
   TextEditingController emailController = TextEditingController();
   TextEditingController dateOfBirthController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  FilterableGroup? group = FilterableGroup.waitingList;
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +68,18 @@ class _AddTraineeState extends State<AddTrainee> {
                 decoration: const InputDecoration(hintText: 'Geb. Datum'),
                 keyboardType: TextInputType.datetime,
               ),
+              DropdownButton<FilterableGroup>(
+                value: state.selectedGroup,
+                items: FilterableGroup.values
+                    .map<DropdownMenuItem<FilterableGroup>>(
+                        (FilterableGroup value) => DropdownMenuItem(
+                            value: value,
+                            child: Text(cubit.getEnumGroupName(value))))
+                    .toList(),
+                onChanged: (FilterableGroup? value) => setState(() {
+                  group = value;
+                }),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
@@ -80,7 +93,7 @@ class _AddTraineeState extends State<AddTrainee> {
                             email: emailController.text.trim(),
                             phone: phoneController.text.trim(),
                             dateOfBirth: dateOfBirthController.text.trim(),
-                            trainingGroup: Group.waitingList);
+                            trainingGroup: group);
                         cubit.addTrainee(newTrainee);
                         foreNameController.clear();
                         sureNameController.clear();

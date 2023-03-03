@@ -6,7 +6,7 @@ class Trainee {
   final String forename;
   final String email;
   final String dateOfBirth;
-  final Group? trainingGroup;
+  final FilterableGroup? trainingGroup;
   final String phone;
   final String comment;
   final bool isMember;
@@ -39,21 +39,21 @@ class Trainee {
 
   String get groupShortName {
     switch (trainingGroup) {
-      case Group.waitingList:
+      case FilterableGroup.waitingList:
         return 'W';
-      case Group.group1:
+      case FilterableGroup.group1:
         return '1';
-      case Group.group2:
+      case FilterableGroup.group2:
         return '2';
-      case Group.group3:
+      case FilterableGroup.group3:
         return '3';
-      case Group.group4:
+      case FilterableGroup.group4:
         return '4';
-      case Group.group5:
+      case FilterableGroup.group5:
         return '5';
-      case Group.wednesday:
+      case FilterableGroup.wednesday:
         return 'M';
-      case Group.active:
+      case FilterableGroup.active:
         return 'A';
       default:
         return '';
@@ -62,21 +62,21 @@ class Trainee {
 
   String get groupName {
     switch (trainingGroup) {
-      case Group.waitingList:
+      case FilterableGroup.waitingList:
         return 'Warteliste';
-      case Group.group1:
+      case FilterableGroup.group1:
         return 'Block 1';
-      case Group.group2:
+      case FilterableGroup.group2:
         return 'Block 2';
-      case Group.group3:
+      case FilterableGroup.group3:
         return 'Block 3';
-      case Group.group4:
+      case FilterableGroup.group4:
         return 'Block 4';
-      case Group.group5:
+      case FilterableGroup.group5:
         return 'Block 5';
-      case Group.wednesday:
+      case FilterableGroup.wednesday:
         return 'Mittwoch';
-      case Group.active:
+      case FilterableGroup.active:
         return 'Aktiv';
       default:
         return '';
@@ -102,31 +102,31 @@ class Trainee {
     }
   }
 
-  static Group? mapGroupToEnum(String? groupName) {
+  static FilterableGroup? mapGroupToEnum(String? groupName) {
     switch (groupName) {
       case 'waitingList':
-        return Group.waitingList;
+        return FilterableGroup.waitingList;
       case 'group5':
-        return Group.group5;
+        return FilterableGroup.group5;
       case 'group4':
-        return Group.group4;
+        return FilterableGroup.group4;
       case 'group3':
-        return Group.group3;
+        return FilterableGroup.group3;
       case 'group2':
-        return Group.group2;
+        return FilterableGroup.group2;
       case 'group1':
-        return Group.group1;
+        return FilterableGroup.group1;
       case 'wednesday':
-        return Group.wednesday;
+        return FilterableGroup.wednesday;
       case 'active':
-        return Group.active;
+        return FilterableGroup.active;
       default:
         return null;
     }
   }
 
   Trainee copyWith({
-    Group? trainingGroup,
+    FilterableGroup? trainingGroup,
     String? email,
     String? phone,
     String? comment,
@@ -146,7 +146,7 @@ class Trainee {
     );
   }
 
-  Trainee copyWithNewGroup(Group group) {
+  Trainee copyWithNewGroup(FilterableGroup group) {
     return Trainee(
       dateOfBirth: dateOfBirth,
       surname: surname,

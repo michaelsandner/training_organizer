@@ -13,7 +13,7 @@ void main() {
               Trainee(email: 'bbb@a.de'),
             ],
             selectedTrainees: const [],
-            selectedGroup: Group.all,
+            selectedGroup: FilterableGroup.all,
           );
 
           expect(inputState.getAllEmailAdresses(), ['aaa@b.de', 'bbb@a.de']);

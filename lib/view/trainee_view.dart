@@ -101,13 +101,16 @@ class DropDown extends StatelessWidget {
     final cubit = context.read<AppCubit>();
     return BlocBuilder<AppCubit, AppState>(
       builder: (context, state) {
-        return DropdownButton<Group>(
+        return DropdownButton<FilterableGroup>(
             value: state.selectedGroup,
-            items: Group.values
-                .map<DropdownMenuItem<Group>>((Group value) => DropdownMenuItem(
-                    value: value, child: Text(cubit.getEnumGroupName(value))))
+            items: FilterableGroup.values
+                .map<DropdownMenuItem<FilterableGroup>>(
+                    (FilterableGroup value) => DropdownMenuItem(
+                        value: value,
+                        child: Text(cubit.getEnumGroupName(value))))
                 .toList(),
-            onChanged: (Group? value) => cubit.setSelectedGroup(value));
+            onChanged: (FilterableGroup? value) =>
+                cubit.setSelectedGroup(value));
       },
     );
   }

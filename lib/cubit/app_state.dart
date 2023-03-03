@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:training_organizer/model/trainee.dart';
 
-enum Group {
+enum FilterableGroup {
   waitingList,
   group1,
   group2,
@@ -19,7 +19,7 @@ class AppState with EquatableMixin {
   final List<Trainee> trainees;
   final List<Trainee> selectedTrainees;
 
-  final Group selectedGroup;
+  final FilterableGroup selectedGroup;
 
   const AppState({
     required this.trainees,
@@ -36,7 +36,7 @@ class AppState with EquatableMixin {
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
           phone: '01000 1100',
-          trainingGroup: Group.waitingList,
+          trainingGroup: FilterableGroup.waitingList,
         ),
         Trainee(
           surname: 'Musterman',
@@ -44,7 +44,7 @@ class AppState with EquatableMixin {
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
           phone: '0000 000',
-          trainingGroup: Group.group1,
+          trainingGroup: FilterableGroup.group1,
         ),
         Trainee(
           surname: 'Musterman',
@@ -52,17 +52,17 @@ class AppState with EquatableMixin {
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
           phone: '0100 023892',
-          trainingGroup: Group.group2,
+          trainingGroup: FilterableGroup.group2,
         )
       ],
-      selectedGroup: Group.all,
+      selectedGroup: FilterableGroup.all,
       selectedTrainees: List<Trainee>.empty(),
     );
   }
 
   AppState copyWith({
     List<Trainee>? trainees,
-    Group? selectedGroup,
+    FilterableGroup? selectedGroup,
     List<Trainee>? selectedTrainees,
   }) {
     return AppState(

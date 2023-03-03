@@ -23,7 +23,7 @@ class AppCubit extends Cubit<AppState> {
     updatedTraineeList.add(trainee);
 
     emit(state.copyWith(trainees: updatedTraineeList));
-    setSelectedGroup(Group.all);
+    setSelectedGroup(FilterableGroup.all);
   }
 
   void editTrainee(Trainee trainee, String? newPhone, String? newEmail) {
@@ -32,17 +32,17 @@ class AppCubit extends Cubit<AppState> {
     updatedTraineeList.removeWhere((element) => element == trainee);
     updatedTraineeList.add(trainee.copyWith(phone: newPhone, email: newEmail));
     emit(state.copyWith(trainees: updatedTraineeList));
-    setSelectedGroup(Group.active);
+    setSelectedGroup(FilterableGroup.active);
     setSelectedGroup(selectedGrouop);
   }
 
   bool isDowngradePossible(Trainee trainee) {
-    return trainee.trainingGroup != Group.waitingList &&
-        trainee.trainingGroup != Group.group5;
+    return trainee.trainingGroup != FilterableGroup.waitingList &&
+        trainee.trainingGroup != FilterableGroup.group5;
   }
 
   bool isUpgradePossible(Trainee trainee) {
-    return trainee.trainingGroup != Group.active;
+    return trainee.trainingGroup != FilterableGroup.active;
   }
 
   void upgradeTrainee(Trainee trainee) {
@@ -87,7 +87,7 @@ class AppCubit extends Cubit<AppState> {
       List<Trainee> traineeList = list.map((t) => Trainee.fromJson(t)).toList();
 
       emit(state.copyWith(trainees: traineeList));
-      setSelectedGroup(Group.all);
+      setSelectedGroup(FilterableGroup.all);
     }
   }
 
@@ -100,7 +100,7 @@ class AppCubit extends Cubit<AppState> {
     await FileService.exportFile(json);
   }
 
-  Group getUpgradedGroup(Group currentGroup) {
+  FilterableGroup getUpgradedGroup(FilterableGroup currentGroup) {
     final current =
         trainingGroups.singleWhere((element) => element.group == currentGroup);
     if (current.nextGroup == null) {
@@ -109,7 +109,7 @@ class AppCubit extends Cubit<AppState> {
     return current.nextGroup!;
   }
 
-  Group getDowngradedGroup(Group currentGroup) {
+  FilterableGroup getDowngradedGroup(FilterableGroup currentGroup) {
     final current =
         trainingGroups.singleWhere((element) => element.group == currentGroup);
     if (current.lastGroup == null) {
@@ -118,8 +118,8 @@ class AppCubit extends Cubit<AppState> {
     return current.lastGroup!;
   }
 
-  void setSelectedGroup(Group? selectedValue) {
-    if (selectedValue == Group.all) {
+  void setSelectedGroup(FilterableGroup? selectedValue) {
+    if (selectedValue == FilterableGroup.all) {
       emit(state.copyWith(
           selectedGroup: selectedValue, selectedTrainees: state.trainees));
     } else {
@@ -127,7 +127,7 @@ class AppCubit extends Cubit<AppState> {
           .where((element) => element.trainingGroup == selectedValue)
           .toList();
 
-      if (selectedValue != Group.waitingList) {
+      if (selectedValue != FilterableGroup.waitingList) {
         filteredItems.sort((a, b) => a.surname.compareTo(b.surname));
       }
 
@@ -140,8 +140,8 @@ class AppCubit extends Cubit<AppState> {
     return getEnumGroupName(state.selectedGroup);
   }
 
-  String getEnumGroupName(Group? group) {
-    if (group == null || group == Group.all) {
+  String getEnumGroupName(FilterableGroup? group) {
+    if (group == null || group == FilterableGroup.all) {
       return 'All';
     }
     final current =
@@ -165,7 +165,7 @@ class AppCubit extends Cubit<AppState> {
   Future<void> sendMail(String email, String foreName) async {
     Uri uri = Uri.parse('mailto:$email');
 
-    if (state.selectedGroup == Group.waitingList) {
+    if (state.selectedGroup == FilterableGroup.waitingList) {
       final String subject = Uri.encodeComponent(
           'Aufnahme für das Schimmtraining der Wasserwacht Langenzenn');
       final String body = Uri.encodeComponent('''hallo zusammen :)
