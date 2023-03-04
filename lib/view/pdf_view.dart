@@ -57,11 +57,29 @@ class PdfView extends StatelessWidget {
                       return pw.TableRow(children: [
                         pw.Padding(
                           padding: const pw.EdgeInsets.symmetric(horizontal: 5),
-                          child: pw.Text(trainee.surname),
+                          child: pw.Text(
+                            trainee.surname,
+                            style: trainee.isMember
+                                ? pw.TextStyle(
+                                    color: PdfColor.fromHex('#000000'))
+                                : pw.TextStyle(
+                                    color: PdfColor.fromHex('#FF0000'),
+                                    fontStyle: pw.FontStyle.italic,
+                                  ),
+                          ),
                         ),
                         pw.Padding(
                           padding: const pw.EdgeInsets.symmetric(horizontal: 5),
-                          child: pw.Text(trainee.forename),
+                          child: pw.Text(
+                            trainee.forename,
+                            style: trainee.isMember
+                                ? pw.TextStyle(
+                                    color: PdfColor.fromHex('#000000'))
+                                : pw.TextStyle(
+                                    color: PdfColor.fromHex('#FF0000'),
+                                    fontStyle: pw.FontStyle.italic,
+                                  ),
+                          ),
                         ),
                         pw.Padding(
                           padding: const pw.EdgeInsets.symmetric(horizontal: 5),

@@ -32,6 +32,7 @@ class _TraineeListState extends State<TraineeList> {
               3: FlexColumnWidth(),
               4: FlexColumnWidth(),
               5: FlexColumnWidth(),
+              6: FlexColumnWidth(),
             },
             children:
                 List<TableRow>.generate(state.selectedTrainees.length, (index) {
@@ -59,11 +60,21 @@ class _TraineeListState extends State<TraineeList> {
                           if (state.selectedGroup == FilterableGroup.all &&
                               !isMobile(screenSize))
                             const SizedBox(width: 10),
-                          Text(trainee.surname),
+                          Text(
+                            trainee.surname,
+                            style: trainee.isMember
+                                ? const TextStyle(color: Colors.black)
+                                : const TextStyle(color: Colors.red),
+                          ),
                           const SizedBox(
                             width: 10,
                           ),
-                          Text(trainee.forename),
+                          Text(
+                            trainee.forename,
+                            style: trainee.isMember
+                                ? const TextStyle(color: Colors.black)
+                                : const TextStyle(color: Colors.red),
+                          ),
                         ],
                       ),
                     ),
@@ -77,6 +88,11 @@ class _TraineeListState extends State<TraineeList> {
                     TableCell(
                       verticalAlignment: TableCellVerticalAlignment.middle,
                       child: Text(trainee.registrationDate),
+                    ),
+                  if (!isMobile(screenSize))
+                    TableCell(
+                      verticalAlignment: TableCellVerticalAlignment.middle,
+                      child: Text(trainee.email),
                     ),
                   if (!isMobile(screenSize))
                     TableCell(
