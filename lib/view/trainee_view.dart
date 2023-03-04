@@ -69,6 +69,7 @@ class _EmailButton extends StatelessWidget {
       onPressed: () => cubit.sendMailToSelectedGroup(),
       icon: const Icon(Icons.mail),
       color: Colors.blue,
+      tooltip: "Mail to group",
     );
   }
 }
