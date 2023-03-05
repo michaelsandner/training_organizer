@@ -6,7 +6,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 
 class FileService {
-  static Future<String?> importFile() async {
+  static Future<String?> importFile(
+      Function(bool shouldShowLoadingSpinner) toggleShowLoadingSpinner) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.custom,
@@ -17,13 +18,18 @@ class FileService {
       return null;
     }
 
+    toggleShowLoadingSpinner(true);
+
     if (kIsWeb) {
       String test = utf8.decode(result.files.single.bytes!);
+      toggleShowLoadingSpinner(false);
       return test;
     } else {
       File file;
       file = File(result.files.single.path!);
-      return await file.readAsString();
+      String fileAsString = await file.readAsString();
+      toggleShowLoadingSpinner(false);
+      return fileAsString;
     }
   }
 

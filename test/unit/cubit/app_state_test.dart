@@ -8,6 +8,7 @@ void main() {
       group('When getAllEmailAdresses', () {
         test('Then all email adresses should be returned', () {
           final inputState = AppState(
+            showLoadingSpinner: false,
             trainees: [
               Trainee(email: 'aaa@b.de'),
               Trainee(email: 'bbb@a.de'),

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/services/platform_service.dart';
@@ -12,34 +13,49 @@ class TraineeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return Padding(
-      padding: isMobile(screenSize)
-          ? const EdgeInsets.all(5)
-          : const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return BlocBuilder<AppCubit, AppState>(
+      builder: (context, state) {
+        return Padding(
+          padding: isMobile(screenSize)
+              ? const EdgeInsets.all(5)
+              : const EdgeInsets.all(16.0),
+          child: Column(
             children: [
-              ImportButton(),
-              if (!kIsWeb) ExportButton(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ImportButton(),
+                  if (!kIsWeb) ExportButton(),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SelectedCount(),
+                    const _EmailButtonGoup(),
+                    const _EmailButtonSaturday(),
+                    DropDown(),
+                  ],
+                ),
+              ),
+              if (state.showLoadingSpinner)
+                const SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: LoadingIndicator(
+                      indicatorType: Indicator.ballPulse,
+                      colors: [Colors.blue],
+                      strokeWidth: 2,
+                      backgroundColor: Colors.white,
+                      pathBackgroundColor: Colors.white),
+                ),
+              Expanded(child: TraineeList()),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SelectedCount(),
-                const _EmailButtonGoup(),
-                const _EmailButtonSaturday(),
-                DropDown(),
-              ],
-            ),
-          ),
-          Expanded(child: TraineeList()),
-        ],
-      ),
+        );
+      },
     );
   }
 }

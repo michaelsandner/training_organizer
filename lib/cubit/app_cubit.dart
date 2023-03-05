@@ -14,6 +14,10 @@ class AppCubit extends Cubit<AppState> {
     emit(state.copyWith(selectedTrainees: state.trainees));
   }
 
+  void setShowLoadingIndicator(bool shouldShow) {
+    emit(state.copyWith(showLoadingSpinner: shouldShow));
+  }
+
   void addTrainee(Trainee trainee) {
     final updatedTraineeList = [...state.trainees];
 
@@ -78,7 +82,7 @@ class AppCubit extends Cubit<AppState> {
   }
 
   Future<void> loadFile() async {
-    String? json = await FileService.importFile();
+    String? json = await FileService.importFile(setShowLoadingIndicator);
 
     if (json != null) {
       Map<String, dynamic> inputMap = jsonDecode(json);
