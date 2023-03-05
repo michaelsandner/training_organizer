@@ -33,9 +33,17 @@ class Trainee {
       surname: json['surname'] ?? '',
       forename: json['forename'] ?? '',
       email: json['email'] ?? '',
-      dateOfBirth: json['dateOfBirth'] ?? '',
+      dateOfBirth: json['dateOfBirth'] == null ||
+              json['dateOfBirth'] == '0' ||
+              json['dateOfBirth'] == 'null'
+          ? ''
+          : json['dateOfBirth'],
       registrationDate: json['registrationDate'] ?? '',
-      phone: json['phone'] ?? '',
+      phone: json['phone'] == null ||
+              json['phone'] == '0' ||
+              json['phone'] == 'null'
+          ? ''
+          : json['phone'],
       trainingGroup: mapGroupToEnum(json['trainingGroup']),
       comment: json['comment'] ?? '',
       isMember: json['isMember'] ?? false,
