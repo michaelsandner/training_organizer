@@ -1,10 +1,12 @@
 import 'package:training_organizer/model/trainee.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-Future<void> sendMailToTrainees(List<Trainee> trainees) async {
+Future<void> sendMailToTrainees(
+    List<Trainee> trainees, List<Trainee> copyTo) async {
   String email = _getEmails(trainees);
+  String copy = _getEmails(copyTo);
 
-  final Uri uri = Uri.parse('mailto:$email');
+  final Uri uri = Uri.parse('mailto:$copy?bcc=$email');
 
   await _launchUri(uri);
 }
@@ -19,10 +21,15 @@ String _getEmails(List<Trainee> trainees) {
   return email;
 }
 
-Future<void> sendMailToWaitingListTrainee(Trainee trainee) async {
+Future<void> sendMailToSingleTrainee(Trainee trainee) async {
+  String email = trainee.email;
+  Uri uri = Uri.parse('mailto:$email');
+  await _launchUri(uri);
+}
+
+Future<void> sendMailToSingleWaitingListTrainee(Trainee trainee) async {
   String email = trainee.email;
   String foreName = trainee.forename;
-  Uri uri = Uri.parse('mailto:$email');
 
   final String subject = Uri.encodeComponent(
       'Aufnahme für das Schimmtraining der Wasserwacht Langenzenn');
@@ -36,7 +43,7 @@ Future<void> sendMailToWaitingListTrainee(Trainee trainee) async {
 
         Euer Wasserwacht-Team
          ''');
-  uri = Uri.parse('mailto:$email?subject=$subject&body=$body');
+  Uri uri = Uri.parse('mailto:$email?subject=$subject&body=$body');
 
   await _launchUri(uri);
 }

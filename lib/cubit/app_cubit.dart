@@ -203,12 +203,14 @@ class AppCubit extends Cubit<AppState> {
   }
 
   Future<void> sendMailToSelectedGroup() async {
-    await sendMailToTrainees(state.selectedTrainees);
+    await sendMailToTrainees(state.selectedTrainees, []);
   }
 
   Future<void> sendMailToTrainee(Trainee trainee) async {
     if (state.selectedGroup == FilterableGroup.waitingList) {
-      await sendMailToWaitingListTrainee(trainee);
+      await sendMailToSingleWaitingListTrainee(trainee);
+    } else {
+      await sendMailToSingleTrainee(trainee);
     }
   }
 
@@ -221,6 +223,11 @@ class AppCubit extends Cubit<AppState> {
             element.trainingGroup == Group.group4 ||
             element.trainingGroup == Group.group5)
         .toList();
-    await sendMailToTrainees(saturdayTrainees);
+    List<Trainee> trainer = [];
+
+    if (shouldIncludeTrainer) {
+      trainer = state.trainees.where((element) => element.isTrainer).toList();
+    }
+    await sendMailToTrainees(saturdayTrainees, trainer);
   }
 }

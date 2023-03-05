@@ -12,6 +12,7 @@ class Trainee {
   final String comment;
   final bool isMember;
   final Badge? badge;
+  final bool isTrainer;
 
   Trainee({
     this.surname = '',
@@ -24,20 +25,23 @@ class Trainee {
     this.comment = '',
     this.isMember = false,
     this.badge,
+    this.isTrainer = false,
   });
 
   factory Trainee.fromJson(dynamic json) {
     return Trainee(
-        surname: json['surname'] ?? '',
-        forename: json['forename'] ?? '',
-        email: json['email'] ?? '',
-        dateOfBirth: json['dateOfBirth'] ?? '',
-        registrationDate: json['registrationDate'] ?? '',
-        phone: json['phone'] ?? '',
-        trainingGroup: mapGroupToEnum(json['trainingGroup']),
-        comment: json['comment'] ?? '',
-        isMember: json['isMember'] ?? false,
-        badge: json['badge'] == null ? null : mapBadge(json['badge']));
+      surname: json['surname'] ?? '',
+      forename: json['forename'] ?? '',
+      email: json['email'] ?? '',
+      dateOfBirth: json['dateOfBirth'] ?? '',
+      registrationDate: json['registrationDate'] ?? '',
+      phone: json['phone'] ?? '',
+      trainingGroup: mapGroupToEnum(json['trainingGroup']),
+      comment: json['comment'] ?? '',
+      isMember: json['isMember'] ?? false,
+      badge: json['badge'] == null ? null : mapBadge(json['badge']),
+      isTrainer: json['isTrainer'] ?? false,
+    );
   }
 
   String get groupShortName {
@@ -137,6 +141,7 @@ class Trainee {
     Badge? badge,
     String? dateOfBirth,
     String? registrationDate,
+    bool? isTrainer,
   }) {
     return Trainee(
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
@@ -149,6 +154,7 @@ class Trainee {
       comment: comment ?? this.comment,
       isMember: isMember ?? this.isMember,
       badge: badge ?? this.badge,
+      isTrainer: isTrainer ?? this.isTrainer,
     );
   }
 
@@ -162,6 +168,7 @@ class Trainee {
       phone: phone,
       trainingGroup: group,
       badge: badge,
+      isTrainer: isTrainer,
     );
   }
 
@@ -185,6 +192,7 @@ class Trainee {
         'comment': comment,
         'isMember': isMember,
         'badge': badge == null ? null : badge!.toJson(),
+        'isTrainer': isTrainer,
       };
 
   String getTrainingGroupValue() {

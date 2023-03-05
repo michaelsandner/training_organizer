@@ -16,6 +16,7 @@ void main() {
           'phone': '000111',
           'comment': 'this is a comment',
           'isMember': true,
+          'isTrainer': true,
           'badge': {'name': 'Bronze', 'date': '2020-09-09 00:00:00.000'},
         };
 
@@ -29,6 +30,7 @@ void main() {
         expect(output.comment, 'this is a comment');
         expect(output.isMember, true);
         expect(output.badge!.name, 'Bronze');
+        expect(output.isTrainer, true);
         expect(output.badge!.date, DateTime(2020, 9, 9));
       });
     });
@@ -44,6 +46,7 @@ void main() {
           'phone': null,
           'comment': null,
           'isMember': null,
+          'isTrainer': null,
           'badge': null,
         };
 
@@ -56,6 +59,7 @@ void main() {
         expect(output.phone, '');
         expect(output.comment, '');
         expect(output.isMember, false);
+        expect(output.isTrainer, false);
         expect(output.badge, null);
         expect(output.trainingGroup, Group.waitingList);
       });
@@ -75,6 +79,7 @@ void main() {
           trainingGroup: Group.group1,
           comment: 'this is a comment',
           isMember: true,
+          isTrainer: true,
           badge: BronzeBadge(),
         );
 
@@ -88,6 +93,7 @@ void main() {
           'trainingGroup': 'group1',
           'comment': 'this is a comment',
           'isMember': true,
+          'isTrainer': true,
           'badge': {'name': 'Bronze', 'date': null},
         };
 
