@@ -25,13 +25,17 @@ class TraineeView extends StatelessWidget {
               if (!kIsWeb) ExportButton(),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SelectedCount(),
-              const _EmailButton(),
-              DropDown(),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SelectedCount(),
+                const _EmailButtonGoup(),
+                const _EmailButtonSaturday(),
+                DropDown(),
+              ],
+            ),
           ),
           Expanded(child: TraineeList()),
         ],
@@ -58,18 +62,57 @@ class SelectedCount extends StatelessWidget {
   }
 }
 
-class _EmailButton extends StatelessWidget {
-  const _EmailButton();
+class _EmailButtonGoup extends StatelessWidget {
+  const _EmailButtonGoup({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<AppCubit>();
 
-    return IconButton(
-      onPressed: () => cubit.sendMailToSelectedGroup(),
-      icon: const Icon(Icons.mail),
-      color: Colors.blue,
-      tooltip: "Mail to group",
+    return Column(
+      children: [
+        IconButton(
+          onPressed: () => cubit.sendMailToSelectedGroup(),
+          icon: const Icon(Icons.mail),
+          color: Colors.blue,
+        ),
+        const Text('Gruppe'),
+      ],
+    );
+  }
+}
+
+class _EmailButtonSaturday extends StatelessWidget {
+  const _EmailButtonSaturday({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<AppCubit>();
+
+    return Column(
+      children: [
+        IconButton(
+          onPressed: () => showDialog(
+            context: context,
+            builder: (context) => SimpleDialog(
+              title: const Text('Möchtest du die Trainer in cc setzen?'),
+              children: <Widget>[
+                SimpleDialogOption(
+                  child: const Text('Ja'),
+                  onPressed: () => cubit.sendMailToSaturdayTrainees(true),
+                ),
+                SimpleDialogOption(
+                  child: const Text('Nein'),
+                  onPressed: () => cubit.sendMailToSaturdayTrainees(false),
+                )
+              ],
+            ),
+          ),
+          icon: const Icon(Icons.mail),
+          color: Colors.blue,
+        ),
+        const Text('Samstag'),
+      ],
     );
   }
 }

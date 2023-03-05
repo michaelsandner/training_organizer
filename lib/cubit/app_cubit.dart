@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/model/training_group.dart';
+import 'package:training_organizer/services/email_service.dart';
 import 'package:training_organizer/services/file_service.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AppCubit extends Cubit<AppState> {
   AppCubit() : super(AppState.initial());
@@ -203,57 +203,24 @@ class AppCubit extends Cubit<AppState> {
   }
 
   Future<void> sendMailToSelectedGroup() async {
-    String email = '';
-    for (var element in state.selectedTrainees) {
-      email += ',${element.email}';
-    }
-
-    final Uri uri = Uri.parse('mailto:$email');
-
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    }
+    await sendMailToTrainees(state.selectedTrainees);
   }
 
-  Future<void> sendMail(String email, String foreName) async {
-    Uri uri = Uri.parse('mailto:$email');
-
+  Future<void> sendMailToTrainee(Trainee trainee) async {
     if (state.selectedGroup == FilterableGroup.waitingList) {
-      final String subject = Uri.encodeComponent(
-          'Aufnahme für das Schimmtraining der Wasserwacht Langenzenn');
-      final String body = Uri.encodeComponent('''hallo zusammen :)
-        leider hat es etwas gedauert aber nun freuen wir uns euch mitteilen zu dürfen, dass $foreName endlich bei uns im Schwimmtraining mitmachen darf.
-        Dafür würden wir $foreName gerne zum Schnuppertraining am XXX um 17:00 Uhr am Hallenbad Langenzenn einladen.
-        Wir treffen uns kurz vorher um ein paar Fragen auszutauschen und gemeinsam die Abläufe zu erklären.
-        Bitte gebt uns bescheid ob ihr noch Interesse habt und ob ihr am Termin teilnehmen könnt.
-
-        Viele Grüße
-
-        Euer Wasserwacht-Team
-         ''');
-      uri = Uri.parse('mailto:$email?subject=$subject&body=$body');
-    }
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
+      await sendMailToWaitingListTrainee(trainee);
     }
   }
 
-  Future<void> sendMailAccecptedToWaitingList(
-      String email, String foreName) async {
-    Uri uri = Uri.parse('mailto:$email');
-    final String subject =
-        Uri.encodeComponent('Bestätigung Aufnahme Warteliste OG Langenzenn');
-    final String body = Uri.encodeComponent('''hallo zusammen,
-        hiermit bestätigen wir euch die Aufnahme von $foreName auf unsere Warteliste zum .
-
-        Viele Grüße
-
-        Euer Wasserwacht-Team
-         ''');
-    uri = Uri.parse('mailto:$email?subject=$subject&body=$body');
-
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    }
+  Future<void> sendMailToSaturdayTrainees(bool shouldIncludeTrainer) async {
+    final saturdayTrainees = state.trainees
+        .where((element) =>
+            element.trainingGroup == Group.group1 ||
+            element.trainingGroup == Group.group2 ||
+            element.trainingGroup == Group.group3 ||
+            element.trainingGroup == Group.group4 ||
+            element.trainingGroup == Group.group5)
+        .toList();
+    await sendMailToTrainees(saturdayTrainees);
   }
 }

@@ -39,10 +39,7 @@ class _TraineeListState extends State<TraineeList> {
               final trainee = state.selectedTrainees[index];
               return TableRow(
                 children: [
-                  _EmailButton(
-                    email: trainee.email,
-                    foreName: trainee.forename,
-                  ),
+                  _EmailButton(trainee: trainee),
                   EditButton(
                     refresh: refresh,
                     trainee: trainee,
@@ -110,11 +107,9 @@ class _TraineeListState extends State<TraineeList> {
 }
 
 class _EmailButton extends StatelessWidget {
-  final String email;
-  final String foreName;
+  final Trainee trainee;
   const _EmailButton({
-    required this.email,
-    required this.foreName,
+    required this.trainee,
   });
 
   @override
@@ -122,7 +117,7 @@ class _EmailButton extends StatelessWidget {
     final cubit = context.read<AppCubit>();
 
     return IconButton(
-      onPressed: () => cubit.sendMail(email, foreName),
+      onPressed: () => cubit.sendMailToTrainee(trainee),
       icon: const Icon(Icons.mail),
       color: Colors.blue,
     );
