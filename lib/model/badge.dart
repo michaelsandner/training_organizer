@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 abstract class Badge {
   DateTime? date;
   bool hasBadge = false;
@@ -21,9 +23,25 @@ abstract class Badge {
     return true;
   }
 
+  static DateTime? parseDateFromJson(dynamic json) {
+    if (json['date'] == null) {
+      return null;
+    }
+    try {
+      final parsedDate = DateFormat('dd.MM.yyyy').parse(json['date']);
+      return parsedDate;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static String parseDateTimeToString(DateTime date) {
+    return DateFormat('dd.MM.yyyy').format(date);
+  }
+
   Map<String, dynamic> toJson() => {
         'name': name,
-        'date': date == null ? null : date!.toString(),
+        'date': date == null ? null : parseDateTimeToString(date!),
       };
 }
 
@@ -32,11 +50,11 @@ class BronzeBadge extends Badge {
 
   factory BronzeBadge.fromJson(dynamic json) {
     final badge = BronzeBadge();
-    if (json['date'] != null) {
-      final date = DateTime.parse(json['date']);
-      badge.setBadge(date);
+    final parsedDate = Badge.parseDateFromJson(json);
+    if (parsedDate == null) {
+      return badge;
     }
-
+    badge.setBadge(parsedDate);
     return badge;
   }
 
@@ -49,11 +67,11 @@ class SilverBadge extends Badge {
 
   factory SilverBadge.fromJson(dynamic json) {
     final badge = SilverBadge();
-    if (json['date'] != null) {
-      final date = DateTime.parse(json['date']);
-      badge.setBadge(date);
+    final parsedDate = Badge.parseDateFromJson(json);
+    if (parsedDate == null) {
+      return badge;
     }
-
+    badge.setBadge(parsedDate);
     return badge;
   }
 
@@ -66,11 +84,11 @@ class GoldBadge extends Badge {
 
   factory GoldBadge.fromJson(dynamic json) {
     final badge = GoldBadge();
-    if (json['date'] != null) {
-      final date = DateTime.parse(json['date']);
-      badge.setBadge(date);
+    final parsedDate = Badge.parseDateFromJson(json);
+    if (parsedDate == null) {
+      return badge;
     }
-
+    badge.setBadge(parsedDate);
     return badge;
   }
 
@@ -83,11 +101,11 @@ class RettungsschwimmerBronzeBadge extends Badge {
 
   factory RettungsschwimmerBronzeBadge.fromJson(dynamic json) {
     final badge = RettungsschwimmerBronzeBadge();
-    if (json['date'] != null) {
-      final date = DateTime.parse(json['date']);
-      badge.setBadge(date);
+    final parsedDate = Badge.parseDateFromJson(json);
+    if (parsedDate == null) {
+      return badge;
     }
-
+    badge.setBadge(parsedDate);
     return badge;
   }
 
@@ -100,11 +118,11 @@ class RettungsschwimmerSilverBadge extends Badge {
 
   factory RettungsschwimmerSilverBadge.fromJson(dynamic json) {
     final badge = RettungsschwimmerSilverBadge();
-    if (json['date'] != null) {
-      final date = DateTime.parse(json['date']);
-      badge.setBadge(date);
+    final parsedDate = Badge.parseDateFromJson(json);
+    if (parsedDate == null) {
+      return badge;
     }
-
+    badge.setBadge(parsedDate);
     return badge;
   }
 
@@ -117,11 +135,11 @@ class RettungsschwimmerGoldBadge extends Badge {
 
   factory RettungsschwimmerGoldBadge.fromJson(dynamic json) {
     final badge = RettungsschwimmerGoldBadge();
-    if (json['date'] != null) {
-      final date = DateTime.parse(json['date']);
-      badge.setBadge(date);
+    final parsedDate = Badge.parseDateFromJson(json);
+    if (parsedDate == null) {
+      return badge;
     }
-
+    badge.setBadge(parsedDate);
     return badge;
   }
 

@@ -44,7 +44,7 @@ void main() {
           bronzeBadge.setBadge(DateTime(2020, 9, 9));
           final expectedJson = {
             'name': 'Bronze',
-            'date': '2020-09-09 00:00:00.000',
+            'date': '09.09.2020',
           };
 
           expect(bronzeBadge.toJson(), expectedJson);
@@ -57,13 +57,27 @@ void main() {
         test('should parse date', () {
           final inputJson = {
             'name': 'Bronze',
-            'date': '2020-09-09 00:00:00.000',
+            'date': '09.09.2020',
           };
 
           final badge = BronzeBadge.fromJson(inputJson);
 
           expect(badge.name, 'Bronze');
           expect(badge.date, (DateTime(2020, 9, 9)));
+        });
+      });
+
+      group('when date has wrong format', () {
+        test('should set null', () {
+          final inputJson = {
+            'name': 'Bronze',
+            'date': '2000-10-10',
+          };
+
+          final badge = BronzeBadge.fromJson(inputJson);
+
+          expect(badge.name, 'Bronze');
+          expect(badge.date, null);
         });
       });
 
