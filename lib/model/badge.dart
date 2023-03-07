@@ -174,6 +174,7 @@ class RettungsschwimmerGoldBadge extends Badge {
   @override
   String get name => 'RettungsschwimmerGold';
 
+  @override
   String get fullName => 'Rettungsschwimmabzeichen Gold';
 
   @override

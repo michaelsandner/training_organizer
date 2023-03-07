@@ -49,30 +49,67 @@ class _TraineeListState extends State<TraineeList> {
                     verticalAlignment: TableCellVerticalAlignment.middle,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        children: [
-                          if (state.selectedGroup == FilterableGroup.all &&
-                              !isMobile(screenSize))
-                            Text(trainee.groupShortName),
-                          if (state.selectedGroup == FilterableGroup.all &&
-                              !isMobile(screenSize))
-                            const SizedBox(width: 10),
-                          Text(
-                            trainee.surname,
-                            style: trainee.isMember
-                                ? const TextStyle(color: Colors.black)
-                                : const TextStyle(color: Colors.red),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            trainee.forename,
-                            style: trainee.isMember
-                                ? const TextStyle(color: Colors.black)
-                                : const TextStyle(color: Colors.red),
-                          ),
-                        ],
+                      child: GestureDetector(
+                        onTap: () => showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Ausbildungen'),
+                                content: SizedBox(
+                                  height: 200,
+                                  child: Column(
+                                    children: List.generate(
+                                        trainee.badges.length, (index) {
+                                      final currentBadge =
+                                          trainee.badges[index];
+                                      if (currentBadge != null) {
+                                        return Row(
+                                          children: [
+                                            currentBadge.icon,
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            if (currentBadge.date != null)
+                                              Text(currentBadge.date!.year
+                                                  .toString()),
+                                          ],
+                                        );
+                                      } else {
+                                        return const Icon(
+                                          Icons.warning,
+                                          color: Colors.red,
+                                        );
+                                      }
+                                    }),
+                                  ),
+                                ),
+                              );
+                            }),
+                        child: Row(
+                          children: [
+                            if (state.selectedGroup == FilterableGroup.all &&
+                                !isMobile(screenSize))
+                              Text(trainee.groupShortName),
+                            if (state.selectedGroup == FilterableGroup.all &&
+                                !isMobile(screenSize))
+                              const SizedBox(width: 10),
+                            Text(
+                              trainee.surname,
+                              style: trainee.isMember
+                                  ? const TextStyle(color: Colors.black)
+                                  : const TextStyle(color: Colors.red),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              trainee.forename,
+                              style: trainee.isMember
+                                  ? const TextStyle(color: Colors.black)
+                                  : const TextStyle(color: Colors.red),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -85,8 +122,8 @@ class _TraineeListState extends State<TraineeList> {
                           if (currentBadge != null) {
                             return Tooltip(
                               message: currentBadge.date == null
-                                  ? '-'
-                                  : '${currentBadge.fullName} \n${currentBadge.date!.year.toString()}',
+                                  ? '${currentBadge.fullName} \n Datum: - '
+                                  : '${currentBadge.fullName} \n Datum: ${currentBadge.date!.year.toString()}',
                               child: currentBadge.icon,
                             );
                           } else {

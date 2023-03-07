@@ -19,7 +19,7 @@ void main() {
           'isTrainer': true,
           'badge': {'name': 'Bronze', 'date': '2020-09-09 00:00:00.000'},
           'badges': [
-            {'name': 'Silber', 'date': '09.09.2020'},
+            {'name': 'RettungsschwimmerSilber', 'date': '09.09.2020'},
           ]
         };
 
@@ -35,7 +35,7 @@ void main() {
         expect(output.badge!.name, 'Bronze');
         expect(output.isTrainer, true);
         expect(output.badges.length, 1);
-        expect(output.badges[0]!.name, 'Silber');
+        expect(output.badges[0]!.name, 'RettungsschwimmerSilber');
         expect(output.badges[0]!.date, DateTime(2020, 9, 9));
       });
     });

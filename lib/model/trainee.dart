@@ -101,7 +101,16 @@ class Trainee {
     }
   }
 
-  static List<Badge?> mapBadges(List<Map<String, dynamic>> badges) {
+  bool hasBadge(String badgeName) {
+    for (var element in badges) {
+      if (element != null && element.name == badgeName) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static List<Badge?> mapBadges(List<dynamic> badges) {
     List<Badge?> listOfBadges = [];
     for (var element in badges) {
       listOfBadges.add(mapBadge(element));
@@ -123,6 +132,12 @@ class Trainee {
         return RettungsschwimmerSilverBadge.fromJson(badge);
       case 'RettungsschwimmerGold':
         return RettungsschwimmerBronzeBadge.fromJson(badge);
+      case 'Wasserretter':
+        return Wasserretter.fromJson(badge);
+      case 'San':
+        return San.fromJson(badge);
+      case 'RSiWRD':
+        return RSiWRD.fromJson(badge);
       default:
         return null;
     }
