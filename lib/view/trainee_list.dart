@@ -86,7 +86,7 @@ class _TraineeListState extends State<TraineeList> {
                             return Tooltip(
                               message: currentBadge.date == null
                                   ? '-'
-                                  : currentBadge.date!.year.toString(),
+                                  : '${currentBadge.fullName} \n${currentBadge.date!.year.toString()}',
                               child: currentBadge.icon,
                             );
                           } else {

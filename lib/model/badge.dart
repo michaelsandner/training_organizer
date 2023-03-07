@@ -8,6 +8,7 @@ abstract class Badge {
   Badge(this.date);
 
   String get name;
+  String get fullName;
   Icon get icon;
 
   void setBadge(DateTime date) {
@@ -65,6 +66,9 @@ class BronzeBadge extends Badge {
   String get name => 'Bronze';
 
   @override
+  String get fullName => 'Schwimmabzeichen Bronze';
+
+  @override
   get icon => const Icon(Icons.check_circle, color: Colors.red);
 }
 
@@ -82,6 +86,10 @@ class SilverBadge extends Badge {
 
   @override
   String get name => 'Silber';
+
+  @override
+  String get fullName => 'Schwimmabzeichen Silber';
+
   @override
   get icon => const Icon(Icons.check_circle, color: Colors.grey);
 }
@@ -100,6 +108,10 @@ class GoldBadge extends Badge {
 
   @override
   String get name => 'Gold';
+
+  @override
+  String get fullName => 'Schwimmabzeichen Gold';
+
   @override
   get icon => const Icon(Icons.check_circle, color: Colors.yellow);
 }
@@ -118,6 +130,10 @@ class RettungsschwimmerBronzeBadge extends Badge {
 
   @override
   String get name => 'RettungsschwimmerBronze';
+
+  @override
+  String get fullName => 'Rettungsschwimmabzeichen Bronze';
+
   @override
   get icon => const Icon(Icons.catching_pokemon, color: Colors.red);
 }
@@ -136,6 +152,10 @@ class RettungsschwimmerSilverBadge extends Badge {
 
   @override
   String get name => 'RettungsschwimmerSilber';
+
+  @override
+  String get fullName => 'Rettungsschwimmabzeichen Silber';
+
   @override
   get icon => const Icon(Icons.catching_pokemon, color: Colors.grey);
 }
@@ -153,6 +173,72 @@ class RettungsschwimmerGoldBadge extends Badge {
 
   @override
   String get name => 'RettungsschwimmerGold';
+
+  String get fullName => 'Rettungsschwimmabzeichen Gold';
+
   @override
   get icon => const Icon(Icons.catching_pokemon, color: Colors.grey);
+}
+
+class RSiWRD extends Badge {
+  RSiWRD(DateTime? date) : super(date);
+
+  factory RSiWRD.fromJson(dynamic json) {
+    final parsedDate = Badge.parseDateFromJson(json);
+    if (parsedDate == null) {
+      return RSiWRD(null);
+    }
+    return RSiWRD(parsedDate);
+  }
+
+  @override
+  String get name => 'RSiWRD';
+
+  @override
+  String get fullName => 'Rettungsschwimmer im Wasserrettungsdient';
+
+  @override
+  get icon => const Icon(Icons.cruelty_free, color: Colors.red);
+}
+
+class San extends Badge {
+  San(DateTime? date) : super(date);
+
+  factory San.fromJson(dynamic json) {
+    final parsedDate = Badge.parseDateFromJson(json);
+    if (parsedDate == null) {
+      return San(null);
+    }
+    return San(parsedDate);
+  }
+
+  @override
+  String get name => 'San';
+
+  @override
+  String get fullName => 'Sanitätsdiensthelfer';
+
+  @override
+  get icon => const Icon(Icons.cruelty_free, color: Colors.grey);
+}
+
+class Wasserretter extends Badge {
+  Wasserretter(DateTime? date) : super(date);
+
+  factory Wasserretter.fromJson(dynamic json) {
+    final parsedDate = Badge.parseDateFromJson(json);
+    if (parsedDate == null) {
+      return Wasserretter(null);
+    }
+    return Wasserretter(parsedDate);
+  }
+
+  @override
+  String get name => 'Wasserretter';
+
+  @override
+  String get fullName => 'Wasserretter';
+
+  @override
+  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
 }

@@ -52,7 +52,14 @@ class AppState with EquatableMixin {
             dateOfBirth: '2000-10-10',
             phone: '01000 1100',
             trainingGroup: Group.waitingList,
-            badges: [BronzeBadge(null), SilverBadge(DateTime.now())]),
+            badges: [
+              BronzeBadge(null),
+              SilverBadge(DateTime.now()),
+              RettungsschwimmerBronzeBadge(DateTime.now()),
+              Wasserretter(DateTime.now()),
+              San(DateTime.now()),
+              RSiWRD(DateTime.now()),
+            ]),
         Trainee(
           surname: 'Musterman',
           forename: 'Manuel',
