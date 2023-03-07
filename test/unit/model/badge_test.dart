@@ -4,20 +4,20 @@ import 'package:training_organizer/model/badge.dart';
 void main() {
   group('Badge', () {
     test('initial values', () {
-      final bronzeBadge = BronzeBadge();
+      final bronzeBadge = BronzeBadge(null);
 
       expect(bronzeBadge.date, null);
       expect(bronzeBadge.hasBadge, false);
     });
 
     test('get name', () {
-      final bronzeBadge = BronzeBadge();
+      final bronzeBadge = BronzeBadge(null);
 
       expect(bronzeBadge.name, 'Bronze');
     });
 
     test('setBadge', () {
-      final bronzeBadge = BronzeBadge();
+      final bronzeBadge = BronzeBadge(null);
 
       bronzeBadge.setBadge(DateTime(2020, 9, 9, 9));
 
@@ -28,7 +28,7 @@ void main() {
     group('toJson', () {
       group('when date is null', () {
         test('should store null', () {
-          final bronzeBadge = BronzeBadge();
+          final bronzeBadge = BronzeBadge(null);
           final expectedJson = {
             'name': 'Bronze',
             'date': null,
@@ -40,7 +40,7 @@ void main() {
 
       group('when date is valid', () {
         test('should store date', () {
-          final bronzeBadge = BronzeBadge();
+          final bronzeBadge = BronzeBadge(null);
           bronzeBadge.setBadge(DateTime(2020, 9, 9));
           final expectedJson = {
             'name': 'Bronze',
@@ -99,7 +99,7 @@ void main() {
     group('isUpToDate', () {
       group('When is older than two years', () {
         test('returns false', () {
-          final bronzeBadge = BronzeBadge();
+          final bronzeBadge = BronzeBadge(null);
           final date = DateTime(DateTime.now().year - 2, DateTime.now().month,
               DateTime.now().day - 2);
           bronzeBadge.setBadge(date);
@@ -110,7 +110,7 @@ void main() {
 
       group('When is younger than two years', () {
         test('returns true', () {
-          final bronzeBadge = BronzeBadge();
+          final bronzeBadge = BronzeBadge(null);
           final date = DateTime(DateTime.now().year - 2, DateTime.now().month,
               DateTime.now().day + 1);
           bronzeBadge.setBadge(date);

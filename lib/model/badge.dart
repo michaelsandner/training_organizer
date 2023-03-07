@@ -1,10 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 abstract class Badge {
   DateTime? date;
   bool hasBadge = false;
 
+  Badge(this.date);
+
   String get name;
+  Icon get icon;
 
   void setBadge(DateTime date) {
     this.date = date;
@@ -46,103 +50,109 @@ abstract class Badge {
 }
 
 class BronzeBadge extends Badge {
-  BronzeBadge();
+  BronzeBadge(DateTime? date) : super(date);
 
   factory BronzeBadge.fromJson(dynamic json) {
-    final badge = BronzeBadge();
     final parsedDate = Badge.parseDateFromJson(json);
     if (parsedDate == null) {
-      return badge;
+      return BronzeBadge(null);
     }
-    badge.setBadge(parsedDate);
-    return badge;
+
+    return BronzeBadge(parsedDate);
   }
 
   @override
   String get name => 'Bronze';
+
+  @override
+  get icon => const Icon(Icons.check_circle, color: Colors.red);
 }
 
 class SilverBadge extends Badge {
-  SilverBadge();
+  SilverBadge(DateTime? date) : super(date);
 
   factory SilverBadge.fromJson(dynamic json) {
-    final badge = SilverBadge();
     final parsedDate = Badge.parseDateFromJson(json);
     if (parsedDate == null) {
-      return badge;
+      return SilverBadge(null);
     }
-    badge.setBadge(parsedDate);
-    return badge;
+
+    return SilverBadge(parsedDate);
   }
 
   @override
   String get name => 'Silber';
+  @override
+  get icon => const Icon(Icons.check_circle, color: Colors.grey);
 }
 
 class GoldBadge extends Badge {
-  GoldBadge();
+  GoldBadge(DateTime? date) : super(date);
 
   factory GoldBadge.fromJson(dynamic json) {
-    final badge = GoldBadge();
     final parsedDate = Badge.parseDateFromJson(json);
     if (parsedDate == null) {
-      return badge;
+      return GoldBadge(null);
     }
-    badge.setBadge(parsedDate);
-    return badge;
+
+    return GoldBadge(parsedDate);
   }
 
   @override
   String get name => 'Gold';
+  @override
+  get icon => const Icon(Icons.check_circle, color: Colors.yellow);
 }
 
 class RettungsschwimmerBronzeBadge extends Badge {
-  RettungsschwimmerBronzeBadge();
+  RettungsschwimmerBronzeBadge(DateTime? date) : super(date);
 
   factory RettungsschwimmerBronzeBadge.fromJson(dynamic json) {
-    final badge = RettungsschwimmerBronzeBadge();
     final parsedDate = Badge.parseDateFromJson(json);
     if (parsedDate == null) {
-      return badge;
+      return RettungsschwimmerBronzeBadge(null);
     }
-    badge.setBadge(parsedDate);
-    return badge;
+
+    return RettungsschwimmerBronzeBadge(parsedDate);
   }
 
   @override
   String get name => 'RettungsschwimmerBronze';
+  @override
+  get icon => const Icon(Icons.catching_pokemon, color: Colors.red);
 }
 
 class RettungsschwimmerSilverBadge extends Badge {
-  RettungsschwimmerSilverBadge();
+  RettungsschwimmerSilverBadge(DateTime? date) : super(date);
 
   factory RettungsschwimmerSilverBadge.fromJson(dynamic json) {
-    final badge = RettungsschwimmerSilverBadge();
     final parsedDate = Badge.parseDateFromJson(json);
     if (parsedDate == null) {
-      return badge;
+      return RettungsschwimmerSilverBadge(null);
     }
-    badge.setBadge(parsedDate);
-    return badge;
+
+    return RettungsschwimmerSilverBadge(parsedDate);
   }
 
   @override
   String get name => 'RettungsschwimmerSilber';
+  @override
+  get icon => const Icon(Icons.catching_pokemon, color: Colors.grey);
 }
 
 class RettungsschwimmerGoldBadge extends Badge {
-  RettungsschwimmerGoldBadge();
+  RettungsschwimmerGoldBadge(DateTime? date) : super(date);
 
   factory RettungsschwimmerGoldBadge.fromJson(dynamic json) {
-    final badge = RettungsschwimmerGoldBadge();
     final parsedDate = Badge.parseDateFromJson(json);
     if (parsedDate == null) {
-      return badge;
+      return RettungsschwimmerGoldBadge(null);
     }
-    badge.setBadge(parsedDate);
-    return badge;
+    return RettungsschwimmerGoldBadge(parsedDate);
   }
 
   @override
   String get name => 'RettungsschwimmerGold';
+  @override
+  get icon => const Icon(Icons.catching_pokemon, color: Colors.grey);
 }

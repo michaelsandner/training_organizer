@@ -18,6 +18,9 @@ void main() {
           'isMember': true,
           'isTrainer': true,
           'badge': {'name': 'Bronze', 'date': '2020-09-09 00:00:00.000'},
+          'badges': [
+            {'name': 'Silber', 'date': '09.09.2020'},
+          ]
         };
 
         final output = Trainee.fromJson(inputJson);
@@ -31,7 +34,9 @@ void main() {
         expect(output.isMember, true);
         expect(output.badge!.name, 'Bronze');
         expect(output.isTrainer, true);
-        expect(output.badge!.date, DateTime(2020, 9, 9));
+        expect(output.badges.length, 1);
+        expect(output.badges[0]!.name, 'Silber');
+        expect(output.badges[0]!.date, DateTime(2020, 9, 9));
       });
     });
 
@@ -48,6 +53,7 @@ void main() {
           'isMember': null,
           'isTrainer': null,
           'badge': null,
+          'badges': null,
         };
 
         final output = Trainee.fromJson(inputJson);
@@ -62,6 +68,7 @@ void main() {
         expect(output.isTrainer, false);
         expect(output.badge, null);
         expect(output.trainingGroup, Group.waitingList);
+        expect(output.badges.isEmpty, true);
       });
     });
   });
@@ -80,7 +87,8 @@ void main() {
           comment: 'this is a comment',
           isMember: true,
           isTrainer: true,
-          badge: BronzeBadge(),
+          badge: BronzeBadge(null),
+          badges: [SilverBadge(null), GoldBadge(null)],
         );
 
         final expectedJson = {
@@ -95,6 +103,10 @@ void main() {
           'isMember': true,
           'isTrainer': true,
           'badge': {'name': 'Bronze', 'date': null},
+          'badges': [
+            {'name': 'Silber', 'date': null},
+            {'name': 'Gold', 'date': null}
+          ]
         };
 
         final output = input.toJson();

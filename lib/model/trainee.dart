@@ -12,6 +12,7 @@ class Trainee {
   final String comment;
   final bool isMember;
   final Badge? badge;
+  final List<Badge?> badges;
   final bool isTrainer;
 
   Trainee({
@@ -25,6 +26,7 @@ class Trainee {
     this.comment = '',
     this.isMember = false,
     this.badge,
+    this.badges = const [],
     this.isTrainer = false,
   });
 
@@ -48,6 +50,7 @@ class Trainee {
       comment: json['comment'] ?? '',
       isMember: json['isMember'] ?? false,
       badge: json['badge'] == null ? null : mapBadge(json['badge']),
+      badges: json['badges'] == null ? [] : mapBadges(json['badges']),
       isTrainer: json['isTrainer'] ?? false,
     );
   }
@@ -96,6 +99,14 @@ class Trainee {
       default:
         return '';
     }
+  }
+
+  static List<Badge?> mapBadges(List<Map<String, dynamic>> badges) {
+    List<Badge?> listOfBadges = [];
+    for (var element in badges) {
+      listOfBadges.add(mapBadge(element));
+    }
+    return listOfBadges;
   }
 
   static Badge? mapBadge(Map<String, dynamic> badge) {
@@ -200,8 +211,21 @@ class Trainee {
         'comment': comment,
         'isMember': isMember,
         'badge': badge == null ? null : badge!.toJson(),
+        'badges': mapBadgesToJson(badges),
         'isTrainer': isTrainer,
       };
+
+  List<Map<String, dynamic>> mapBadgesToJson(List<Badge?> badges) {
+    List<Map<String, dynamic>> badgesAsJson = [];
+
+    for (var element in badges) {
+      if (element != null) {
+        badgesAsJson.add(element.toJson());
+      }
+    }
+
+    return badgesAsJson;
+  }
 
   String getTrainingGroupValue() {
     return trainingGroup.toString().split('.').last;

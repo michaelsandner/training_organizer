@@ -79,6 +79,28 @@ class _TraineeListState extends State<TraineeList> {
                   if (!isMobile(screenSize))
                     TableCell(
                       verticalAlignment: TableCellVerticalAlignment.middle,
+                      child: Row(
+                        children: List.generate(trainee.badges.length, (index) {
+                          final currentBadge = trainee.badges[index];
+                          if (currentBadge != null) {
+                            return Tooltip(
+                              message: currentBadge.date == null
+                                  ? '-'
+                                  : currentBadge.date!.year.toString(),
+                              child: currentBadge.icon,
+                            );
+                          } else {
+                            return const Icon(
+                              Icons.warning,
+                              color: Colors.red,
+                            );
+                          }
+                        }),
+                      ),
+                    ),
+                  if (!isMobile(screenSize))
+                    TableCell(
+                      verticalAlignment: TableCellVerticalAlignment.middle,
                       child: Text(trainee.dateOfBirth),
                     ),
                   if (!isMobile(screenSize))
