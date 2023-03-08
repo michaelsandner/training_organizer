@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/model/badge.dart';
 
 void main() {
+  final badgeFactory = BadgeFactory();
   group('Badge', () {
     test('initial values', () {
       final bronzeBadge = BronzeBadge(null);
@@ -60,9 +61,9 @@ void main() {
             'date': '09.09.2020',
           };
 
-          final badge = BronzeBadge.fromJson(inputJson);
+          final badge = badgeFactory.getBadge(inputJson);
 
-          expect(badge.name, 'Bronze');
+          expect(badge!.name, 'Bronze');
           expect(badge.date, (DateTime(2020, 9, 9)));
         });
       });
@@ -74,9 +75,9 @@ void main() {
             'date': '2000-10-10',
           };
 
-          final badge = BronzeBadge.fromJson(inputJson);
+          final badge = badgeFactory.getBadge(inputJson);
 
-          expect(badge.name, 'Bronze');
+          expect(badge!.name, 'Bronze');
           expect(badge.date, null);
         });
       });
@@ -88,9 +89,9 @@ void main() {
             'date': null,
           };
 
-          final badge = BronzeBadge.fromJson(inputJson);
+          final badge = badgeFactory.getBadge(inputJson);
 
-          expect(badge.name, 'Bronze');
+          expect(badge!.name, 'Bronze');
           expect(badge.date, null);
         });
       });

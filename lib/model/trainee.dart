@@ -119,28 +119,8 @@ class Trainee {
   }
 
   static Badge? mapBadge(Map<String, dynamic> badge) {
-    switch (badge['name']) {
-      case 'Bronze':
-        return BronzeBadge.fromJson(badge);
-      case 'Silber':
-        return SilverBadge.fromJson(badge);
-      case 'Gold':
-        return GoldBadge.fromJson(badge);
-      case 'RettungsschwimmerBronze':
-        return RettungsschwimmerBronzeBadge.fromJson(badge);
-      case 'RettungsschwimmerSilber':
-        return RettungsschwimmerSilverBadge.fromJson(badge);
-      case 'RettungsschwimmerGold':
-        return RettungsschwimmerBronzeBadge.fromJson(badge);
-      case 'Wasserretter':
-        return Wasserretter.fromJson(badge);
-      case 'San':
-        return San.fromJson(badge);
-      case 'RSiWRD':
-        return RSiWRD.fromJson(badge);
-      default:
-        return null;
-    }
+    final badgeFactory = BadgeFactory();
+    return badgeFactory.getBadge(badge);
   }
 
   static Group mapGroupToEnum(String? groupName) {

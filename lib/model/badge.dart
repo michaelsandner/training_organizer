@@ -28,6 +28,53 @@ abstract class Badge {
     return true;
   }
 
+  static String parseDateTimeToString(DateTime date) {
+    return DateFormat('dd.MM.yyyy').format(date);
+  }
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'date': date == null ? null : parseDateTimeToString(date!),
+      };
+}
+
+class BadgeFactory {
+  Badge? getBadge(Map<String, dynamic> json) {
+    DateTime? parsedData = parseDateFromJson(json);
+    switch (json['name']) {
+      case 'Bronze':
+        return BronzeBadge(parsedData);
+      case 'Silber':
+        return SilverBadge(parsedData);
+      case 'Gold':
+        return GoldBadge(parsedData);
+      case 'RettungsschwimmerBronze':
+        return RettungsschwimmerBronzeBadge(parsedData);
+      case 'RettungsschwimmerSilber':
+        return RettungsschwimmerSilverBadge(parsedData);
+      case 'RettungsschwimmerGold':
+        return RettungsschwimmerBronzeBadge(parsedData);
+      case 'Wasserretter':
+        return Wasserretter(parsedData);
+      case 'San':
+        return San(parsedData);
+      case 'RSiWRD':
+        return RSiWRD(parsedData);
+      case 'Ausbildungsassistent':
+        return AusbildungsAssistent(parsedData);
+      case 'AusbilderS1':
+        return AusbilderS1(parsedData);
+      case 'AusbilderS2':
+        return AusbilderS2(parsedData);
+      case 'AusbilderR1':
+        return AusbilderR1(parsedData);
+      case 'AusbilderR2':
+        return AusbilderR2(parsedData);
+      default:
+        return null;
+    }
+  }
+
   static DateTime? parseDateFromJson(dynamic json) {
     if (json['date'] == null) {
       return null;
@@ -39,28 +86,10 @@ abstract class Badge {
       return null;
     }
   }
-
-  static String parseDateTimeToString(DateTime date) {
-    return DateFormat('dd.MM.yyyy').format(date);
-  }
-
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'date': date == null ? null : parseDateTimeToString(date!),
-      };
 }
 
 class BronzeBadge extends Badge {
   BronzeBadge(DateTime? date) : super(date);
-
-  factory BronzeBadge.fromJson(dynamic json) {
-    final parsedDate = Badge.parseDateFromJson(json);
-    if (parsedDate == null) {
-      return BronzeBadge(null);
-    }
-
-    return BronzeBadge(parsedDate);
-  }
 
   @override
   String get name => 'Bronze';
@@ -75,15 +104,6 @@ class BronzeBadge extends Badge {
 class SilverBadge extends Badge {
   SilverBadge(DateTime? date) : super(date);
 
-  factory SilverBadge.fromJson(dynamic json) {
-    final parsedDate = Badge.parseDateFromJson(json);
-    if (parsedDate == null) {
-      return SilverBadge(null);
-    }
-
-    return SilverBadge(parsedDate);
-  }
-
   @override
   String get name => 'Silber';
 
@@ -96,15 +116,6 @@ class SilverBadge extends Badge {
 
 class GoldBadge extends Badge {
   GoldBadge(DateTime? date) : super(date);
-
-  factory GoldBadge.fromJson(dynamic json) {
-    final parsedDate = Badge.parseDateFromJson(json);
-    if (parsedDate == null) {
-      return GoldBadge(null);
-    }
-
-    return GoldBadge(parsedDate);
-  }
 
   @override
   String get name => 'Gold';
@@ -119,15 +130,6 @@ class GoldBadge extends Badge {
 class RettungsschwimmerBronzeBadge extends Badge {
   RettungsschwimmerBronzeBadge(DateTime? date) : super(date);
 
-  factory RettungsschwimmerBronzeBadge.fromJson(dynamic json) {
-    final parsedDate = Badge.parseDateFromJson(json);
-    if (parsedDate == null) {
-      return RettungsschwimmerBronzeBadge(null);
-    }
-
-    return RettungsschwimmerBronzeBadge(parsedDate);
-  }
-
   @override
   String get name => 'RettungsschwimmerBronze';
 
@@ -140,15 +142,6 @@ class RettungsschwimmerBronzeBadge extends Badge {
 
 class RettungsschwimmerSilverBadge extends Badge {
   RettungsschwimmerSilverBadge(DateTime? date) : super(date);
-
-  factory RettungsschwimmerSilverBadge.fromJson(dynamic json) {
-    final parsedDate = Badge.parseDateFromJson(json);
-    if (parsedDate == null) {
-      return RettungsschwimmerSilverBadge(null);
-    }
-
-    return RettungsschwimmerSilverBadge(parsedDate);
-  }
 
   @override
   String get name => 'RettungsschwimmerSilber';
@@ -163,14 +156,6 @@ class RettungsschwimmerSilverBadge extends Badge {
 class RettungsschwimmerGoldBadge extends Badge {
   RettungsschwimmerGoldBadge(DateTime? date) : super(date);
 
-  factory RettungsschwimmerGoldBadge.fromJson(dynamic json) {
-    final parsedDate = Badge.parseDateFromJson(json);
-    if (parsedDate == null) {
-      return RettungsschwimmerGoldBadge(null);
-    }
-    return RettungsschwimmerGoldBadge(parsedDate);
-  }
-
   @override
   String get name => 'RettungsschwimmerGold';
 
@@ -183,14 +168,6 @@ class RettungsschwimmerGoldBadge extends Badge {
 
 class RSiWRD extends Badge {
   RSiWRD(DateTime? date) : super(date);
-
-  factory RSiWRD.fromJson(dynamic json) {
-    final parsedDate = Badge.parseDateFromJson(json);
-    if (parsedDate == null) {
-      return RSiWRD(null);
-    }
-    return RSiWRD(parsedDate);
-  }
 
   @override
   String get name => 'RSiWRD';
@@ -205,14 +182,6 @@ class RSiWRD extends Badge {
 class San extends Badge {
   San(DateTime? date) : super(date);
 
-  factory San.fromJson(dynamic json) {
-    final parsedDate = Badge.parseDateFromJson(json);
-    if (parsedDate == null) {
-      return San(null);
-    }
-    return San(parsedDate);
-  }
-
   @override
   String get name => 'San';
 
@@ -226,19 +195,76 @@ class San extends Badge {
 class Wasserretter extends Badge {
   Wasserretter(DateTime? date) : super(date);
 
-  factory Wasserretter.fromJson(dynamic json) {
-    final parsedDate = Badge.parseDateFromJson(json);
-    if (parsedDate == null) {
-      return Wasserretter(null);
-    }
-    return Wasserretter(parsedDate);
-  }
-
   @override
   String get name => 'Wasserretter';
 
   @override
   String get fullName => 'Wasserretter';
+
+  @override
+  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
+}
+
+class AusbildungsAssistent extends Badge {
+  AusbildungsAssistent(DateTime? date) : super(date);
+
+  @override
+  String get name => 'Ausbildungsassistent';
+
+  @override
+  String get fullName => 'Ausbildungsassistent';
+
+  @override
+  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
+}
+
+class AusbilderR1 extends Badge {
+  AusbilderR1(DateTime? date) : super(date);
+
+  @override
+  String get name => 'AusbilderR1';
+
+  @override
+  String get fullName => 'Ausbilder R Stufe 1';
+
+  @override
+  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
+}
+
+class AusbilderR2 extends Badge {
+  AusbilderR2(DateTime? date) : super(date);
+
+  @override
+  String get name => 'AusbilderR2';
+
+  @override
+  String get fullName => 'Ausbilder R Stufe 2';
+
+  @override
+  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
+}
+
+class AusbilderS1 extends Badge {
+  AusbilderS1(DateTime? date) : super(date);
+
+  @override
+  String get name => 'AusbilderS1';
+
+  @override
+  String get fullName => 'Ausbilder S Stufe 1';
+
+  @override
+  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
+}
+
+class AusbilderS2 extends Badge {
+  AusbilderS2(DateTime? date) : super(date);
+
+  @override
+  String get name => 'AusbilderS2';
+
+  @override
+  String get fullName => 'Ausbilder S Stufe 2';
 
   @override
   get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);

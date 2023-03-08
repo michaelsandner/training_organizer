@@ -59,6 +59,11 @@ class AppState with EquatableMixin {
               Wasserretter(DateTime.now()),
               San(DateTime.now()),
               RSiWRD(DateTime.now()),
+              AusbilderS1(null),
+              AusbilderS2(null),
+              AusbilderR1(null),
+              AusbilderR2(null),
+              AusbildungsAssistent(null),
             ]),
         Trainee(
           surname: 'Musterman',
