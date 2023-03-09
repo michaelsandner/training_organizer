@@ -76,31 +76,6 @@ class StatisticsView extends StatelessWidget {
             ],
           ),
         );
-        // return ListView(
-        //   children: [
-        //     StatisticsItem(
-        //       description: Wasserretter(null).fullName,
-        //       count: state.trainees
-        //           .where((element) => element.hasBadge('Wasserretter'))
-        //           .length
-        //           .toString(),
-        //     ),
-        //     StatisticsItem(
-        //       description: San(null).fullName,
-        //       count: state.trainees
-        //           .where((element) => element.hasBadge('San'))
-        //           .length
-        //           .toString(),
-        //     ),
-        //     StatisticsItem(
-        //       description: RSiWRD(null).fullName,
-        //       count: state.trainees
-        //           .where((element) => element.hasBadge('RSiWRD'))
-        //           .length
-        //           .toString(),
-        //     )
-        //   ],
-        // );
       },
     );
   }
