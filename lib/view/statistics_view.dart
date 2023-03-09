@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/badge.dart';
+import 'package:training_organizer/model/badge.dart' as badge;
 
 class StatisticsView extends StatelessWidget {
   const StatisticsView({super.key});
@@ -14,20 +14,20 @@ class StatisticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Badge> dataAusbildung = [
-      RettungsschwimmerBronzeBadge(null),
-      RettungsschwimmerSilverBadge(null),
-      RSiWRD(null),
-      San(null),
-      Wasserretter(null),
+    List<badge.Badge> dataAusbildung = [
+      badge.RettungsschwimmerBronzeBadge(null),
+      badge.RettungsschwimmerSilverBadge(null),
+      badge.RSiWRD(null),
+      badge.San(null),
+      badge.Wasserretter(null),
     ];
 
-    List<Badge> dataAusbilder = [
-      AusbildungsAssistent(null),
-      AusbilderR1(null),
-      AusbilderR2(null),
-      AusbilderS1(null),
-      AusbilderS2(null),
+    List<badge.Badge> dataAusbilder = [
+      badge.AusbildungsAssistent(null),
+      badge.AusbilderR1(null),
+      badge.AusbilderR2(null),
+      badge.AusbilderS1(null),
+      badge.AusbilderS2(null),
     ];
     return BlocBuilder<AppCubit, AppState>(
       builder: (context, state) {
@@ -44,11 +44,11 @@ class StatisticsView extends StatelessWidget {
                   labelStyle: const TextStyle(fontSize: 10),
                 ),
                 primaryYAxis: NumericAxis(minimum: 0, maximum: 20, interval: 5),
-                series: <ChartSeries<Badge, String>>[
-                  ColumnSeries<Badge, String>(
+                series: <ChartSeries<badge.Badge, String>>[
+                  ColumnSeries<badge.Badge, String>(
                       dataSource: dataAusbildung,
-                      xValueMapper: (Badge badge, _) => badge.fullName,
-                      yValueMapper: (Badge badge, _) =>
+                      xValueMapper: (badge.Badge badge, _) => badge.fullName,
+                      yValueMapper: (badge.Badge badge, _) =>
                           getCount(state, badge.name),
                       dataLabelSettings: const DataLabelSettings(
                           isVisible: true,
@@ -61,11 +61,11 @@ class StatisticsView extends StatelessWidget {
                   labelStyle: const TextStyle(fontSize: 15),
                 ),
                 primaryYAxis: NumericAxis(minimum: 0, maximum: 5, interval: 1),
-                series: <ChartSeries<Badge, String>>[
-                  ColumnSeries<Badge, String>(
+                series: <ChartSeries<badge.Badge, String>>[
+                  ColumnSeries<badge.Badge, String>(
                     dataSource: dataAusbilder,
-                    xValueMapper: (Badge badge, _) => badge.fullName,
-                    yValueMapper: (Badge badge, _) =>
+                    xValueMapper: (badge.Badge badge, _) => badge.fullName,
+                    yValueMapper: (badge.Badge badge, _) =>
                         getCount(state, badge.name),
                     dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
