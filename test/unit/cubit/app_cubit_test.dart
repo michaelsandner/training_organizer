@@ -30,7 +30,7 @@ void main() {
       });
       group('When updateTrainee', () {
         blocTest<AppCubit, AppState>(
-          'Then trainee should be updated to group 5',
+          'Then trainee should be updated to group invited',
           seed: () => state,
           build: () => cubit,
           act: (cubit) => cubit.upgradeTrainee(trainee),
@@ -42,7 +42,7 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: Group.group5,
+                  trainingGroup: Group.invited,
                 ),
               ],
               selectedGroup: FilterableGroup.waitingList,
@@ -54,17 +54,17 @@ void main() {
                     forename: 'Max',
                     email: 'email@email.de',
                     dateOfBirth: '2000-10-10',
-                    trainingGroup: Group.group5,
+                    trainingGroup: Group.invited,
                   ),
                 ],
-                selectedGroup: FilterableGroup.group5,
+                selectedGroup: FilterableGroup.invited,
                 selectedTrainees: [
                   Trainee(
                     surname: 'Musterman',
                     forename: 'Max',
                     email: 'email@email.de',
                     dateOfBirth: '2000-10-10',
-                    trainingGroup: Group.group5,
+                    trainingGroup: Group.invited,
                   )
                 ])
           ],
@@ -72,12 +72,12 @@ void main() {
       });
       group('When updateTrainee twice', () {
         blocTest<AppCubit, AppState>(
-          'Then trainee should be updated to group 1',
+          'Then trainee should be updated to group 5',
           seed: () => state,
           build: () => cubit,
           act: (cubit) {
             cubit.upgradeTrainee(trainee);
-            cubit.upgradeTrainee(trainee.copyWithNewGroup(Group.group5));
+            cubit.upgradeTrainee(trainee.copyWithNewGroup(Group.invited));
           },
           expect: () => [
             state.copyWith(
@@ -87,11 +87,52 @@ void main() {
                   forename: 'Max',
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
-                  trainingGroup: Group.group5,
+                  trainingGroup: Group.invited,
                 ),
               ],
               selectedGroup: FilterableGroup.waitingList,
             ),
+            state.copyWith(
+              trainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.invited,
+                ),
+              ],
+              selectedGroup: FilterableGroup.invited,
+              selectedTrainees: [
+                Trainee(
+                  surname: 'Musterman',
+                  forename: 'Max',
+                  email: 'email@email.de',
+                  dateOfBirth: '2000-10-10',
+                  trainingGroup: Group.invited,
+                )
+              ],
+            ),
+            state.copyWith(
+                trainees: [
+                  Trainee(
+                    surname: 'Musterman',
+                    forename: 'Max',
+                    email: 'email@email.de',
+                    dateOfBirth: '2000-10-10',
+                    trainingGroup: Group.group5,
+                  ),
+                ],
+                selectedGroup: FilterableGroup.invited,
+                selectedTrainees: [
+                  Trainee(
+                    surname: 'Musterman',
+                    forename: 'Max',
+                    email: 'email@email.de',
+                    dateOfBirth: '2000-10-10',
+                    trainingGroup: Group.invited,
+                  )
+                ]),
             state.copyWith(
               trainees: [
                 Trainee(
@@ -110,47 +151,6 @@ void main() {
                   email: 'email@email.de',
                   dateOfBirth: '2000-10-10',
                   trainingGroup: Group.group5,
-                )
-              ],
-            ),
-            state.copyWith(
-                trainees: [
-                  Trainee(
-                    surname: 'Musterman',
-                    forename: 'Max',
-                    email: 'email@email.de',
-                    dateOfBirth: '2000-10-10',
-                    trainingGroup: Group.group1,
-                  ),
-                ],
-                selectedGroup: FilterableGroup.group5,
-                selectedTrainees: [
-                  Trainee(
-                    surname: 'Musterman',
-                    forename: 'Max',
-                    email: 'email@email.de',
-                    dateOfBirth: '2000-10-10',
-                    trainingGroup: Group.group5,
-                  )
-                ]),
-            state.copyWith(
-              trainees: [
-                Trainee(
-                  surname: 'Musterman',
-                  forename: 'Max',
-                  email: 'email@email.de',
-                  dateOfBirth: '2000-10-10',
-                  trainingGroup: Group.group1,
-                ),
-              ],
-              selectedGroup: FilterableGroup.group1,
-              selectedTrainees: [
-                Trainee(
-                  surname: 'Musterman',
-                  forename: 'Max',
-                  email: 'email@email.de',
-                  dateOfBirth: '2000-10-10',
-                  trainingGroup: Group.group1,
                 )
               ],
             )

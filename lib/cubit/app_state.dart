@@ -5,6 +5,7 @@ import 'package:training_organizer/model/trainee.dart';
 
 enum FilterableGroup {
   waitingList,
+  invited,
   group1,
   group2,
   group3,
@@ -17,6 +18,7 @@ enum FilterableGroup {
 
 enum Group {
   waitingList,
+  invited,
   group1,
   group2,
   group3,

@@ -144,6 +144,8 @@ class AppCubit extends Cubit<AppState> {
     switch (group) {
       case Group.waitingList:
         return FilterableGroup.waitingList;
+      case Group.invited:
+        return FilterableGroup.invited;
       case Group.group1:
         return FilterableGroup.group1;
       case Group.group2:
@@ -165,6 +167,8 @@ class AppCubit extends Cubit<AppState> {
     switch (filterableGroup) {
       case FilterableGroup.waitingList:
         return Group.waitingList;
+      case FilterableGroup.invited:
+        return Group.invited;
       case FilterableGroup.group1:
         return Group.group1;
       case FilterableGroup.group2:
@@ -207,7 +211,11 @@ class AppCubit extends Cubit<AppState> {
   }
 
   Future<void> sendMailToSelectedGroup() async {
-    await sendMailToTrainees(state.selectedTrainees, []);
+    if (state.selectedGroup == FilterableGroup.invited) {
+      await sendMailToWaitingListTrainees(state.selectedTrainees);
+    } else {
+      await sendMailToTrainees(state.selectedTrainees, []);
+    }
   }
 
   Future<void> sendMailToTrainee(Trainee trainee) async {

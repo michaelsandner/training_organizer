@@ -31,6 +31,14 @@ final trainingGroups = [
     name: 'Warteliste',
     shortName: 'w',
     group: Group.waitingList,
+    nextGroup: Group.invited,
+    lastGroup: Group.waitingList,
+  ),
+  TrainingGroup(
+    id: 'invited',
+    name: 'Eingeladen',
+    shortName: 'invited',
+    group: Group.invited,
     nextGroup: Group.group5,
     lastGroup: Group.waitingList,
   ),
@@ -40,7 +48,7 @@ final trainingGroups = [
     shortName: '5',
     group: Group.group5,
     nextGroup: Group.group1,
-    lastGroup: Group.waitingList,
+    lastGroup: Group.invited,
   ),
   TrainingGroup(
     id: 'group1',
