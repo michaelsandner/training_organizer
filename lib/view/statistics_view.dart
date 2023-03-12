@@ -23,6 +23,7 @@ class StatisticsView extends StatelessWidget {
     ];
 
     List<badge.Badge> dataAusbilder = [
+      badge.Gruppenleiter(null),
       badge.AusbildungsAssistent(null),
       badge.AusbilderR1(null),
       badge.AusbilderR2(null),
@@ -41,13 +42,13 @@ class StatisticsView extends StatelessWidget {
               ),
               SfCartesianChart(
                 primaryXAxis: CategoryAxis(
-                  labelStyle: const TextStyle(fontSize: 10),
+                  labelStyle: const TextStyle(fontSize: 15),
                 ),
                 primaryYAxis: NumericAxis(minimum: 0, maximum: 20, interval: 5),
                 series: <ChartSeries<badge.Badge, String>>[
                   ColumnSeries<badge.Badge, String>(
                       dataSource: dataAusbildung,
-                      xValueMapper: (badge.Badge badge, _) => badge.fullName,
+                      xValueMapper: (badge.Badge badge, _) => badge.shortName,
                       yValueMapper: (badge.Badge badge, _) =>
                           getCount(state, badge.name),
                       dataLabelSettings: const DataLabelSettings(

@@ -9,6 +9,7 @@ abstract class Badge {
 
   String get name;
   String get fullName;
+  String get shortName;
   Icon get icon;
 
   void setBadge(DateTime date) {
@@ -70,6 +71,8 @@ class BadgeFactory {
         return AusbilderR1(parsedData);
       case 'AusbilderR2':
         return AusbilderR2(parsedData);
+      case 'Gruppenleiter':
+        return Gruppenleiter(parsedData);
       default:
         return null;
     }
@@ -98,6 +101,9 @@ class BronzeBadge extends Badge {
   String get fullName => 'Schwimmabzeichen Bronze';
 
   @override
+  String get shortName => 'Bronze';
+
+  @override
   get icon => const Icon(Icons.check_circle, color: Colors.red);
 }
 
@@ -109,6 +115,9 @@ class SilverBadge extends Badge {
 
   @override
   String get fullName => 'Schwimmabzeichen Silber';
+
+  @override
+  String get shortName => 'Silber';
 
   @override
   get icon => const Icon(Icons.check_circle, color: Colors.grey);
@@ -124,6 +133,9 @@ class GoldBadge extends Badge {
   String get fullName => 'Schwimmabzeichen Gold';
 
   @override
+  String get shortName => 'Gold';
+
+  @override
   get icon => const Icon(Icons.check_circle, color: Colors.yellow);
 }
 
@@ -135,6 +147,9 @@ class RettungsschwimmerBronzeBadge extends Badge {
 
   @override
   String get fullName => 'Rettungsschwimmabzeichen Bronze';
+
+  @override
+  String get shortName => 'RS Bronze';
 
   @override
   get icon => const Icon(Icons.catching_pokemon, color: Colors.red);
@@ -150,6 +165,9 @@ class RettungsschwimmerSilverBadge extends Badge {
   String get fullName => 'Rettungsschwimmabzeichen Silber';
 
   @override
+  String get shortName => 'RS Silber';
+
+  @override
   get icon => const Icon(Icons.catching_pokemon, color: Colors.grey);
 }
 
@@ -161,6 +179,9 @@ class RettungsschwimmerGoldBadge extends Badge {
 
   @override
   String get fullName => 'Rettungsschwimmabzeichen Gold';
+
+  @override
+  String get shortName => 'RS Gold';
 
   @override
   get icon => const Icon(Icons.catching_pokemon, color: Colors.grey);
@@ -176,6 +197,9 @@ class RSiWRD extends Badge {
   String get fullName => 'Rettungsschwimmer im Wasserrettungsdient';
 
   @override
+  String get shortName => 'RSiWRD';
+
+  @override
   get icon => const Icon(Icons.cruelty_free, color: Colors.red);
 }
 
@@ -187,6 +211,9 @@ class San extends Badge {
 
   @override
   String get fullName => 'Sanitätsdiensthelfer';
+
+  @override
+  String get shortName => 'San';
 
   @override
   get icon => const Icon(Icons.cruelty_free, color: Colors.grey);
@@ -202,6 +229,9 @@ class Wasserretter extends Badge {
   String get fullName => 'Wasserretter';
 
   @override
+  String get shortName => 'Wasserretter';
+
+  @override
   get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
 }
 
@@ -213,6 +243,9 @@ class AusbildungsAssistent extends Badge {
 
   @override
   String get fullName => 'Ausbildungsassistent';
+
+  @override
+  String get shortName => 'Assistent';
 
   @override
   get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
@@ -228,6 +261,9 @@ class AusbilderR1 extends Badge {
   String get fullName => 'Ausbilder R Stufe 1';
 
   @override
+  String get shortName => 'Ausbilder R1';
+
+  @override
   get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
 }
 
@@ -239,6 +275,9 @@ class AusbilderR2 extends Badge {
 
   @override
   String get fullName => 'Ausbilder R Stufe 2';
+
+  @override
+  String get shortName => 'Ausbilder R2';
 
   @override
   get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
@@ -254,6 +293,9 @@ class AusbilderS1 extends Badge {
   String get fullName => 'Ausbilder S Stufe 1';
 
   @override
+  String get shortName => 'Ausbilder S1';
+
+  @override
   get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
 }
 
@@ -265,6 +307,25 @@ class AusbilderS2 extends Badge {
 
   @override
   String get fullName => 'Ausbilder S Stufe 2';
+
+  @override
+  String get shortName => 'Ausbilder S2';
+
+  @override
+  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
+}
+
+class Gruppenleiter extends Badge {
+  Gruppenleiter(DateTime? date) : super(date);
+
+  @override
+  String get name => 'Gruppenleiter';
+
+  @override
+  String get fullName => 'Gruppenleiter';
+
+  @override
+  String get shortName => 'Gruppenleiter';
 
   @override
   get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
