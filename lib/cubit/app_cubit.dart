@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/model/training_group.dart';
@@ -131,13 +132,34 @@ class AppCubit extends Cubit<AppState> {
           .where((element) => element.trainingGroup == getGroup(selectedValue))
           .toList();
 
-      if (selectedValue != FilterableGroup.waitingList) {
-        filteredItems.sort((a, b) => a.surname.compareTo(b.surname));
-      }
+      _sortTrainees(selectedValue, filteredItems);
 
       emit(state.copyWith(
           selectedGroup: selectedValue, selectedTrainees: filteredItems));
     }
+  }
+
+  void _sortTrainees(FilterableGroup selectedValue, List<Trainee> trainees) {
+    if (selectedValue != FilterableGroup.waitingList) {
+      _sortBySurename(trainees);
+    }
+
+    if (selectedValue == FilterableGroup.waitingList) {
+      _sortByRegistrationDate(trainees);
+    }
+  }
+
+  void _sortBySurename(List<Trainee> trainees) {
+    trainees.sort((a, b) => a.surname.compareTo(b.surname));
+  }
+
+  void _sortByRegistrationDate(List<Trainee> trainees) {
+    trainees.sort((a, b) => _parseStringToDate(a.registrationDate)
+        .compareTo(_parseStringToDate(b.registrationDate)));
+  }
+
+  DateTime _parseStringToDate(String dateString) {
+    return DateFormat('dd.MM.yyyy').parse(dateString);
   }
 
   FilterableGroup getFilteredGroup(Group group) {

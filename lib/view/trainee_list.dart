@@ -108,6 +108,17 @@ class _TraineeListState extends State<TraineeList> {
                                   ? const TextStyle(color: Colors.black)
                                   : const TextStyle(color: Colors.red),
                             ),
+                            if (trainee.comment != "")
+                              Tooltip(
+                                message: trainee.comment,
+                                child: const Padding(
+                                  padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                  child: Icon(
+                                    Icons.warning,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              )
                           ],
                         ),
                       ),

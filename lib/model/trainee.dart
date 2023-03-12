@@ -127,6 +127,8 @@ class Trainee {
     switch (groupName) {
       case 'waitingList':
         return Group.waitingList;
+      case 'invited':
+        return Group.invited;
       case 'group5':
         return Group.group5;
       case 'group4':
@@ -174,16 +176,16 @@ class Trainee {
 
   Trainee copyWithNewGroup(Group group) {
     return Trainee(
-      dateOfBirth: dateOfBirth,
-      registrationDate: registrationDate,
-      surname: surname,
-      forename: forename,
-      email: email,
-      phone: phone,
-      trainingGroup: group,
-      badge: badge,
-      isTrainer: isTrainer,
-    );
+        dateOfBirth: dateOfBirth,
+        registrationDate: registrationDate,
+        surname: surname,
+        forename: forename,
+        email: email,
+        phone: phone,
+        trainingGroup: group,
+        badge: badge,
+        isTrainer: isTrainer,
+        comment: comment);
   }
 
   @override
