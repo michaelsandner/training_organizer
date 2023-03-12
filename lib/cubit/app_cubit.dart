@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/model/training_group.dart';
+import 'package:training_organizer/services/date_service.dart';
 import 'package:training_organizer/services/email_service.dart';
 import 'package:training_organizer/services/file_service.dart';
 
@@ -154,12 +154,8 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void _sortByRegistrationDate(List<Trainee> trainees) {
-    trainees.sort((a, b) => _parseStringToDate(a.registrationDate)
-        .compareTo(_parseStringToDate(b.registrationDate)));
-  }
-
-  DateTime _parseStringToDate(String dateString) {
-    return DateFormat('dd.MM.yyyy').parse(dateString);
+    trainees.sort((a, b) => DateService.parseToDate(a.registrationDate)
+        .compareTo(DateService.parseToDate(b.registrationDate)));
   }
 
   FilterableGroup getFilteredGroup(Group group) {

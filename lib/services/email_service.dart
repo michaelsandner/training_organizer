@@ -31,13 +31,10 @@ Future<void> sendMailToSingleWaitingListTrainee(Trainee trainee) async {
   String email = trainee.email;
   String foreName = trainee.forename;
 
-  final String subject = Uri.encodeComponent(
-      'Aufnahme für das Schimmtraining der Wasserwacht Langenzenn');
-  final String body = Uri.encodeComponent('''hallo zusammen :)
-        leider hat es etwas gedauert aber nun freuen wir uns euch mitteilen zu dürfen, dass $foreName endlich bei uns im Schwimmtraining mitmachen darf.
-        Dafür würden wir $foreName gerne zum Schnuppertraining am XXX um 17:00 Uhr am Hallenbad Langenzenn einladen.
-        Wir treffen uns kurz vorher um ein paar Fragen auszutauschen und gemeinsam die Abläufe zu erklären.
-        Bitte gebt uns bescheid ob ihr noch Interesse habt und ob ihr am Termin teilnehmen könnt.
+  final String subject =
+      Uri.encodeComponent('Aufnahme Warteliste der Wasserwacht Langenzenn');
+  final String body = Uri.encodeComponent('''hallo zusammen,
+        hiermit bestätigen wir die Aufnahme von $foreName auf unsere Warteliste.       
 
         Viele Grüße
 

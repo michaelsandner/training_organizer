@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/trainee.dart';
+import 'package:training_organizer/services/date_service.dart';
 
 class AddTrainee extends StatefulWidget {
   @override
@@ -105,9 +106,10 @@ class _AddTraineeState extends State<AddTrainee> {
                             surname: sureNameController.text.trim(),
                             email: emailController.text.trim(),
                             phone: phoneController.text.trim(),
-                            dateOfBirth: dateOfBirthController.text.trim(),
-                            registrationDate:
-                                registrationDateController.text.trim(),
+                            dateOfBirth: DateService.formatToGerman(
+                                dateOfBirthController.text.trim()),
+                            registrationDate: DateService.formatToGerman(
+                                registrationDateController.text.trim()),
                             trainingGroup: group ?? Group.waitingList);
                         cubit.addTrainee(newTrainee);
                         foreNameController.clear();
@@ -115,6 +117,7 @@ class _AddTraineeState extends State<AddTrainee> {
                         emailController.clear();
                         phoneController.clear();
                         dateOfBirthController.clear();
+                        registrationDateController.clear();
                         phoneController.clear();
                       }
                     },
