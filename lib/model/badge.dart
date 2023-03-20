@@ -165,7 +165,7 @@ class RettungsschwimmerSilverBadge extends Badge {
   String get fullName => 'Rettungsschwimmabzeichen Silber';
 
   @override
-  String get shortName => 'RS Silber';
+  String get shortName => 'RS Silber (< 2 Jahre)';
 
   @override
   get icon => const Icon(Icons.catching_pokemon, color: Colors.grey);
@@ -200,7 +200,7 @@ class RSiWRD extends Badge {
   String get shortName => 'RSiWRD';
 
   @override
-  get icon => const Icon(Icons.cruelty_free, color: Colors.red);
+  get icon => const Icon(Icons.catching_pokemon, color: Colors.deepPurple);
 }
 
 class San extends Badge {
@@ -216,7 +216,7 @@ class San extends Badge {
   String get shortName => 'San';
 
   @override
-  get icon => const Icon(Icons.cruelty_free, color: Colors.grey);
+  get icon => const Icon(Icons.healing, color: Colors.red);
 }
 
 class Wasserretter extends Badge {
@@ -232,7 +232,7 @@ class Wasserretter extends Badge {
   String get shortName => 'Wasserretter';
 
   @override
-  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
+  get icon => const Icon(Icons.healing, color: Colors.grey);
 }
 
 class AusbildungsAssistent extends Badge {
@@ -264,7 +264,7 @@ class AusbilderR1 extends Badge {
   String get shortName => 'Ausbilder R1';
 
   @override
-  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
+  get icon => const Icon(Icons.hdr_auto, color: Colors.red);
 }
 
 class AusbilderR2 extends Badge {
@@ -280,7 +280,7 @@ class AusbilderR2 extends Badge {
   String get shortName => 'Ausbilder R2';
 
   @override
-  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
+  get icon => const Icon(Icons.hdr_auto, color: Colors.grey);
 }
 
 class AusbilderS1 extends Badge {
@@ -296,7 +296,7 @@ class AusbilderS1 extends Badge {
   String get shortName => 'Ausbilder S1';
 
   @override
-  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
+  get icon => const Icon(Icons.hdr_auto_outlined, color: Colors.red);
 }
 
 class AusbilderS2 extends Badge {
@@ -312,7 +312,7 @@ class AusbilderS2 extends Badge {
   String get shortName => 'Ausbilder S2';
 
   @override
-  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
+  get icon => const Icon(Icons.hdr_auto_outlined, color: Colors.grey);
 }
 
 class Gruppenleiter extends Badge {
@@ -328,5 +328,5 @@ class Gruppenleiter extends Badge {
   String get shortName => 'Gruppenleiter';
 
   @override
-  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
+  get icon => const Icon(Icons.groups, color: Colors.grey);
 }
