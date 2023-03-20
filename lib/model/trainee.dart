@@ -104,6 +104,9 @@ class Trainee {
   bool hasBadge(String badgeName) {
     for (var element in badges) {
       if (element != null && element.name == badgeName) {
+        if (element.name == 'RettungsschwimmerSilber' && !element.isUpToDate) {
+          return false;
+        }
         return true;
       }
     }
