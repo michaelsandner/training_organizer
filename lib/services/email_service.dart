@@ -29,18 +29,19 @@ Future<void> sendMailToSingleTrainee(Trainee trainee) async {
 
 Future<void> sendMailToSingleWaitingListTrainee(Trainee trainee) async {
   String email = trainee.email;
+  String bcc = "info@wasserwacht-langenzenn.de";
   String foreName = trainee.forename;
 
   final String subject =
       Uri.encodeComponent('Aufnahme Warteliste der Wasserwacht Langenzenn');
   final String body = Uri.encodeComponent('''hallo zusammen,
-        hiermit bestätigen wir die Aufnahme von $foreName auf unsere Warteliste.       
+        hiermit bestätigen wir die Aufnahme von $foreName auf unsere Warteliste.    
 
         Viele Grüße
 
         Euer Wasserwacht-Team
          ''');
-  Uri uri = Uri.parse('mailto:$email?subject=$subject&body=$body');
+  Uri uri = Uri.parse('mailto:$email?bcc=$bcc&subject=$subject&body=$body');
 
   await _launchUri(uri);
 }
