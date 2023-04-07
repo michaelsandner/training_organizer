@@ -113,6 +113,19 @@ class Trainee {
     return false;
   }
 
+  String getHighestBadge() {
+    if (badges.isEmpty) {
+      return '';
+    }
+    if (badges.any((element) => element is GoldBadge)) {
+      return 'G';
+    }
+    if (badges.any((element) => element is SilverBadge)) {
+      return 'S';
+    }
+    return 'B';
+  }
+
   static List<Badge?> mapBadges(List<dynamic> badges) {
     List<Badge?> listOfBadges = [];
     for (var element in badges) {

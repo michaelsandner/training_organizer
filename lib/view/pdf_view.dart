@@ -82,13 +82,26 @@ class PdfView extends StatelessWidget {
                           ),
                         ),
                         pw.Padding(
-                          padding: const pw.EdgeInsets.symmetric(horizontal: 5),
-                          child: pw.Text(trainee.phone),
+                          padding: const pw.EdgeInsets.symmetric(horizontal: 3),
+                          child: pw.Align(
+                              alignment: pw.Alignment.center,
+                              child: pw.Text(trainee.getHighestBadge())),
                         ),
                         pw.Padding(
                           padding: const pw.EdgeInsets.symmetric(horizontal: 5),
-                          child: pw.Text(trainee.dateOfBirth),
+                          child: pw.Align(
+                              alignment: pw.Alignment.center,
+                              child: pw.Text(trainee.phone)),
                         ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.symmetric(horizontal: 5),
+                          child: pw.Align(
+                              alignment: pw.Alignment.center,
+                              child: pw.Text(trainee.dateOfBirth)),
+                        ),
+                        pw.SizedBox(width: 10),
+                        pw.SizedBox(width: 10),
+                        pw.SizedBox(width: 10),
                         pw.SizedBox(width: 10),
                         pw.SizedBox(width: 10),
                         pw.SizedBox(width: 10),
