@@ -162,6 +162,13 @@ class DropDown extends StatelessWidget {
     return BlocBuilder<AppCubit, AppState>(
       builder: (context, state) {
         return DropdownButton<FilterableGroup>(
+            focusColor: Colors.white,
+            elevation: 15,
+            icon: const Icon(Icons.arrow_downward),
+            underline: Container(
+              height: 2,
+              color: Colors.blue,
+            ),
             value: state.selectedGroup,
             items: FilterableGroup.values
                 .map<DropdownMenuItem<FilterableGroup>>(

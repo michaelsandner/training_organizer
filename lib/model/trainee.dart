@@ -101,6 +101,18 @@ class Trainee {
     }
   }
 
+  bool hasBadgeFromYear(String badgeName, int year) {
+    for (var element in badges) {
+      if (element != null &&
+          element.name == badgeName &&
+          element.date != null &&
+          element.date!.year == year) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   bool hasBadge(String badgeName) {
     for (var element in badges) {
       if (element != null && element.name == badgeName) {
