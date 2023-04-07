@@ -43,6 +43,8 @@ class BadgeFactory {
   Badge? getBadge(Map<String, dynamic> json) {
     DateTime? parsedData = parseDateFromJson(json);
     switch (json['name']) {
+      case 'Pirate':
+        return PirateBadge(parsedData);
       case 'Bronze':
         return BronzeBadge(parsedData);
       case 'Silber':
@@ -89,6 +91,22 @@ class BadgeFactory {
       return null;
     }
   }
+}
+
+class PirateBadge extends Badge {
+  PirateBadge(DateTime? date) : super(date);
+
+  @override
+  String get name => 'Seeräuber';
+
+  @override
+  String get fullName => 'Seeräuber';
+
+  @override
+  String get shortName => 'Seeräuber';
+
+  @override
+  get icon => const Icon(Icons.android);
 }
 
 class BronzeBadge extends Badge {

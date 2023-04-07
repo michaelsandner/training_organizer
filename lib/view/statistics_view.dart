@@ -6,10 +6,12 @@ import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/badge.dart' as badge;
 
 List<badge.Badge> _dataJugendausbildung = [
+  badge.PirateBadge(null),
   badge.BronzeBadge(null),
   badge.SilverBadge(null),
   badge.GoldBadge(null),
 ];
+
 List<badge.Badge> _dataAusbildung = [
   badge.RettungsschwimmerBronzeBadge(null),
   badge.RettungsschwimmerSilverBadge(null),
@@ -31,13 +33,7 @@ int getCount(AppState state, String badge) {
   return state.trainees.where((element) => element.hasBadge(badge)).length;
 }
 
-int getBadgeOfThisYear(AppState state, String badge) {
-  return state.trainees
-      .where((element) => element.hasBadgeFromYear(badge, DateTime.now().year))
-      .length;
-}
-
-int getBadgeOfLastYear(AppState state, String badge, int year) {
+int getBadgeOfYear(AppState state, String badge, int year) {
   return state.trainees
       .where((element) => element.hasBadgeFromYear(badge, year))
       .length;
@@ -132,7 +128,7 @@ class _JugendschwimmausbildungenState
                     dataSource: _dataJugendausbildung,
                     xValueMapper: (badge.Badge badge, _) => badge.shortName,
                     yValueMapper: (badge.Badge badge, _) =>
-                        getBadgeOfLastYear(state, badge.name, year),
+                        getBadgeOfYear(state, badge.name, year),
                     dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
                         textStyle: TextStyle(fontWeight: FontWeight.bold)),
