@@ -6,6 +6,7 @@ import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/services/platform_service.dart';
+import 'package:training_organizer/view/edit_view/add_trainee.dart';
 
 class TraineeList extends StatefulWidget {
   @override
@@ -216,57 +217,13 @@ class _EditButtonState extends State<EditButton> {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<AppCubit>();
     return IconButton(
-      onPressed: () => showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Edit'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(hintText: 'Email'),
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  TextFormField(
-                    controller: _phoneController,
-                    decoration: const InputDecoration(hintText: 'Phone'),
-                    keyboardType: TextInputType.phone,
-                  ),
-                ],
-              ),
-              actions: <Widget>[
-                TextButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.red),
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white)),
-                  child: const Text('Abbrechen'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                TextButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.green),
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white)),
-                  child: const Text('Speichern'),
-                  onPressed: () {
-                    cubit.editTrainee(widget.trainee, _phoneController.text,
-                        _emailController.text);
-                    Navigator.pop(context);
-                    widget.refresh();
-                  },
-                ),
-              ],
-            );
-          }),
+      onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AddTrainee(
+                    trainee: widget.trainee,
+                  ))),
       icon: const Icon(Icons.edit),
       color: Colors.orange,
     );

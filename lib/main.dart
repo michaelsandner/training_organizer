@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/view/edit_view/add_trainee.dart';
 import 'package:training_organizer/view/pdf_view/pdf_view.dart';
 import 'package:training_organizer/view/statistics_view/statistics_view.dart';
 import 'package:training_organizer/view/trainee_view/trainee_view.dart';
@@ -16,21 +15,24 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      create: (context) => AppCubit()..init(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(title: 'Training Organizer'),
       ),
-      home: const MyHomePage(title: 'Training Organizer'),
     );
   }
 }
@@ -63,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
@@ -71,24 +73,19 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
           bottom: const TabBar(tabs: [
             Tab(icon: Icon(Icons.accessibility)),
-            Tab(icon: Icon(Icons.add_box)),
             Tab(icon: Icon(Icons.document_scanner)),
             Tab(icon: Icon(Icons.list)),
           ]),
         ),
         body: Center(
-          child: BlocProvider(
-            create: (context) => AppCubit()..init(),
-            child: TabBarView(children: [
-              const TraineeView(),
-              AddTrainee(),
-              PdfView(),
-              const StatisticsView()
-            ]),
-          ),
+          child: TabBarView(children: [
+            const TraineeView(),
+            PdfView(),
+            const StatisticsView()
+          ]),
         ),
-        // This trailing comma makes auto-formatting nicer for build methods.
       ),
     );
+    // This trailing comma makes auto-formatting nicer for build methods.
   }
 }

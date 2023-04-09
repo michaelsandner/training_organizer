@@ -5,6 +5,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/services/platform_service.dart';
+import 'package:training_organizer/view/edit_view/add_trainee.dart';
 import 'package:training_organizer/view/trainee_view/trainee_list.dart';
 
 class TraineeView extends StatelessWidget {
@@ -19,39 +20,47 @@ class TraineeView extends StatelessWidget {
           padding: isMobile(screenSize)
               ? const EdgeInsets.all(5)
               : const EdgeInsets.all(16.0),
-          child: Column(
+          child: Stack(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Column(
                 children: [
-                  ImportButton(),
-                  if (!kIsWeb) ExportButton(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ImportButton(),
+                      if (!kIsWeb) ExportButton(),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SelectedCount(),
+                        const _EmailButtonGoup(),
+                        const _EmailButtonSaturday(),
+                        DropDown(),
+                      ],
+                    ),
+                  ),
+                  if (state.showLoadingSpinner)
+                    const SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: LoadingIndicator(
+                          indicatorType: Indicator.ballPulse,
+                          colors: [Colors.blue],
+                          strokeWidth: 2,
+                          backgroundColor: Colors.white,
+                          pathBackgroundColor: Colors.white),
+                    ),
+                  Expanded(child: TraineeList()),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SelectedCount(),
-                    const _EmailButtonGoup(),
-                    const _EmailButtonSaturday(),
-                    DropDown(),
-                  ],
-                ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: AddButton(),
               ),
-              if (state.showLoadingSpinner)
-                const SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: LoadingIndicator(
-                      indicatorType: Indicator.ballPulse,
-                      colors: [Colors.blue],
-                      strokeWidth: 2,
-                      backgroundColor: Colors.white,
-                      pathBackgroundColor: Colors.white),
-                ),
-              Expanded(child: TraineeList()),
             ],
           ),
         );
@@ -140,6 +149,17 @@ class ImportButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => cubit.loadFile(),
       child: const Text('Import'),
+    );
+  }
+}
+
+class AddButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () => Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const AddTrainee())),
+      child: const Icon(Icons.add),
     );
   }
 }
