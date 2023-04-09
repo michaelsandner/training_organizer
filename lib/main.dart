@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/view/add_trainee.dart';
-import 'package:training_organizer/view/pdf_view.dart';
-import 'package:training_organizer/view/statistics_view.dart';
-import 'package:training_organizer/view/trainee_view.dart';
+import 'package:training_organizer/view/edit_view/add_trainee.dart';
+import 'package:training_organizer/view/pdf_view/pdf_view.dart';
+import 'package:training_organizer/view/statistics_view/statistics_view.dart';
+import 'package:training_organizer/view/trainee_view/trainee_view.dart';
 
 void main() {
   runApp(const MyApp());

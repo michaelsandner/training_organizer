@@ -5,7 +5,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/services/platform_service.dart';
-import 'package:training_organizer/view/trainee_list.dart';
+import 'package:training_organizer/view/trainee_view/trainee_list.dart';
 
 class TraineeView extends StatelessWidget {
   const TraineeView({Key? key}) : super(key: key);
