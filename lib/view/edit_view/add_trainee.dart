@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/model/badge.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/services/date_service.dart';
 
@@ -25,10 +26,13 @@ class _AddTraineeState extends State<AddTrainee> {
   TextEditingController commentController = TextEditingController();
   Group? group = Group.waitingList;
 
+  late bool isBronzeChecked;
+  late bool isSilverChecked;
+  late bool isGoldChecked;
+
   @override
   void initState() {
     super.initState();
-
     if (widget.trainee != null) {
       sureNameController.text = widget.trainee!.surname;
       foreNameController.text = widget.trainee!.forename;
@@ -39,6 +43,15 @@ class _AddTraineeState extends State<AddTrainee> {
       registrationDateController.text =
           DateService.parseToDate(widget.trainee!.registrationDate).toString();
       commentController.text = widget.trainee!.comment;
+      setState(() {
+        isBronzeChecked = widget.trainee!.hasBadge('Bronze');
+        isSilverChecked = widget.trainee!.hasBadge('Silber');
+        isGoldChecked = widget.trainee!.hasBadge('Gold');
+      });
+    } else {
+      isBronzeChecked = false;
+      isSilverChecked = false;
+      isGoldChecked = false;
     }
   }
 
@@ -56,6 +69,11 @@ class _AddTraineeState extends State<AddTrainee> {
       registrationDateController.clear();
       phoneController.clear();
       commentController.clear();
+      setState(() {
+        isBronzeChecked = false;
+        isSilverChecked = false;
+        isGoldChecked = false;
+      });
     }
 
     Future<void> showAcceptDialog(Trainee newTrainee) async {
@@ -131,6 +149,20 @@ class _AddTraineeState extends State<AddTrainee> {
           });
     }
 
+    List<Badge> createBadges() {
+      List<Badge> badges = [];
+      if (isBronzeChecked) {
+        badges.add(BronzeBadge(null));
+      }
+      if (isSilverChecked) {
+        badges.add(SilverBadge(null));
+      }
+      if (isGoldChecked) {
+        badges.add(GoldBadge(null));
+      }
+      return badges;
+    }
+
     Trainee createTraineeFromInputs() {
       return Trainee(
           forename: foreNameController.text.trim(),
@@ -142,7 +174,8 @@ class _AddTraineeState extends State<AddTrainee> {
           registrationDate: DateService.formatToGerman(
               registrationDateController.text.trim()),
           comment: commentController.text.trim(),
-          trainingGroup: group ?? Group.waitingList);
+          trainingGroup: group ?? Group.waitingList,
+          badges: createBadges());
     }
 
     void onPressed() async {
@@ -174,95 +207,121 @@ class _AddTraineeState extends State<AddTrainee> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: formKey,
-          child: Column(children: [
-            TextFormField(
-              controller: foreNameController,
-              decoration: const InputDecoration(hintText: 'Vorname'),
-              keyboardType: TextInputType.name,
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Bitte Vorname angeben';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: sureNameController,
-              decoration: const InputDecoration(hintText: 'Nachname'),
-              keyboardType: TextInputType.name,
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Bitte Nachname angeben';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: emailController,
-              decoration: const InputDecoration(hintText: 'Email'),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            TextFormField(
-              controller: phoneController,
-              decoration: const InputDecoration(hintText: 'Tel.'),
-              keyboardType: TextInputType.phone,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            ),
-            DateTimePicker(
-              dateMask: 'dd.MM.yyyy',
-              initialDate: DateTime.now(),
-              lastDate: DateTime.now(),
-              firstDate: DateTime(1950),
-              dateLabelText: 'Geb. Datum',
-              controller: dateOfBirthController,
-            ),
-            DateTimePicker(
-              dateMask: 'dd.MM.yyyy',
-              initialDate: DateTime.now(),
-              lastDate: DateTime.now(),
-              firstDate: DateTime(2023),
-              dateLabelText: 'Anmeldedatum',
-              controller: registrationDateController,
-            ),
-            TextFormField(
-              controller: commentController,
-              decoration: const InputDecoration(hintText: 'Kommentar'),
-              keyboardType: TextInputType.multiline,
-            ),
-            DropdownButton<Group>(
-              value: group,
-              items: Group.values
-                  .map<DropdownMenuItem<Group>>((Group value) =>
-                      DropdownMenuItem(
-                          value: value,
-                          child: Text(cubit.getNameForGroupEnum(value))))
-                  .toList(),
-              onChanged: (Group? value) => setState(() {
-                group = value;
-              }),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: onPressed,
-                    child: widget.trainee != null
-                        ? const Text('Editiren')
-                        : const Text('Hinzufügen'),
-                  ),
-                  if (widget.trainee != null)
-                    ElevatedButton(
-                      onPressed: showDeleteDialog,
-                      child: const Text('Löschen'),
-                    )
-                ],
+        child: SingleChildScrollView(
+          child: Form(
+            key: formKey,
+            child: Column(children: [
+              TextFormField(
+                controller: foreNameController,
+                decoration: const InputDecoration(hintText: 'Vorname'),
+                keyboardType: TextInputType.name,
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Bitte Vorname angeben';
+                  }
+                  return null;
+                },
               ),
-            )
-          ]),
+              TextFormField(
+                controller: sureNameController,
+                decoration: const InputDecoration(hintText: 'Nachname'),
+                keyboardType: TextInputType.name,
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Bitte Nachname angeben';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: emailController,
+                decoration: const InputDecoration(hintText: 'Email'),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              TextFormField(
+                controller: phoneController,
+                decoration: const InputDecoration(hintText: 'Tel.'),
+                keyboardType: TextInputType.phone,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              ),
+              DateTimePicker(
+                dateMask: 'dd.MM.yyyy',
+                initialDate: DateTime.now(),
+                lastDate: DateTime.now(),
+                firstDate: DateTime(1950),
+                dateLabelText: 'Geb. Datum',
+                controller: dateOfBirthController,
+              ),
+              DateTimePicker(
+                dateMask: 'dd.MM.yyyy',
+                initialDate: DateTime.now(),
+                lastDate: DateTime.now(),
+                firstDate: DateTime(2023),
+                dateLabelText: 'Anmeldedatum',
+                controller: registrationDateController,
+              ),
+              TextFormField(
+                controller: commentController,
+                decoration: const InputDecoration(hintText: 'Kommentar'),
+                keyboardType: TextInputType.multiline,
+              ),
+              DropdownButton<Group>(
+                value: group,
+                items: Group.values
+                    .map<DropdownMenuItem<Group>>((Group value) =>
+                        DropdownMenuItem(
+                            value: value,
+                            child: Text(cubit.getNameForGroupEnum(value))))
+                    .toList(),
+                onChanged: (Group? value) => setState(() {
+                  group = value;
+                }),
+              ),
+              CheckboxListTile(
+                value: isBronzeChecked,
+                title: const Text('Bronze'),
+                secondary: BronzeBadge(null).icon,
+                onChanged: (bool? value) => setState(() {
+                  isBronzeChecked = value! ? value : false;
+                }),
+              ),
+              CheckboxListTile(
+                value: isSilverChecked,
+                title: const Text('Silber'),
+                secondary: SilverBadge(null).icon,
+                onChanged: (bool? value) => setState(() {
+                  isSilverChecked = value! ? value : false;
+                }),
+              ),
+              CheckboxListTile(
+                value: isGoldChecked,
+                title: const Text('Gold'),
+                secondary: GoldBadge(null).icon,
+                onChanged: (bool? value) => setState(() {
+                  isGoldChecked = value! ? value : false;
+                }),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: onPressed,
+                      child: widget.trainee != null
+                          ? const Text('Editiren')
+                          : const Text('Hinzufügen'),
+                    ),
+                    if (widget.trainee != null)
+                      ElevatedButton(
+                        onPressed: showDeleteDialog,
+                        child: const Text('Löschen'),
+                      )
+                  ],
+                ),
+              )
+            ]),
+          ),
         ),
       ),
     );
