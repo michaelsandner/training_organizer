@@ -52,7 +52,7 @@ class AppState with EquatableMixin {
             forename: 'Max',
             email: 'email@email.de',
             dateOfBirth: '10.10.2000',
-            registrationDate: '10.10.2000',
+            registrationDate: '09.04.2023',
             phone: '01000 1100',
             trainingGroup: Group.waitingList,
             badges: [
@@ -73,7 +73,7 @@ class AppState with EquatableMixin {
           forename: 'Manuel',
           email: 'email@email.de',
           dateOfBirth: '10.10.2000',
-          registrationDate: '10.10.2000',
+          registrationDate: '09.04.2023',
           phone: '0000 000',
           trainingGroup: Group.group1,
         ),
@@ -82,7 +82,7 @@ class AppState with EquatableMixin {
           forename: 'Mathilda',
           email: 'email@email.de',
           dateOfBirth: '10.10.2000',
-          registrationDate: '10.10.2000',
+          registrationDate: '09.04.2023',
           phone: '0100 023892',
           trainingGroup: Group.group2,
         )

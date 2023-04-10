@@ -19,6 +19,14 @@ class AppCubit extends Cubit<AppState> {
     emit(state.copyWith(showLoadingSpinner: shouldShow));
   }
 
+  void processTrainee(Trainee? oldTrainee, Trainee newTrainee) {
+    if (oldTrainee == null) {
+      addTrainee(newTrainee);
+    } else {
+      replaceTrainee(oldTrainee, newTrainee);
+    }
+  }
+
   void addTrainee(Trainee trainee) {
     final updatedTraineeList = [...state.trainees];
 
@@ -36,16 +44,6 @@ class AppCubit extends Cubit<AppState> {
     List<Trainee> updatedTraineeList = [...state.trainees];
     updatedTraineeList.removeWhere((element) => element == oldTrainee);
     updatedTraineeList.add(newTrainee);
-    emit(state.copyWith(trainees: updatedTraineeList));
-    setSelectedGroup(FilterableGroup.active);
-    setSelectedGroup(selectedGrouop);
-  }
-
-  void editTrainee(Trainee trainee, String? newPhone, String? newEmail) {
-    final selectedGrouop = state.selectedGroup;
-    List<Trainee> updatedTraineeList = [...state.trainees];
-    updatedTraineeList.removeWhere((element) => element == trainee);
-    updatedTraineeList.add(trainee.copyWith(phone: newPhone, email: newEmail));
     emit(state.copyWith(trainees: updatedTraineeList));
     setSelectedGroup(FilterableGroup.active);
     setSelectedGroup(selectedGrouop);

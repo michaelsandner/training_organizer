@@ -47,6 +47,87 @@ class _AddTraineeState extends State<AddTrainee> {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final cubit = context.read<AppCubit>();
 
+    void clearInputControllers() {
+      foreNameController.clear();
+      sureNameController.clear();
+      emailController.clear();
+      phoneController.clear();
+      dateOfBirthController.clear();
+      registrationDateController.clear();
+      phoneController.clear();
+      commentController.clear();
+    }
+
+    Future<void> showAcceptDialog(Trainee newTrainee) async {
+      return showDialog<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Änderung'),
+              content: Text(
+                  'Möchtest du die Änderungen für ${foreNameController.text} ${sureNameController.text} durchführen?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    cubit.processTrainee(widget.trainee, newTrainee);
+                    Navigator.of(context).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            '${foreNameController.text} ${sureNameController.text} geändert'),
+                      ),
+                    );
+                    clearInputControllers();
+                  },
+                  child: const Text('Ja'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Nein'),
+                ),
+              ],
+            );
+          });
+    }
+
+    Trainee createTraineeFromInputs() {
+      return Trainee(
+          forename: foreNameController.text.trim(),
+          surname: sureNameController.text.trim(),
+          email: emailController.text.trim(),
+          phone: phoneController.text.trim(),
+          dateOfBirth:
+              DateService.formatToGerman(dateOfBirthController.text.trim()),
+          registrationDate: DateService.formatToGerman(
+              registrationDateController.text.trim()),
+          comment: commentController.text.trim(),
+          trainingGroup: group ?? Group.waitingList);
+    }
+
+    void onPressed() async {
+      // Validate will return true if the form is valid, or false if
+      // the form is invalid.
+      if (formKey.currentState!.validate()) {
+        final newTrainee = createTraineeFromInputs();
+
+        if (widget.trainee == null) {
+          cubit.processTrainee(widget.trainee, newTrainee);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                  '${foreNameController.text} ${sureNameController.text} hinzugefügt'),
+            ),
+          );
+          clearInputControllers();
+        } else {
+          await showAcceptDialog(newTrainee);
+        }
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: widget.trainee == null
@@ -127,41 +208,10 @@ class _AddTraineeState extends State<AddTrainee> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
-                  onPressed: () {
-                    // Validate will return true if the form is valid, or false if
-                    // the form is invalid.
-                    if (formKey.currentState!.validate()) {
-                      final newTrainee = Trainee(
-                          forename: foreNameController.text.trim(),
-                          surname: sureNameController.text.trim(),
-                          email: emailController.text.trim(),
-                          phone: phoneController.text.trim(),
-                          dateOfBirth: DateService.formatToGerman(
-                              dateOfBirthController.text.trim()),
-                          registrationDate: DateService.formatToGerman(
-                              registrationDateController.text.trim()),
-                          comment: commentController.text.trim(),
-                          trainingGroup: group ?? Group.waitingList);
-                      if (widget.trainee == null) {
-                        cubit.addTrainee(newTrainee);
-                      } else {
-                        cubit.replaceTrainee(widget.trainee!, newTrainee);
-                      }
-                      cubit.addTrainee(newTrainee);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                              '${foreNameController.text} ${sureNameController.text} hinzugefügt')));
-                      foreNameController.clear();
-                      sureNameController.clear();
-                      emailController.clear();
-                      phoneController.clear();
-                      dateOfBirthController.clear();
-                      registrationDateController.clear();
-                      phoneController.clear();
-                      commentController.clear();
-                    }
-                  },
-                  child: const Text('Hinzufügen')),
+                  onPressed: onPressed,
+                  child: widget.trainee != null
+                      ? const Text('Editiren')
+                      : const Text('Hinzufügen')),
             )
           ]),
         ),
