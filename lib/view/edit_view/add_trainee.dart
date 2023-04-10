@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/badge.dart';
+import 'package:training_organizer/model/badge.dart' as badge;
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/services/date_service.dart';
 
@@ -29,6 +29,7 @@ class _AddTraineeState extends State<AddTrainee> {
   late bool isBronzeChecked;
   late bool isSilverChecked;
   late bool isGoldChecked;
+  bool enableCurrentBadgeDate = false;
 
   @override
   void initState() {
@@ -149,16 +150,20 @@ class _AddTraineeState extends State<AddTrainee> {
           });
     }
 
-    List<Badge> createBadges() {
-      List<Badge> badges = [];
+    List<badge.Badge> createBadges() {
+      DateTime? date;
+      if (enableCurrentBadgeDate) {
+        date = DateTime.now();
+      }
+      List<badge.Badge> badges = [];
       if (isBronzeChecked) {
-        badges.add(BronzeBadge(null));
+        badges.add(badge.BronzeBadge(date));
       }
       if (isSilverChecked) {
-        badges.add(SilverBadge(null));
+        badges.add(badge.SilverBadge(date));
       }
       if (isGoldChecked) {
-        badges.add(GoldBadge(null));
+        badges.add(badge.GoldBadge(date));
       }
       return badges;
     }
@@ -266,6 +271,13 @@ class _AddTraineeState extends State<AddTrainee> {
                 keyboardType: TextInputType.multiline,
               ),
               DropdownButton<Group>(
+                focusColor: Colors.white,
+                elevation: 15,
+                icon: const Icon(Icons.arrow_downward),
+                underline: Container(
+                  height: 2,
+                  color: Colors.blue,
+                ),
                 value: group,
                 items: Group.values
                     .map<DropdownMenuItem<Group>>((Group value) =>
@@ -277,10 +289,20 @@ class _AddTraineeState extends State<AddTrainee> {
                   group = value;
                 }),
               ),
+              SwitchListTile(
+                title: const Text(
+                    'Setze heutiges Datum als Abnahmedatum für Abzeichen'),
+                value: enableCurrentBadgeDate,
+                onChanged: (bool value) {
+                  setState(() {
+                    enableCurrentBadgeDate = value;
+                  });
+                },
+              ),
               CheckboxListTile(
                 value: isBronzeChecked,
                 title: const Text('Bronze'),
-                secondary: BronzeBadge(null).icon,
+                secondary: badge.BronzeBadge(null).icon,
                 onChanged: (bool? value) => setState(() {
                   isBronzeChecked = value! ? value : false;
                 }),
@@ -288,7 +310,7 @@ class _AddTraineeState extends State<AddTrainee> {
               CheckboxListTile(
                 value: isSilverChecked,
                 title: const Text('Silber'),
-                secondary: SilverBadge(null).icon,
+                secondary: badge.SilverBadge(null).icon,
                 onChanged: (bool? value) => setState(() {
                   isSilverChecked = value! ? value : false;
                 }),
@@ -296,7 +318,7 @@ class _AddTraineeState extends State<AddTrainee> {
               CheckboxListTile(
                 value: isGoldChecked,
                 title: const Text('Gold'),
-                secondary: GoldBadge(null).icon,
+                secondary: badge.GoldBadge(null).icon,
                 onChanged: (bool? value) => setState(() {
                   isGoldChecked = value! ? value : false;
                 }),
