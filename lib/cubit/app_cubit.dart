@@ -52,6 +52,7 @@ class AppCubit extends Cubit<AppState> {
     final selectedGrouop = state.selectedGroup;
     List<Trainee> updatedTraineeList = [...state.trainees];
     updatedTraineeList.removeWhere((element) => element == oldTrainee);
+    emit(state.copyWith(trainees: updatedTraineeList));
     updatedTraineeList.add(newTrainee);
     emit(state.copyWith(trainees: updatedTraineeList));
     setSelectedGroup(FilterableGroup.active);
