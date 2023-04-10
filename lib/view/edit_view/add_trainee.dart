@@ -60,22 +60,60 @@ class _AddTraineeState extends State<AddTrainee> {
 
     Future<void> showAcceptDialog(Trainee newTrainee) async {
       return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Änderung'),
+            content: Text(
+                'Möchtest du die Änderungen für ${foreNameController.text} ${sureNameController.text} durchführen?'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  cubit.processTrainee(widget.trainee, newTrainee);
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          '${foreNameController.text} ${sureNameController.text} geändert'),
+                    ),
+                  );
+                  clearInputControllers();
+                },
+                child: const Text('Ja'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Nein'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    Future<void> showDeleteDialog() async {
+      return showDialog<void>(
           context: context,
+          barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Änderung'),
+              title: const Text('Entfernen'),
               content: Text(
-                  'Möchtest du die Änderungen für ${foreNameController.text} ${sureNameController.text} durchführen?'),
+                  'Möchtest du ${foreNameController.text} ${sureNameController.text} wirklich entfernen?'),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    cubit.processTrainee(widget.trainee, newTrainee);
+                    cubit.removeTrainee(widget.trainee!);
                     Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                            '${foreNameController.text} ${sureNameController.text} geändert'),
+                            '${foreNameController.text} ${sureNameController.text} entfernt'),
                       ),
                     );
                     clearInputControllers();
@@ -207,11 +245,22 @@ class _AddTraineeState extends State<AddTrainee> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton(
-                  onPressed: onPressed,
-                  child: widget.trainee != null
-                      ? const Text('Editiren')
-                      : const Text('Hinzufügen')),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: onPressed,
+                    child: widget.trainee != null
+                        ? const Text('Editiren')
+                        : const Text('Hinzufügen'),
+                  ),
+                  if (widget.trainee != null)
+                    ElevatedButton(
+                      onPressed: showDeleteDialog,
+                      child: const Text('Löschen'),
+                    )
+                ],
+              ),
             )
           ]),
         ),
