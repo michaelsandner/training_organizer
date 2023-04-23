@@ -138,7 +138,10 @@ class Trainee {
     if (badges.any((element) => element is BronzeBadge)) {
       return 'B';
     }
-    return 'P';
+    if (badges.any((element) => element is PirateBadge)) {
+      return 'P';
+    }
+    return '';
   }
 
   static List<Badge?> mapBadges(List<dynamic> badges) {
