@@ -93,5 +93,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.9"
       - run: flutter pub get
       - uses: erickzanardo/flutter-gh-pages@v3
