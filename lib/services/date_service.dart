@@ -2,6 +2,9 @@ import 'package:intl/intl.dart';
 
 class DateService {
   static DateTime parseToDate(String dateString) {
+    if (dateString == '') {
+      return DateTime.now();
+    }
     return DateFormat('dd.MM.yyyy').parse(dateString);
   }
 
