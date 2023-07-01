@@ -44,6 +44,7 @@ class _AddTraineeState extends State<AddTrainee> {
       registrationDateController.text =
           DateService.parseToDate(widget.trainee!.registrationDate).toString();
       commentController.text = widget.trainee!.comment;
+      group = widget.trainee!.trainingGroup;
       setState(() {
         isBronzeChecked = widget.trainee!.hasBadge('Bronze');
         isSilverChecked = widget.trainee!.hasBadge('Silber');
