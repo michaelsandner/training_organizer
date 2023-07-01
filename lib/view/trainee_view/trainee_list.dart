@@ -94,7 +94,7 @@ class _TraineeListState extends State<TraineeList> {
                             if (state.selectedGroup == FilterableGroup.all &&
                                 !isMobile(screenSize))
                               const SizedBox(width: 10),
-                            Text(
+                            SelectableText(
                               trainee.surname,
                               style: trainee.isMember
                                   ? const TextStyle(color: Colors.black)
@@ -103,7 +103,7 @@ class _TraineeListState extends State<TraineeList> {
                             const SizedBox(
                               width: 10,
                             ),
-                            Text(
+                            SelectableText(
                               trainee.forename,
                               style: trainee.isMember
                                   ? const TextStyle(color: Colors.black)
@@ -150,22 +150,22 @@ class _TraineeListState extends State<TraineeList> {
                   if (!isMobile(screenSize))
                     TableCell(
                       verticalAlignment: TableCellVerticalAlignment.middle,
-                      child: Text(trainee.dateOfBirth),
+                      child: SelectableText(trainee.dateOfBirth),
                     ),
                   if (!isMobile(screenSize))
                     TableCell(
                       verticalAlignment: TableCellVerticalAlignment.middle,
-                      child: Text(trainee.registrationDate),
+                      child: SelectableText(trainee.registrationDate),
                     ),
                   if (!isMobile(screenSize))
                     TableCell(
                       verticalAlignment: TableCellVerticalAlignment.middle,
-                      child: Text(trainee.email),
+                      child: SelectableText(trainee.email),
                     ),
                   if (!isMobile(screenSize))
                     TableCell(
                       verticalAlignment: TableCellVerticalAlignment.middle,
-                      child: Text(trainee.phone),
+                      child: SelectableText(trainee.phone),
                     ),
                 ],
               );
