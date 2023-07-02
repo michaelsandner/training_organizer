@@ -39,18 +39,18 @@ class TraineeView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (state.showLoadingSpinner)
-                    const SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: LoadingIndicator(
-                          indicatorType: Indicator.ballPulse,
-                          colors: [Colors.blue],
-                          strokeWidth: 2,
-                          backgroundColor: Colors.white,
-                          pathBackgroundColor: Colors.white),
-                    ),
-                  Expanded(child: TraineeList()),
+                  state.showLoadingSpinner
+                      ? const SizedBox(
+                          width: 300,
+                          height: 300,
+                          child: LoadingIndicator(
+                              indicatorType: Indicator.ballPulse,
+                              colors: [Colors.blue],
+                              strokeWidth: 2,
+                              backgroundColor: Colors.white,
+                              pathBackgroundColor: Colors.white),
+                        )
+                      : Expanded(child: TraineeList()),
                 ],
               ),
               Align(
