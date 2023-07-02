@@ -1,11 +1,13 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/file_cubit.dart';
+import 'package:training_organizer/cubit/file_state.dart';
 import 'package:training_organizer/services/platform_service.dart';
 import 'package:training_organizer/view/edit_view/add_trainee.dart';
+import 'package:training_organizer/view/import_view.dart';
 import 'package:training_organizer/view/trainee_view/trainee_list.dart';
 
 class TraineeView extends StatelessWidget {
@@ -14,7 +16,7 @@ class TraineeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return BlocBuilder<AppCubit, AppState>(
+    return BlocBuilder<FileCubit, FileState>(
       builder: (context, state) {
         return Padding(
           padding: isMobile(screenSize)
@@ -24,13 +26,7 @@ class TraineeView extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ImportButton(),
-                      if (!kIsWeb) ExportButton(),
-                    ],
-                  ),
+                  const ImportView(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Row(
@@ -142,17 +138,6 @@ class _EmailButtonSaturday extends StatelessWidget {
   }
 }
 
-class ImportButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<AppCubit>();
-    return ElevatedButton(
-      onPressed: () => cubit.loadFile(),
-      child: const Text('Import'),
-    );
-  }
-}
-
 class AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -160,17 +145,6 @@ class AddButton extends StatelessWidget {
       onPressed: () => Navigator.push(
           context, MaterialPageRoute(builder: (context) => const AddTrainee())),
       child: const Icon(Icons.add),
-    );
-  }
-}
-
-class ExportButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<AppCubit>();
-    return ElevatedButton(
-      onPressed: () => cubit.saveFile(),
-      child: const Text('Export'),
     );
   }
 }

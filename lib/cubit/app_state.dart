@@ -30,14 +30,12 @@ enum Group {
 
 @immutable
 class AppState with EquatableMixin {
-  final bool showLoadingSpinner;
   final List<Trainee> trainees;
   final List<Trainee> selectedTrainees;
 
   final FilterableGroup selectedGroup;
 
   const AppState({
-    required this.showLoadingSpinner,
     required this.trainees,
     required this.selectedGroup,
     required this.selectedTrainees,
@@ -45,7 +43,6 @@ class AppState with EquatableMixin {
 
   factory AppState.initial() {
     return AppState(
-      showLoadingSpinner: false,
       trainees: [
         Trainee(
             surname: 'Musterman',
@@ -99,7 +96,6 @@ class AppState with EquatableMixin {
     bool? showLoadingSpinner,
   }) {
     return AppState(
-      showLoadingSpinner: showLoadingSpinner ?? this.showLoadingSpinner,
       trainees: trainees ?? this.trainees,
       selectedGroup: selectedGroup ?? this.selectedGroup,
       selectedTrainees: selectedTrainees ?? this.selectedTrainees,
@@ -120,6 +116,5 @@ class AppState with EquatableMixin {
         trainees.last.phone,
         selectedGroup,
         selectedTrainees,
-        showLoadingSpinner,
       ];
 }

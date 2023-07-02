@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/cubit/file_cubit.dart';
 import 'package:training_organizer/view/pdf_view/pdf_view.dart';
 import 'package:training_organizer/view/statistics_view/statistics_view.dart';
 import 'package:training_organizer/view/trainee_view/trainee_view.dart';
@@ -15,8 +16,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AppCubit()..init(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AppCubit()..init(),
+        ),
+        BlocProvider(
+          create: (context) => FileCubit(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

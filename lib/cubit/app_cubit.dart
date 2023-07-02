@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/model/training_group.dart';
 import 'package:training_organizer/services/date_service.dart';
 import 'package:training_organizer/services/email_service.dart';
-import 'package:training_organizer/services/file_service.dart';
 
 class AppCubit extends Cubit<AppState> {
   AppCubit() : super(AppState.initial());
@@ -15,8 +12,9 @@ class AppCubit extends Cubit<AppState> {
     emit(state.copyWith(selectedTrainees: state.trainees));
   }
 
-  void setShowLoadingIndicator(bool shouldShow) {
-    emit(state.copyWith(showLoadingSpinner: shouldShow));
+  void updateTraineeList(List<Trainee> trainees) {
+    emit(state.copyWith(trainees: trainees));
+    setSelectedGroup(FilterableGroup.all);
   }
 
   void processTrainee(Trainee? oldTrainee, Trainee newTrainee) {
@@ -98,29 +96,6 @@ class AppCubit extends Cubit<AppState> {
       trainees: currentList,
     ));
     setSelectedGroup(getFilteredGroup(updatedTrainee.trainingGroup));
-  }
-
-  Future<void> loadFile() async {
-    String? json = await FileService.importFile(setShowLoadingIndicator);
-
-    if (json != null) {
-      Map<String, dynamic> inputMap = jsonDecode(json);
-
-      var list = inputMap['trainees'] as List;
-      List<Trainee> traineeList = list.map((t) => Trainee.fromJson(t)).toList();
-
-      emit(state.copyWith(trainees: traineeList));
-      setSelectedGroup(FilterableGroup.all);
-    }
-  }
-
-  Future<void> saveFile() async {
-    Map<String, dynamic> map = {
-      'trainees': state.trainees,
-    };
-    String json = jsonEncode(map);
-
-    await FileService.exportFile(json);
   }
 
   Group getUpgradedGroup(Group currentGroup) {
