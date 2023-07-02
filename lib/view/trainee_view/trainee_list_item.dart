@@ -71,7 +71,6 @@ class _BadgeOverlay extends StatelessWidget {
   const _BadgeOverlay({
     required this.child,
     required this.trainee,
-    super.key,
   });
 
   @override
