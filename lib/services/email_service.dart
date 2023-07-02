@@ -31,11 +31,12 @@ Future<void> sendMailToSingleWaitingListTrainee(Trainee trainee) async {
   String email = trainee.email;
   String bcc = "info@wasserwacht-langenzenn.de";
   String foreName = trainee.forename;
+  String registrationDate = trainee.registrationDate;
 
   final String subject =
       Uri.encodeComponent('Aufnahme Warteliste der Wasserwacht Langenzenn');
   final String body = Uri.encodeComponent('''hallo zusammen,
-        hiermit bestätigen wir die Aufnahme von $foreName auf unsere Warteliste.    
+        hiermit bestätigen wir die Aufnahme von $foreName auf unsere Warteliste zum $registrationDate.    
 
         Viele Grüße
 
