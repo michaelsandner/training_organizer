@@ -1,219 +1,259 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/model/badge.dart';
+import 'package:training_organizer/model/qualification.dart';
+import 'package:training_organizer/model/qualification_type.dart';
 
 void main() {
-  final badgeFactory = BadgeFactory();
-  group('Badge', () {
+  final qualificationFactory = QualificationFactory();
+  group('qualification', () {
     group('Given pirate', () {
       test('Then type should be pirate', () {
-        final pirateBadge = Qualification(badgeType: BadgeType.pirate);
+        final piratequalification =
+            Qualification(qualificationType: QualificationType.pirate);
 
-        expect(pirateBadge.badgeType, BadgeType.pirate);
-        expect(pirateBadge.badgeType.name, 'Seeräuber');
-        expect(pirateBadge.badgeType.shortName, 'Seeräuber');
-        expect(pirateBadge.badgeType.fullName, 'Seeräuber');
+        expect(piratequalification.qualificationType, QualificationType.pirate);
+        expect(piratequalification.qualificationType.name, 'Seeräuber');
+        expect(piratequalification.qualificationType.shortName, 'Seeräuber');
+        expect(piratequalification.qualificationType.fullName, 'Seeräuber');
       });
     });
 
     group('Given bronze', () {
       test('Then type should be bronze', () {
-        final pirateBadge = Qualification(badgeType: BadgeType.bronze);
+        final piratequalification =
+            Qualification(qualificationType: QualificationType.bronze);
 
-        expect(pirateBadge.badgeType, BadgeType.bronze);
-        expect(pirateBadge.badgeType.name, 'Bronze');
-        expect(pirateBadge.badgeType.shortName, 'Bronze');
-        expect(pirateBadge.badgeType.fullName, 'Schwimmabzeichen Bronze');
+        expect(piratequalification.qualificationType, QualificationType.bronze);
+        expect(piratequalification.qualificationType.name, 'Bronze');
+        expect(piratequalification.qualificationType.shortName, 'Bronze');
+        expect(piratequalification.qualificationType.fullName,
+            'Schwimmabzeichen Bronze');
       });
     });
 
     group('Given silber', () {
       test('Then type should be silber', () {
-        final pirateBadge = Qualification(badgeType: BadgeType.silber);
+        final piratequalification =
+            Qualification(qualificationType: QualificationType.silber);
 
-        expect(pirateBadge.badgeType, BadgeType.silber);
-        expect(pirateBadge.badgeType.name, 'Silber');
-        expect(pirateBadge.badgeType.shortName, 'Silber');
-        expect(pirateBadge.badgeType.fullName, 'Schwimmabzeichen Silber');
+        expect(piratequalification.qualificationType, QualificationType.silber);
+        expect(piratequalification.qualificationType.name, 'Silber');
+        expect(piratequalification.qualificationType.shortName, 'Silber');
+        expect(piratequalification.qualificationType.fullName,
+            'Schwimmabzeichen Silber');
       });
     });
 
     group('Given gold', () {
       test('Then type should be gold', () {
-        final pirateBadge = Qualification(badgeType: BadgeType.gold);
+        final piratequalification =
+            Qualification(qualificationType: QualificationType.gold);
 
-        expect(pirateBadge.badgeType, BadgeType.gold);
-        expect(pirateBadge.badgeType.name, 'Gold');
-        expect(pirateBadge.badgeType.shortName, 'Gold');
-        expect(pirateBadge.badgeType.fullName, 'Schwimmabzeichen Gold');
+        expect(piratequalification.qualificationType, QualificationType.gold);
+        expect(piratequalification.qualificationType.name, 'Gold');
+        expect(piratequalification.qualificationType.shortName, 'Gold');
+        expect(piratequalification.qualificationType.fullName,
+            'Schwimmabzeichen Gold');
       });
     });
 
     group('Given rettungsschwimmer bronze', () {
       test('Then type should be rettungsschwimmer bronze', () {
-        final pirateBadge =
-            Qualification(badgeType: BadgeType.rettungschwimmerBronze);
+        final piratequalification = Qualification(
+            qualificationType: QualificationType.rettungschwimmerBronze);
 
-        expect(pirateBadge.badgeType, BadgeType.rettungschwimmerBronze);
-        expect(pirateBadge.badgeType.name, 'RettungsschwimmerBronze');
-        expect(pirateBadge.badgeType.shortName, 'RS Bronze');
-        expect(
-            pirateBadge.badgeType.fullName, 'Rettungsschwimmabzeichen Bronze');
+        expect(piratequalification.qualificationType,
+            QualificationType.rettungschwimmerBronze);
+        expect(piratequalification.qualificationType.name,
+            'RettungsschwimmerBronze');
+        expect(piratequalification.qualificationType.shortName, 'RS Bronze');
+        expect(piratequalification.qualificationType.fullName,
+            'Rettungsschwimmabzeichen Bronze');
       });
     });
 
     group('Given rettungsschwimmer silber', () {
       test('Then type shouldd be rettungsschwimmer silber', () {
-        final pirateBadge =
-            Qualification(badgeType: BadgeType.rettungsschwimmerSilber);
+        final piratequalification = Qualification(
+            qualificationType: QualificationType.rettungsschwimmerSilber);
 
-        expect(pirateBadge.badgeType, BadgeType.rettungsschwimmerSilber);
-        expect(pirateBadge.badgeType.name, 'RettungsschwimmerSilber');
-        expect(pirateBadge.badgeType.shortName, 'RS Silber (< 2 Jahre)');
-        expect(
-            pirateBadge.badgeType.fullName, 'Rettungsschwimmabzeichen Silber');
+        expect(piratequalification.qualificationType,
+            QualificationType.rettungsschwimmerSilber);
+        expect(piratequalification.qualificationType.name,
+            'RettungsschwimmerSilber');
+        expect(piratequalification.qualificationType.shortName,
+            'RS Silber (< 2 Jahre)');
+        expect(piratequalification.qualificationType.fullName,
+            'Rettungsschwimmabzeichen Silber');
       });
     });
 
     group('Given rettungsschwimmer gold', () {
       test('Then type should be rettungsschwimmer gold', () {
-        final pirateBadge =
-            Qualification(badgeType: BadgeType.rettungsschwimmerGold);
+        final piratequalification = Qualification(
+            qualificationType: QualificationType.rettungsschwimmerGold);
 
-        expect(pirateBadge.badgeType, BadgeType.rettungsschwimmerGold);
-        expect(pirateBadge.badgeType.name, 'RettungsschwimmerGold');
-        expect(pirateBadge.badgeType.shortName, 'RS Gold');
-        expect(pirateBadge.badgeType.fullName, 'Rettungsschwimmabzeichen Gold');
+        expect(piratequalification.qualificationType,
+            QualificationType.rettungsschwimmerGold);
+        expect(piratequalification.qualificationType.name,
+            'RettungsschwimmerGold');
+        expect(piratequalification.qualificationType.shortName, 'RS Gold');
+        expect(piratequalification.qualificationType.fullName,
+            'Rettungsschwimmabzeichen Gold');
       });
     });
 
     group('Given rettungsschwimmer im Wasserrettungsdienst', () {
       test('Then type should be rettungsschwimmer im Wasserrettungsdienst', () {
-        final pirateBadge = Qualification(
-            badgeType: BadgeType.rettungsschwimmerImWasserrettungsdienst);
+        final piratequalification = Qualification(
+            qualificationType:
+                QualificationType.rettungsschwimmerImWasserrettungsdienst);
 
-        expect(pirateBadge.badgeType,
-            BadgeType.rettungsschwimmerImWasserrettungsdienst);
-        expect(pirateBadge.badgeType.name, 'RSiWRD');
-        expect(pirateBadge.badgeType.shortName, 'RSiWRD');
-        expect(pirateBadge.badgeType.fullName,
+        expect(piratequalification.qualificationType,
+            QualificationType.rettungsschwimmerImWasserrettungsdienst);
+        expect(piratequalification.qualificationType.name, 'RSiWRD');
+        expect(piratequalification.qualificationType.shortName, 'RSiWRD');
+        expect(piratequalification.qualificationType.fullName,
             'Rettungsschwimmer im Wasserrettungsdient');
       });
     });
 
     group('Given san', () {
       test('Then type should be san', () {
-        final pirateBadge = Qualification(badgeType: BadgeType.san);
+        final piratequalification =
+            Qualification(qualificationType: QualificationType.san);
 
-        expect(pirateBadge.badgeType, BadgeType.san);
-        expect(pirateBadge.badgeType.name, 'San');
-        expect(pirateBadge.badgeType.shortName, 'San');
-        expect(pirateBadge.badgeType.fullName, 'Sanitätsdiensthelfer');
+        expect(piratequalification.qualificationType, QualificationType.san);
+        expect(piratequalification.qualificationType.name, 'San');
+        expect(piratequalification.qualificationType.shortName, 'San');
+        expect(piratequalification.qualificationType.fullName,
+            'Sanitätsdiensthelfer');
       });
     });
 
     group('Given wasserretter', () {
       test('Then type should be wasserretter', () {
-        final pirateBadge = Qualification(badgeType: BadgeType.wassserretter);
+        final piratequalification =
+            Qualification(qualificationType: QualificationType.wassserretter);
 
-        expect(pirateBadge.badgeType, BadgeType.wassserretter);
-        expect(pirateBadge.badgeType.name, 'Wasserretter');
-        expect(pirateBadge.badgeType.shortName, 'Wasserretter');
-        expect(pirateBadge.badgeType.fullName, 'Wasserretter');
+        expect(piratequalification.qualificationType,
+            QualificationType.wassserretter);
+        expect(piratequalification.qualificationType.name, 'Wasserretter');
+        expect(piratequalification.qualificationType.shortName, 'Wasserretter');
+        expect(piratequalification.qualificationType.fullName, 'Wasserretter');
       });
     });
 
     group('Given ausbildungsassistent', () {
       test('Then type should be ausbildungsassistent', () {
-        final pirateBadge =
-            Qualification(badgeType: BadgeType.ausbildungsassistent);
+        final piratequalification = Qualification(
+            qualificationType: QualificationType.ausbildungsassistent);
 
-        expect(pirateBadge.badgeType, BadgeType.ausbildungsassistent);
-        expect(pirateBadge.badgeType.name, 'Ausbildungsassistent');
-        expect(pirateBadge.badgeType.shortName, 'Assistent');
-        expect(pirateBadge.badgeType.fullName, 'Ausbildungsassistent');
+        expect(piratequalification.qualificationType,
+            QualificationType.ausbildungsassistent);
+        expect(
+            piratequalification.qualificationType.name, 'Ausbildungsassistent');
+        expect(piratequalification.qualificationType.shortName, 'Assistent');
+        expect(piratequalification.qualificationType.fullName,
+            'Ausbildungsassistent');
       });
     });
 
     group('Given ausbilder s1', () {
       test('Then type should be s1', () {
-        final pirateBadge = Qualification(badgeType: BadgeType.ausbilderS1);
+        final piratequalification =
+            Qualification(qualificationType: QualificationType.ausbilderS1);
 
-        expect(pirateBadge.badgeType, BadgeType.ausbilderS1);
-        expect(pirateBadge.badgeType.name, 'AusbilderS1');
-        expect(pirateBadge.badgeType.shortName, 'AusbilderS1');
-        expect(pirateBadge.badgeType.fullName, 'Ausbilder S Stufe 1');
+        expect(piratequalification.qualificationType,
+            QualificationType.ausbilderS1);
+        expect(piratequalification.qualificationType.name, 'AusbilderS1');
+        expect(piratequalification.qualificationType.shortName, 'AusbilderS1');
+        expect(piratequalification.qualificationType.fullName,
+            'Ausbilder S Stufe 1');
       });
     });
 
     group('Given ausbilder s2', () {
       test('Then type should be s2', () {
-        final pirateBadge = Qualification(badgeType: BadgeType.ausbilderS2);
+        final piratequalification =
+            Qualification(qualificationType: QualificationType.ausbilderS2);
 
-        expect(pirateBadge.badgeType, BadgeType.ausbilderS2);
-        expect(pirateBadge.badgeType.name, 'AusbilderS2');
-        expect(pirateBadge.badgeType.shortName, 'AusbilderS2');
-        expect(pirateBadge.badgeType.fullName, 'Ausbilder S Stufe 2');
+        expect(piratequalification.qualificationType,
+            QualificationType.ausbilderS2);
+        expect(piratequalification.qualificationType.name, 'AusbilderS2');
+        expect(piratequalification.qualificationType.shortName, 'AusbilderS2');
+        expect(piratequalification.qualificationType.fullName,
+            'Ausbilder S Stufe 2');
       });
     });
 
     group('Given ausbilder r1', () {
       test('Then type should be r1', () {
-        final pirateBadge = Qualification(badgeType: BadgeType.ausbilderR1);
+        final piratequalification =
+            Qualification(qualificationType: QualificationType.ausbilderR1);
 
-        expect(pirateBadge.badgeType, BadgeType.ausbilderR1);
-        expect(pirateBadge.badgeType.name, 'AusbilderR1');
-        expect(pirateBadge.badgeType.shortName, 'AusbilderR1');
-        expect(pirateBadge.badgeType.fullName, 'Ausbilder R Stufe 1');
+        expect(piratequalification.qualificationType,
+            QualificationType.ausbilderR1);
+        expect(piratequalification.qualificationType.name, 'AusbilderR1');
+        expect(piratequalification.qualificationType.shortName, 'AusbilderR1');
+        expect(piratequalification.qualificationType.fullName,
+            'Ausbilder R Stufe 1');
       });
     });
 
     group('Given ausbilder r2', () {
       test('Then type should be r2', () {
-        final pirateBadge = Qualification(badgeType: BadgeType.ausbilderR2);
+        final piratequalification =
+            Qualification(qualificationType: QualificationType.ausbilderR2);
 
-        expect(pirateBadge.badgeType, BadgeType.ausbilderR2);
-        expect(pirateBadge.badgeType.name, 'AusbilderR2');
-        expect(pirateBadge.badgeType.shortName, 'AusbilderR2');
-        expect(pirateBadge.badgeType.fullName, 'Ausbilder R Stufe 2');
+        expect(piratequalification.qualificationType,
+            QualificationType.ausbilderR2);
+        expect(piratequalification.qualificationType.name, 'AusbilderR2');
+        expect(piratequalification.qualificationType.shortName, 'AusbilderR2');
+        expect(piratequalification.qualificationType.fullName,
+            'Ausbilder R Stufe 2');
       });
     });
 
     group('Given gruppenleiter', () {
       test('Then type should be gruppenleiter', () {
-        final pirateBadge = Qualification(badgeType: BadgeType.gruppenleiter);
+        final piratequalification =
+            Qualification(qualificationType: QualificationType.gruppenleiter);
 
-        expect(pirateBadge.badgeType, BadgeType.gruppenleiter);
-        expect(pirateBadge.badgeType.name, 'Gruppenleiter');
-        expect(pirateBadge.badgeType.shortName, 'Gruppenleiter');
-        expect(pirateBadge.badgeType.fullName, 'Gruppenleiter');
+        expect(piratequalification.qualificationType,
+            QualificationType.gruppenleiter);
+        expect(piratequalification.qualificationType.name, 'Gruppenleiter');
+        expect(
+            piratequalification.qualificationType.shortName, 'Gruppenleiter');
+        expect(piratequalification.qualificationType.fullName, 'Gruppenleiter');
       });
     });
 
     group('toJson', () {
       group('when date is null', () {
         test('shouldd store null', () {
-          final bronzeBadge =
-              Qualification(badgeType: BadgeType.bronze, date: null);
+          final bronzequalification = Qualification(
+              qualificationType: QualificationType.bronze, date: null);
           final expectedJson = {
             'name': 'Bronze',
             'date': null,
           };
 
-          expect(bronzeBadge.toJson(), expectedJson);
+          expect(bronzequalification.toJson(), expectedJson);
         });
       });
 
       group('when date is valid', () {
         test('shouldd store date', () {
-          final bronzeBadge = Qualification(
-              badgeType: BadgeType.bronze, date: DateTime(2020, 9, 9));
+          final bronzequalification = Qualification(
+              qualificationType: QualificationType.bronze,
+              date: DateTime(2020, 9, 9));
 
           final expectedJson = {
             'name': 'Bronze',
             'date': '09.09.2020',
           };
 
-          expect(bronzeBadge.toJson(), expectedJson);
+          expect(bronzequalification.toJson(), expectedJson);
         });
       });
     });
@@ -226,10 +266,11 @@ void main() {
             'date': '09.09.2020',
           };
 
-          final badge = badgeFactory.getBadge(inputJson);
+          final qualification =
+              qualificationFactory.getqualification(inputJson);
 
-          expect(badge!.badgeType.name, 'Bronze');
-          expect(badge.date, (DateTime(2020, 9, 9)));
+          expect(qualification!.qualificationType.name, 'Bronze');
+          expect(qualification.date, (DateTime(2020, 9, 9)));
         });
       });
     });
@@ -242,10 +283,11 @@ void main() {
             'date': '2000-10-10',
           };
 
-          final badge = badgeFactory.getBadge(inputJson);
+          final qualification =
+              qualificationFactory.getqualification(inputJson);
 
-          expect(badge!.badgeType.name, 'Bronze');
-          expect(badge.date, null);
+          expect(qualification!.qualificationType.name, 'Bronze');
+          expect(qualification.date, null);
         });
       });
     });
@@ -258,10 +300,11 @@ void main() {
             'date': null,
           };
 
-          final badge = badgeFactory.getBadge(inputJson);
+          final qualification =
+              qualificationFactory.getqualification(inputJson);
 
-          expect(badge!.badgeType.name, 'Bronze');
-          expect(badge.date, null);
+          expect(qualification!.qualificationType.name, 'Bronze');
+          expect(qualification.date, null);
         });
       });
     });
@@ -271,10 +314,10 @@ void main() {
         test('Then shouldd returns false', () {
           final date = DateTime(DateTime.now().year - 2, DateTime.now().month,
               DateTime.now().day - 2);
-          final bronzeBadge =
-              Qualification(badgeType: BadgeType.bronze, date: date);
+          final bronzequalification = Qualification(
+              qualificationType: QualificationType.bronze, date: date);
 
-          expect(bronzeBadge.isUpToDate, false);
+          expect(bronzequalification.isUpToDate, false);
         });
       });
     });
@@ -283,10 +326,10 @@ void main() {
         test('returns true', () {
           final date = DateTime(DateTime.now().year - 2, DateTime.now().month,
               DateTime.now().day + 1);
-          final bronzeBadge =
-              Qualification(badgeType: BadgeType.bronze, date: date);
+          final bronzequalification = Qualification(
+              qualificationType: QualificationType.bronze, date: date);
 
-          expect(bronzeBadge.isUpToDate, true);
+          expect(bronzequalification.isUpToDate, true);
         });
       });
     });

@@ -3,40 +3,41 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/badge.dart' as badge;
-import 'package:training_organizer/model/badge.dart';
+import 'package:training_organizer/model/qualification_type.dart';
 
-List<BadgeType> _dataJugendausbildung = [
-  BadgeType.pirate,
-  BadgeType.bronze,
-  BadgeType.silber,
-  BadgeType.gold,
+List<QualificationType> _dataJugendausbildung = [
+  QualificationType.pirate,
+  QualificationType.bronze,
+  QualificationType.silber,
+  QualificationType.gold,
 ];
 
-List<BadgeType> _dataAusbildung = [
-  BadgeType.rettungschwimmerBronze,
-  BadgeType.rettungsschwimmerSilber,
-  BadgeType.rettungsschwimmerImWasserrettungsdienst,
-  BadgeType.san,
-  BadgeType.wassserretter,
+List<QualificationType> _dataAusbildung = [
+  QualificationType.rettungschwimmerBronze,
+  QualificationType.rettungsschwimmerSilber,
+  QualificationType.rettungsschwimmerImWasserrettungsdienst,
+  QualificationType.san,
+  QualificationType.wassserretter,
 ];
 
-List<BadgeType> _dataAusbilder = [
-  BadgeType.gruppenleiter,
-  BadgeType.ausbildungsassistent,
-  BadgeType.ausbilderR1,
-  BadgeType.ausbilderR2,
-  BadgeType.ausbilderS1,
-  BadgeType.ausbilderS2,
+List<QualificationType> _dataAusbilder = [
+  QualificationType.gruppenleiter,
+  QualificationType.ausbildungsassistent,
+  QualificationType.ausbilderR1,
+  QualificationType.ausbilderR2,
+  QualificationType.ausbilderS1,
+  QualificationType.ausbilderS2,
 ];
 
-int getCount(AppState state, String badge) {
-  return state.trainees.where((element) => element.hasBadge(badge)).length;
+int getCount(AppState state, String qualification) {
+  return state.trainees
+      .where((element) => element.hasQualification(qualification))
+      .length;
 }
 
-int getBadgeOfYear(AppState state, String badge, int year) {
+int getqualificationOfYear(AppState state, String qualification, int year) {
   return state.trainees
-      .where((element) => element.hasBadgeFromYear(badge, year))
+      .where((element) => element.hasQualificationFromYear(qualification, year))
       .length;
 }
 
@@ -124,12 +125,13 @@ class _JugendschwimmausbildungenState
                 labelStyle: const TextStyle(fontSize: 15),
               ),
               primaryYAxis: NumericAxis(minimum: 0, maximum: 20, interval: 5),
-              series: <ChartSeries<BadgeType, String>>[
-                ColumnSeries<BadgeType, String>(
+              series: <ChartSeries<QualificationType, String>>[
+                ColumnSeries<QualificationType, String>(
                     dataSource: _dataJugendausbildung,
-                    xValueMapper: (BadgeType badge, _) => badge.shortName,
-                    yValueMapper: (BadgeType badge, _) =>
-                        getBadgeOfYear(state, badge.name, year),
+                    xValueMapper: (QualificationType qualification, _) =>
+                        qualification.shortName,
+                    yValueMapper: (QualificationType qualification, _) =>
+                        getqualificationOfYear(state, qualification.name, year),
                     dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
                         textStyle: TextStyle(fontWeight: FontWeight.bold)),
@@ -156,12 +158,13 @@ class _AktivenAusbildungen extends StatelessWidget {
                 labelStyle: const TextStyle(fontSize: 15),
               ),
               primaryYAxis: NumericAxis(minimum: 0, maximum: 20, interval: 5),
-              series: <ChartSeries<BadgeType, String>>[
-                ColumnSeries<BadgeType, String>(
+              series: <ChartSeries<QualificationType, String>>[
+                ColumnSeries<QualificationType, String>(
                     dataSource: _dataAusbildung,
-                    xValueMapper: (BadgeType badge, _) => badge.shortName,
-                    yValueMapper: (BadgeType badge, _) =>
-                        getCount(state, badge.name),
+                    xValueMapper: (QualificationType qualification, _) =>
+                        qualification.shortName,
+                    yValueMapper: (QualificationType qualification, _) =>
+                        getCount(state, qualification.name),
                     dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
                         textStyle: TextStyle(fontWeight: FontWeight.bold)),
@@ -188,12 +191,13 @@ class _Ausbilder extends StatelessWidget {
                 labelStyle: const TextStyle(fontSize: 15),
               ),
               primaryYAxis: NumericAxis(minimum: 0, maximum: 5, interval: 1),
-              series: <ChartSeries<BadgeType, String>>[
-                ColumnSeries<BadgeType, String>(
+              series: <ChartSeries<QualificationType, String>>[
+                ColumnSeries<QualificationType, String>(
                   dataSource: _dataAusbilder,
-                  xValueMapper: (BadgeType badge, _) => badge.fullName,
-                  yValueMapper: (BadgeType badge, _) =>
-                      getCount(state, badge.name),
+                  xValueMapper: (QualificationType qualification, _) =>
+                      qualification.fullName,
+                  yValueMapper: (QualificationType qualification, _) =>
+                      getCount(state, qualification.name),
                   dataLabelSettings: const DataLabelSettings(
                       isVisible: true,
                       textStyle: TextStyle(fontWeight: FontWeight.bold)),

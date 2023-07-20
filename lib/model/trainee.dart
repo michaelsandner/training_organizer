@@ -1,5 +1,6 @@
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/badge.dart';
+import 'package:training_organizer/model/qualification.dart';
+import 'package:training_organizer/model/qualification_type.dart';
 
 class Trainee {
   final String surname;
@@ -11,8 +12,8 @@ class Trainee {
   final String phone;
   final String comment;
   final bool isMember;
-  final Qualification? badge;
-  final List<Qualification?> badges;
+  final Qualification? qualification;
+  final List<Qualification?> qualifications;
   final bool isTrainer;
 
   Trainee({
@@ -25,8 +26,8 @@ class Trainee {
     this.phone = '',
     this.comment = '',
     this.isMember = false,
-    this.badge,
-    this.badges = const [],
+    this.qualification,
+    this.qualifications = const [],
     this.isTrainer = false,
   });
 
@@ -49,8 +50,12 @@ class Trainee {
       trainingGroup: mapGroupToEnum(json['trainingGroup']),
       comment: json['comment'] ?? '',
       isMember: json['isMember'] ?? false,
-      badge: json['badge'] == null ? null : mapBadge(json['badge']),
-      badges: json['badges'] == null ? [] : mapBadges(json['badges']),
+      qualification: json['qualification'] == null
+          ? null
+          : mapQualification(json['qualification']),
+      qualifications: json['qualifications'] == null
+          ? []
+          : mapQualifications(json['qualifications']),
       isTrainer: json['isTrainer'] ?? false,
     );
   }
@@ -101,10 +106,10 @@ class Trainee {
     }
   }
 
-  bool hasBadgeFromYear(String badgeName, int year) {
-    for (var element in badges) {
+  bool hasQualificationFromYear(String qualificationName, int year) {
+    for (var element in qualifications) {
       if (element != null &&
-          element.badgeType.name == badgeName &&
+          element.qualificationType.name == qualificationName &&
           element.date != null &&
           element.date!.year == year) {
         return true;
@@ -113,10 +118,11 @@ class Trainee {
     return false;
   }
 
-  bool hasBadge(String badgeName) {
-    for (var element in badges) {
-      if (element != null && element.badgeType.name == badgeName) {
-        if (element.badgeType.name == 'RettungsschwimmerSilber' &&
+  bool hasQualification(String qualificationName) {
+    for (var element in qualifications) {
+      if (element != null &&
+          element.qualificationType.name == qualificationName) {
+        if (element.qualificationType.name == 'RettungsschwimmerSilber' &&
             !element.isUpToDate) {
           return false;
         }
@@ -126,36 +132,40 @@ class Trainee {
     return false;
   }
 
-  String getHighestBadge() {
-    if (badges.isEmpty) {
+  String getHighestQualification() {
+    if (qualifications.isEmpty) {
       return '';
     }
-    if (badges.any((element) => element!.badgeType == BadgeType.gold)) {
+    if (qualifications.any(
+        (element) => element!.qualificationType == QualificationType.gold)) {
       return 'G';
     }
-    if (badges.any((element) => element!.badgeType == BadgeType.silber)) {
+    if (qualifications.any(
+        (element) => element!.qualificationType == QualificationType.silber)) {
       return 'S';
     }
-    if (badges.any((element) => element!.badgeType == BadgeType.bronze)) {
+    if (qualifications.any(
+        (element) => element!.qualificationType == QualificationType.bronze)) {
       return 'B';
     }
-    if (badges.any((element) => element!.badgeType == BadgeType.pirate)) {
+    if (qualifications.any(
+        (element) => element!.qualificationType == QualificationType.pirate)) {
       return 'P';
     }
     return '';
   }
 
-  static List<Qualification?> mapBadges(List<dynamic> badges) {
-    List<Qualification?> listOfBadges = [];
-    for (var element in badges) {
-      listOfBadges.add(mapBadge(element));
+  static List<Qualification?> mapQualifications(List<dynamic> qualifications) {
+    List<Qualification?> listOfqualifications = [];
+    for (var element in qualifications) {
+      listOfqualifications.add(mapQualification(element));
     }
-    return listOfBadges;
+    return listOfqualifications;
   }
 
-  static Qualification? mapBadge(Map<String, dynamic> badge) {
-    final badgeFactory = BadgeFactory();
-    return badgeFactory.getBadge(badge);
+  static Qualification? mapQualification(Map<String, dynamic> qualification) {
+    final qualificationFactory = QualificationFactory();
+    return qualificationFactory.getqualification(qualification);
   }
 
   static Group mapGroupToEnum(String? groupName) {
@@ -189,7 +199,7 @@ class Trainee {
     String? phone,
     String? comment,
     bool? isMember,
-    Qualification? badge,
+    Qualification? qualification,
     String? dateOfBirth,
     String? registrationDate,
     bool? isTrainer,
@@ -204,7 +214,7 @@ class Trainee {
       trainingGroup: trainingGroup ?? this.trainingGroup,
       comment: comment ?? this.comment,
       isMember: isMember ?? this.isMember,
-      badge: badge ?? this.badge,
+      qualification: qualification ?? this.qualification,
       isTrainer: isTrainer ?? this.isTrainer,
     );
   }
@@ -218,7 +228,7 @@ class Trainee {
         email: email,
         phone: phone,
         trainingGroup: group,
-        badge: badge,
+        qualification: qualification,
         isTrainer: isTrainer,
         comment: comment);
   }
@@ -242,21 +252,22 @@ class Trainee {
         'trainingGroup': getTrainingGroupValue(),
         'comment': comment,
         'isMember': isMember,
-        'badge': badge == null ? null : badge!.toJson(),
-        'badges': mapBadgesToJson(badges),
+        'qualification': qualification == null ? null : qualification!.toJson(),
+        'qualifications': mapqualificationsToJson(qualifications),
         'isTrainer': isTrainer,
       };
 
-  List<Map<String, dynamic>> mapBadgesToJson(List<Qualification?> badges) {
-    List<Map<String, dynamic>> badgesAsJson = [];
+  List<Map<String, dynamic>> mapqualificationsToJson(
+      List<Qualification?> qualifications) {
+    List<Map<String, dynamic>> qualificationsAsJson = [];
 
-    for (var element in badges) {
+    for (var element in qualifications) {
       if (element != null) {
-        badgesAsJson.add(element.toJson());
+        qualificationsAsJson.add(element.toJson());
       }
     }
 
-    return badgesAsJson;
+    return qualificationsAsJson;
   }
 
   String getTrainingGroupValue() {
