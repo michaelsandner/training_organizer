@@ -165,7 +165,7 @@ class Trainee {
 
   static Qualification? mapQualification(Map<String, dynamic> qualification) {
     final qualificationFactory = QualificationFactory();
-    return qualificationFactory.getqualification(qualification);
+    return qualificationFactory.getQualification(qualification);
   }
 
   static Group mapGroupToEnum(String? groupName) {

@@ -267,7 +267,7 @@ void main() {
           };
 
           final qualification =
-              qualificationFactory.getqualification(inputJson);
+              qualificationFactory.getQualification(inputJson);
 
           expect(qualification!.qualificationType.name, 'Bronze');
           expect(qualification.date, (DateTime(2020, 9, 9)));
@@ -284,7 +284,7 @@ void main() {
           };
 
           final qualification =
-              qualificationFactory.getqualification(inputJson);
+              qualificationFactory.getQualification(inputJson);
 
           expect(qualification!.qualificationType.name, 'Bronze');
           expect(qualification.date, null);
@@ -301,7 +301,7 @@ void main() {
           };
 
           final qualification =
-              qualificationFactory.getqualification(inputJson);
+              qualificationFactory.getQualification(inputJson);
 
           expect(qualification!.qualificationType.name, 'Bronze');
           expect(qualification.date, null);

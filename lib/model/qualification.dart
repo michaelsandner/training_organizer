@@ -33,9 +33,9 @@ class Qualification {
 }
 
 class QualificationFactory {
-  Qualification? getqualification(Map<String, dynamic> json) {
+  Qualification? getQualification(Map<String, dynamic> json) {
     DateTime? parsedDate = parseDateFromJson(json);
-    QualificationType? qualificationType = getqualificationType(json);
+    QualificationType? qualificationType = getQualificationType(json);
 
     if (qualificationType != null) {
       return Qualification(
@@ -44,43 +44,15 @@ class QualificationFactory {
     return null;
   }
 
-  QualificationType? getqualificationType(Map<String, dynamic> json) {
-    switch (json['name']) {
-      case 'Pirate':
-        return QualificationType.pirate;
-      case 'Bronze':
-        return QualificationType.bronze;
-      case 'Silber':
-        return QualificationType.silber;
-      case 'Gold':
-        return QualificationType.gold;
-      case 'RettungsschwimmerBronze':
-        return QualificationType.rettungschwimmerBronze;
-      case 'RettungsschwimmerSilber':
-        return QualificationType.rettungsschwimmerSilber;
-      case 'RettungsschwimmerGold':
-        return QualificationType.rettungsschwimmerGold;
-      case 'Wasserretter':
-        return QualificationType.wassserretter;
-      case 'San':
-        return QualificationType.san;
-      case 'RSiWRD':
-        return QualificationType.rettungsschwimmerImWasserrettungsdienst;
-      case 'Ausbildungsassistent':
-        return QualificationType.ausbildungsassistent;
-      case 'AusbilderS1':
-        return QualificationType.ausbilderS1;
-      case 'AusbilderS2':
-        return QualificationType.ausbilderS2;
-      case 'AusbilderR1':
-        return QualificationType.ausbilderR1;
-      case 'AusbilderR2':
-        return QualificationType.ausbilderR2;
-      case 'Gruppenleiter':
-        return QualificationType.gruppenleiter;
-      default:
-        return null;
+  QualificationType? getQualificationType(Map<String, dynamic> json) {
+    final name = json['name'];
+
+    for (var qualificationType in QualificationType.values) {
+      if (name == qualificationType.name) {
+        return qualificationType;
+      }
     }
+    return null;
   }
 
   static DateTime? parseDateFromJson(dynamic json) {
