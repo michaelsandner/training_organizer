@@ -4,8 +4,8 @@ import 'package:training_organizer/model/badge.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 void main() {
-  group('fromJson', () {
-    group('Given fields have values', () {
+  group('Given fields have values', () {
+    group('When fromJson is called', () {
       test('Then each value should be set', () {
         final inputJson = {
           'surname': 'Mustermann',
@@ -32,15 +32,61 @@ void main() {
         expect(output.phone, '000111');
         expect(output.comment, 'this is a comment');
         expect(output.isMember, true);
-        expect(output.badge!.name, 'Bronze');
+        expect(output.badge!.badgeType.name, 'Bronze');
         expect(output.isTrainer, true);
         expect(output.badges.length, 1);
-        expect(output.badges[0]!.name, 'RettungsschwimmerSilber');
+        expect(output.badges[0]!.badgeType.name, 'RettungsschwimmerSilber');
         expect(output.badges[0]!.date, DateTime(2020, 9, 9));
       });
     });
 
-    group('Given field do not have values', () {
+    group('When toJson is called', () {
+      test('Then each value should be set', () {
+        final input = Trainee(
+          surname: 'Mustermann',
+          forename: 'Max',
+          email: 'email@web.de',
+          phone: '000111',
+          dateOfBirth: '2000-05-01',
+          registrationDate: '01.01.2023',
+          trainingGroup: Group.group1,
+          comment: 'this is a comment',
+          isMember: true,
+          isTrainer: true,
+          badge: Qualification(badgeType: BadgeType.bronze, date: null),
+          badges: [
+            Qualification(badgeType: BadgeType.silber, date: null),
+            Qualification(badgeType: BadgeType.gold, date: null)
+          ],
+        );
+
+        final expectedJson = {
+          'surname': 'Mustermann',
+          'forename': 'Max',
+          'email': 'email@web.de',
+          'phone': '000111',
+          'dateOfBirth': '2000-05-01',
+          'registrationDate': '01.01.2023',
+          'trainingGroup': 'group1',
+          'comment': 'this is a comment',
+          'isMember': true,
+          'isTrainer': true,
+          'badge': {'name': 'Bronze', 'date': null},
+          'badges': [
+            {'name': 'Silber', 'date': null},
+            {'name': 'Gold', 'date': null}
+          ]
+        };
+
+        final output = input.toJson();
+
+        expect(output, expectedJson);
+      });
+    });
+  });
+
+  group('Given field do not have values', () {
+    group('When fromJson is called', () {
       test('Then each value should be a default value', () {
         final inputJson = {
           'surname': null,
@@ -71,10 +117,8 @@ void main() {
         expect(output.badges.isEmpty, true);
       });
     });
-  });
 
-  group('toJson', () {
-    group('Given each filed has a valid value', () {
+    group('When toJson is called', () {
       test('Then each value should be set', () {
         final input = Trainee(
           surname: 'Mustermann',
@@ -85,10 +129,10 @@ void main() {
           registrationDate: '01.01.2023',
           trainingGroup: Group.group1,
           comment: 'this is a comment',
-          isMember: true,
-          isTrainer: true,
-          badge: BronzeBadge(null),
-          badges: [SilverBadge(null), GoldBadge(null)],
+          isMember: false,
+          isTrainer: false,
+          badge: null,
+          badges: [null, null],
         );
 
         final expectedJson = {
@@ -100,13 +144,10 @@ void main() {
           'registrationDate': '01.01.2023',
           'trainingGroup': 'group1',
           'comment': 'this is a comment',
-          'isMember': true,
-          'isTrainer': true,
-          'badge': {'name': 'Bronze', 'date': null},
-          'badges': [
-            {'name': 'Silber', 'date': null},
-            {'name': 'Gold', 'date': null}
-          ]
+          'isMember': false,
+          'isTrainer': false,
+          'badge': null,
+          'badges': []
         };
 
         final output = input.toJson();

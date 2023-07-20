@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/model/badge.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/view/edit_view/add_trainee.dart';
 
@@ -90,7 +91,7 @@ class _BadgeOverlay extends StatelessWidget {
                     if (currentBadge != null) {
                       return Row(
                         children: [
-                          currentBadge.icon,
+                          currentBadge.badgeType.icon,
                           const SizedBox(
                             width: 10,
                           ),
@@ -130,9 +131,9 @@ class _Badges extends StatelessWidget {
           if (currentBadge != null) {
             return Tooltip(
               message: currentBadge.date == null
-                  ? '${currentBadge.fullName} \n Datum: - '
-                  : '${currentBadge.fullName} \n Datum: ${currentBadge.date!.year.toString()}',
-              child: currentBadge.icon,
+                  ? '${currentBadge.badgeType.fullName} \n Datum: - '
+                  : '${currentBadge.badgeType.fullName} \n Datum: ${currentBadge.date!.year.toString()}',
+              child: currentBadge.badgeType.icon,
             );
           } else {
             return const Icon(

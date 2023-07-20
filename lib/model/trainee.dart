@@ -11,8 +11,8 @@ class Trainee {
   final String phone;
   final String comment;
   final bool isMember;
-  final Badge? badge;
-  final List<Badge?> badges;
+  final Qualification? badge;
+  final List<Qualification?> badges;
   final bool isTrainer;
 
   Trainee({
@@ -104,7 +104,7 @@ class Trainee {
   bool hasBadgeFromYear(String badgeName, int year) {
     for (var element in badges) {
       if (element != null &&
-          element.name == badgeName &&
+          element.badgeType.name == badgeName &&
           element.date != null &&
           element.date!.year == year) {
         return true;
@@ -115,8 +115,9 @@ class Trainee {
 
   bool hasBadge(String badgeName) {
     for (var element in badges) {
-      if (element != null && element.name == badgeName) {
-        if (element.name == 'RettungsschwimmerSilber' && !element.isUpToDate) {
+      if (element != null && element.badgeType.name == badgeName) {
+        if (element.badgeType.name == 'RettungsschwimmerSilber' &&
+            !element.isUpToDate) {
           return false;
         }
         return true;
@@ -129,30 +130,30 @@ class Trainee {
     if (badges.isEmpty) {
       return '';
     }
-    if (badges.any((element) => element is GoldBadge)) {
+    if (badges.any((element) => element!.badgeType == BadgeType.gold)) {
       return 'G';
     }
-    if (badges.any((element) => element is SilverBadge)) {
+    if (badges.any((element) => element!.badgeType == BadgeType.silber)) {
       return 'S';
     }
-    if (badges.any((element) => element is BronzeBadge)) {
+    if (badges.any((element) => element!.badgeType == BadgeType.bronze)) {
       return 'B';
     }
-    if (badges.any((element) => element is PirateBadge)) {
+    if (badges.any((element) => element!.badgeType == BadgeType.pirate)) {
       return 'P';
     }
     return '';
   }
 
-  static List<Badge?> mapBadges(List<dynamic> badges) {
-    List<Badge?> listOfBadges = [];
+  static List<Qualification?> mapBadges(List<dynamic> badges) {
+    List<Qualification?> listOfBadges = [];
     for (var element in badges) {
       listOfBadges.add(mapBadge(element));
     }
     return listOfBadges;
   }
 
-  static Badge? mapBadge(Map<String, dynamic> badge) {
+  static Qualification? mapBadge(Map<String, dynamic> badge) {
     final badgeFactory = BadgeFactory();
     return badgeFactory.getBadge(badge);
   }
@@ -188,7 +189,7 @@ class Trainee {
     String? phone,
     String? comment,
     bool? isMember,
-    Badge? badge,
+    Qualification? badge,
     String? dateOfBirth,
     String? registrationDate,
     bool? isTrainer,
@@ -246,7 +247,7 @@ class Trainee {
         'isTrainer': isTrainer,
       };
 
-  List<Map<String, dynamic>> mapBadgesToJson(List<Badge?> badges) {
+  List<Map<String, dynamic>> mapBadgesToJson(List<Qualification?> badges) {
     List<Map<String, dynamic>> badgesAsJson = [];
 
     for (var element in badges) {
