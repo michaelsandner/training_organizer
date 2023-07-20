@@ -230,7 +230,8 @@ class Trainee {
         trainingGroup: group,
         qualification: qualification,
         isTrainer: isTrainer,
-        comment: comment);
+        comment: comment,
+        isMember: isMember);
   }
 
   @override
