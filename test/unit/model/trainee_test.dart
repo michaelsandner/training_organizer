@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/badge.dart';
+import 'package:training_organizer/model/qualification.dart';
+import 'package:training_organizer/model/qualification_type.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 void main() {
@@ -17,8 +18,11 @@ void main() {
           'comment': 'this is a comment',
           'isMember': true,
           'isTrainer': true,
-          'badge': {'name': 'Bronze', 'date': '2020-09-09 00:00:00.000'},
-          'badges': [
+          'qualification': {
+            'name': 'Bronze',
+            'date': '2020-09-09 00:00:00.000'
+          },
+          'qualifications': [
             {'name': 'RettungsschwimmerSilber', 'date': '09.09.2020'},
           ]
         };
@@ -32,11 +36,12 @@ void main() {
         expect(output.phone, '000111');
         expect(output.comment, 'this is a comment');
         expect(output.isMember, true);
-        expect(output.badge!.badgeType.name, 'Bronze');
+        expect(output.qualification!.qualificationType.name, 'Bronze');
         expect(output.isTrainer, true);
-        expect(output.badges.length, 1);
-        expect(output.badges[0]!.badgeType.name, 'RettungsschwimmerSilber');
-        expect(output.badges[0]!.date, DateTime(2020, 9, 9));
+        expect(output.qualifications.length, 1);
+        expect(output.qualifications[0]!.qualificationType.name,
+            'RettungsschwimmerSilber');
+        expect(output.qualifications[0]!.date, DateTime(2020, 9, 9));
       });
     });
 
@@ -53,10 +58,12 @@ void main() {
           comment: 'this is a comment',
           isMember: true,
           isTrainer: true,
-          badge: Qualification(badgeType: BadgeType.bronze, date: null),
-          badges: [
-            Qualification(badgeType: BadgeType.silber, date: null),
-            Qualification(badgeType: BadgeType.gold, date: null)
+          qualification: Qualification(
+              qualificationType: QualificationType.bronze, date: null),
+          qualifications: [
+            Qualification(
+                qualificationType: QualificationType.silber, date: null),
+            Qualification(qualificationType: QualificationType.gold, date: null)
           ],
         );
 
@@ -71,8 +78,8 @@ void main() {
           'comment': 'this is a comment',
           'isMember': true,
           'isTrainer': true,
-          'badge': {'name': 'Bronze', 'date': null},
-          'badges': [
+          'qualification': {'name': 'Bronze', 'date': null},
+          'qualifications': [
             {'name': 'Silber', 'date': null},
             {'name': 'Gold', 'date': null}
           ]
@@ -98,8 +105,8 @@ void main() {
           'comment': null,
           'isMember': null,
           'isTrainer': null,
-          'badge': null,
-          'badges': null,
+          'qualification': null,
+          'qualifications': null,
         };
 
         final output = Trainee.fromJson(inputJson);
@@ -112,9 +119,9 @@ void main() {
         expect(output.comment, '');
         expect(output.isMember, false);
         expect(output.isTrainer, false);
-        expect(output.badge, null);
+        expect(output.qualification, null);
         expect(output.trainingGroup, Group.waitingList);
-        expect(output.badges.isEmpty, true);
+        expect(output.qualifications.isEmpty, true);
       });
     });
 
@@ -131,8 +138,8 @@ void main() {
           comment: 'this is a comment',
           isMember: false,
           isTrainer: false,
-          badge: null,
-          badges: [null, null],
+          qualification: null,
+          qualifications: [null, null],
         );
 
         final expectedJson = {
@@ -146,8 +153,8 @@ void main() {
           'comment': 'this is a comment',
           'isMember': false,
           'isTrainer': false,
-          'badge': null,
-          'badges': []
+          'qualification': null,
+          'qualifications': []
         };
 
         final output = input.toJson();

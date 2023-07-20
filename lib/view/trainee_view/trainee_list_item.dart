@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/model/badge.dart';
+import 'package:training_organizer/model/qualification_type.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/view/edit_view/add_trainee.dart';
 
@@ -39,8 +39,8 @@ class TraineeListItem extends StatelessWidget {
                 ),
                 EditButton(trainee: trainee),
                 _EmailButton(trainee: trainee),
-                _BadgeOverlay(
-                    trainee: trainee, child: _Badges(trainee: trainee)),
+                _QualificationOverlay(
+                    trainee: trainee, child: _Qualifications(trainee: trainee)),
               ],
             ),
           )
@@ -50,7 +50,7 @@ class TraineeListItem extends StatelessWidget {
               children: [
                 UpAndDownButtons(refresh: () => refresh, trainee: trainee),
                 Expanded(
-                  child: _BadgeOverlay(
+                  child: _QualificationOverlay(
                     trainee: trainee,
                     child: ItemTextBox(
                       text: '${trainee.forename} ${trainee.surname}',
@@ -66,10 +66,10 @@ class TraineeListItem extends StatelessWidget {
   }
 }
 
-class _BadgeOverlay extends StatelessWidget {
+class _QualificationOverlay extends StatelessWidget {
   final Trainee trainee;
   final Widget child;
-  const _BadgeOverlay({
+  const _QualificationOverlay({
     required this.child,
     required this.trainee,
   });
@@ -86,17 +86,18 @@ class _BadgeOverlay extends StatelessWidget {
               content: SizedBox(
                 height: 200,
                 child: Column(
-                  children: List.generate(trainee.badges.length, (index) {
-                    final currentBadge = trainee.badges[index];
-                    if (currentBadge != null) {
+                  children:
+                      List.generate(trainee.qualifications.length, (index) {
+                    final currentqualification = trainee.qualifications[index];
+                    if (currentqualification != null) {
                       return Row(
                         children: [
-                          currentBadge.badgeType.icon,
+                          currentqualification.qualificationType.icon,
                           const SizedBox(
                             width: 10,
                           ),
-                          if (currentBadge.date != null)
-                            Text(currentBadge.date!.year.toString()),
+                          if (currentqualification.date != null)
+                            Text(currentqualification.date!.year.toString()),
                         ],
                       );
                     } else {
@@ -115,9 +116,9 @@ class _BadgeOverlay extends StatelessWidget {
   }
 }
 
-class _Badges extends StatelessWidget {
+class _Qualifications extends StatelessWidget {
   final Trainee trainee;
-  const _Badges({
+  const _Qualifications({
     required this.trainee,
   });
 
@@ -126,14 +127,14 @@ class _Badges extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
-        children: List.generate(trainee.badges.length, (index) {
-          final currentBadge = trainee.badges[index];
-          if (currentBadge != null) {
+        children: List.generate(trainee.qualifications.length, (index) {
+          final currentqualification = trainee.qualifications[index];
+          if (currentqualification != null) {
             return Tooltip(
-              message: currentBadge.date == null
-                  ? '${currentBadge.badgeType.fullName} \n Datum: - '
-                  : '${currentBadge.badgeType.fullName} \n Datum: ${currentBadge.date!.year.toString()}',
-              child: currentBadge.badgeType.icon,
+              message: currentqualification.date == null
+                  ? '${currentqualification.qualificationType.fullName} \n Datum: - '
+                  : '${currentqualification.qualificationType.fullName} \n Datum: ${currentqualification.date!.year.toString()}',
+              child: currentqualification.qualificationType.icon,
             );
           } else {
             return const Icon(

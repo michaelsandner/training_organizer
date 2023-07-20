@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:training_organizer/model/badge.dart';
+import 'package:training_organizer/model/qualification.dart';
+import 'package:training_organizer/model/qualification_type.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 enum FilterableGroup {
@@ -52,8 +53,10 @@ class AppState with EquatableMixin {
             registrationDate: '09.04.2023',
             phone: '01000 1100',
             trainingGroup: Group.waitingList,
-            badges: [
-              Qualification(badgeType: BadgeType.bronze, date: DateTime.now()),
+            qualifications: [
+              Qualification(
+                  qualificationType: QualificationType.bronze,
+                  date: DateTime.now()),
             ]),
         Trainee(
           surname: 'Musterman',
