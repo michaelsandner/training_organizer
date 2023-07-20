@@ -1,11 +1,217 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-abstract class Badge {
+enum BadgeType {
+  pirate,
+  bronze,
+  silber,
+  gold,
+  rettungschwimmerBronze,
+  rettungsschwimmerSilber,
+  rettungsschwimmerGold,
+  rettungsschwimmerImWasserrettungsdienst,
+  wassserretter,
+  san,
+  ausbildungsassistent,
+  ausbilderS1,
+  ausbilderS2,
+  ausbilderR1,
+  ausbilderR2,
+  gruppenleiter,
+}
+
+extension BadgeTypeShortName on BadgeType {
+  String get shortName {
+    switch (this) {
+      case BadgeType.pirate:
+        return 'Seeräuber';
+      case BadgeType.bronze:
+        return 'Bronze';
+      case BadgeType.silber:
+        return 'Silber';
+      case BadgeType.gold:
+        return 'Gold';
+      case BadgeType.rettungschwimmerBronze:
+        return 'RS Bronze';
+      case BadgeType.rettungsschwimmerSilber:
+        return 'RS Silber (< 2 Jahre)';
+      case BadgeType.rettungsschwimmerGold:
+        return 'RS Gold';
+      case BadgeType.rettungsschwimmerImWasserrettungsdienst:
+        return 'RSiWRD';
+      case BadgeType.san:
+        return 'San';
+      case BadgeType.wassserretter:
+        return 'Wasserretter';
+      case BadgeType.ausbildungsassistent:
+        return 'Assistent';
+      case BadgeType.ausbilderS1:
+        return 'AusbilderS1';
+      case BadgeType.ausbilderS2:
+        return 'AusbilderS2';
+      case BadgeType.ausbilderR1:
+        return 'AusbilderR1';
+      case BadgeType.ausbilderR2:
+        return 'AusbilderR2';
+      case BadgeType.gruppenleiter:
+        return 'Gruppenleiter';
+    }
+  }
+}
+
+extension BadgeTypeFullName on BadgeType {
+  String get fullName {
+    switch (this) {
+      case BadgeType.pirate:
+        return 'Seeräuber';
+      case BadgeType.bronze:
+        return 'Schwimmabzeichen Bronze';
+      case BadgeType.silber:
+        return 'Schwimmabzeichen Silber';
+      case BadgeType.gold:
+        return 'Schwimmabzeichen Gold';
+      case BadgeType.rettungschwimmerBronze:
+        return 'Rettungsschwimmabzeichen Bronze';
+      case BadgeType.rettungsschwimmerSilber:
+        return 'Rettungsschwimmabzeichen Silber';
+      case BadgeType.rettungsschwimmerGold:
+        return 'Rettungsschwimmabzeichen Gold';
+      case BadgeType.rettungsschwimmerImWasserrettungsdienst:
+        return 'Rettungsschwimmer im Wasserrettungsdient';
+      case BadgeType.san:
+        return 'Sanitätsdiensthelfer';
+      case BadgeType.wassserretter:
+        return 'Wasserretter';
+      case BadgeType.ausbildungsassistent:
+        return 'Ausbildungsassistent';
+      case BadgeType.ausbilderS1:
+        return 'Ausbilder S Stufe 1';
+      case BadgeType.ausbilderS2:
+        return 'Ausbilder S Stufe 2';
+      case BadgeType.ausbilderR1:
+        return 'Ausbilder R Stufe 1';
+      case BadgeType.ausbilderR2:
+        return 'Ausbilder R Stufe 2';
+      case BadgeType.gruppenleiter:
+        return 'Gruppenleiter';
+    }
+  }
+}
+
+extension BadgeTypeName on BadgeType {
+  String get name {
+    switch (this) {
+      case BadgeType.pirate:
+        return 'Seeräuber';
+      case BadgeType.bronze:
+        return 'Bronze';
+      case BadgeType.silber:
+        return 'Silber';
+      case BadgeType.gold:
+        return 'Gold';
+      case BadgeType.rettungschwimmerBronze:
+        return 'RettungsschwimmerBronze';
+      case BadgeType.rettungsschwimmerSilber:
+        return 'RettungsschwimmerSilber';
+      case BadgeType.rettungsschwimmerGold:
+        return 'RettungsschwimmerGold';
+      case BadgeType.rettungsschwimmerImWasserrettungsdienst:
+        return 'RSiWRD';
+      case BadgeType.san:
+        return 'San';
+      case BadgeType.wassserretter:
+        return 'Wasserretter';
+      case BadgeType.ausbildungsassistent:
+        return 'Ausbildungsassistent';
+      case BadgeType.ausbilderS1:
+        return 'AusbilderS1';
+      case BadgeType.ausbilderS2:
+        return 'AusbilderS2';
+      case BadgeType.ausbilderR1:
+        return 'AusbilderR1';
+      case BadgeType.ausbilderR2:
+        return 'AusbilderR2';
+      case BadgeType.gruppenleiter:
+        return 'Gruppenleiter';
+    }
+  }
+}
+
+extension BadgeTypeIcon on BadgeType {
+  Icon get icon {
+    switch (this) {
+      case BadgeType.pirate:
+        return const Icon(Icons.android);
+      case BadgeType.bronze:
+        return const Icon(Icons.check_circle, color: Colors.red);
+      case BadgeType.silber:
+        return const Icon(Icons.check_circle, color: Colors.grey);
+      case BadgeType.gold:
+        return const Icon(Icons.check_circle, color: Colors.yellow);
+      case BadgeType.rettungschwimmerBronze:
+        return const Icon(Icons.catching_pokemon, color: Colors.red);
+      case BadgeType.rettungsschwimmerSilber:
+        return const Icon(Icons.catching_pokemon, color: Colors.grey);
+      case BadgeType.rettungsschwimmerGold:
+        return const Icon(Icons.catching_pokemon, color: Colors.yellow);
+      case BadgeType.rettungsschwimmerImWasserrettungsdienst:
+        return const Icon(Icons.catching_pokemon, color: Colors.deepPurple);
+      case BadgeType.wassserretter:
+        return const Icon(Icons.healing, color: Colors.grey);
+      case BadgeType.san:
+        return const Icon(Icons.healing, color: Colors.red);
+      case BadgeType.ausbildungsassistent:
+        return const Icon(Icons.cruelty_free, color: Colors.yellow);
+      case BadgeType.ausbilderS1:
+        return const Icon(Icons.hdr_auto_outlined, color: Colors.red);
+      case BadgeType.ausbilderS2:
+        return const Icon(Icons.hdr_auto_outlined, color: Colors.grey);
+      case BadgeType.ausbilderR1:
+        return const Icon(Icons.hdr_auto, color: Colors.red);
+      case BadgeType.ausbilderR2:
+        return const Icon(Icons.hdr_auto, color: Colors.grey);
+      case BadgeType.gruppenleiter:
+        return const Icon(Icons.groups, color: Colors.grey);
+    }
+  }
+}
+
+class Qualification {
+  final DateTime? date;
+  final BadgeType badgeType;
+
+  Qualification({
+    this.date,
+    required this.badgeType,
+  });
+
+  bool get isUpToDate {
+    if (date == null) {
+      return false;
+    }
+    final dateDifference = DateTime.now().difference(date!);
+    if (dateDifference > const Duration(days: 365 * 2)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  static String parseDateTimeToString(DateTime date) {
+    return DateFormat('dd.MM.yyyy').format(date);
+  }
+
+  Map<String, dynamic> toJson() => {
+        'name': badgeType.name,
+        'date': date == null ? null : parseDateTimeToString(date!),
+      };
+}
+
+abstract class BaseBadge {
   DateTime? date;
   bool hasBadge = false;
 
-  Badge(this.date);
+  BaseBadge(this.date);
 
   String get name;
   String get fullName;
@@ -40,41 +246,50 @@ abstract class Badge {
 }
 
 class BadgeFactory {
-  Badge? getBadge(Map<String, dynamic> json) {
-    DateTime? parsedData = parseDateFromJson(json);
+  Qualification? getBadge(Map<String, dynamic> json) {
+    DateTime? parsedDate = parseDateFromJson(json);
+    BadgeType? badgeType = getBadgeType(json);
+
+    if (badgeType != null) {
+      return Qualification(date: parsedDate, badgeType: badgeType);
+    }
+    return null;
+  }
+
+  BadgeType? getBadgeType(Map<String, dynamic> json) {
     switch (json['name']) {
       case 'Pirate':
-        return PirateBadge(parsedData);
+        return BadgeType.pirate;
       case 'Bronze':
-        return BronzeBadge(parsedData);
+        return BadgeType.bronze;
       case 'Silber':
-        return SilverBadge(parsedData);
+        return BadgeType.silber;
       case 'Gold':
-        return GoldBadge(parsedData);
+        return BadgeType.gold;
       case 'RettungsschwimmerBronze':
-        return RettungsschwimmerBronzeBadge(parsedData);
+        return BadgeType.rettungschwimmerBronze;
       case 'RettungsschwimmerSilber':
-        return RettungsschwimmerSilverBadge(parsedData);
+        return BadgeType.rettungsschwimmerSilber;
       case 'RettungsschwimmerGold':
-        return RettungsschwimmerBronzeBadge(parsedData);
+        return BadgeType.rettungsschwimmerGold;
       case 'Wasserretter':
-        return Wasserretter(parsedData);
+        return BadgeType.wassserretter;
       case 'San':
-        return San(parsedData);
+        return BadgeType.san;
       case 'RSiWRD':
-        return RSiWRD(parsedData);
+        return BadgeType.rettungsschwimmerImWasserrettungsdienst;
       case 'Ausbildungsassistent':
-        return AusbildungsAssistent(parsedData);
+        return BadgeType.ausbildungsassistent;
       case 'AusbilderS1':
-        return AusbilderS1(parsedData);
+        return BadgeType.ausbilderS1;
       case 'AusbilderS2':
-        return AusbilderS2(parsedData);
+        return BadgeType.ausbilderS2;
       case 'AusbilderR1':
-        return AusbilderR1(parsedData);
+        return BadgeType.ausbilderR1;
       case 'AusbilderR2':
-        return AusbilderR2(parsedData);
+        return BadgeType.ausbilderR2;
       case 'Gruppenleiter':
-        return Gruppenleiter(parsedData);
+        return BadgeType.gruppenleiter;
       default:
         return null;
     }
@@ -91,260 +306,4 @@ class BadgeFactory {
       return null;
     }
   }
-}
-
-class PirateBadge extends Badge {
-  PirateBadge(DateTime? date) : super(date);
-
-  @override
-  String get name => 'Seeräuber';
-
-  @override
-  String get fullName => 'Seeräuber';
-
-  @override
-  String get shortName => 'Seeräuber';
-
-  @override
-  get icon => const Icon(Icons.android);
-}
-
-class BronzeBadge extends Badge {
-  BronzeBadge(DateTime? date) : super(date);
-
-  @override
-  String get name => 'Bronze';
-
-  @override
-  String get fullName => 'Schwimmabzeichen Bronze';
-
-  @override
-  String get shortName => 'Bronze';
-
-  @override
-  get icon => const Icon(Icons.check_circle, color: Colors.red);
-}
-
-class SilverBadge extends Badge {
-  SilverBadge(DateTime? date) : super(date);
-
-  @override
-  String get name => 'Silber';
-
-  @override
-  String get fullName => 'Schwimmabzeichen Silber';
-
-  @override
-  String get shortName => 'Silber';
-
-  @override
-  get icon => const Icon(Icons.check_circle, color: Colors.grey);
-}
-
-class GoldBadge extends Badge {
-  GoldBadge(DateTime? date) : super(date);
-
-  @override
-  String get name => 'Gold';
-
-  @override
-  String get fullName => 'Schwimmabzeichen Gold';
-
-  @override
-  String get shortName => 'Gold';
-
-  @override
-  get icon => const Icon(Icons.check_circle, color: Colors.yellow);
-}
-
-class RettungsschwimmerBronzeBadge extends Badge {
-  RettungsschwimmerBronzeBadge(DateTime? date) : super(date);
-
-  @override
-  String get name => 'RettungsschwimmerBronze';
-
-  @override
-  String get fullName => 'Rettungsschwimmabzeichen Bronze';
-
-  @override
-  String get shortName => 'RS Bronze';
-
-  @override
-  get icon => const Icon(Icons.catching_pokemon, color: Colors.red);
-}
-
-class RettungsschwimmerSilverBadge extends Badge {
-  RettungsschwimmerSilverBadge(DateTime? date) : super(date);
-
-  @override
-  String get name => 'RettungsschwimmerSilber';
-
-  @override
-  String get fullName => 'Rettungsschwimmabzeichen Silber';
-
-  @override
-  String get shortName => 'RS Silber (< 2 Jahre)';
-
-  @override
-  get icon => const Icon(Icons.catching_pokemon, color: Colors.grey);
-}
-
-class RettungsschwimmerGoldBadge extends Badge {
-  RettungsschwimmerGoldBadge(DateTime? date) : super(date);
-
-  @override
-  String get name => 'RettungsschwimmerGold';
-
-  @override
-  String get fullName => 'Rettungsschwimmabzeichen Gold';
-
-  @override
-  String get shortName => 'RS Gold';
-
-  @override
-  get icon => const Icon(Icons.catching_pokemon, color: Colors.grey);
-}
-
-class RSiWRD extends Badge {
-  RSiWRD(DateTime? date) : super(date);
-
-  @override
-  String get name => 'RSiWRD';
-
-  @override
-  String get fullName => 'Rettungsschwimmer im Wasserrettungsdient';
-
-  @override
-  String get shortName => 'RSiWRD';
-
-  @override
-  get icon => const Icon(Icons.catching_pokemon, color: Colors.deepPurple);
-}
-
-class San extends Badge {
-  San(DateTime? date) : super(date);
-
-  @override
-  String get name => 'San';
-
-  @override
-  String get fullName => 'Sanitätsdiensthelfer';
-
-  @override
-  String get shortName => 'San';
-
-  @override
-  get icon => const Icon(Icons.healing, color: Colors.red);
-}
-
-class Wasserretter extends Badge {
-  Wasserretter(DateTime? date) : super(date);
-
-  @override
-  String get name => 'Wasserretter';
-
-  @override
-  String get fullName => 'Wasserretter';
-
-  @override
-  String get shortName => 'Wasserretter';
-
-  @override
-  get icon => const Icon(Icons.healing, color: Colors.grey);
-}
-
-class AusbildungsAssistent extends Badge {
-  AusbildungsAssistent(DateTime? date) : super(date);
-
-  @override
-  String get name => 'Ausbildungsassistent';
-
-  @override
-  String get fullName => 'Ausbildungsassistent';
-
-  @override
-  String get shortName => 'Assistent';
-
-  @override
-  get icon => const Icon(Icons.cruelty_free, color: Colors.yellow);
-}
-
-class AusbilderR1 extends Badge {
-  AusbilderR1(DateTime? date) : super(date);
-
-  @override
-  String get name => 'AusbilderR1';
-
-  @override
-  String get fullName => 'Ausbilder R Stufe 1';
-
-  @override
-  String get shortName => 'Ausbilder R1';
-
-  @override
-  get icon => const Icon(Icons.hdr_auto, color: Colors.red);
-}
-
-class AusbilderR2 extends Badge {
-  AusbilderR2(DateTime? date) : super(date);
-
-  @override
-  String get name => 'AusbilderR2';
-
-  @override
-  String get fullName => 'Ausbilder R Stufe 2';
-
-  @override
-  String get shortName => 'Ausbilder R2';
-
-  @override
-  get icon => const Icon(Icons.hdr_auto, color: Colors.grey);
-}
-
-class AusbilderS1 extends Badge {
-  AusbilderS1(DateTime? date) : super(date);
-
-  @override
-  String get name => 'AusbilderS1';
-
-  @override
-  String get fullName => 'Ausbilder S Stufe 1';
-
-  @override
-  String get shortName => 'Ausbilder S1';
-
-  @override
-  get icon => const Icon(Icons.hdr_auto_outlined, color: Colors.red);
-}
-
-class AusbilderS2 extends Badge {
-  AusbilderS2(DateTime? date) : super(date);
-
-  @override
-  String get name => 'AusbilderS2';
-
-  @override
-  String get fullName => 'Ausbilder S Stufe 2';
-
-  @override
-  String get shortName => 'Ausbilder S2';
-
-  @override
-  get icon => const Icon(Icons.hdr_auto_outlined, color: Colors.grey);
-}
-
-class Gruppenleiter extends Badge {
-  Gruppenleiter(DateTime? date) : super(date);
-
-  @override
-  String get name => 'Gruppenleiter';
-
-  @override
-  String get fullName => 'Gruppenleiter';
-
-  @override
-  String get shortName => 'Gruppenleiter';
-
-  @override
-  get icon => const Icon(Icons.groups, color: Colors.grey);
 }

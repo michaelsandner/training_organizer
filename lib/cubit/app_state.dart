@@ -53,17 +53,7 @@ class AppState with EquatableMixin {
             phone: '01000 1100',
             trainingGroup: Group.waitingList,
             badges: [
-              BronzeBadge(null),
-              SilverBadge(DateTime.now()),
-              RettungsschwimmerBronzeBadge(DateTime.now()),
-              Wasserretter(DateTime.now()),
-              San(DateTime.now()),
-              RSiWRD(DateTime.now()),
-              AusbilderS1(null),
-              AusbilderS2(null),
-              AusbilderR1(null),
-              AusbilderR2(null),
-              AusbildungsAssistent(null),
+              Qualification(badgeType: BadgeType.bronze, date: DateTime.now()),
             ]),
         Trainee(
           surname: 'Musterman',

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/badge.dart' as badge;
+import 'package:training_organizer/model/badge.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/services/date_service.dart';
 
@@ -151,20 +152,20 @@ class _AddTraineeState extends State<AddTrainee> {
           });
     }
 
-    List<badge.Badge> createBadges() {
+    List<Qualification> createBadges() {
       DateTime? date;
       if (enableCurrentBadgeDate) {
         date = DateTime.now();
       }
-      List<badge.Badge> badges = [];
+      List<Qualification> badges = [];
       if (isBronzeChecked) {
-        badges.add(badge.BronzeBadge(date));
+        badges.add(Qualification(badgeType: BadgeType.bronze, date: date));
       }
       if (isSilverChecked) {
-        badges.add(badge.SilverBadge(date));
+        badges.add(Qualification(badgeType: BadgeType.silber, date: date));
       }
       if (isGoldChecked) {
-        badges.add(badge.GoldBadge(date));
+        badges.add(Qualification(badgeType: BadgeType.gold, date: date));
       }
       return badges;
     }
@@ -303,7 +304,7 @@ class _AddTraineeState extends State<AddTrainee> {
               CheckboxListTile(
                 value: isBronzeChecked,
                 title: const Text('Bronze'),
-                secondary: badge.BronzeBadge(null).icon,
+                secondary: BadgeType.bronze.icon,
                 onChanged: (bool? value) => setState(() {
                   isBronzeChecked = value! ? value : false;
                 }),
@@ -311,7 +312,7 @@ class _AddTraineeState extends State<AddTrainee> {
               CheckboxListTile(
                 value: isSilverChecked,
                 title: const Text('Silber'),
-                secondary: badge.SilverBadge(null).icon,
+                secondary: BadgeType.silber.icon,
                 onChanged: (bool? value) => setState(() {
                   isSilverChecked = value! ? value : false;
                 }),
@@ -319,7 +320,7 @@ class _AddTraineeState extends State<AddTrainee> {
               CheckboxListTile(
                 value: isGoldChecked,
                 title: const Text('Gold'),
-                secondary: badge.GoldBadge(null).icon,
+                secondary: BadgeType.gold.icon,
                 onChanged: (bool? value) => setState(() {
                   isGoldChecked = value! ? value : false;
                 }),
