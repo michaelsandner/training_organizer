@@ -11,7 +11,7 @@ void main() {
             Qualification(qualificationType: QualificationType.pirate);
 
         expect(piratequalification.qualificationType, QualificationType.pirate);
-        expect(piratequalification.qualificationType.name, 'Seeräuber');
+        expect(piratequalification.qualificationType.name, 'Pirat');
         expect(piratequalification.qualificationType.shortName, 'Seeräuber');
         expect(piratequalification.qualificationType.fullName, 'Seeräuber');
       });

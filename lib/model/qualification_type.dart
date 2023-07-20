@@ -101,7 +101,7 @@ extension QualificationTypeName on QualificationType {
   String get name {
     switch (this) {
       case QualificationType.pirate:
-        return 'Seeräuber';
+        return 'Pirat';
       case QualificationType.bronze:
         return 'Bronze';
       case QualificationType.silber:
