@@ -23,10 +23,10 @@ List<QualificationType> _dataAusbildung = [
 List<QualificationType> _dataAusbilder = [
   QualificationType.gruppenleiter,
   QualificationType.ausbildungsassistent,
-  QualificationType.ausbilderR1,
-  QualificationType.ausbilderR2,
   QualificationType.ausbilderS1,
+  QualificationType.ausbilderR1,
   QualificationType.ausbilderS2,
+  QualificationType.ausbilderR2,
 ];
 
 int getCount(AppState state, String qualification) {
