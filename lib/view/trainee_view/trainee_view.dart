@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/email_cubit.dart';
 import 'package:training_organizer/cubit/file_cubit.dart';
 import 'package:training_organizer/cubit/file_state.dart';
 import 'package:training_organizer/services/platform_service.dart';
 import 'package:training_organizer/view/edit_view/add_trainee.dart';
 import 'package:training_organizer/view/import_view.dart';
+import 'package:training_organizer/view/trainee_view/send_email_dialog.dart';
 import 'package:training_organizer/view/trainee_view/trainee_list.dart';
 
 class TraineeView extends StatelessWidget {
@@ -33,8 +35,6 @@ class TraineeView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         SelectedCount(),
-                        const _EmailButtonGoup(),
-                        const _EmailButtonSaturday(),
                         DropDown(),
                       ],
                     ),
@@ -55,7 +55,14 @@ class TraineeView extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomRight,
-                child: AddButton(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    AddButton(),
+                    const SizedBox(width: 10),
+                    EmailButton(),
+                  ],
+                ),
               ),
             ],
           ),
@@ -83,68 +90,31 @@ class SelectedCount extends StatelessWidget {
   }
 }
 
-class _EmailButtonGoup extends StatelessWidget {
-  const _EmailButtonGoup({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<AppCubit>();
-
-    return Column(
-      children: [
-        IconButton(
-          onPressed: () => cubit.sendMailToSelectedGroup(),
-          icon: const Icon(Icons.mail),
-          color: Colors.blue,
-        ),
-        const Text('Gruppe'),
-      ],
-    );
-  }
-}
-
-class _EmailButtonSaturday extends StatelessWidget {
-  const _EmailButtonSaturday({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<AppCubit>();
-
-    return Column(
-      children: [
-        IconButton(
-          onPressed: () => showDialog(
-            context: context,
-            builder: (context) => SimpleDialog(
-              title: const Text('Möchtest du die Trainer in cc setzen?'),
-              children: <Widget>[
-                SimpleDialogOption(
-                  child: const Text('Ja'),
-                  onPressed: () => cubit.sendMailToSaturdayTrainees(true),
-                ),
-                SimpleDialogOption(
-                  child: const Text('Nein'),
-                  onPressed: () => cubit.sendMailToSaturdayTrainees(false),
-                )
-              ],
-            ),
-          ),
-          icon: const Icon(Icons.mail),
-          color: Colors.blue,
-        ),
-        const Text('Samstag'),
-      ],
-    );
-  }
-}
-
 class AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
+    return FloatingActionButton.extended(
       onPressed: () => Navigator.push(
           context, MaterialPageRoute(builder: (context) => const AddTrainee())),
-      child: const Icon(Icons.add),
+      icon: const Icon(Icons.add),
+      label: const Text('Hinzufügen'),
+    );
+  }
+}
+
+class EmailButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton.extended(
+      onPressed: () => showDialog(
+        context: context,
+        builder: (BuildContext context) => BlocProvider(
+          create: (context) => EmailCubit(),
+          child: SendEmailDialog(),
+        ),
+      ),
+      icon: const Icon(Icons.mail),
+      label: const Text('Email schreiben'),
     );
   }
 }
