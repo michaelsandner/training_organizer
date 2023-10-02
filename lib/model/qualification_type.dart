@@ -11,6 +11,8 @@ enum QualificationType {
   rettungsschwimmerImWasserrettungsdienst,
   wassserretter,
   san,
+  fachsan,
+  rettsan,
   ausbildungsassistent,
   ausbilderS1,
   ausbilderS2,
@@ -40,6 +42,10 @@ extension QualificationTypeShortName on QualificationType {
         return 'RSiWRD';
       case QualificationType.san:
         return 'San';
+      case QualificationType.fachsan:
+        return 'FachSan';
+      case QualificationType.rettsan:
+        return 'RettSan';
       case QualificationType.wassserretter:
         return 'Wasserretter';
       case QualificationType.ausbildungsassistent:
@@ -79,6 +85,10 @@ extension QualificationTypeFullName on QualificationType {
         return 'Rettungsschwimmer im Wasserrettungsdient';
       case QualificationType.san:
         return 'Sanitätsdiensthelfer';
+      case QualificationType.fachsan:
+        return 'Fachsanitäter';
+      case QualificationType.rettsan:
+        return 'Rettungssanitäter';
       case QualificationType.wassserretter:
         return 'Wasserretter';
       case QualificationType.ausbildungsassistent:
@@ -118,6 +128,10 @@ extension QualificationTypeName on QualificationType {
         return 'RSiWRD';
       case QualificationType.san:
         return 'San';
+      case QualificationType.fachsan:
+        return 'FachSan';
+      case QualificationType.rettsan:
+        return 'RettSan';
       case QualificationType.wassserretter:
         return 'Wasserretter';
       case QualificationType.ausbildungsassistent:
@@ -159,6 +173,10 @@ extension QualificationTypeIcon on QualificationType {
         return const Icon(Icons.healing, color: Colors.grey);
       case QualificationType.san:
         return const Icon(Icons.healing, color: Colors.red);
+      case QualificationType.fachsan:
+        return const Icon(Icons.healing, color: Colors.grey);
+      case QualificationType.rettsan:
+        return const Icon(Icons.healing, color: Colors.yellow);
       case QualificationType.ausbildungsassistent:
         return const Icon(Icons.cruelty_free, color: Colors.yellow);
       case QualificationType.ausbilderS1:

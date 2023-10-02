@@ -17,7 +17,9 @@ List<QualificationType> _dataAusbildung = [
   QualificationType.rettungsschwimmerSilber,
   QualificationType.rettungsschwimmerImWasserrettungsdienst,
   QualificationType.san,
+  QualificationType.fachsan,
   QualificationType.wassserretter,
+  QualificationType.rettsan,
 ];
 
 List<QualificationType> _dataAusbilder = [
