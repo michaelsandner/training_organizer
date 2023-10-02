@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Training Organizer',
         theme: ThemeData(
           // This is the theme of your application.
           //
@@ -80,9 +80,18 @@ class _MyHomePageState extends State<MyHomePage> {
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
           bottom: const TabBar(tabs: [
-            Tab(icon: Icon(Icons.accessibility)),
-            Tab(icon: Icon(Icons.document_scanner)),
-            Tab(icon: Icon(Icons.list)),
+            Tab(
+              icon: Icon(Icons.accessibility),
+              text: 'Mitglieder',
+            ),
+            Tab(
+              icon: Icon(Icons.document_scanner),
+              text: 'Blocklisten',
+            ),
+            Tab(
+              icon: Icon(Icons.list),
+              text: 'Statistik',
+            ),
           ]),
         ),
         body: Center(
