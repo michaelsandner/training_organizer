@@ -23,7 +23,12 @@ void main() {
             'date': '2020-09-09 00:00:00.000'
           },
           'qualifications': [
+            {'name': 'RettungsschwimmerBronze', 'date': '09.09.2020'},
             {'name': 'RettungsschwimmerSilber', 'date': '09.09.2020'},
+            {'name': 'Ausbildungsassistent', 'date': '09.09.2020'},
+            {'name': 'San', 'date': '09.09.2020'},
+            {'name': 'FachSan', 'date': '09.09.2020'},
+            {'name': 'RettSan', 'date': '09.09.2020'},
           ]
         };
 
@@ -38,9 +43,17 @@ void main() {
         expect(output.isMember, true);
         expect(output.qualification!.qualificationType.name, 'Bronze');
         expect(output.isTrainer, true);
-        expect(output.qualifications.length, 1);
+
         expect(output.qualifications[0]!.qualificationType.name,
+            'RettungsschwimmerBronze');
+        expect(output.qualifications[1]!.qualificationType.name,
             'RettungsschwimmerSilber');
+        expect(output.qualifications[2]!.qualificationType.name,
+            'Ausbildungsassistent');
+        expect(output.qualifications[3]!.qualificationType.name, 'San');
+        expect(output.qualifications[4]!.qualificationType.name, 'FachSan');
+        expect(output.qualifications[5]!.qualificationType.name, 'RettSan');
+
         expect(output.qualifications[0]!.date, DateTime(2020, 9, 9));
       });
     });
