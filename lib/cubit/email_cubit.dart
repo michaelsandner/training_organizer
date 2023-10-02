@@ -14,7 +14,7 @@ class EmailCubit extends Cubit<EmailState> {
   void sendEmail(List<Trainee> trainees) {
     switch (state.emailList) {
       case EmailList.saturdayKids:
-        sendMailToSaturdayKids(trainees);
+        sendMailToTrainees(_getSaturdayKids(trainees), []);
         break;
       case EmailList.saturdayKidsAndTrainer:
         sendMailToSaturdayKidsAndTrainer(trainees);
@@ -29,10 +29,13 @@ class EmailCubit extends Cubit<EmailState> {
         sendMailToTrainees(trainees, []);
         break;
       case EmailList.trainer:
-        sendMailToTrainer(trainees);
+        sendMailToTrainees(_getTrainer(trainees), []);
         break;
       case EmailList.activeAndLeasure:
         sendMailToGroup(trainees, Group.active);
+        break;
+      case EmailList.allKids:
+        sendMailToTrainees(_getAllKids(trainees), []);
         break;
     }
   }
@@ -45,16 +48,6 @@ Future<void> sendMailToGroup(List<Trainee> trainees, Group group) async {
   await sendMailToTrainees(selectedTrainees, []);
 }
 
-Future<void> sendMailToTrainer(List<Trainee> trainees) async {
-  await sendMailToTrainees(_getTrainer(trainees), []);
-}
-
-Future<void> sendMailToSaturdayKids(List<Trainee> trainees) async {
-  final saturdayTrainees = _getSaturdayKids(trainees);
-
-  await sendMailToTrainees(saturdayTrainees, []);
-}
-
 Future<void> sendMailToSaturdayKidsAndTrainer(List<Trainee> trainees) async {
   final saturdayTrainees = _getSaturdayKids(trainees);
 
@@ -65,6 +58,18 @@ Future<void> sendMailToSaturdayKidsAndTrainer(List<Trainee> trainees) async {
 
 List<Trainee> _getTrainer(List<Trainee> trainees) {
   return trainees.where((element) => element.isTrainer).toList();
+}
+
+List<Trainee> _getAllKids(List<Trainee> trainees) {
+  return trainees
+      .where((element) =>
+          element.trainingGroup == Group.group1 ||
+          element.trainingGroup == Group.group2 ||
+          element.trainingGroup == Group.group3 ||
+          element.trainingGroup == Group.group4 ||
+          element.trainingGroup == Group.group5 ||
+          element.trainingGroup == Group.wednesday)
+      .toList();
 }
 
 List<Trainee> _getSaturdayKids(List<Trainee> trainees) {

@@ -35,6 +35,10 @@ class SendEmailDialog extends StatelessWidget {
                       emailList: EmailList.wednesdayKids,
                     ),
                     EmailListTile(
+                      title: 'Alle Kinder (Mi + Sa)',
+                      emailList: EmailList.allKids,
+                    ),
+                    EmailListTile(
                       title: 'Aktive Erwachsene',
                       emailList: EmailList.active,
                     ),

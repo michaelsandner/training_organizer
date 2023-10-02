@@ -4,6 +4,7 @@ enum EmailList {
   saturdayKids,
   saturdayKidsAndTrainer,
   wednesdayKids,
+  allKids,
   trainer,
   active,
   activeAndLeasure,
