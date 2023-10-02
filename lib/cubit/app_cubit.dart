@@ -221,36 +221,11 @@ class AppCubit extends Cubit<AppState> {
     return current.name;
   }
 
-  Future<void> sendMailToSelectedGroup() async {
-    if (state.selectedGroup == FilterableGroup.invited) {
-      await sendMailToWaitingListTrainees(state.selectedTrainees);
-    } else {
-      await sendMailToTrainees(state.selectedTrainees, []);
-    }
-  }
-
   Future<void> sendMailToTrainee(Trainee trainee) async {
     if (state.selectedGroup == FilterableGroup.waitingList) {
       await sendMailToSingleWaitingListTrainee(trainee);
     } else {
       await sendMailToSingleTrainee(trainee);
     }
-  }
-
-  Future<void> sendMailToSaturdayTrainees(bool shouldIncludeTrainer) async {
-    final saturdayTrainees = state.trainees
-        .where((element) =>
-            element.trainingGroup == Group.group1 ||
-            element.trainingGroup == Group.group2 ||
-            element.trainingGroup == Group.group3 ||
-            element.trainingGroup == Group.group4 ||
-            element.trainingGroup == Group.group5)
-        .toList();
-    List<Trainee> trainer = [];
-
-    if (shouldIncludeTrainer) {
-      trainer = state.trainees.where((element) => element.isTrainer).toList();
-    }
-    await sendMailToTrainees(saturdayTrainees, trainer);
   }
 }
