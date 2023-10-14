@@ -4,6 +4,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/qualification_type.dart';
+import 'package:training_organizer/services/trainees_filter_service.dart';
 
 List<QualificationType> _dataJugendausbildung = [
   QualificationType.pirate,
@@ -30,12 +31,6 @@ List<QualificationType> _dataAusbilder = [
   QualificationType.ausbilderS2,
   QualificationType.ausbilderR2,
 ];
-
-int getCount(AppState state, String qualification) {
-  return state.trainees
-      .where((element) => element.hasQualification(qualification))
-      .length;
-}
 
 int getqualificationOfYear(AppState state, String qualification, int year) {
   return state.trainees
@@ -166,7 +161,9 @@ class _AktivenAusbildungen extends StatelessWidget {
                     xValueMapper: (QualificationType qualification, _) =>
                         qualification.shortName,
                     yValueMapper: (QualificationType qualification, _) =>
-                        getCount(state, qualification.name),
+                        TraineesFilterService
+                            .getCountOfTraineesWithQualification(
+                                state.trainees, qualification.name),
                     dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
                         textStyle: TextStyle(fontWeight: FontWeight.bold)),
@@ -199,7 +196,8 @@ class _Ausbilder extends StatelessWidget {
                   xValueMapper: (QualificationType qualification, _) =>
                       qualification.fullName,
                   yValueMapper: (QualificationType qualification, _) =>
-                      getCount(state, qualification.name),
+                      TraineesFilterService.getCountOfTraineesWithQualification(
+                          state.trainees, qualification.name),
                   dataLabelSettings: const DataLabelSettings(
                       isVisible: true,
                       textStyle: TextStyle(fontWeight: FontWeight.bold)),

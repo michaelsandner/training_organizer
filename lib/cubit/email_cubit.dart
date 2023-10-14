@@ -3,6 +3,7 @@ import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/cubit/email_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/services/email_service.dart';
+import 'package:training_organizer/services/trainees_filter_service.dart';
 
 class EmailCubit extends Cubit<EmailState> {
   EmailCubit() : super(EmailState.initial());
@@ -46,23 +47,34 @@ class EmailCubit extends Cubit<EmailState> {
 
 Future<void> sendMailToGroup(List<Trainee> trainees, Group group) async {
   final selectedTrainees =
-      trainees.where((element) => element.trainingGroup == group).toList();
+      TraineesFilterService.getTraineesOfGroup(trainees, group);
 
   await sendMailToTrainees(selectedTrainees, []);
 }
 
 Future<void> sendMailToInvited(List<Trainee> trainees) async {
-  final selectedTrainees = trainees
-      .where((element) => element.trainingGroup == Group.invited)
-      .toList();
+  final selectedTrainees =
+      TraineesFilterService.getTraineesOfGroup(trainees, Group.invited);
 
   await sendMailToInvitedListTrainees(selectedTrainees);
 }
 
-Future<void> sendMailToSaturdayKidsAndTrainer(List<Trainee> trainees) async {
-  final saturdayTrainees = _getSaturdayKids(trainees);
+Future<void> sendMailToTrainer(List<Trainee> trainees) async {
+  await sendMailToTrainees(TraineesFilterService.getAllTrainers(trainees), []);
+}
 
-  List<Trainee> trainer = _getTrainer(trainees);
+Future<void> sendMailToSaturdayKids(List<Trainee> trainees) async {
+  final saturdayTrainees =
+      TraineesFilterService.getAllSaturdayTrainees(trainees);
+
+  await sendMailToTrainees(saturdayTrainees, []);
+}
+
+Future<void> sendMailToSaturdayKidsAndTrainer(List<Trainee> trainees) async {
+  final saturdayTrainees =
+      TraineesFilterService.getAllSaturdayTrainees(trainees);
+
+  List<Trainee> trainer = TraineesFilterService.getAllTrainers(trainees);
 
   await sendMailToTrainees(saturdayTrainees, trainer);
 }
