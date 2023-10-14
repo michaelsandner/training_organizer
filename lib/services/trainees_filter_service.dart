@@ -17,6 +17,18 @@ class TraineesFilterService {
         .toList();
   }
 
+  static List<Trainee> getAllKids(List<Trainee> trainees) {
+    return trainees
+        .where((element) =>
+            element.trainingGroup == Group.group1 ||
+            element.trainingGroup == Group.group2 ||
+            element.trainingGroup == Group.group3 ||
+            element.trainingGroup == Group.group4 ||
+            element.trainingGroup == Group.group5 ||
+            element.trainingGroup == Group.wednesday)
+        .toList();
+  }
+
   static List<Trainee> getAllTrainers(List<Trainee> trainees) {
     return trainees.where((element) => element.isTrainer).toList();
   }
