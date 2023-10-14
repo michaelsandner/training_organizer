@@ -15,7 +15,8 @@ class EmailCubit extends Cubit<EmailState> {
   void sendEmail(List<Trainee> trainees) {
     switch (state.emailList) {
       case EmailList.saturdayKids:
-        sendMailToTrainees(_getSaturdayKids(trainees), []);
+        sendMailToTrainees(
+            TraineesFilterService.getAllSaturdayTrainees(trainees), []);
         break;
       case EmailList.saturdayKidsAndTrainer:
         sendMailToSaturdayKidsAndTrainer(trainees);
@@ -36,7 +37,7 @@ class EmailCubit extends Cubit<EmailState> {
         sendMailToGroup(trainees, Group.active);
         break;
       case EmailList.allKids:
-        sendMailToTrainees(_getAllKids(trainees), []);
+        sendMailToTrainees(TraineesFilterService.getAllKids(trainees), []);
         break;
       case EmailList.invited:
         sendMailToGroup(trainees, Group.invited);
@@ -81,27 +82,4 @@ Future<void> sendMailToSaturdayKidsAndTrainer(List<Trainee> trainees) async {
 
 List<Trainee> _getTrainer(List<Trainee> trainees) {
   return trainees.where((element) => element.isTrainer).toList();
-}
-
-List<Trainee> _getAllKids(List<Trainee> trainees) {
-  return trainees
-      .where((element) =>
-          element.trainingGroup == Group.group1 ||
-          element.trainingGroup == Group.group2 ||
-          element.trainingGroup == Group.group3 ||
-          element.trainingGroup == Group.group4 ||
-          element.trainingGroup == Group.group5 ||
-          element.trainingGroup == Group.wednesday)
-      .toList();
-}
-
-List<Trainee> _getSaturdayKids(List<Trainee> trainees) {
-  return trainees
-      .where((element) =>
-          element.trainingGroup == Group.group1 ||
-          element.trainingGroup == Group.group2 ||
-          element.trainingGroup == Group.group3 ||
-          element.trainingGroup == Group.group4 ||
-          element.trainingGroup == Group.group5)
-      .toList();
 }
