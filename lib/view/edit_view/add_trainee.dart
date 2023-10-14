@@ -30,6 +30,8 @@ class _AddTraineeState extends State<AddTrainee> {
   late bool isBronzeChecked;
   late bool isSilverChecked;
   late bool isGoldChecked;
+  late bool isMember;
+  late bool isTrainer;
   bool enableCurrentqualificationDate = false;
 
   @override
@@ -46,6 +48,8 @@ class _AddTraineeState extends State<AddTrainee> {
           DateService.parseToDate(widget.trainee!.registrationDate).toString();
       commentController.text = widget.trainee!.comment;
       group = widget.trainee!.trainingGroup;
+      isMember = widget.trainee!.isMember;
+      isTrainer = widget.trainee!.isTrainer;
       setState(() {
         isBronzeChecked = widget.trainee!.hasQualification('Bronze');
         isSilverChecked = widget.trainee!.hasQualification('Silber');
@@ -72,6 +76,8 @@ class _AddTraineeState extends State<AddTrainee> {
       registrationDateController.clear();
       phoneController.clear();
       commentController.clear();
+      isMember = false;
+      isTrainer = false;
       setState(() {
         isBronzeChecked = false;
         isSilverChecked = false;
@@ -175,17 +181,20 @@ class _AddTraineeState extends State<AddTrainee> {
 
     Trainee createTraineeFromInputs() {
       return Trainee(
-          forename: foreNameController.text.trim(),
-          surname: sureNameController.text.trim(),
-          email: emailController.text.trim(),
-          phone: phoneController.text.trim(),
-          dateOfBirth:
-              DateService.formatToGerman(dateOfBirthController.text.trim()),
-          registrationDate: DateService.formatToGerman(
-              registrationDateController.text.trim()),
-          comment: commentController.text.trim(),
-          trainingGroup: group ?? Group.waitingList,
-          qualifications: createqualifications());
+        forename: foreNameController.text.trim(),
+        surname: sureNameController.text.trim(),
+        email: emailController.text.trim(),
+        phone: phoneController.text.trim(),
+        dateOfBirth:
+            DateService.formatToGerman(dateOfBirthController.text.trim()),
+        registrationDate:
+            DateService.formatToGerman(registrationDateController.text.trim()),
+        comment: commentController.text.trim(),
+        trainingGroup: group ?? Group.waitingList,
+        qualifications: createqualifications(),
+        isMember: isMember,
+        isTrainer: isTrainer,
+      );
     }
 
     void onPressed() async {
@@ -262,6 +271,27 @@ class _AddTraineeState extends State<AddTrainee> {
                 dateLabelText: 'Geb. Datum',
                 controller: dateOfBirthController,
               ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  FilterChip(
+                    selected: isMember,
+                    label: const Text('ist Mitglied'),
+                    onSelected: (bool value) => setState(() {
+                      isMember = value;
+                    }),
+                  ),
+                  const SizedBox(width: 10),
+                  FilterChip(
+                    selected: isTrainer,
+                    label: const Text('ist Trainer*in'),
+                    onSelected: (bool value) => setState(() {
+                      isTrainer = value;
+                    }),
+                  ),
+                ],
+              ),
               DateTimePicker(
                 dateMask: 'dd.MM.yyyy',
                 initialDate: DateTime.now(),
@@ -336,7 +366,7 @@ class _AddTraineeState extends State<AddTrainee> {
                     ElevatedButton(
                       onPressed: onPressed,
                       child: widget.trainee != null
-                          ? const Text('Editiren')
+                          ? const Text('Editieren')
                           : const Text('Hinzufügen'),
                     ),
                     if (widget.trainee != null)
