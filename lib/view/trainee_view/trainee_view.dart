@@ -3,13 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/cubit/email_cubit.dart';
 import 'package:training_organizer/cubit/file_cubit.dart';
 import 'package:training_organizer/cubit/file_state.dart';
 import 'package:training_organizer/services/platform_service.dart';
-import 'package:training_organizer/view/edit_view/add_trainee.dart';
 import 'package:training_organizer/view/trainee_view/button_row.dart';
-import 'package:training_organizer/view/trainee_view/send_email_dialog.dart';
 import 'package:training_organizer/view/trainee_view/trainee_list.dart';
 
 class TraineeView extends StatelessWidget {
@@ -75,68 +72,6 @@ class SelectedCount extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class ImportButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<AppCubit>();
-    final fileCubit = context.read<FileCubit>();
-    return FloatingActionButton.extended(
-      heroTag: 'importButton',
-      onPressed: () async {
-        final trainees = await fileCubit.loadFile();
-        cubit.updateTraineeList(trainees);
-      },
-      icon: const Icon(Icons.data_object),
-      label: const Text('Importieren'),
-    );
-  }
-}
-
-class ExportButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<AppCubit>();
-    final fileCubit = context.read<FileCubit>();
-    return FloatingActionButton.extended(
-      heroTag: 'exportButton',
-      onPressed: () => fileCubit.saveFile(cubit.state.trainees),
-      icon: const Icon(Icons.data_object),
-      label: const Text('Exportieren'),
-    );
-  }
-}
-
-class AddButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton.extended(
-      heroTag: 'addButton',
-      onPressed: () => Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const AddTrainee())),
-      icon: const Icon(Icons.add),
-      label: const Text('Hinzufügen'),
-    );
-  }
-}
-
-class EmailButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton.extended(
-      heroTag: 'emailButton',
-      onPressed: () => showDialog(
-        context: context,
-        builder: (BuildContext context) => BlocProvider(
-          create: (context) => EmailCubit(),
-          child: SendEmailDialog(),
-        ),
-      ),
-      icon: const Icon(Icons.mail),
-      label: const Text('Email schreiben'),
     );
   }
 }

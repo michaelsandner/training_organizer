@@ -72,6 +72,7 @@ class ImportButton extends StatelessWidget {
     final cubit = context.read<AppCubit>();
     final fileCubit = context.read<FileCubit>();
     return FloatingActionButton.extended(
+      heroTag: 'importButton',
       onPressed: () async {
         final trainees = await fileCubit.loadFile();
         cubit.updateTraineeList(trainees);
@@ -93,6 +94,7 @@ class ExportButton extends StatelessWidget {
     final cubit = context.read<AppCubit>();
     final fileCubit = context.read<FileCubit>();
     return FloatingActionButton.extended(
+      heroTag: 'exportButton',
       onPressed: () => fileCubit.saveFile(cubit.state.trainees),
       icon: const Icon(Icons.data_object),
       label: Text(title),
@@ -109,6 +111,7 @@ class AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
+      heroTag: 'addButton',
       onPressed: () => Navigator.push(
           context, MaterialPageRoute(builder: (context) => const AddTrainee())),
       icon: const Icon(Icons.add),
@@ -126,6 +129,7 @@ class EmailButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
+      heroTag: 'emailButton',
       onPressed: () => showDialog(
         context: context,
         builder: (BuildContext context) => BlocProvider(
