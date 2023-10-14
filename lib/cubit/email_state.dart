@@ -8,6 +8,7 @@ enum EmailList {
   trainer,
   active,
   activeAndLeasure,
+  invited,
   all,
 }
 

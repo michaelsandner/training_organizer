@@ -37,6 +37,9 @@ class EmailCubit extends Cubit<EmailState> {
       case EmailList.allKids:
         sendMailToTrainees(_getAllKids(trainees), []);
         break;
+      case EmailList.invited:
+        sendMailToGroup(trainees, Group.invited);
+        break;
     }
   }
 }
@@ -46,6 +49,14 @@ Future<void> sendMailToGroup(List<Trainee> trainees, Group group) async {
       trainees.where((element) => element.trainingGroup == group).toList();
 
   await sendMailToTrainees(selectedTrainees, []);
+}
+
+Future<void> sendMailToInvited(List<Trainee> trainees) async {
+  final selectedTrainees = trainees
+      .where((element) => element.trainingGroup == Group.invited)
+      .toList();
+
+  await sendMailToInvitedListTrainees(selectedTrainees);
 }
 
 Future<void> sendMailToSaturdayKidsAndTrainer(List<Trainee> trainees) async {
