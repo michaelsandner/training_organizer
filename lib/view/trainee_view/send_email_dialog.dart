@@ -46,6 +46,10 @@ class SendEmailDialog extends StatelessWidget {
                       title: 'Trainer',
                       emailList: EmailList.trainer,
                     ),
+                    EmailListTile(
+                      title: 'Eingeladen',
+                      emailList: EmailList.invited,
+                    )
                   ],
                 ),
                 Row(

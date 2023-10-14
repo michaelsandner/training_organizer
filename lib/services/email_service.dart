@@ -47,7 +47,7 @@ Future<void> sendMailToSingleWaitingListTrainee(Trainee trainee) async {
   await _launchUri(uri);
 }
 
-Future<void> sendMailToWaitingListTrainees(List<Trainee> trainees) async {
+Future<void> sendMailToInvitedListTrainees(List<Trainee> trainees) async {
   String email = _getEmails(trainees);
 
   final String subject = Uri.encodeComponent(
