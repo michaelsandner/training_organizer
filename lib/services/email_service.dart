@@ -49,13 +49,16 @@ Future<void> sendMailToSingleWaitingListTrainee(Trainee trainee) async {
 
 Future<void> sendMailToInvitedListTrainees(List<Trainee> trainees) async {
   String email = _getEmails(trainees);
+  String cc = 'info@wasserwacht-langenzeen.de';
 
   final String subject = Uri.encodeComponent(
       'Aufnahme für das Schimmtraining der Wasserwacht Langenzenn');
-  final String body = Uri.encodeComponent('''hallo zusammen :)
+  final String body = Uri.encodeComponent('''hallo zusammen :) 
+
         leider hat es etwas gedauert aber nun freuen wir uns euch mitteilen zu dürfen, dass ihr endlich bei uns im Schwimmtraining mitmachen dürft.
-        Dafür würden wir euch gerne zum Schnuppertraining am XXX um 17:00 Uhr am Hallenbad Langenzenn einladen.
-        Das Training startet geht von 17-18 Uhr. Wir treffen uns allerdings schon kurz vorher um euch ein paar Infos zum Trainingsablauf zu geben und den Kids das Hallenbad zu zeigen.
+        Dafür würden wir euch gerne zum Schnuppertraining am XXX um 16:50 Uhr am Hallenbad Langenzenn einladen.
+        Das Training findet von 17-18 Uhr statt. Wir treffen uns allerdings schon kurz vorher um euch ein paar Infos zum Trainingsablauf zu geben und um den Kids das Hallenbad zu zeigen.
+
         Bitte gebt uns bescheid ob ihr noch Interesse habt und ob ihr am Termin teilnehmen könnt.
         (Falls ihr kein Interesse mehr am Schwimmtraining habt, bitte ebenfalls bescheid geben.)
 
@@ -65,7 +68,7 @@ Future<void> sendMailToInvitedListTrainees(List<Trainee> trainees) async {
 
         Euer Wasserwacht-Team
          ''');
-  Uri uri = Uri.parse('mailto:?bcc=$email&subject=$subject&body=$body');
+  Uri uri = Uri.parse('mailto:?bcc=$email&cc=$cc&subject=$subject&body=$body');
 
   await _launchUri(uri);
 }

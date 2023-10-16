@@ -40,7 +40,7 @@ class EmailCubit extends Cubit<EmailState> {
         sendMailToTrainees(TraineesFilterService.getAllKids(trainees), []);
         break;
       case EmailList.invited:
-        sendMailToGroup(trainees, Group.invited);
+        sendMailToInvited(trainees);
         break;
     }
   }
