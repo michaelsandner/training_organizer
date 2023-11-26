@@ -21,6 +21,7 @@ class _TraineeListState extends State<TraineeList> {
     return BlocBuilder<AppCubit, AppState>(
       builder: (context, state) {
         return ListView.builder(
+          padding: const EdgeInsets.only(bottom: 50),
           itemCount: state.selectedTrainees.length,
           itemBuilder: (BuildContext context, int index) {
             return TraineeListItem(
