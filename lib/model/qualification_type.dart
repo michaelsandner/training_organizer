@@ -178,17 +178,61 @@ extension QualificationTypeIcon on QualificationType {
       case QualificationType.rettsan:
         return const Icon(Icons.healing, color: Colors.yellow);
       case QualificationType.ausbildungsassistent:
-        return const Icon(Icons.cruelty_free, color: Colors.yellow);
+        return const Icon(Icons.school_outlined);
       case QualificationType.ausbilderS1:
-        return const Icon(Icons.hdr_auto_outlined, color: Colors.red);
+        return const Icon(Icons.school_outlined, color: Colors.blue);
       case QualificationType.ausbilderS2:
-        return const Icon(Icons.hdr_auto_outlined, color: Colors.grey);
+        return const Icon(Icons.school, color: Colors.blue);
       case QualificationType.ausbilderR1:
-        return const Icon(Icons.hdr_auto, color: Colors.red);
+        return const Icon(Icons.school_outlined, color: Colors.red);
       case QualificationType.ausbilderR2:
-        return const Icon(Icons.hdr_auto, color: Colors.grey);
+        return const Icon(Icons.school, color: Colors.red);
       case QualificationType.gruppenleiter:
         return const Icon(Icons.groups, color: Colors.grey);
+    }
+  }
+}
+
+extension QualificationTypeIconName on QualificationType {
+  static const String directoryName = 'assets/images/';
+  String? get iconName {
+    switch (this) {
+      case QualificationType.pirate:
+        return null;
+      case QualificationType.bronze:
+        return '${directoryName}DSA_Bronze.svg';
+      case QualificationType.silber:
+        return '${directoryName}DSA_Silber.svg';
+      case QualificationType.gold:
+        return '${directoryName}DSA_Gold.svg';
+      case QualificationType.rettungschwimmerBronze:
+        return '${directoryName}DRSA_Bronze.svg';
+      case QualificationType.rettungsschwimmerSilber:
+        return '${directoryName}DRSA_Silber.svg';
+      case QualificationType.rettungsschwimmerGold:
+        return '${directoryName}DRSA_Gold.svg';
+      case QualificationType.rettungsschwimmerImWasserrettungsdienst:
+        return '${directoryName}rsiwrd.svg';
+      case QualificationType.wassserretter:
+        return '${directoryName}wasserretter.svg';
+      case QualificationType.san:
+        return '${directoryName}san.svg';
+      case QualificationType.fachsan:
+        return '${directoryName}san.svg';
+      case QualificationType.rettsan:
+        return '${directoryName}san.svg';
+      case QualificationType.ausbildungsassistent:
+        return null;
+      case QualificationType.ausbilderS1:
+        return null;
+      case QualificationType.ausbilderS2:
+        return null;
+      case QualificationType.ausbilderR1:
+        return null;
+      case QualificationType.ausbilderR2:
+        return null;
+      case QualificationType.gruppenleiter:
+        return null;
     }
   }
 }

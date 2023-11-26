@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/model/qualification_type.dart';
 import 'package:training_organizer/model/trainee.dart';
@@ -40,7 +41,9 @@ class TraineeListItem extends StatelessWidget {
                 EditButton(trainee: trainee),
                 _EmailButton(trainee: trainee),
                 _QualificationOverlay(
-                    trainee: trainee, child: _Qualifications(trainee: trainee)),
+                  trainee: trainee,
+                  child: _Qualifications(trainee: trainee),
+                ),
               ],
             ),
           )
@@ -134,7 +137,8 @@ class _Qualifications extends StatelessWidget {
               message: currentqualification.date == null
                   ? '${currentqualification.qualificationType.fullName} \n Datum: - '
                   : '${currentqualification.qualificationType.fullName} \n Datum: ${currentqualification.date!.year.toString()}',
-              child: currentqualification.qualificationType.icon,
+              child: _PaddedQualificationIcon(
+                  qualificationType: currentqualification.qualificationType),
             );
           } else {
             return const Icon(
@@ -144,6 +148,36 @@ class _Qualifications extends StatelessWidget {
           }
         }),
       ),
+    );
+  }
+}
+
+class _PaddedQualificationIcon extends StatelessWidget {
+  final QualificationType qualificationType;
+  const _PaddedQualificationIcon({required this.qualificationType});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 5),
+      child: _QualificationIcon(qualificationType: qualificationType),
+    );
+  }
+}
+
+class _QualificationIcon extends StatelessWidget {
+  final QualificationType qualificationType;
+  const _QualificationIcon({required this.qualificationType});
+
+  @override
+  Widget build(BuildContext context) {
+    if (qualificationType.iconName == null) {
+      return qualificationType.icon;
+    }
+    return SvgPicture.asset(
+      qualificationType.iconName!,
+      width: 25,
+      height: 25,
     );
   }
 }
