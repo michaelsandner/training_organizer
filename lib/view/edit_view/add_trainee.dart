@@ -27,11 +27,11 @@ class _AddTraineeState extends State<AddTrainee> {
   TextEditingController commentController = TextEditingController();
   Group? group = Group.waitingList;
 
-  late bool isBronzeChecked;
-  late bool isSilverChecked;
-  late bool isGoldChecked;
-  late bool isMember;
-  late bool isTrainer;
+  bool isBronzeChecked = false;
+  bool isSilverChecked = false;
+  bool isGoldChecked = false;
+  bool isMember = false;
+  bool isTrainer = false;
   bool enableCurrentqualificationDate = false;
 
   @override
@@ -55,10 +55,6 @@ class _AddTraineeState extends State<AddTrainee> {
         isSilverChecked = widget.trainee!.hasQualification('Silber');
         isGoldChecked = widget.trainee!.hasQualification('Gold');
       });
-    } else {
-      isBronzeChecked = false;
-      isSilverChecked = false;
-      isGoldChecked = false;
     }
   }
 
