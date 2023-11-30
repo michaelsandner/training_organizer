@@ -30,7 +30,7 @@ class TraineeListItem extends StatelessWidget {
               children: [
                 UpAndDownButtons(refresh: () => refresh, trainee: trainee),
                 ItemTextBox(
-                  text: '${trainee.forename} ${trainee.surname}',
+                  text: '${trainee.surname} ${trainee.forename}',
                   isMember: trainee.isMember,
                   width: 200,
                 ),
