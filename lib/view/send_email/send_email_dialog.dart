@@ -20,35 +20,32 @@ class SendEmailDialog extends StatelessWidget {
                 const Text(
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     'Email senden:'),
-                const Column(
+                Column(
                   children: [
                     EmailListTile(
                       title: 'Kinder Samstag',
-                      emailList: EmailList.saturdayKids,
-                    ),
-                    EmailListTile(
-                      title: 'Kinder Samstag & Trainer',
-                      emailList: EmailList.saturdayKidsAndTrainer,
+                      value: state.shouldSendToSaturdayKids,
+                      onChanged: emailCubit.shouldSendToSaturdayKids,
                     ),
                     EmailListTile(
                       title: 'Kinder Mittwoch',
-                      emailList: EmailList.wednesdayKids,
-                    ),
-                    EmailListTile(
-                      title: 'Alle Kinder (Mi + Sa)',
-                      emailList: EmailList.allKids,
+                      value: state.shouldSendToWednesdayKids,
+                      onChanged: emailCubit.shouldSendToWednesdayKids,
                     ),
                     EmailListTile(
                       title: 'Aktive Erwachsene',
-                      emailList: EmailList.active,
+                      value: state.shouldSendToActive,
+                      onChanged: emailCubit.shouldSendToActive,
                     ),
                     EmailListTile(
                       title: 'Trainer',
-                      emailList: EmailList.trainer,
+                      value: state.shouldSendToTrainer,
+                      onChanged: emailCubit.shouldSendToTrainer,
                     ),
                     EmailListTile(
                       title: 'Eingeladen',
-                      emailList: EmailList.invited,
+                      value: state.shouldSendToInvited,
+                      onChanged: emailCubit.shouldSendToInvited,
                     )
                   ],
                 ),
@@ -83,23 +80,24 @@ class SendEmailDialog extends StatelessWidget {
 
 class EmailListTile extends StatelessWidget {
   final String title;
-  final EmailList emailList;
+  final bool value;
+  final Function(bool) onChanged;
 
   const EmailListTile({
-    required this.emailList,
     required this.title,
+    required this.value,
+    required this.onChanged,
   });
   @override
   Widget build(BuildContext context) {
-    final emailCubit = context.read<EmailCubit>();
     return BlocBuilder<EmailCubit, EmailState>(
       builder: (context, state) {
-        return RadioListTile<EmailList>(
+        return CheckboxListTile(
           title: Text(title),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 50),
-          value: emailList,
-          groupValue: state.emailList,
-          onChanged: (value) => emailCubit.setEmailList(value),
+          value: value,
+          onChanged: (bool? newValue) {
+            onChanged(newValue ?? false);
+          },
         );
       },
     );

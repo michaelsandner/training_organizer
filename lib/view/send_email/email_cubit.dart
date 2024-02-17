@@ -8,78 +8,85 @@ import 'package:training_organizer/view/send_email/email_state.dart';
 class EmailCubit extends Cubit<EmailState> {
   EmailCubit() : super(EmailState.initial());
 
-  void setEmailList(EmailList? emailList) {
-    emit(state.copyWith(emailList: emailList));
+  void shouldSendToWednesdayKids(bool shouldSend) {
+    emit(state.copyWith(shouldSendToWednesdayKids: shouldSend));
+  }
+
+  void shouldSendToActive(bool shouldSend) {
+    emit(state.copyWith(shouldSendToActive: shouldSend));
+  }
+
+  void shouldSendToTrainer(bool shouldSend) {
+    emit(state.copyWith(shouldSendToTrainer: shouldSend));
+  }
+
+  void shouldSendToSaturdayKids(bool shouldSend) {
+    emit(state.copyWith(shouldSendToSaturdayKids: shouldSend));
+  }
+
+  void shouldSendToInvited(bool shouldSend) {
+    emit(state.copyWith(shouldSendToInvited: shouldSend));
+  }
+
+  void shouldSendToLeasure(bool shouldSend) {
+    emit(state.copyWith(shouldSendToLeasure: shouldSend));
   }
 
   void sendEmail(List<Trainee> trainees) {
-    switch (state.emailList) {
-      case EmailList.saturdayKids:
-        sendMailToTrainees(
-            TraineesFilterService.getAllSaturdayTrainees(trainees), []);
-        break;
-      case EmailList.saturdayKidsAndTrainer:
-        sendMailToSaturdayKidsAndTrainer(trainees);
-        break;
-      case EmailList.wednesdayKids:
-        sendMailToGroup(trainees, Group.wednesday);
-        break;
-      case EmailList.active:
-        sendMailToGroup(trainees, Group.active);
-        break;
-      case EmailList.all:
-        sendMailToTrainees(trainees, []);
-        break;
-      case EmailList.trainer:
-        sendMailToTrainees(_getTrainer(trainees), []);
-        break;
-      case EmailList.activeAndLeasure:
-        sendMailToGroup(trainees, Group.active);
-        break;
-      case EmailList.allKids:
-        sendMailToTrainees(TraineesFilterService.getAllKids(trainees), []);
-        break;
-      case EmailList.invited:
-        sendMailToInvited(trainees);
-        break;
+    if (_isOnlyInvitedSelcted()) {
+      _sendMailToInvited(trainees);
+      return;
     }
+
+    List<Trainee> traineeList = [];
+
+    TraineesFilterService.getAllSaturdayTrainees(trainees);
+
+    if (state.shouldSendToSaturdayKids) {
+      traineeList
+          .addAll(TraineesFilterService.getAllSaturdayTrainees(trainees));
+    }
+
+    if (state.shouldSendToWednesdayKids) {
+      traineeList.addAll(
+          TraineesFilterService.getTraineesOfGroup(trainees, Group.wednesday));
+    }
+
+    if (state.shouldSendToActive) {
+      traineeList.addAll(
+          TraineesFilterService.getTraineesOfGroup(trainees, Group.active));
+    }
+
+    if (state.shouldSendToInvited) {
+      traineeList.addAll(
+          TraineesFilterService.getTraineesOfGroup(trainees, Group.invited));
+    }
+
+    List<Trainee> trainerList = [];
+
+    if (state.shouldSendToTrainer) {
+      trainerList = TraineesFilterService.getAllTrainers(trainees);
+    }
+
+    sendMailToTrainees(traineeList, trainerList);
   }
-}
 
-Future<void> sendMailToGroup(List<Trainee> trainees, Group group) async {
-  final selectedTrainees =
-      TraineesFilterService.getTraineesOfGroup(trainees, group);
+  bool _isOnlyInvitedSelcted() {
+    if (state.shouldSendToInvited &&
+        !state.shouldSendToSaturdayKids &&
+        !state.shouldSendToWednesdayKids &&
+        !state.shouldSendToTrainer &&
+        !state.shouldSendToLeasure &&
+        !state.shouldSendToActive) {
+      return true;
+    }
+    return false;
+  }
 
-  await sendMailToTrainees(selectedTrainees, []);
-}
+  Future<void> _sendMailToInvited(List<Trainee> trainees) async {
+    final selectedTrainees =
+        TraineesFilterService.getTraineesOfGroup(trainees, Group.invited);
 
-Future<void> sendMailToInvited(List<Trainee> trainees) async {
-  final selectedTrainees =
-      TraineesFilterService.getTraineesOfGroup(trainees, Group.invited);
-
-  await sendMailToInvitedListTrainees(selectedTrainees);
-}
-
-Future<void> sendMailToTrainer(List<Trainee> trainees) async {
-  await sendMailToTrainees(TraineesFilterService.getAllTrainers(trainees), []);
-}
-
-Future<void> sendMailToSaturdayKids(List<Trainee> trainees) async {
-  final saturdayTrainees =
-      TraineesFilterService.getAllSaturdayTrainees(trainees);
-
-  await sendMailToTrainees(saturdayTrainees, []);
-}
-
-Future<void> sendMailToSaturdayKidsAndTrainer(List<Trainee> trainees) async {
-  final saturdayTrainees =
-      TraineesFilterService.getAllSaturdayTrainees(trainees);
-
-  List<Trainee> trainer = TraineesFilterService.getAllTrainers(trainees);
-
-  await sendMailToTrainees(saturdayTrainees, trainer);
-}
-
-List<Trainee> _getTrainer(List<Trainee> trainees) {
-  return trainees.where((element) => element.isTrainer).toList();
+    await sendMailToInvitedListTrainees(selectedTrainees);
+  }
 }
