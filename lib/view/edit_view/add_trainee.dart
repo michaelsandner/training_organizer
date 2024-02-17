@@ -27,9 +27,11 @@ class _AddTraineeState extends State<AddTrainee> {
   TextEditingController commentController = TextEditingController();
   Group? group = Group.waitingList;
 
+  bool isPiratChecked = false;
   bool isBronzeChecked = false;
   bool isSilverChecked = false;
   bool isGoldChecked = false;
+  bool isRSBronzeChecked = false;
   bool isMember = false;
   bool isTrainer = false;
   bool enableCurrentqualificationDate = false;
@@ -51,9 +53,12 @@ class _AddTraineeState extends State<AddTrainee> {
       isMember = widget.trainee!.isMember;
       isTrainer = widget.trainee!.isTrainer;
       setState(() {
+        isPiratChecked = widget.trainee!.hasQualification('Pirat');
         isBronzeChecked = widget.trainee!.hasQualification('Bronze');
         isSilverChecked = widget.trainee!.hasQualification('Silber');
         isGoldChecked = widget.trainee!.hasQualification('Gold');
+        isRSBronzeChecked =
+            widget.trainee!.hasQualification('RettungsschwimmerBronze');
       });
     }
   }
@@ -75,9 +80,11 @@ class _AddTraineeState extends State<AddTrainee> {
       isMember = false;
       isTrainer = false;
       setState(() {
+        isPiratChecked = false;
         isBronzeChecked = false;
         isSilverChecked = false;
         isGoldChecked = false;
+        isRSBronzeChecked = false;
       });
     }
 
@@ -160,6 +167,10 @@ class _AddTraineeState extends State<AddTrainee> {
         date = DateTime.now();
       }
       List<Qualification> qualifications = [];
+      if (isPiratChecked) {
+        qualifications.add(Qualification(
+            qualificationType: QualificationType.pirate, date: date));
+      }
       if (isBronzeChecked) {
         qualifications.add(Qualification(
             qualificationType: QualificationType.bronze, date: date));
@@ -171,6 +182,11 @@ class _AddTraineeState extends State<AddTrainee> {
       if (isGoldChecked) {
         qualifications.add(Qualification(
             qualificationType: QualificationType.gold, date: date));
+      }
+      if (isRSBronzeChecked) {
+        qualifications.add(Qualification(
+            qualificationType: QualificationType.rettungschwimmerBronze,
+            date: date));
       }
       return qualifications;
     }
@@ -331,6 +347,14 @@ class _AddTraineeState extends State<AddTrainee> {
                 },
               ),
               CheckboxListTile(
+                value: isPiratChecked,
+                title: const Text('Pirat'),
+                secondary: QualificationType.bronze.icon,
+                onChanged: (bool? value) => setState(() {
+                  isPiratChecked = value! ? value : false;
+                }),
+              ),
+              CheckboxListTile(
                 value: isBronzeChecked,
                 title: const Text('Bronze'),
                 secondary: QualificationType.bronze.icon,
@@ -352,6 +376,14 @@ class _AddTraineeState extends State<AddTrainee> {
                 secondary: QualificationType.gold.icon,
                 onChanged: (bool? value) => setState(() {
                   isGoldChecked = value! ? value : false;
+                }),
+              ),
+              CheckboxListTile(
+                value: isRSBronzeChecked,
+                title: const Text('RS Bronze'),
+                secondary: QualificationType.bronze.icon,
+                onChanged: (bool? value) => setState(() {
+                  isRSBronzeChecked = value! ? value : false;
                 }),
               ),
               Padding(
