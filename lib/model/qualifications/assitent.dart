@@ -6,7 +6,7 @@ class Assistent extends Qualification {
   Assistent(super.date);
 
   @override
-  String get fullName => 'Ausbildungsassistent';
+  String get fullName => 'Ausbildungsassistent*in';
 
   @override
   String get name => ausbildungsAssistent;

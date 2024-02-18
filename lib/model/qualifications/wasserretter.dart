@@ -6,7 +6,7 @@ class Wasserretter extends Qualification {
   Wasserretter(super.date);
 
   @override
-  String get fullName => 'Wasserretter';
+  String get fullName => 'Wasserretter*in';
 
   @override
   String get name => wasserretter;

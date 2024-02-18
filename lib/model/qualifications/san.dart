@@ -6,7 +6,7 @@ class San extends Qualification {
   San(super.date);
 
   @override
-  String get fullName => 'Sanitätsdiensthelfer';
+  String get fullName => 'Sanitätsdiensthelfer*in';
 
   @override
   String get name => san;

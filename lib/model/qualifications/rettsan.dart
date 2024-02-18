@@ -6,7 +6,7 @@ class RettSan extends Qualification {
   RettSan(super.date);
 
   @override
-  String get fullName => 'Rettungssanitäter';
+  String get fullName => 'Rettungssanitäter*in';
 
   @override
   String get name => rettsan;
