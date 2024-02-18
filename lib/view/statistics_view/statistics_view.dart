@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/qualifications/abstract_qualification.dart';
 import 'package:training_organizer/model/qualifications/assitent.dart';
 import 'package:training_organizer/model/qualifications/ausbilder_r1.dart';
 import 'package:training_organizer/model/qualifications/ausbilder_r2.dart';
@@ -14,6 +13,7 @@ import 'package:training_organizer/model/qualifications/fachsan.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/gruppenleiter.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
+import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/qualifications/rettsan.dart';
 import 'package:training_organizer/model/qualifications/rs_bronze.dart';
 import 'package:training_organizer/model/qualifications/rs_silber.dart';
@@ -23,14 +23,14 @@ import 'package:training_organizer/model/qualifications/silber.dart';
 import 'package:training_organizer/model/qualifications/wasserretter.dart';
 import 'package:training_organizer/services/trainees_filter_service.dart';
 
-List<AbstractQualification> _dataJugendausbildung = [
+List<Qualification> _dataJugendausbildung = [
   Pirat(null),
   Bronze(null),
   Silber(null),
   Gold(null),
 ];
 
-List<AbstractQualification> _dataAusbildung = [
+List<Qualification> _dataAusbildung = [
   RsBronze(null),
   RsSilber(null),
   RSiWRD(null),
@@ -40,7 +40,7 @@ List<AbstractQualification> _dataAusbildung = [
   RettSan(null),
 ];
 
-List<AbstractQualification> _dataAusbilder = [
+List<Qualification> _dataAusbilder = [
   Gruppenleiter(null),
   Assistent(null),
   AusbilderS1(null),
@@ -139,12 +139,12 @@ class _JugendschwimmausbildungenState
                 labelStyle: const TextStyle(fontSize: 15),
               ),
               primaryYAxis: NumericAxis(minimum: 0, maximum: 20, interval: 5),
-              series: <ChartSeries<AbstractQualification, String>>[
-                ColumnSeries<AbstractQualification, String>(
+              series: <ChartSeries<Qualification, String>>[
+                ColumnSeries<Qualification, String>(
                     dataSource: _dataJugendausbildung,
-                    xValueMapper: (AbstractQualification qualification, _) =>
+                    xValueMapper: (Qualification qualification, _) =>
                         qualification.shortName,
-                    yValueMapper: (AbstractQualification qualification, _) =>
+                    yValueMapper: (Qualification qualification, _) =>
                         getqualificationOfYear(state, qualification.name, year),
                     dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
@@ -172,12 +172,12 @@ class _AktivenAusbildungen extends StatelessWidget {
                 labelStyle: const TextStyle(fontSize: 15),
               ),
               primaryYAxis: NumericAxis(minimum: 0, maximum: 20, interval: 5),
-              series: <ChartSeries<AbstractQualification, String>>[
-                ColumnSeries<AbstractQualification, String>(
+              series: <ChartSeries<Qualification, String>>[
+                ColumnSeries<Qualification, String>(
                     dataSource: _dataAusbildung,
-                    xValueMapper: (AbstractQualification qualification, _) =>
+                    xValueMapper: (Qualification qualification, _) =>
                         qualification.shortName,
-                    yValueMapper: (AbstractQualification qualification, _) =>
+                    yValueMapper: (Qualification qualification, _) =>
                         TraineesFilterService
                             .getCountOfTraineesWithQualification(
                                 state.trainees, qualification.name),
@@ -207,12 +207,12 @@ class _Ausbilder extends StatelessWidget {
                 labelStyle: const TextStyle(fontSize: 15),
               ),
               primaryYAxis: NumericAxis(minimum: 0, maximum: 5, interval: 1),
-              series: <ChartSeries<AbstractQualification, String>>[
-                ColumnSeries<AbstractQualification, String>(
+              series: <ChartSeries<Qualification, String>>[
+                ColumnSeries<Qualification, String>(
                   dataSource: _dataAusbilder,
-                  xValueMapper: (AbstractQualification qualification, _) =>
+                  xValueMapper: (Qualification qualification, _) =>
                       qualification.fullName,
-                  yValueMapper: (AbstractQualification qualification, _) =>
+                  yValueMapper: (Qualification qualification, _) =>
                       TraineesFilterService.getCountOfTraineesWithQualification(
                           state.trainees, qualification.name),
                   dataLabelSettings: const DataLabelSettings(

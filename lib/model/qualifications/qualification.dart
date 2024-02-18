@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-abstract class AbstractQualification {
+abstract class Qualification {
   DateTime? date;
 
-  AbstractQualification(this.date);
+  Qualification(this.date);
 
   String get name;
   String get fullName;

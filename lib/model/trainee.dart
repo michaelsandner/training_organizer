@@ -1,5 +1,5 @@
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/qualifications/abstract_qualification.dart';
+import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 
 class Trainee {
@@ -12,7 +12,7 @@ class Trainee {
   final String phone;
   final String comment;
   final bool isMember;
-  final List<AbstractQualification> qualifications;
+  final List<Qualification> qualifications;
   final bool isTrainer;
 
   Trainee({
@@ -172,7 +172,7 @@ class Trainee {
     String? phone,
     String? comment,
     bool? isMember,
-    List<AbstractQualification>? qualifications,
+    List<Qualification>? qualifications,
     String? dateOfBirth,
     String? registrationDate,
     bool? isTrainer,
@@ -231,7 +231,7 @@ class Trainee {
       };
 
   List<Map<String, dynamic>> mapqualificationsToJson(
-      List<AbstractQualification> qualifications) {
+      List<Qualification> qualifications) {
     List<Map<String, dynamic>> qualificationsAsJson = [];
 
     for (var element in qualifications) {

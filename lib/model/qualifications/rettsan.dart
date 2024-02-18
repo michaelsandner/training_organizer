@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:training_organizer/model/qualifications/abstract_qualification.dart';
+import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 
-class RettSan extends AbstractQualification {
+class RettSan extends Qualification {
   RettSan(super.date);
 
   @override
