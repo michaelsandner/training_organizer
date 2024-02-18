@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/qualification.dart';
-import 'package:training_organizer/model/qualification_type.dart';
+import 'package:training_organizer/model/qualifications/gold.dart';
+import 'package:training_organizer/model/qualifications/silber.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 void main() {
@@ -18,10 +18,7 @@ void main() {
           'comment': 'this is a comment',
           'isMember': true,
           'isTrainer': true,
-          'qualification': {
-            'name': 'Bronze',
-            'date': '2020-09-09 00:00:00.000'
-          },
+          'qualification': null,
           'qualifications': [
             {'name': 'RettungsschwimmerBronze', 'date': '09.09.2020'},
             {'name': 'RettungsschwimmerSilber', 'date': '09.09.2020'},
@@ -41,20 +38,16 @@ void main() {
         expect(output.phone, '000111');
         expect(output.comment, 'this is a comment');
         expect(output.isMember, true);
-        expect(output.qualification!.qualificationType.name, 'Bronze');
         expect(output.isTrainer, true);
 
-        expect(output.qualifications[0]!.qualificationType.name,
-            'RettungsschwimmerBronze');
-        expect(output.qualifications[1]!.qualificationType.name,
-            'RettungsschwimmerSilber');
-        expect(output.qualifications[2]!.qualificationType.name,
-            'Ausbildungsassistent');
-        expect(output.qualifications[3]!.qualificationType.name, 'San');
-        expect(output.qualifications[4]!.qualificationType.name, 'FachSan');
-        expect(output.qualifications[5]!.qualificationType.name, 'RettSan');
+        expect(output.qualifications[0].name, 'RettungsschwimmerBronze');
+        expect(output.qualifications[1].name, 'RettungsschwimmerSilber');
+        expect(output.qualifications[2].name, 'Ausbildungsassistent');
+        expect(output.qualifications[3].name, 'San');
+        expect(output.qualifications[4].name, 'FachSan');
+        expect(output.qualifications[5].name, 'RettSan');
 
-        expect(output.qualifications[0]!.date, DateTime(2020, 9, 9));
+        expect(output.qualifications[0].date, DateTime(2020, 9, 9));
       });
     });
 
@@ -71,13 +64,7 @@ void main() {
           comment: 'this is a comment',
           isMember: true,
           isTrainer: true,
-          qualification: Qualification(
-              qualificationType: QualificationType.bronze, date: null),
-          qualifications: [
-            Qualification(
-                qualificationType: QualificationType.silber, date: null),
-            Qualification(qualificationType: QualificationType.gold, date: null)
-          ],
+          qualifications: [Silber(null), Gold(null)],
         );
 
         final expectedJson = {
@@ -91,7 +78,6 @@ void main() {
           'comment': 'this is a comment',
           'isMember': true,
           'isTrainer': true,
-          'qualification': {'name': 'Bronze', 'date': null},
           'qualifications': [
             {'name': 'Silber', 'date': null},
             {'name': 'Gold', 'date': null}
@@ -132,7 +118,6 @@ void main() {
         expect(output.comment, '');
         expect(output.isMember, false);
         expect(output.isTrainer, false);
-        expect(output.qualification, null);
         expect(output.trainingGroup, Group.waitingList);
         expect(output.qualifications.isEmpty, true);
       });
@@ -151,8 +136,7 @@ void main() {
           comment: 'this is a comment',
           isMember: false,
           isTrainer: false,
-          qualification: null,
-          qualifications: [null, null],
+          qualifications: [],
         );
 
         final expectedJson = {
@@ -166,7 +150,6 @@ void main() {
           'comment': 'this is a comment',
           'isMember': false,
           'isTrainer': false,
-          'qualification': null,
           'qualifications': []
         };
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 abstract class AbstractQualification {
   DateTime? date;
@@ -12,7 +13,14 @@ abstract class AbstractQualification {
   Icon get icon;
   String? get iconName;
 
-  bool isUp2Date() {
-    return true;
+  bool get isUp2Date => true;
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'date': date == null ? null : _parseDateTimeToString(date!),
+      };
+
+  static String _parseDateTimeToString(DateTime date) {
+    return DateFormat('dd.MM.yyyy').format(date);
   }
 }

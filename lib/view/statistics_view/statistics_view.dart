@@ -3,33 +3,50 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/qualification_type.dart';
+import 'package:training_organizer/model/qualifications/abstract_qualification.dart';
+import 'package:training_organizer/model/qualifications/assitent.dart';
+import 'package:training_organizer/model/qualifications/ausbilder_r1.dart';
+import 'package:training_organizer/model/qualifications/ausbilder_r2.dart';
+import 'package:training_organizer/model/qualifications/ausbilder_s1.dart';
+import 'package:training_organizer/model/qualifications/ausbilder_s2.dart';
+import 'package:training_organizer/model/qualifications/bronze.dart';
+import 'package:training_organizer/model/qualifications/fachsan.dart';
+import 'package:training_organizer/model/qualifications/gold.dart';
+import 'package:training_organizer/model/qualifications/gruppenleiter.dart';
+import 'package:training_organizer/model/qualifications/pirat.dart';
+import 'package:training_organizer/model/qualifications/rettsan.dart';
+import 'package:training_organizer/model/qualifications/rs_bronze.dart';
+import 'package:training_organizer/model/qualifications/rs_silber.dart';
+import 'package:training_organizer/model/qualifications/rsiwrd.dart';
+import 'package:training_organizer/model/qualifications/san.dart';
+import 'package:training_organizer/model/qualifications/silber.dart';
+import 'package:training_organizer/model/qualifications/wasserretter.dart';
 import 'package:training_organizer/services/trainees_filter_service.dart';
 
-List<QualificationType> _dataJugendausbildung = [
-  QualificationType.pirate,
-  QualificationType.bronze,
-  QualificationType.silber,
-  QualificationType.gold,
+List<AbstractQualification> _dataJugendausbildung = [
+  Pirat(null),
+  Bronze(null),
+  Silber(null),
+  Gold(null),
 ];
 
-List<QualificationType> _dataAusbildung = [
-  QualificationType.rettungschwimmerBronze,
-  QualificationType.rettungsschwimmerSilber,
-  QualificationType.rettungsschwimmerImWasserrettungsdienst,
-  QualificationType.san,
-  QualificationType.fachsan,
-  QualificationType.wassserretter,
-  QualificationType.rettsan,
+List<AbstractQualification> _dataAusbildung = [
+  RsBronze(null),
+  RsSilber(null),
+  RSiWRD(null),
+  San(null),
+  FachSan(null),
+  Wasserretter(null),
+  RettSan(null),
 ];
 
-List<QualificationType> _dataAusbilder = [
-  QualificationType.gruppenleiter,
-  QualificationType.ausbildungsassistent,
-  QualificationType.ausbilderS1,
-  QualificationType.ausbilderR1,
-  QualificationType.ausbilderS2,
-  QualificationType.ausbilderR2,
+List<AbstractQualification> _dataAusbilder = [
+  Gruppenleiter(null),
+  Assistent(null),
+  AusbilderS1(null),
+  AusbilderS2(null),
+  AusbilderR1(null),
+  AusbilderR2(null),
 ];
 
 int getqualificationOfYear(AppState state, String qualification, int year) {
@@ -122,12 +139,12 @@ class _JugendschwimmausbildungenState
                 labelStyle: const TextStyle(fontSize: 15),
               ),
               primaryYAxis: NumericAxis(minimum: 0, maximum: 20, interval: 5),
-              series: <ChartSeries<QualificationType, String>>[
-                ColumnSeries<QualificationType, String>(
+              series: <ChartSeries<AbstractQualification, String>>[
+                ColumnSeries<AbstractQualification, String>(
                     dataSource: _dataJugendausbildung,
-                    xValueMapper: (QualificationType qualification, _) =>
+                    xValueMapper: (AbstractQualification qualification, _) =>
                         qualification.shortName,
-                    yValueMapper: (QualificationType qualification, _) =>
+                    yValueMapper: (AbstractQualification qualification, _) =>
                         getqualificationOfYear(state, qualification.name, year),
                     dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
@@ -155,12 +172,12 @@ class _AktivenAusbildungen extends StatelessWidget {
                 labelStyle: const TextStyle(fontSize: 15),
               ),
               primaryYAxis: NumericAxis(minimum: 0, maximum: 20, interval: 5),
-              series: <ChartSeries<QualificationType, String>>[
-                ColumnSeries<QualificationType, String>(
+              series: <ChartSeries<AbstractQualification, String>>[
+                ColumnSeries<AbstractQualification, String>(
                     dataSource: _dataAusbildung,
-                    xValueMapper: (QualificationType qualification, _) =>
+                    xValueMapper: (AbstractQualification qualification, _) =>
                         qualification.shortName,
-                    yValueMapper: (QualificationType qualification, _) =>
+                    yValueMapper: (AbstractQualification qualification, _) =>
                         TraineesFilterService
                             .getCountOfTraineesWithQualification(
                                 state.trainees, qualification.name),
@@ -190,12 +207,12 @@ class _Ausbilder extends StatelessWidget {
                 labelStyle: const TextStyle(fontSize: 15),
               ),
               primaryYAxis: NumericAxis(minimum: 0, maximum: 5, interval: 1),
-              series: <ChartSeries<QualificationType, String>>[
-                ColumnSeries<QualificationType, String>(
+              series: <ChartSeries<AbstractQualification, String>>[
+                ColumnSeries<AbstractQualification, String>(
                   dataSource: _dataAusbilder,
-                  xValueMapper: (QualificationType qualification, _) =>
+                  xValueMapper: (AbstractQualification qualification, _) =>
                       qualification.fullName,
-                  yValueMapper: (QualificationType qualification, _) =>
+                  yValueMapper: (AbstractQualification qualification, _) =>
                       TraineesFilterService.getCountOfTraineesWithQualification(
                           state.trainees, qualification.name),
                   dataLabelSettings: const DataLabelSettings(
