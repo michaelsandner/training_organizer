@@ -1,13 +1,13 @@
-import 'package:training_organizer/model/qualifications/abstract_qualification.dart';
 import 'package:training_organizer/model/qualifications/bronze.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
+import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 import 'package:training_organizer/model/qualifications/rs_bronze.dart';
 import 'package:training_organizer/model/qualifications/silber.dart';
 
-List<AbstractQualification> addQualifications({
-  required List<AbstractQualification> currentQualifications,
+List<Qualification> addQualifications({
+  required List<Qualification> currentQualifications,
   required bool shouldSetCurrentDate,
   required bool shouldAddPirat,
   required bool shouldAddBronze,
@@ -16,7 +16,7 @@ List<AbstractQualification> addQualifications({
   required bool shouldAddRsBronze,
 }) {
   DateTime? date;
-  List<AbstractQualification> qualifications = [];
+  List<Qualification> qualifications = [];
 
   if (shouldSetCurrentDate) {
     date = DateTime.now();

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:training_organizer/model/qualifications/abstract_qualification.dart';
+import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 
-class AusbilderS1 extends AbstractQualification {
+class AusbilderS1 extends Qualification {
   AusbilderS1(super.date);
 
   @override

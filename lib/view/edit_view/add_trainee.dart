@@ -4,16 +4,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/qualifications/abstract_qualification.dart';
 import 'package:training_organizer/model/qualifications/bronze.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
+import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/qualifications/rs_bronze.dart';
 import 'package:training_organizer/model/qualifications/silber.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/services/date_service.dart';
+import 'package:training_organizer/services/qualification_service.dart';
 
 class AddTrainee extends StatefulWidget {
+  /// null if new trainee is added
   final Trainee? trainee;
   const AddTrainee({this.trainee});
 
@@ -165,28 +167,21 @@ class _AddTraineeState extends State<AddTrainee> {
           });
     }
 
-    List<AbstractQualification> createqualifications() {
-      DateTime? date;
-      if (enableCurrentqualificationDate) {
-        date = DateTime.now();
+    List<Qualification> createqualifications() {
+      List<Qualification> qualifications = [];
+      if (widget.trainee != null) {
+        qualifications = widget.trainee!.qualifications;
       }
-      List<AbstractQualification> qualifications = [];
-      if (isPiratChecked) {
-        qualifications.add(Pirat(date));
-      }
-      if (isBronzeChecked) {
-        qualifications.add(Bronze(date));
-      }
-      if (isSilverChecked) {
-        qualifications.add(Silber(date));
-      }
-      if (isGoldChecked) {
-        qualifications.add(Gold(date));
-      }
-      if (isRSBronzeChecked) {
-        qualifications.add(RsBronze(date));
-      }
-      return qualifications;
+
+      return addQualifications(
+        currentQualifications: qualifications,
+        shouldSetCurrentDate: enableCurrentqualificationDate,
+        shouldAddPirat: isPiratChecked,
+        shouldAddBronze: isBronzeChecked,
+        shouldAddSilber: isSilverChecked,
+        shouldAddGold: isGoldChecked,
+        shouldAddRsBronze: isRSBronzeChecked,
+      );
     }
 
     Trainee createTraineeFromInputs() {

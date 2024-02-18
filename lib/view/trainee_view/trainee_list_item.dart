@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/model/qualifications/abstract_qualification.dart';
+import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/view/edit_view/add_trainee.dart';
 
@@ -141,7 +141,7 @@ class _Qualifications extends StatelessWidget {
 }
 
 class _PaddedQualificationIcon extends StatelessWidget {
-  final AbstractQualification qualification;
+  final Qualification qualification;
   const _PaddedQualificationIcon({required this.qualification});
 
   @override
@@ -154,7 +154,7 @@ class _PaddedQualificationIcon extends StatelessWidget {
 }
 
 class _QualificationIcon extends StatelessWidget {
-  final AbstractQualification qualification;
+  final Qualification qualification;
   const _QualificationIcon({required this.qualification});
 
   @override

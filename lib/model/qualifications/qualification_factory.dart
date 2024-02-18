@@ -17,8 +17,8 @@ import 'package:training_organizer/model/qualifications/san.dart';
 import 'package:training_organizer/model/qualifications/silber.dart';
 import 'package:training_organizer/model/qualifications/wasserretter.dart';
 
-import 'abstract_qualification.dart';
 import 'bronze.dart';
+import 'qualification.dart';
 
 const String pirat = 'Pirat';
 const String bronze = 'Bronze';
@@ -40,9 +40,8 @@ const String ausbilderR2 = 'AusbilderR2';
 const String gruppenleiter = 'Gruppenleiter';
 
 class QualificationFactory {
-  List<AbstractQualification> createQualifications(
-      List<dynamic> qualifications) {
-    List<AbstractQualification> result = [];
+  List<Qualification> createQualifications(List<dynamic> qualifications) {
+    List<Qualification> result = [];
 
     for (var element in qualifications) {
       DateTime? parsedDate = parseDateFromJson(element);
@@ -54,7 +53,7 @@ class QualificationFactory {
     return result;
   }
 
-  AbstractQualification _createQualification(String name, DateTime? date) {
+  Qualification _createQualification(String name, DateTime? date) {
     switch (name) {
       case pirat:
         return Pirat(date);
