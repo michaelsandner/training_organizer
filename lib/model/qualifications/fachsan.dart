@@ -6,7 +6,7 @@ class FachSan extends Qualification {
   FachSan(super.date);
 
   @override
-  String get fullName => 'Fachsanitäter';
+  String get fullName => 'Fachsanitäter*in';
 
   @override
   String get name => fachsan;

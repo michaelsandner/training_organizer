@@ -6,7 +6,7 @@ class Gruppenleiter extends Qualification {
   Gruppenleiter(super.date);
 
   @override
-  String get fullName => 'Gruppenleiter';
+  String get fullName => 'Gruppenleiter*in';
 
   @override
   String get name => gruppenleiter;

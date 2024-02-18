@@ -6,7 +6,7 @@ class AusbilderR2 extends Qualification {
   AusbilderR2(super.date);
 
   @override
-  String get fullName => 'Ausbilder R Stufe 2';
+  String get fullName => 'Ausbilder*in R Stufe 2';
 
   @override
   String get name => ausbilderR2;

@@ -6,7 +6,7 @@ class RSiWRD extends Qualification {
   RSiWRD(super.date);
 
   @override
-  String get fullName => 'Rettungsschwimmer im Wasserrettungsdient';
+  String get fullName => 'Rettungsschwimmer*in im Wasserrettungsdient';
 
   @override
   String get name => rsiwrd;

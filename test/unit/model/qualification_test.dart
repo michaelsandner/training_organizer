@@ -95,7 +95,7 @@ void main() {
         expect(piratequalification.name, 'RSiWRD');
         expect(piratequalification.shortName, 'RSiWRD');
         expect(piratequalification.fullName,
-            'Rettungsschwimmer im Wasserrettungsdient');
+            'Rettungsschwimmer*in im Wasserrettungsdient');
       });
     });
 
@@ -105,7 +105,7 @@ void main() {
 
         expect(piratequalification.name, 'San');
         expect(piratequalification.shortName, 'San');
-        expect(piratequalification.fullName, 'Sanitätsdiensthelfer');
+        expect(piratequalification.fullName, 'Sanitätsdiensthelfer*in');
       });
     });
 
@@ -115,7 +115,7 @@ void main() {
 
         expect(piratequalification.name, 'Wasserretter');
         expect(piratequalification.shortName, 'Wasserretter');
-        expect(piratequalification.fullName, 'Wasserretter');
+        expect(piratequalification.fullName, 'Wasserretter*in');
       });
     });
 
@@ -125,7 +125,7 @@ void main() {
 
         expect(piratequalification.name, 'Ausbildungsassistent');
         expect(piratequalification.shortName, 'Assistent');
-        expect(piratequalification.fullName, 'Ausbildungsassistent');
+        expect(piratequalification.fullName, 'Ausbildungsassistent*in');
       });
     });
 
@@ -135,7 +135,7 @@ void main() {
 
         expect(piratequalification.name, 'AusbilderS1');
         expect(piratequalification.shortName, 'AusbilderS1');
-        expect(piratequalification.fullName, 'Ausbilder S Stufe 1');
+        expect(piratequalification.fullName, 'Ausbilder*in S Stufe 1');
       });
     });
 
@@ -145,7 +145,7 @@ void main() {
 
         expect(piratequalification.name, 'AusbilderS2');
         expect(piratequalification.shortName, 'AusbilderS2');
-        expect(piratequalification.fullName, 'Ausbilder S Stufe 2');
+        expect(piratequalification.fullName, 'Ausbilder*in S Stufe 2');
       });
     });
 
@@ -155,7 +155,7 @@ void main() {
 
         expect(piratequalification.name, 'AusbilderR1');
         expect(piratequalification.shortName, 'AusbilderR1');
-        expect(piratequalification.fullName, 'Ausbilder R Stufe 1');
+        expect(piratequalification.fullName, 'Ausbilder*in R Stufe 1');
       });
     });
 
@@ -165,7 +165,7 @@ void main() {
 
         expect(piratequalification.name, 'AusbilderR2');
         expect(piratequalification.shortName, 'AusbilderR2');
-        expect(piratequalification.fullName, 'Ausbilder R Stufe 2');
+        expect(piratequalification.fullName, 'Ausbilder*in R Stufe 2');
       });
     });
 
@@ -175,7 +175,7 @@ void main() {
 
         expect(piratequalification.name, 'Gruppenleiter');
         expect(piratequalification.shortName, 'Gruppenleiter');
-        expect(piratequalification.fullName, 'Gruppenleiter');
+        expect(piratequalification.fullName, 'Gruppenleiter*in');
       });
     });
 
