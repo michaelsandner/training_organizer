@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/model/qualification.dart';
-import 'package:training_organizer/model/qualification_type.dart';
+import 'package:training_organizer/model/qualifications/abstract_qualification.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/view/edit_view/add_trainee.dart';
 
@@ -93,23 +92,17 @@ class _QualificationOverlay extends StatelessWidget {
                   children:
                       List.generate(trainee.qualifications.length, (index) {
                     final currentqualification = trainee.qualifications[index];
-                    if (currentqualification != null) {
-                      return Row(
-                        children: [
-                          currentqualification.qualificationType.icon,
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          if (currentqualification.date != null)
-                            Text(currentqualification.date!.year.toString()),
-                        ],
-                      );
-                    } else {
-                      return const Icon(
-                        Icons.warning,
-                        color: Colors.red,
-                      );
-                    }
+
+                    return Row(
+                      children: [
+                        currentqualification.icon,
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        if (currentqualification.date != null)
+                          Text(currentqualification.date!.year.toString()),
+                      ],
+                    );
                   }),
                 ),
               ),
@@ -133,20 +126,14 @@ class _Qualifications extends StatelessWidget {
       child: Row(
         children: List.generate(trainee.qualifications.length, (index) {
           final currentqualification = trainee.qualifications[index];
-          if (currentqualification != null) {
-            return Tooltip(
-              message: currentqualification.date == null
-                  ? '${currentqualification.qualificationType.fullName} \n Datum: - '
-                  : '${currentqualification.qualificationType.fullName} \n Datum: ${currentqualification.date!.year.toString()}',
-              child:
-                  _PaddedQualificationIcon(qualification: currentqualification),
-            );
-          } else {
-            return const Icon(
-              Icons.warning,
-              color: Colors.red,
-            );
-          }
+
+          return Tooltip(
+            message: currentqualification.date == null
+                ? '${currentqualification.fullName} \n Datum: - '
+                : '${currentqualification.fullName} \n Datum: ${currentqualification.date!.year.toString()}',
+            child:
+                _PaddedQualificationIcon(qualification: currentqualification),
+          );
         }),
       ),
     );
@@ -154,7 +141,7 @@ class _Qualifications extends StatelessWidget {
 }
 
 class _PaddedQualificationIcon extends StatelessWidget {
-  final Qualification qualification;
+  final AbstractQualification qualification;
   const _PaddedQualificationIcon({required this.qualification});
 
   @override
@@ -167,21 +154,19 @@ class _PaddedQualificationIcon extends StatelessWidget {
 }
 
 class _QualificationIcon extends StatelessWidget {
-  final Qualification qualification;
+  final AbstractQualification qualification;
   const _QualificationIcon({required this.qualification});
 
   @override
   Widget build(BuildContext context) {
-    if (qualification.qualificationType.iconName == null) {
-      return qualification.qualificationType.icon;
+    if (qualification.iconName == null) {
+      return qualification.icon;
     }
-    if (qualification.qualificationType ==
-            QualificationType.rettungsschwimmerSilber &&
-        !qualification.isUpToDate) {
+    if (!qualification.isUp2Date) {
       return Stack(
         children: [
           SvgPicture.asset(
-            qualification.qualificationType.iconName!,
+            qualification.iconName!,
             width: 25,
             height: 25,
           ),
@@ -190,7 +175,7 @@ class _QualificationIcon extends StatelessWidget {
       );
     }
     return SvgPicture.asset(
-      qualification.qualificationType.iconName!,
+      qualification.iconName!,
       width: 25,
       height: 25,
     );

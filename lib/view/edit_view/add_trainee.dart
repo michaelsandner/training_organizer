@@ -4,8 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/qualification.dart';
-import 'package:training_organizer/model/qualification_type.dart';
+import 'package:training_organizer/model/qualifications/abstract_qualification.dart';
+import 'package:training_organizer/model/qualifications/bronze.dart';
+import 'package:training_organizer/model/qualifications/gold.dart';
+import 'package:training_organizer/model/qualifications/pirat.dart';
+import 'package:training_organizer/model/qualifications/rs_bronze.dart';
+import 'package:training_organizer/model/qualifications/silber.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/services/date_service.dart';
 
@@ -161,32 +165,26 @@ class _AddTraineeState extends State<AddTrainee> {
           });
     }
 
-    List<Qualification> createqualifications() {
+    List<AbstractQualification> createqualifications() {
       DateTime? date;
       if (enableCurrentqualificationDate) {
         date = DateTime.now();
       }
-      List<Qualification> qualifications = [];
+      List<AbstractQualification> qualifications = [];
       if (isPiratChecked) {
-        qualifications.add(Qualification(
-            qualificationType: QualificationType.pirate, date: date));
+        qualifications.add(Pirat(date));
       }
       if (isBronzeChecked) {
-        qualifications.add(Qualification(
-            qualificationType: QualificationType.bronze, date: date));
+        qualifications.add(Bronze(date));
       }
       if (isSilverChecked) {
-        qualifications.add(Qualification(
-            qualificationType: QualificationType.silber, date: date));
+        qualifications.add(Silber(date));
       }
       if (isGoldChecked) {
-        qualifications.add(Qualification(
-            qualificationType: QualificationType.gold, date: date));
+        qualifications.add(Gold(date));
       }
       if (isRSBronzeChecked) {
-        qualifications.add(Qualification(
-            qualificationType: QualificationType.rettungschwimmerBronze,
-            date: date));
+        qualifications.add(RsBronze(date));
       }
       return qualifications;
     }
@@ -349,7 +347,7 @@ class _AddTraineeState extends State<AddTrainee> {
               CheckboxListTile(
                 value: isPiratChecked,
                 title: const Text('Pirat'),
-                secondary: QualificationType.bronze.icon,
+                secondary: Pirat(null).icon,
                 onChanged: (bool? value) => setState(() {
                   isPiratChecked = value! ? value : false;
                 }),
@@ -357,7 +355,7 @@ class _AddTraineeState extends State<AddTrainee> {
               CheckboxListTile(
                 value: isBronzeChecked,
                 title: const Text('Bronze'),
-                secondary: QualificationType.bronze.icon,
+                secondary: Bronze(null).icon,
                 onChanged: (bool? value) => setState(() {
                   isBronzeChecked = value! ? value : false;
                 }),
@@ -365,7 +363,7 @@ class _AddTraineeState extends State<AddTrainee> {
               CheckboxListTile(
                 value: isSilverChecked,
                 title: const Text('Silber'),
-                secondary: QualificationType.silber.icon,
+                secondary: Silber(null).icon,
                 onChanged: (bool? value) => setState(() {
                   isSilverChecked = value! ? value : false;
                 }),
@@ -373,7 +371,7 @@ class _AddTraineeState extends State<AddTrainee> {
               CheckboxListTile(
                 value: isGoldChecked,
                 title: const Text('Gold'),
-                secondary: QualificationType.gold.icon,
+                secondary: Gold(null).icon,
                 onChanged: (bool? value) => setState(() {
                   isGoldChecked = value! ? value : false;
                 }),
@@ -381,7 +379,7 @@ class _AddTraineeState extends State<AddTrainee> {
               CheckboxListTile(
                 value: isRSBronzeChecked,
                 title: const Text('RS Bronze'),
-                secondary: QualificationType.bronze.icon,
+                secondary: RsBronze(null).icon,
                 onChanged: (bool? value) => setState(() {
                   isRSBronzeChecked = value! ? value : false;
                 }),

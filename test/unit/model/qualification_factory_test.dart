@@ -20,8 +20,8 @@ main() {
       {'name': 'AusbilderS1', 'date': '13.01.2013'},
       {'name': 'AusbilderS2', 'date': '13.01.2014'},
       {'name': 'AusbilderR1', 'date': '13.01.2015'},
-      {'name': 'AusbilderR2', 'date': '13.01.2016'},
-      {'name': 'Gruppenleiter', 'date': '13.01.2017'},
+      {'name': 'AusbilderR2', 'date': '2000-10-10'},
+      {'name': 'Gruppenleiter', 'date': null},
     ];
 
     group('When calling createQualifications', () {
@@ -62,9 +62,9 @@ main() {
         expect(qualifications[15].name, 'AusbilderR1');
         expect(qualifications[15].date!.year, 2015);
         expect(qualifications[16].name, 'AusbilderR2');
-        expect(qualifications[16].date!.year, 2016);
+        expect(qualifications[16].date, null);
         expect(qualifications[17].name, 'Gruppenleiter');
-        expect(qualifications[17].date!.year, 2017);
+        expect(qualifications[17].date, null);
       });
     });
   });

@@ -19,4 +19,17 @@ class RsSilber extends AbstractQualification {
 
   @override
   String? get iconName => 'assets/images/DRSA_Silber.svg';
+
+  @override
+  bool get isUp2Date {
+    if (date == null) {
+      return false;
+    }
+    final dateDifference = DateTime.now().difference(date!);
+    if (dateDifference > const Duration(days: 365 * 2)) {
+      return false;
+    }
+
+    return true;
+  }
 }

@@ -1,6 +1,6 @@
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/qualification.dart';
-import 'package:training_organizer/model/qualification_type.dart';
+import 'package:training_organizer/model/qualifications/abstract_qualification.dart';
+import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 
 class Trainee {
   final String surname;
@@ -12,8 +12,7 @@ class Trainee {
   final String phone;
   final String comment;
   final bool isMember;
-  final Qualification? qualification;
-  final List<Qualification?> qualifications;
+  final List<AbstractQualification> qualifications;
   final bool isTrainer;
 
   Trainee({
@@ -26,12 +25,12 @@ class Trainee {
     this.phone = '',
     this.comment = '',
     this.isMember = false,
-    this.qualification,
     this.qualifications = const [],
     this.isTrainer = false,
   });
 
   factory Trainee.fromJson(dynamic json) {
+    final qualificationFactory = QualificationFactory();
     return Trainee(
       surname: json['surname'] ?? '',
       forename: json['forename'] ?? '',
@@ -50,12 +49,9 @@ class Trainee {
       trainingGroup: mapGroupToEnum(json['trainingGroup']),
       comment: json['comment'] ?? '',
       isMember: json['isMember'] ?? false,
-      qualification: json['qualification'] == null
-          ? null
-          : mapQualification(json['qualification']),
       qualifications: json['qualifications'] == null
           ? []
-          : mapQualifications(json['qualifications']),
+          : qualificationFactory.createQualifications(json['qualifications']),
       isTrainer: json['isTrainer'] ?? false,
     );
   }
@@ -108,8 +104,7 @@ class Trainee {
 
   bool hasQualificationFromYear(String qualificationName, int year) {
     for (var element in qualifications) {
-      if (element != null &&
-          element.qualificationType.name == qualificationName &&
+      if (element.name == qualificationName &&
           element.date != null &&
           element.date!.year == year) {
         return true;
@@ -120,12 +115,7 @@ class Trainee {
 
   bool hasQualification(String qualificationName) {
     for (var element in qualifications) {
-      if (element != null &&
-          element.qualificationType.name == qualificationName) {
-        if (element.qualificationType.name == 'RettungsschwimmerSilber' &&
-            !element.isUpToDate) {
-          return false;
-        }
+      if (element.name == qualificationName && element.isUp2Date) {
         return true;
       }
     }
@@ -136,36 +126,19 @@ class Trainee {
     if (qualifications.isEmpty) {
       return '';
     }
-    if (qualifications.any(
-        (element) => element!.qualificationType == QualificationType.gold)) {
+    if (qualifications.any((element) => element.name == gold)) {
       return 'G';
     }
-    if (qualifications.any(
-        (element) => element!.qualificationType == QualificationType.silber)) {
+    if (qualifications.any((element) => element.name == silber)) {
       return 'S';
     }
-    if (qualifications.any(
-        (element) => element!.qualificationType == QualificationType.bronze)) {
+    if (qualifications.any((element) => element.name == bronze)) {
       return 'B';
     }
-    if (qualifications.any(
-        (element) => element!.qualificationType == QualificationType.pirate)) {
+    if (qualifications.any((element) => element.name == pirat)) {
       return 'P';
     }
     return '';
-  }
-
-  static List<Qualification?> mapQualifications(List<dynamic> qualifications) {
-    List<Qualification?> listOfqualifications = [];
-    for (var element in qualifications) {
-      listOfqualifications.add(mapQualification(element));
-    }
-    return listOfqualifications;
-  }
-
-  static Qualification? mapQualification(Map<String, dynamic> qualification) {
-    final qualificationFactory = QualificationFactory();
-    return qualificationFactory.getQualification(qualification);
   }
 
   static Group mapGroupToEnum(String? groupName) {
@@ -199,7 +172,7 @@ class Trainee {
     String? phone,
     String? comment,
     bool? isMember,
-    Qualification? qualification,
+    List<AbstractQualification>? qualifications,
     String? dateOfBirth,
     String? registrationDate,
     bool? isTrainer,
@@ -214,7 +187,7 @@ class Trainee {
       trainingGroup: trainingGroup ?? this.trainingGroup,
       comment: comment ?? this.comment,
       isMember: isMember ?? this.isMember,
-      qualification: qualification ?? this.qualification,
+      qualifications: qualifications ?? this.qualifications,
       isTrainer: isTrainer ?? this.isTrainer,
     );
   }
@@ -228,7 +201,7 @@ class Trainee {
         email: email,
         phone: phone,
         trainingGroup: group,
-        qualification: qualification,
+        qualifications: qualifications,
         isTrainer: isTrainer,
         comment: comment,
         isMember: isMember);
@@ -253,19 +226,16 @@ class Trainee {
         'trainingGroup': getTrainingGroupValue(),
         'comment': comment,
         'isMember': isMember,
-        'qualification': qualification == null ? null : qualification!.toJson(),
         'qualifications': mapqualificationsToJson(qualifications),
         'isTrainer': isTrainer,
       };
 
   List<Map<String, dynamic>> mapqualificationsToJson(
-      List<Qualification?> qualifications) {
+      List<AbstractQualification> qualifications) {
     List<Map<String, dynamic>> qualificationsAsJson = [];
 
     for (var element in qualifications) {
-      if (element != null) {
-        qualificationsAsJson.add(element.toJson());
-      }
+      qualificationsAsJson.add(element.toJson());
     }
 
     return qualificationsAsJson;
