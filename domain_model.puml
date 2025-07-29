@@ -1,0 +1,41 @@
+@startuml
+
+class member {
+    forename: string
+    surename: string
+    phone: string
+    email: string
+
+}
+class blocklist
+class group {
+    type: GroupType
+}
+
+class attendance
+class trainingsplan
+class statistics
+class certificate {
+    type: CertificateType
+    date: Datetime
+}
+
+enum GroupType {
+    WARTELISTE
+    BLOCK5
+    BLOCK4
+    BLOCK3
+    BLOCK2
+    BLOCK1
+    AKTIV
+}
+
+member "1" -- "0..*" certificate : has >
+member -- group
+
+group -- blocklist
+
+statistics --> attendance
+statistics --> member
+
+@enduml
