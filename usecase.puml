@@ -1,0 +1,28 @@
+
+@startuml
+left to right direction
+
+title Use Case Diagram - Training Organizer
+
+actor Maintainer
+
+rectangle "Training Organizer" {
+  usecase "Maintain member information" as personalInformation
+  usecase "Print blocklists" as blocklist
+  usecase "Maintain training groups" as groups
+  usecase "Maintain Warteliste" as warteliste
+  usecase "Write Emails" as emails
+  usecase "Check attendance" as attendance
+  usecase "View statistics"  as statistics
+  usecase "Maintain trainigsplan" as trainingsplan
+}
+
+Maintainer --> personalInformation
+Maintainer --> blocklist
+Maintainer --> groups
+Maintainer --> warteliste
+Maintainer --> emails
+Maintainer --> attendance
+Maintainer --> statistics
+Maintainer --> trainingsplan
+@enduml
