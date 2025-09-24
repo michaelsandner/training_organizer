@@ -26,7 +26,8 @@ class RsSilber extends Qualification {
       return false;
     }
     final dateDifference = DateTime.now().difference(date!);
-    if (dateDifference > const Duration(days: 365 * 2)) {
+    const leapYearTolerance = 1;
+    if (dateDifference >= const Duration(days: (365 * 2) + leapYearTolerance)) {
       return false;
     }
 
