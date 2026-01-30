@@ -135,10 +135,11 @@ class _JugendschwimmausbildungenState
               ],
             ),
             SfCartesianChart(
-              primaryXAxis: CategoryAxis(
-                labelStyle: const TextStyle(fontSize: 15),
+              primaryXAxis: const CategoryAxis(
+                labelStyle: TextStyle(fontSize: 15),
               ),
-              primaryYAxis: NumericAxis(minimum: 0, maximum: 20, interval: 5),
+              primaryYAxis:
+                  const NumericAxis(minimum: 0, maximum: 20, interval: 5),
               series: <CartesianSeries>[
                 ColumnSeries<Qualification, String>(
                     dataSource: _dataJugendausbildung,
@@ -168,10 +169,11 @@ class _AktivenAusbildungen extends StatelessWidget {
           children: [
             const SubHeader(text: 'Aktiven Ausbildungen'),
             SfCartesianChart(
-              primaryXAxis: CategoryAxis(
-                labelStyle: const TextStyle(fontSize: 15),
+              primaryXAxis: const CategoryAxis(
+                labelStyle: TextStyle(fontSize: 15),
               ),
-              primaryYAxis: NumericAxis(minimum: 0, maximum: 20, interval: 5),
+              primaryYAxis:
+                  const NumericAxis(minimum: 0, maximum: 20, interval: 5),
               series: <CartesianSeries>[
                 ColumnSeries<Qualification, String>(
                     dataSource: _dataAusbildung,
@@ -203,10 +205,11 @@ class _Ausbilder extends StatelessWidget {
           children: [
             const SubHeader(text: 'Ausbilder'),
             SfCartesianChart(
-              primaryXAxis: CategoryAxis(
-                labelStyle: const TextStyle(fontSize: 15),
+              primaryXAxis: const CategoryAxis(
+                labelStyle: TextStyle(fontSize: 15),
               ),
-              primaryYAxis: NumericAxis(minimum: 0, maximum: 5, interval: 1),
+              primaryYAxis:
+                  const NumericAxis(minimum: 0, maximum: 5, interval: 1),
               series: <CartesianSeries>[
                 ColumnSeries<Qualification, String>(
                   dataSource: _dataAusbilder,
