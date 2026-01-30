@@ -53,8 +53,8 @@ class FileService {
   }
 
   static Future<void> exportFileOnAndroid(String json) async {
-    String localPath = await ExternalPath.getExternalStoragePublicDirectory(
-        ExternalPath.DIRECTORY_DOWNLOADS);
+    String localPath =
+        await ExternalPath.getExternalStoragePublicDirectory("Downloads");
 
     final fileName = getFileName();
 
