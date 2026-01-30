@@ -139,7 +139,7 @@ class _JugendschwimmausbildungenState
                 labelStyle: const TextStyle(fontSize: 15),
               ),
               primaryYAxis: NumericAxis(minimum: 0, maximum: 20, interval: 5),
-              series: <ChartSeries<Qualification, String>>[
+              series: <CartesianSeries>[
                 ColumnSeries<Qualification, String>(
                     dataSource: _dataJugendausbildung,
                     xValueMapper: (Qualification qualification, _) =>
@@ -172,7 +172,7 @@ class _AktivenAusbildungen extends StatelessWidget {
                 labelStyle: const TextStyle(fontSize: 15),
               ),
               primaryYAxis: NumericAxis(minimum: 0, maximum: 20, interval: 5),
-              series: <ChartSeries<Qualification, String>>[
+              series: <CartesianSeries>[
                 ColumnSeries<Qualification, String>(
                     dataSource: _dataAusbildung,
                     xValueMapper: (Qualification qualification, _) =>
@@ -207,7 +207,7 @@ class _Ausbilder extends StatelessWidget {
                 labelStyle: const TextStyle(fontSize: 15),
               ),
               primaryYAxis: NumericAxis(minimum: 0, maximum: 5, interval: 1),
-              series: <ChartSeries<Qualification, String>>[
+              series: <CartesianSeries>[
                 ColumnSeries<Qualification, String>(
                   dataSource: _dataAusbilder,
                   xValueMapper: (Qualification qualification, _) =>
