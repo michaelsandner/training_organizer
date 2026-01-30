@@ -5,8 +5,7 @@ import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/file_cubit.dart';
 import 'package:training_organizer/cubit/file_state.dart';
 import 'package:training_organizer/view/edit_view/add_trainee.dart';
-import 'package:training_organizer/view/send_email/email_cubit.dart';
-import 'package:training_organizer/view/send_email/send_email_dialog.dart';
+import 'package:training_organizer/view/send_email/send_email_page.dart';
 
 class ButtonRow extends StatelessWidget {
   @override
@@ -130,13 +129,8 @@ class EmailButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
       heroTag: 'emailButton',
-      onPressed: () => showDialog(
-        context: context,
-        builder: (BuildContext context) => BlocProvider(
-          create: (context) => EmailCubit(),
-          child: SendEmailDialog(),
-        ),
-      ),
+      onPressed: () => Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const SendEmailPage())),
       icon: const Icon(Icons.mail),
       label: Text(title),
     );

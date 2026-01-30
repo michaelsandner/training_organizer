@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/file_cubit.dart';
 import 'package:training_organizer/view/pdf_view/pdf_view.dart';
+import 'package:training_organizer/view/send_email/email_cubit.dart';
+import 'package:training_organizer/view/send_email/send_email_page.dart';
 import 'package:training_organizer/view/statistics_view/statistics_view.dart';
 import 'package:training_organizer/view/trainee_view/trainee_view.dart';
 
@@ -22,6 +24,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => FileCubit(),
+        ),
+        BlocProvider(
+          create: (context) => EmailCubit(),
         ),
       ],
       child: MaterialApp(
@@ -47,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -64,6 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(Icons.list),
               text: 'Statistik',
             ),
+            Tab(
+              icon: Icon(Icons.mail),
+              text: 'Email',
+            ),
           ]),
         ),
         body: Center(
@@ -72,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
               const TraineeView(),
               PdfView(),
               const StatisticsView(),
+              const SendEmailPage(),
             ],
           ),
         ),

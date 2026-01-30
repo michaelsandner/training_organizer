@@ -8,28 +8,99 @@ import 'package:training_organizer/view/send_email/email_state.dart';
 class EmailCubit extends Cubit<EmailState> {
   EmailCubit() : super(EmailState.initial());
 
-  void shouldSendToWednesdayKids(bool shouldSend) {
-    emit(state.copyWith(shouldSendToWednesdayKids: shouldSend));
+  void shouldSendToSaturdayBlock5(bool shouldSend) {
+    emit(state.copyWith(shouldSendToSaturdayBlock5: shouldSend));
+    _updateStates();
   }
 
-  void shouldSendToActive(bool shouldSend) {
-    emit(state.copyWith(shouldSendToActive: shouldSend));
+  void shouldSendToSaturdayBlock1(bool shouldSend) {
+    emit(state.copyWith(shouldSendToSaturdayBlock1: shouldSend));
+    _updateStates();
+  }
+
+  void shouldSendToSaturdayBlock2(bool shouldSend) {
+    emit(state.copyWith(shouldSendToSaturdayBlock2: shouldSend));
+    _updateStates();
+  }
+
+  void shouldSendToSaturdayBlock4(bool shouldSend) {
+    emit(state.copyWith(shouldSendToSaturdayBlock4: shouldSend));
+    _updateStates();
+  }
+
+  void shouldSendToWednesdayBlock1(bool shouldSend) {
+    emit(state.copyWith(shouldSendToWednesdayBlock1: shouldSend));
+    _updateStates();
+  }
+
+  void shouldSendToWednesdayBlock2(bool shouldSend) {
+    emit(state.copyWith(shouldSendToWednesdayBlock2: shouldSend));
+    _updateStates();
   }
 
   void shouldSendToTrainer(bool shouldSend) {
     emit(state.copyWith(shouldSendToTrainer: shouldSend));
+    _updateStates();
   }
 
-  void shouldSendToSaturdayKids(bool shouldSend) {
-    emit(state.copyWith(shouldSendToSaturdayKids: shouldSend));
+  void shouldSendToActive(bool shouldSend) {
+    emit(state.copyWith(shouldSendToActive: shouldSend));
+    _updateStates();
+  }
+
+  void shouldSendToLeisure(bool shouldSend) {
+    emit(state.copyWith(shouldSendToLeisure: shouldSend));
+    _updateStates();
+  }
+
+  void shouldSendToWaitinglist(bool shouldSend) {
+    emit(state.copyWith(shouldSendToWaitinglist: shouldSend));
+    _updateStates();
   }
 
   void shouldSendToInvited(bool shouldSend) {
     emit(state.copyWith(shouldSendToInvited: shouldSend));
+    _updateStates();
   }
 
-  void shouldSendToLeasure(bool shouldSend) {
-    emit(state.copyWith(shouldSendToLeasure: shouldSend));
+  void shouldSendToAllSaturday(bool shouldSend) {
+    emit(state.copyWith(shouldSendToAllSaturday: shouldSend));
+    _updateStates();
+  }
+
+  void shouldSendToAllWednesday(bool shouldSend) {
+    emit(state.copyWith(shouldSendToAllWednesday: shouldSend));
+    _updateStates();
+  }
+
+  void _updateStates() {
+    if (state.shouldSendToAllSaturday) {
+      emit(state.copyWith(
+        shouldSendToSaturdayBlock1: true,
+        shouldSendToSaturdayBlock2: true,
+        shouldSendToSaturdayBlock4: true,
+        shouldSendToSaturdayBlock5: true,
+      ));
+      if (state.shouldSendToAllWednesday) {
+        emit(state.copyWith(
+            shouldSendToWednesdayBlock1: true,
+            shouldSendToWednesdayBlock2: true,
+            shouldSendToLeisure: true,
+            shouldSendToActive: true));
+      }
+      if (!state.shouldSendToSaturdayBlock1 ||
+          !state.shouldSendToSaturdayBlock2 ||
+          !state.shouldSendToSaturdayBlock4 ||
+          !state.shouldSendToSaturdayBlock5) {
+        emit(state.copyWith(shouldSendToAllSaturday: false));
+      }
+      if (!state.shouldSendToWednesdayBlock1 ||
+          !state.shouldSendToWednesdayBlock2 ||
+          !state.shouldSendToLeisure ||
+          !state.shouldSendToActive) {
+        emit(state.copyWith(shouldSendToAllWednesday: false));
+      }
+    }
   }
 
   void sendEmail(List<Trainee> trainees) {
@@ -42,14 +113,32 @@ class EmailCubit extends Cubit<EmailState> {
 
     TraineesFilterService.getAllSaturdayTrainees(trainees);
 
-    if (state.shouldSendToSaturdayKids) {
-      traineeList
-          .addAll(TraineesFilterService.getAllSaturdayTrainees(trainees));
-    }
-
-    if (state.shouldSendToWednesdayKids) {
+    if (state.shouldSendToWednesdayBlock1) {
       traineeList.addAll(
           TraineesFilterService.getTraineesOfGroup(trainees, Group.wednesday));
+    }
+
+    if (state.shouldSendToWednesdayBlock2) {
+      traineeList.addAll(
+          TraineesFilterService.getTraineesOfGroup(trainees, Group.wednesday));
+    }
+
+    if (state.shouldSendToSaturdayBlock1) {
+      traineeList.addAll(
+          TraineesFilterService.getTraineesOfGroup(trainees, Group.group1));
+    }
+
+    if (state.shouldSendToSaturdayBlock2) {
+      traineeList.addAll(
+          TraineesFilterService.getTraineesOfGroup(trainees, Group.group2));
+    }
+    if (state.shouldSendToSaturdayBlock4) {
+      traineeList.addAll(
+          TraineesFilterService.getTraineesOfGroup(trainees, Group.group4));
+    }
+    if (state.shouldSendToSaturdayBlock5) {
+      traineeList.addAll(
+          TraineesFilterService.getTraineesOfGroup(trainees, Group.group5));
     }
 
     if (state.shouldSendToActive) {
@@ -60,6 +149,11 @@ class EmailCubit extends Cubit<EmailState> {
     if (state.shouldSendToInvited) {
       traineeList.addAll(
           TraineesFilterService.getTraineesOfGroup(trainees, Group.invited));
+    }
+
+    if (state.shouldSendToInvited) {
+      traineeList.addAll(TraineesFilterService.getTraineesOfGroup(
+          trainees, Group.waitingList));
     }
 
     List<Trainee> trainerList = [];
@@ -73,10 +167,14 @@ class EmailCubit extends Cubit<EmailState> {
 
   bool _isOnlyInvitedSelcted() {
     if (state.shouldSendToInvited &&
-        !state.shouldSendToSaturdayKids &&
-        !state.shouldSendToWednesdayKids &&
+        !state.shouldSendToSaturdayBlock1 &&
+        !state.shouldSendToSaturdayBlock2 &&
+        !state.shouldSendToSaturdayBlock5 &&
+        !state.shouldSendToSaturdayBlock4 &&
+        !state.shouldSendToWednesdayBlock1 &&
+        !state.shouldSendToWednesdayBlock2 &&
         !state.shouldSendToTrainer &&
-        !state.shouldSendToLeasure &&
+        !state.shouldSendToLeisure &&
         !state.shouldSendToActive) {
       return true;
     }
