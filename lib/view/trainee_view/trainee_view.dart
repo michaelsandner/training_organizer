@@ -10,7 +10,7 @@ import 'package:training_organizer/view/trainee_view/button_row.dart';
 import 'package:training_organizer/view/trainee_view/trainee_list.dart';
 
 class TraineeView extends StatelessWidget {
-  const TraineeView({Key? key}) : super(key: key);
+  const TraineeView({super.key});
 
   @override
   Widget build(BuildContext context) {

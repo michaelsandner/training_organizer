@@ -1,4 +1,3 @@
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -268,13 +267,22 @@ class _AddTraineeState extends State<AddTrainee> {
                 keyboardType: TextInputType.phone,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
-              DateTimePicker(
-                dateMask: 'dd.MM.yyyy',
-                initialDate: DateTime.now(),
-                lastDate: DateTime.now(),
-                firstDate: DateTime(1950),
-                dateLabelText: 'Geb. Datum',
+              TextFormField(
                 controller: dateOfBirthController,
+                decoration: const InputDecoration(labelText: 'Geb. Datum'),
+                readOnly: true,
+                onTap: () async {
+                  DateTime? picked = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1950),
+                    lastDate: DateTime.now(),
+                  );
+                  if (picked != null) {
+                    dateOfBirthController.text =
+                        '${picked.day.toString().padLeft(2, '0')}.${picked.month.toString().padLeft(2, '0')}.${picked.year}';
+                  }
+                },
               ),
               const SizedBox(height: 10),
               Row(
@@ -297,13 +305,22 @@ class _AddTraineeState extends State<AddTrainee> {
                   ),
                 ],
               ),
-              DateTimePicker(
-                dateMask: 'dd.MM.yyyy',
-                initialDate: DateTime.now(),
-                lastDate: DateTime.now(),
-                firstDate: DateTime(2023),
-                dateLabelText: 'Anmeldedatum',
+              TextFormField(
                 controller: registrationDateController,
+                decoration: const InputDecoration(labelText: 'Anmeldedatum'),
+                readOnly: true,
+                onTap: () async {
+                  DateTime? picked = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2023),
+                    lastDate: DateTime.now(),
+                  );
+                  if (picked != null) {
+                    registrationDateController.text =
+                        '${picked.day.toString().padLeft(2, '0')}.${picked.month.toString().padLeft(2, '0')}.${picked.year}';
+                  }
+                },
               ),
               TextFormField(
                 controller: commentController,
