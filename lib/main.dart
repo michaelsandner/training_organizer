@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/file_cubit.dart';
+import 'package:training_organizer/email/email_cubit.dart';
+import 'package:training_organizer/email/send_email_page.dart';
 import 'package:training_organizer/view/pdf_view/pdf_view.dart';
-import 'package:training_organizer/view/send_email/email_cubit.dart';
-import 'package:training_organizer/view/send_email/send_email_page.dart';
 import 'package:training_organizer/view/statistics_view/statistics_view.dart';
 import 'package:training_organizer/view/trainee_view/trainee_view.dart';
 

@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/file_cubit.dart';
 import 'package:training_organizer/cubit/file_state.dart';
+import 'package:training_organizer/email/send_email_page.dart';
 import 'package:training_organizer/view/edit_view/add_trainee.dart';
-import 'package:training_organizer/view/send_email/send_email_page.dart';
 
 class ButtonRow extends StatelessWidget {
   @override
