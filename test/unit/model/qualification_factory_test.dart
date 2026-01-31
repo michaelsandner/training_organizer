@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 
-main() {
+void main() {
   group('Given qualification json', () {
     List<dynamic> json = [
       {'name': 'Pirat', 'date': '13.01.2000'},

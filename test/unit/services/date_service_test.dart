@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/services/date_service.dart';
 
-main() {
+void main() {
   group('DateService', () {
     test('ParseToDate', () {
       String inputDate = '07.03.2023';
