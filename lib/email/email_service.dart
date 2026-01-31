@@ -1,3 +1,4 @@
+import 'package:training_organizer/email/template_strings.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,15 +34,9 @@ Future<void> sendMailToSingleWaitingListTrainee(Trainee trainee) async {
   String foreName = trainee.forename;
   String registrationDate = trainee.registrationDate;
 
-  final String subject =
-      Uri.encodeComponent('Aufnahme Warteliste der Wasserwacht Langenzenn');
-  final String body = Uri.encodeComponent('''hallo zusammen,
-        hiermit bestätigen wir die Aufnahme von $foreName auf unsere Warteliste zum $registrationDate.    
-
-        Viele Grüße
-
-        Euer Wasserwacht-Team
-         ''');
+  final String subject = Uri.encodeComponent(getWaitingListAcceptSubject());
+  final String body = Uri.encodeComponent(
+      getWaitingListAcceptContent(foreName, registrationDate));
   Uri uri = Uri.parse('mailto:$email?bcc=$bcc&subject=$subject&body=$body');
 
   await _launchUri(uri);
@@ -51,41 +46,10 @@ Future<void> sendMailToInvitedListTrainees(List<Trainee> trainees) async {
   String email = _getEmails(trainees);
   String cc = 'info@wasserwacht-langenzeen.de';
 
-  final String subject = Uri.encodeComponent(
-      'Aufnahme für das Schimmtraining der Wasserwacht Langenzenn');
-  final String body = Uri.encodeComponent('''hallo zusammen :) 
+  final String subject = Uri.encodeComponent(getInvitedInvitationSubject());
 
-        leider hat es etwas gedauert aber nun freuen wir uns euch mitteilen zu dürfen, dass ihr endlich bei uns im Schwimmtraining mitmachen dürft.
-        Dafür würden wir euch gerne zum Schnuppertraining am XXX um 16:50 Uhr am Hallenbad Langenzenn einladen.
-        Das Training findet von 17-18 Uhr statt. Wir treffen uns allerdings schon kurz vorher um euch ein paar Infos zum Trainingsablauf zu geben und um den Kids das Hallenbad zu zeigen.
-
-        Bitte gebt uns bescheid ob ihr noch Interesse habt und ob ihr am Termin teilnehmen könnt.
-        (Falls ihr kein Interesse mehr am Schwimmtraining habt, bitte ebenfalls bescheid geben.)
-
-        PS: Falls ihr die Email mehrmals bekommt und sich mehrer Kinder von euch auf der Warteliste befinden, sind mehrere Kinder eingeladen ;)
-
-        Viele Grüße
-
-        Euer Wasserwacht-Team
-         ''');
+  final String body = Uri.encodeComponent(getInvitedInvitationContent());
   Uri uri = Uri.parse('mailto:?bcc=$email&cc=$cc&subject=$subject&body=$body');
-
-  await _launchUri(uri);
-}
-
-Future<void> sendMailAccecptedToWaitingList(
-    String email, String foreName) async {
-  Uri uri = Uri.parse('mailto:$email');
-  final String subject =
-      Uri.encodeComponent('Bestätigung Aufnahme Warteliste OG Langenzenn');
-  final String body = Uri.encodeComponent('''hallo zusammen,
-        hiermit bestätigen wir euch die Aufnahme von $foreName auf unsere Warteliste zum .
-
-        Viele Grüße
-
-        Euer Wasserwacht-Team
-         ''');
-  uri = Uri.parse('mailto:$email?subject=$subject&body=$body');
 
   await _launchUri(uri);
 }
