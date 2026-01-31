@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/email/email_service.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/model/training_group.dart';
 import 'package:training_organizer/services/date_service.dart';
-import 'package:training_organizer/services/email_service.dart';
 
 class AppCubit extends Cubit<AppState> {
   AppCubit() : super(AppState.initial());

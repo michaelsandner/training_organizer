@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/view/send_email/email_cubit.dart';
-import 'package:training_organizer/view/send_email/email_state.dart';
+import 'package:training_organizer/email/email_cubit.dart';
+import 'package:training_organizer/email/email_state.dart';
 
 class SendEmailPage extends StatelessWidget {
   const SendEmailPage({super.key});
