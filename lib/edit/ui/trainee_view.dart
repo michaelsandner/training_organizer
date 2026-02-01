@@ -5,9 +5,9 @@ import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/cubit/file_cubit.dart';
 import 'package:training_organizer/cubit/file_state.dart';
+import 'package:training_organizer/overview/button_row.dart';
+import 'package:training_organizer/overview/trainee_list.dart';
 import 'package:training_organizer/services/platform_service.dart';
-import 'package:training_organizer/view/trainee_view/button_row.dart';
-import 'package:training_organizer/view/trainee_view/trainee_list.dart';
 
 class TraineeView extends StatelessWidget {
   const TraineeView({super.key});
