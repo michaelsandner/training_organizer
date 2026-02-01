@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/edit/ui/add_trainee.dart';
 import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/view/edit_view/add_trainee.dart';
 
 class TraineeListItem extends StatelessWidget {
   final Trainee trainee;
