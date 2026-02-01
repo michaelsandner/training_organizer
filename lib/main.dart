@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/cubit/file_cubit.dart';
 import 'package:training_organizer/email/adpater/email_handler.dart';
 import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/email/ui/email_cubit.dart';
 import 'package:training_organizer/email/ui/send_email_page.dart';
+import 'package:training_organizer/import_export/adapter/file_handler.dart';
+import 'package:training_organizer/import_export/ui/file_cubit.dart';
 import 'package:training_organizer/view/pdf_view/pdf_view.dart';
 import 'package:training_organizer/view/statistics_view/statistics_view.dart';
 import 'package:training_organizer/view/trainee_view/trainee_view.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
         providers: [
           RepositoryProvider(create: (context) => EmailHandler()),
+          RepositoryProvider(create: (context) => FileExporter()),
         ],
         child: MultiBlocProvider(
           providers: [
@@ -31,7 +33,9 @@ class MyApp extends StatelessWidget {
               return AppCubit(sendEmailUseCase)..init();
             }),
             BlocProvider(
-              create: (context) => FileCubit(),
+              create: (context) {
+                return FileCubit(context.read<FileExporter>());
+              },
             ),
             BlocProvider(create: (context) {
               final sendEmail = SendEmailUseCase(context.read<EmailHandler>());
