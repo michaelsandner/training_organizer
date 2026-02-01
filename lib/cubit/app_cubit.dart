@@ -68,6 +68,7 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void upgradeTrainee(Trainee trainee) {
+    final currentSelectedGroup = state.selectedGroup;
     final currentList = [...state.trainees];
 
     currentList.removeWhere((element) => element == trainee);
@@ -80,10 +81,11 @@ class AppCubit extends Cubit<AppState> {
     emit(state.copyWith(
       trainees: currentList,
     ));
-    setSelectedGroup(getFilteredGroup(updatedTrainee.trainingGroup));
+    setSelectedGroup(currentSelectedGroup);
   }
 
   void downgradeTrainee(Trainee trainee) {
+    final currentSelectedGroup = state.selectedGroup;
     var currentList = [...state.trainees];
 
     currentList.removeWhere((element) => element == trainee);
@@ -96,7 +98,7 @@ class AppCubit extends Cubit<AppState> {
     emit(state.copyWith(
       trainees: currentList,
     ));
-    setSelectedGroup(getFilteredGroup(updatedTrainee.trainingGroup));
+    setSelectedGroup(currentSelectedGroup);
   }
 
   Group getUpgradedGroup(Group currentGroup) {
