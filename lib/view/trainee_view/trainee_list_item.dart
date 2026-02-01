@@ -170,7 +170,7 @@ class _QualificationIcon extends StatelessWidget {
             width: 25,
             height: 25,
           ),
-          const Icon(Icons.warning_amber, color: Colors.red)
+          const Icon(Icons.warning_amber, color: Colors.red, size: 25)
         ],
       );
     }
@@ -198,11 +198,13 @@ class ItemTextBox extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 3),
       width: width,
-      child: SelectableText(
+      child: Text(
         text,
         style: TextStyle(
             color: isMember ? Colors.black : Colors.red,
             fontStyle: !isMember ? FontStyle.italic : FontStyle.normal),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }
