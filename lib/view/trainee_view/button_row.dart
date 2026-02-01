@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/file_cubit.dart';
 import 'package:training_organizer/cubit/file_state.dart';
-import 'package:training_organizer/email/ui/send_email_page.dart';
 import 'package:training_organizer/view/edit_view/add_trainee.dart';
 
 class ButtonRow extends StatelessWidget {
@@ -53,7 +52,6 @@ class DefaultButtonContainer extends StatelessWidget {
         if (!kIsWeb) const SizedBox(width: 5),
         AddButton(isMobile: isMobile),
         const SizedBox(width: 5),
-        EmailButton(isMobile: isMobile),
       ],
     );
   }
@@ -114,24 +112,6 @@ class AddButton extends StatelessWidget {
       onPressed: () => Navigator.push(
           context, MaterialPageRoute(builder: (context) => const AddTrainee())),
       icon: const Icon(Icons.add),
-      label: Text(title),
-    );
-  }
-}
-
-class EmailButton extends StatelessWidget {
-  final bool isMobile;
-  const EmailButton({required this.isMobile});
-
-  String get title => isMobile ? '' : 'Email schreiben';
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton.extended(
-      heroTag: 'emailButton',
-      onPressed: () => Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const SendEmailPage())),
-      icon: const Icon(Icons.mail),
       label: Text(title),
     );
   }
