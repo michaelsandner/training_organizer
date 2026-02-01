@@ -1,12 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/email/email_repository.dart';
 import 'package:training_organizer/email/email_state.dart';
+import 'package:training_organizer/email/send_email_usecase.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/services/trainees_filter_service.dart';
 
 class EmailCubit extends Cubit<EmailState> {
-  EmailCubit() : super(EmailState.initial());
+  final SendEmailUseCase _sendEmailUseCase;
+  EmailCubit(this._sendEmailUseCase) : super(EmailState.initial());
 
   void shouldSendToSaturdayBlock5(bool shouldSend) {
     emit(state.copyWith(shouldSendToSaturdayBlock5: shouldSend));
@@ -103,9 +104,9 @@ class EmailCubit extends Cubit<EmailState> {
     }
   }
 
-  void sendEmail(List<Trainee> trainees) {
+  Future<void> sendEmail(List<Trainee> trainees) async {
     if (_isOnlyInvitedSelcted()) {
-      _sendMailToInvited(trainees);
+      await _sendMailToInvited(trainees);
       return;
     }
 
@@ -162,7 +163,7 @@ class EmailCubit extends Cubit<EmailState> {
       trainerList = TraineesFilterService.getAllTrainers(trainees);
     }
 
-    sendMailToTrainees(traineeList, trainerList);
+    await _sendEmailUseCase.sendEmailToTrainees(traineeList, trainerList);
   }
 
   bool _isOnlyInvitedSelcted() {
@@ -185,6 +186,6 @@ class EmailCubit extends Cubit<EmailState> {
     final selectedTrainees =
         TraineesFilterService.getTraineesOfGroup(trainees, Group.invited);
 
-    await sendMailToInvitedListTrainees(selectedTrainees);
+    await _sendEmailUseCase.sendEmailToInvitedListTrainees(selectedTrainees);
   }
 }

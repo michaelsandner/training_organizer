@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/file_cubit.dart';
 import 'package:training_organizer/email/email_cubit.dart';
+import 'package:training_organizer/email/email_handler.dart';
 import 'package:training_organizer/email/send_email_page.dart';
+import 'package:training_organizer/email/send_email_usecase.dart';
 import 'package:training_organizer/view/pdf_view/pdf_view.dart';
 import 'package:training_organizer/view/statistics_view/statistics_view.dart';
 import 'package:training_organizer/view/trainee_view/trainee_view.dart';
@@ -17,26 +19,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => AppCubit()..init(),
-        ),
-        BlocProvider(
-          create: (context) => FileCubit(),
-        ),
-        BlocProvider(
-          create: (context) => EmailCubit(),
-        ),
-      ],
-      child: MaterialApp(
-        title: 'Training Organizer',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const MyHomePage(title: 'Training Organizer'),
-      ),
-    );
+    return MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(create: (context) => EmailHandler()),
+        ],
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) {
+              final sendEmailUseCase =
+                  SendEmailUseCase(context.read<EmailHandler>());
+              return AppCubit(sendEmailUseCase)..init();
+            }),
+            BlocProvider(
+              create: (context) => FileCubit(),
+            ),
+            BlocProvider(create: (context) {
+              final sendEmail = SendEmailUseCase(context.read<EmailHandler>());
+              return EmailCubit(sendEmail);
+            }),
+          ],
+          child: MaterialApp(
+            title: 'Training Organizer',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: const MyHomePage(title: 'Training Organizer'),
+          ),
+        ));
   }
 }
 
