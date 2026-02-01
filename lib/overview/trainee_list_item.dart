@@ -33,6 +33,11 @@ class TraineeListItem extends StatelessWidget {
                   isMember: trainee.isMember,
                   width: 200,
                 ),
+                ItemTextBox(
+                  text: trainee.dateOfBirth,
+                  isMember: trainee.isMember,
+                  width: 120,
+                ),
                 EditButton(trainee: trainee),
                 _EmailButton(trainee: trainee),
                 _QualificationOverlay(
