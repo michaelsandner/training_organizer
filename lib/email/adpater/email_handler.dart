@@ -1,4 +1,4 @@
-import 'package:training_organizer/email/email_repository.dart';
+import 'package:training_organizer/email/domain/email_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EmailHandler implements EmailRepository {

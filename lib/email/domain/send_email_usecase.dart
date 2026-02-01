@@ -1,5 +1,5 @@
-import 'package:training_organizer/email/email_repository.dart';
-import 'package:training_organizer/email/template_strings.dart';
+import 'package:training_organizer/email/domain/email_repository.dart';
+import 'package:training_organizer/email/domain/template_strings.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 class SendEmailUseCase {
