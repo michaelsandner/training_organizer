@@ -39,23 +39,20 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void removeTrainee(Trainee trainee) {
-    final selectedGrouop = state.selectedGroup;
-    List<Trainee> updatedTraineeList = [...state.trainees];
+    final selectedGroup = state.selectedGroup;
+    final updatedTraineeList = [...state.trainees];
     updatedTraineeList.removeWhere((element) => element == trainee);
     emit(state.copyWith(trainees: updatedTraineeList));
-    setSelectedGroup(FilterableGroup.active);
-    setSelectedGroup(selectedGrouop);
+    setSelectedGroup(selectedGroup);
   }
 
   void replaceTrainee(Trainee oldTrainee, Trainee newTrainee) {
-    final selectedGrouop = state.selectedGroup;
-    List<Trainee> updatedTraineeList = [...state.trainees];
+    final selectedGroup = state.selectedGroup;
+    final updatedTraineeList = [...state.trainees];
     updatedTraineeList.removeWhere((element) => element == oldTrainee);
-    emit(state.copyWith(trainees: updatedTraineeList));
     updatedTraineeList.add(newTrainee);
     emit(state.copyWith(trainees: updatedTraineeList));
-    setSelectedGroup(FilterableGroup.active);
-    setSelectedGroup(selectedGrouop);
+    setSelectedGroup(selectedGroup);
   }
 
   bool isDowngradePossible(Trainee trainee) {
@@ -68,36 +65,21 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void upgradeTrainee(Trainee trainee) {
+    _changeTraineeGroup(trainee, getUpgradedGroup(trainee.trainingGroup));
+  }
+
+  void downgradeTrainee(Trainee trainee) {
+    _changeTraineeGroup(trainee, getDowngradedGroup(trainee.trainingGroup));
+  }
+
+  void _changeTraineeGroup(Trainee trainee, Group newGroup) {
     final currentSelectedGroup = state.selectedGroup;
     final currentList = [...state.trainees];
 
     currentList.removeWhere((element) => element == trainee);
+    currentList.add(trainee.copyWithNewGroup(newGroup));
 
-    final updatedTrainee =
-        trainee.copyWithNewGroup(getUpgradedGroup(trainee.trainingGroup));
-
-    currentList.add(updatedTrainee);
-
-    emit(state.copyWith(
-      trainees: currentList,
-    ));
-    setSelectedGroup(currentSelectedGroup);
-  }
-
-  void downgradeTrainee(Trainee trainee) {
-    final currentSelectedGroup = state.selectedGroup;
-    var currentList = [...state.trainees];
-
-    currentList.removeWhere((element) => element == trainee);
-
-    final updatedTrainee =
-        trainee.copyWithNewGroup(getDowngradedGroup(trainee.trainingGroup));
-
-    currentList.add(updatedTrainee);
-
-    emit(state.copyWith(
-      trainees: currentList,
-    ));
+    emit(state.copyWith(trainees: currentList));
     setSelectedGroup(currentSelectedGroup);
   }
 
