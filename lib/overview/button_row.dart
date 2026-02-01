@@ -2,16 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/cubit/file_cubit.dart';
-import 'package:training_organizer/cubit/file_state.dart';
 import 'package:training_organizer/edit/ui/add_trainee.dart';
+import 'package:training_organizer/import_export/ui/file_cubit.dart';
+import 'package:training_organizer/import_export/ui/file_state.dart';
 
 class ButtonRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<FileCubit, FileState>(
       listenWhen: (previous, current) {
-        return previous.exportState == ExportState.none;
+        return previous.exportState != current.exportState ||
+            previous.errorMessage != current.errorMessage;
       },
       listener: (context, state) {
         if (state.exportState == ExportState.exportSuccessful) {
@@ -19,10 +20,40 @@ class ButtonRow extends StatelessWidget {
             const SnackBar(content: Text('Export successful')),
           );
         }
-        if (state.exportState == ExportState.exportFailed) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Something got wrong with the export')),
+        if (state.exportState == ExportState.exportFailed &&
+            state.errorMessage != null) {
+          ScaffoldMessenger.of(context).showMaterialBanner(
+            MaterialBanner(
+              content: Text(state.errorMessage!),
+              backgroundColor: Colors.red.shade100,
+              leading: const Icon(Icons.error_outline, color: Colors.red),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                  },
+                  child: const Text('Dismiss'),
+                ),
+              ],
+            ),
+          );
+        }
+        if (state.errorMessage != null &&
+            state.exportState == ExportState.none) {
+          ScaffoldMessenger.of(context).showMaterialBanner(
+            MaterialBanner(
+              content: Text(state.errorMessage!),
+              backgroundColor: Colors.red.shade100,
+              leading: const Icon(Icons.error_outline, color: Colors.red),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                  },
+                  child: const Text('Dismiss'),
+                ),
+              ],
+            ),
           );
         }
       },
