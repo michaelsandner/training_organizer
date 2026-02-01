@@ -1,0 +1,25 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle (optional for adaptive icon) -->
+  <circle cx="256" cy="256" r="256" fill="#FFFFFF"/>
+  
+  <!-- Smiley Face Circle -->
+  <circle cx="256" cy="256" r="180" fill="none" stroke="#9C27B0" stroke-width="14"/>
+  
+  <!-- Glasses Frame Left -->
+  <circle cx="215" cy="230" r="45" fill="none" stroke="#9C27B0" stroke-width="12"/>
+  
+  <!-- Glasses Frame Right -->
+  <circle cx="297" cy="230" r="45" fill="none" stroke="#9C27B0" stroke-width="12"/>
+  
+  <!-- Glasses Bridge -->
+  <line x1="260" y1="230" x2="252" y2="230" stroke="#9C27B0" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Glasses Arms Left -->
+  <line x1="170" y1="230" x2="100" y2="220" stroke="#9C27B0" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Glasses Arms Right -->
+  <line x1="342" y1="230" x2="412" y2="220" stroke="#9C27B0" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Smile -->
+  <path d="M 190 300 Q 256 350 322 300" fill="none" stroke="#9C27B0" stroke-width="12" stroke-linecap="round"/>
+</svg>
