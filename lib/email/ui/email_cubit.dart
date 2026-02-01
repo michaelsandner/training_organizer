@@ -9,183 +9,88 @@ class EmailCubit extends Cubit<EmailState> {
   final SendEmailUseCase _sendEmailUseCase;
   EmailCubit(this._sendEmailUseCase) : super(EmailState.initial());
 
-  void shouldSendToSaturdayBlock5(bool shouldSend) {
-    emit(state.copyWith(shouldSendToSaturdayBlock5: shouldSend));
-    _updateStates();
+  static const _groupMapping = {
+    EmailRecipientGroup.saturdayBlock1: Group.group1,
+    EmailRecipientGroup.saturdayBlock2: Group.group2,
+    EmailRecipientGroup.saturdayBlock4: Group.group4,
+    EmailRecipientGroup.saturdayBlock5: Group.group5,
+    EmailRecipientGroup.wednesdayBlock1: Group.wednesday,
+    EmailRecipientGroup.wednesdayBlock2: Group.wednesday,
+    EmailRecipientGroup.active: Group.active,
+    EmailRecipientGroup.invited: Group.invited,
+    EmailRecipientGroup.waitinglist: Group.waitingList,
+  };
+
+  void toggleGroup(EmailRecipientGroup group, bool selected) {
+    final updated = Set<EmailRecipientGroup>.from(state.selectedGroups);
+    selected ? updated.add(group) : updated.remove(group);
+    emit(state.copyWith(selectedGroups: updated));
   }
 
-  void shouldSendToSaturdayBlock1(bool shouldSend) {
-    emit(state.copyWith(shouldSendToSaturdayBlock1: shouldSend));
-    _updateStates();
+  void selectAllSaturday(bool selected) {
+    final saturdayGroups = {
+      EmailRecipientGroup.saturdayBlock1,
+      EmailRecipientGroup.saturdayBlock2,
+      EmailRecipientGroup.saturdayBlock4,
+      EmailRecipientGroup.saturdayBlock5,
+    };
+    _bulkToggle(saturdayGroups, selected);
   }
 
-  void shouldSendToSaturdayBlock2(bool shouldSend) {
-    emit(state.copyWith(shouldSendToSaturdayBlock2: shouldSend));
-    _updateStates();
+  void selectAllWednesday(bool selected) {
+    final wednesdayGroups = {
+      EmailRecipientGroup.wednesdayBlock1,
+      EmailRecipientGroup.wednesdayBlock2,
+    };
+    _bulkToggle(wednesdayGroups, selected);
   }
 
-  void shouldSendToSaturdayBlock4(bool shouldSend) {
-    emit(state.copyWith(shouldSendToSaturdayBlock4: shouldSend));
-    _updateStates();
-  }
-
-  void shouldSendToWednesdayBlock1(bool shouldSend) {
-    emit(state.copyWith(shouldSendToWednesdayBlock1: shouldSend));
-    _updateStates();
-  }
-
-  void shouldSendToWednesdayBlock2(bool shouldSend) {
-    emit(state.copyWith(shouldSendToWednesdayBlock2: shouldSend));
-    _updateStates();
-  }
-
-  void shouldSendToTrainer(bool shouldSend) {
-    emit(state.copyWith(shouldSendToTrainer: shouldSend));
-    _updateStates();
-  }
-
-  void shouldSendToActive(bool shouldSend) {
-    emit(state.copyWith(shouldSendToActive: shouldSend));
-    _updateStates();
-  }
-
-  void shouldSendToLeisure(bool shouldSend) {
-    emit(state.copyWith(shouldSendToLeisure: shouldSend));
-    _updateStates();
-  }
-
-  void shouldSendToWaitinglist(bool shouldSend) {
-    emit(state.copyWith(shouldSendToWaitinglist: shouldSend));
-    _updateStates();
-  }
-
-  void shouldSendToInvited(bool shouldSend) {
-    emit(state.copyWith(shouldSendToInvited: shouldSend));
-    _updateStates();
-  }
-
-  void shouldSendToAllSaturday(bool shouldSend) {
-    emit(state.copyWith(shouldSendToAllSaturday: shouldSend));
-    _updateStates();
-  }
-
-  void shouldSendToAllWednesday(bool shouldSend) {
-    emit(state.copyWith(shouldSendToAllWednesday: shouldSend));
-    _updateStates();
-  }
-
-  void _updateStates() {
-    if (state.shouldSendToAllSaturday) {
-      emit(state.copyWith(
-        shouldSendToSaturdayBlock1: true,
-        shouldSendToSaturdayBlock2: true,
-        shouldSendToSaturdayBlock4: true,
-        shouldSendToSaturdayBlock5: true,
-      ));
-      if (state.shouldSendToAllWednesday) {
-        emit(state.copyWith(
-            shouldSendToWednesdayBlock1: true,
-            shouldSendToWednesdayBlock2: true,
-            shouldSendToLeisure: true,
-            shouldSendToActive: true));
-      }
-      if (!state.shouldSendToSaturdayBlock1 ||
-          !state.shouldSendToSaturdayBlock2 ||
-          !state.shouldSendToSaturdayBlock4 ||
-          !state.shouldSendToSaturdayBlock5) {
-        emit(state.copyWith(shouldSendToAllSaturday: false));
-      }
-      if (!state.shouldSendToWednesdayBlock1 ||
-          !state.shouldSendToWednesdayBlock2 ||
-          !state.shouldSendToLeisure ||
-          !state.shouldSendToActive) {
-        emit(state.copyWith(shouldSendToAllWednesday: false));
-      }
-    }
+  void _bulkToggle(Set<EmailRecipientGroup> groups, bool selected) {
+    final updated = Set<EmailRecipientGroup>.from(state.selectedGroups);
+    selected ? updated.addAll(groups) : updated.removeAll(groups);
+    emit(state.copyWith(selectedGroups: updated));
   }
 
   Future<void> sendEmail(List<Trainee> trainees) async {
-    if (_isOnlyInvitedSelcted()) {
-      await _sendMailToInvited(trainees);
-      return;
+    if (!state.hasSelection) return;
+
+    if (state.isOnlyInvitedSelected) {
+      await _sendToInvited(trainees);
+    } else {
+      await _sendToSelectedGroups(trainees);
     }
-
-    List<Trainee> traineeList = [];
-
-    TraineesFilterService.getAllSaturdayTrainees(trainees);
-
-    if (state.shouldSendToWednesdayBlock1) {
-      traineeList.addAll(
-          TraineesFilterService.getTraineesOfGroup(trainees, Group.wednesday));
-    }
-
-    if (state.shouldSendToWednesdayBlock2) {
-      traineeList.addAll(
-          TraineesFilterService.getTraineesOfGroup(trainees, Group.wednesday));
-    }
-
-    if (state.shouldSendToSaturdayBlock1) {
-      traineeList.addAll(
-          TraineesFilterService.getTraineesOfGroup(trainees, Group.group1));
-    }
-
-    if (state.shouldSendToSaturdayBlock2) {
-      traineeList.addAll(
-          TraineesFilterService.getTraineesOfGroup(trainees, Group.group2));
-    }
-    if (state.shouldSendToSaturdayBlock4) {
-      traineeList.addAll(
-          TraineesFilterService.getTraineesOfGroup(trainees, Group.group4));
-    }
-    if (state.shouldSendToSaturdayBlock5) {
-      traineeList.addAll(
-          TraineesFilterService.getTraineesOfGroup(trainees, Group.group5));
-    }
-
-    if (state.shouldSendToActive) {
-      traineeList.addAll(
-          TraineesFilterService.getTraineesOfGroup(trainees, Group.active));
-    }
-
-    if (state.shouldSendToInvited) {
-      traineeList.addAll(
-          TraineesFilterService.getTraineesOfGroup(trainees, Group.invited));
-    }
-
-    if (state.shouldSendToInvited) {
-      traineeList.addAll(TraineesFilterService.getTraineesOfGroup(
-          trainees, Group.waitingList));
-    }
-
-    List<Trainee> trainerList = [];
-
-    if (state.shouldSendToTrainer) {
-      trainerList = TraineesFilterService.getAllTrainers(trainees);
-    }
-
-    await _sendEmailUseCase.sendEmailToTrainees(traineeList, trainerList);
   }
 
-  bool _isOnlyInvitedSelcted() {
-    if (state.shouldSendToInvited &&
-        !state.shouldSendToSaturdayBlock1 &&
-        !state.shouldSendToSaturdayBlock2 &&
-        !state.shouldSendToSaturdayBlock5 &&
-        !state.shouldSendToSaturdayBlock4 &&
-        !state.shouldSendToWednesdayBlock1 &&
-        !state.shouldSendToWednesdayBlock2 &&
-        !state.shouldSendToTrainer &&
-        !state.shouldSendToLeisure &&
-        !state.shouldSendToActive) {
-      return true;
-    }
-    return false;
+  Future<void> _sendToSelectedGroups(List<Trainee> trainees) async {
+    final recipients = _filterTraineesBySelection(trainees);
+    final trainers = state.isGroupSelected(EmailRecipientGroup.trainer)
+        ? TraineesFilterService.getAllTrainers(trainees)
+        : <Trainee>[];
+
+    await _sendEmailUseCase.sendEmailToTrainees(recipients, trainers);
   }
 
-  Future<void> _sendMailToInvited(List<Trainee> trainees) async {
-    final selectedTrainees =
-        TraineesFilterService.getTraineesOfGroup(trainees, Group.invited);
+  List<Trainee> _filterTraineesBySelection(List<Trainee> allTrainees) {
+    final result = <Trainee>{};
 
-    await _sendEmailUseCase.sendEmailToInvitedListTrainees(selectedTrainees);
+    for (final selectedGroup in state.selectedGroups) {
+      if (selectedGroup == EmailRecipientGroup.trainer) continue;
+
+      final traineeGroup = _groupMapping[selectedGroup];
+      if (traineeGroup != null) {
+        result.addAll(TraineesFilterService.getTraineesOfGroup(
+            allTrainees, traineeGroup));
+      }
+    }
+
+    return result.toList();
+  }
+
+  Future<void> _sendToInvited(List<Trainee> trainees) async {
+    final invited = TraineesFilterService.getTraineesOfGroup(
+      trainees,
+      Group.invited,
+    );
+    await _sendEmailUseCase.sendEmailToInvitedListTrainees(invited);
   }
 }

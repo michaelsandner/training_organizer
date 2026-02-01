@@ -1,16 +1,23 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/model/trainee.dart';
+
+// Mock für SendEmailUseCase
+class MockSendEmailUseCase extends Mock implements SendEmailUseCase {}
 
 void main() {
   group('AppCubit', () {
     late AppCubit cubit;
     late AppState state;
+    late MockSendEmailUseCase mockSendEmailUseCase;
 
     setUp(() {
-      cubit = AppCubit();
+      mockSendEmailUseCase = MockSendEmailUseCase();
+      cubit = AppCubit(mockSendEmailUseCase);
     });
     group('Given trainee in waitingslist', () {
       late Trainee trainee;
