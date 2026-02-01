@@ -23,11 +23,16 @@ class _TraineeListState extends State<TraineeList> {
         return ListView.builder(
           padding: const EdgeInsets.only(bottom: 50),
           itemCount: state.selectedTrainees.length,
+          itemExtent: 40, // Fixed height improves performance
           itemBuilder: (BuildContext context, int index) {
-            return TraineeListItem(
-              trainee: state.selectedTrainees[index],
-              refresh: refresh,
-              isLargeView: !isMobile(screenSize),
+            final trainee = state.selectedTrainees[index];
+            return RepaintBoundary(
+              key: ValueKey('${trainee.surname}_${trainee.forename}_$index'),
+              child: TraineeListItem(
+                trainee: trainee,
+                refresh: refresh,
+                isLargeView: !isMobile(screenSize),
+              ),
             );
           },
         );
