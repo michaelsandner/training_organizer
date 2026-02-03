@@ -99,8 +99,9 @@ jobs:
         with:
           flutter-version: ${{env.FLUTTER_VERSION}}
       - run: flutter pub get
-      - run: flutter build web --base-href /training_organizer/
-      - uses: bluefireteam/flutter-gh-pages@v9
+      - run: flutter build web --base-href /training_organizer/ --web-renderer canvaskit
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          targetBranch: gh-pages
-          webRenderer: canvaskit
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
