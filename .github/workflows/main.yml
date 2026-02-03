@@ -32,7 +32,7 @@ jobs:
           flutter-version: ${{env.FLUTTER_VERSION}}
       - run: flutter clean
       - run: flutter pub get
-      - run: flutter build web
+      - run: flutter build web --base-href /training_organizer/
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
@@ -99,4 +99,8 @@ jobs:
         with:
           flutter-version: ${{env.FLUTTER_VERSION}}
       - run: flutter pub get
+      - run: flutter build web --base-href /training_organizer/
       - uses: bluefireteam/flutter-gh-pages@v9
+        with:
+          targetBranch: gh-pages
+          webRenderer: canvaskit
