@@ -42,8 +42,9 @@ class SendEmailUseCase {
       List<Trainee> trainees, List<Trainee> copyTo) async {
     String email = _getEmails(trainees);
     String copy = _getEmails(copyTo);
+    String bcc = '$email$copy';
 
-    final uri = Uri.parse('mailto:$copy?bcc=$email');
+    final uri = Uri.parse('mailto:?bcc=$bcc');
     await _emailRepository.sendEmail(uri);
   }
 }
