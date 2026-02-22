@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:training_organizer/app_drawer.dart';
 import 'package:training_organizer/blocklist/ui/pdf_view.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/edit/ui/trainee_view.dart';
 import 'package:training_organizer/email/adpater/email_handler.dart';
 import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/email/ui/email_cubit.dart';
-import 'package:training_organizer/email/ui/send_email_page.dart';
 import 'package:training_organizer/import_export/adapter/file_handler.dart';
 import 'package:training_organizer/import_export/ui/file_cubit.dart';
 import 'package:training_organizer/statistic/ui/statistics_view.dart';
@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -82,19 +82,15 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(Icons.list),
               text: 'Statistik',
             ),
-            Tab(
-              icon: Icon(Icons.mail),
-              text: 'Email',
-            ),
           ]),
         ),
+        drawer: const AppDrawer(),
         body: Center(
           child: TabBarView(
             children: [
               const TraineeView(),
               PdfView(),
               const StatisticsView(),
-              const SendEmailPage(),
             ],
           ),
         ),

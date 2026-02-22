@@ -12,32 +12,37 @@ class SendEmailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EmailCubit, EmailState>(
-      builder: (context, state) {
-        return LayoutBuilder(
-          builder: (context, constraints) {
-            final isDesktop = constraints.maxWidth > 600;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Email'),
+      ),
+      body: BlocBuilder<EmailCubit, EmailState>(
+        builder: (context, state) {
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              final isDesktop = constraints.maxWidth > 600;
 
-            return ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                // Header
-                const EmailPageHeader(),
-                const SizedBox(height: 24),
+              return ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
+                  // Header
+                  const EmailPageHeader(),
+                  const SizedBox(height: 24),
 
-                // Groups Layout
-                if (isDesktop)
-                  const DesktopLayout()
-                else
-                  const MobileLayout(),
+                  // Groups Layout
+                  if (isDesktop)
+                    const DesktopLayout()
+                  else
+                    const MobileLayout(),
 
-                const SizedBox(height: 24),
-                const SendButton(),
-              ],
-            );
-          },
-        );
-      },
+                  const SizedBox(height: 24),
+                  const SendButton(),
+                ],
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
