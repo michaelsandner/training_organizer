@@ -8,6 +8,12 @@
 - Each feature has its own folder with the same structure (presentation, domain, data)
 - State management: flutter_bloc (Cubit)
 
+## Tests
+- Unit tests for domain layer (business logic)
+- Unit tests for Cubit classes in the presentation layer
+- Unit tests are written in Gherkin style (Given-When-Then)
+
+
 ## Conventions
 - German for UI texts and comments
 - Methods and variables in English
