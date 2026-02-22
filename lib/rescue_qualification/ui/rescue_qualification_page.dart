@@ -5,8 +5,10 @@ import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/import_export/ui/file_cubit.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/rescue_qualification/ui/rescue_qualification_cubit.dart';
+import 'package:training_organizer/rescue_qualification/ui/rescue_qualification_info_box.dart';
 import 'package:training_organizer/rescue_qualification/ui/rescue_qualification_list_item.dart';
 import 'package:training_organizer/rescue_qualification/ui/rescue_qualification_state.dart';
+import 'package:training_organizer/rescue_qualification/ui/rescue_qualification_toggles.dart';
 
 class RescueQualificationPage extends StatelessWidget {
   const RescueQualificationPage({super.key});
@@ -59,65 +61,17 @@ class _RescueQualificationBody extends StatelessWidget {
         final allTrainees = context.watch<AppCubit>().state.trainees;
         final filtered =
             _filterTrainees(allTrainees, rescueState.selectedFilter);
-        final cubit = context.read<RescueQualificationCubit>();
 
         return Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: ToggleButtons(
-                isSelected: [
-                  rescueState.selectedFilter == FilterableGroup.wednesday,
-                  rescueState.selectedFilter == FilterableGroup.active,
-                ],
-                onPressed: (index) {
-                  cubit.setFilter(index == 0
-                      ? FilterableGroup.wednesday
-                      : FilterableGroup.active);
-                },
-                borderRadius: BorderRadius.circular(8),
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('Mittwoch'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('Aktiv'),
-                  ),
-                ],
-              ),
+            const RescueQualificationInfoBox(),
+            const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: GroupFilterToggle(),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 12.0),
-              child: ToggleButtons(
-                isSelected: [
-                  rescueState.selectedQualification ==
-                      RescueQualificationType.bronze,
-                  rescueState.selectedQualification ==
-                      RescueQualificationType.silber,
-                  rescueState.selectedQualification ==
-                      RescueQualificationType.gold,
-                ],
-                onPressed: (index) {
-                  cubit.setQualification(RescueQualificationType.values[index]);
-                },
-                borderRadius: BorderRadius.circular(8),
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('Bronze'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('Silber'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('Gold'),
-                  ),
-                ],
-              ),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 12.0),
+              child: QualificationToggle(),
             ),
             Expanded(
               child: ListView.builder(
