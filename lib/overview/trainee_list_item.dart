@@ -42,7 +42,7 @@ class TraineeListItem extends StatelessWidget {
                 _EmailButton(trainee: trainee),
                 _QualificationOverlay(
                   trainee: trainee,
-                  child: _Qualifications(trainee: trainee),
+                  child: Qualifications(trainee: trainee),
                 ),
               ],
             ),
@@ -113,9 +113,9 @@ class _QualificationOverlay extends StatelessWidget {
   }
 }
 
-class _Qualifications extends StatelessWidget {
+class Qualifications extends StatelessWidget {
   final Trainee trainee;
-  const _Qualifications({
+  const Qualifications({
     required this.trainee,
   });
 

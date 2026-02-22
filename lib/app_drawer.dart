@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:training_organizer/email/ui/send_email_page.dart';
+import 'package:training_organizer/rescue_qualification/ui/rescue_qualification_page.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -27,6 +28,18 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const SendEmailPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.pool),
+            title: const Text('Rettungsschwimmausbildung'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const RescueQualificationPage(),
                 ),
               );
             },
