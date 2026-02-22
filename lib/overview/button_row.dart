@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
@@ -79,8 +78,8 @@ class DefaultButtonContainer extends StatelessWidget {
       children: [
         ImportButton(isMobile: isMobile),
         const SizedBox(width: 5),
-        if (!kIsWeb) ExportButton(isMobile: isMobile),
-        if (!kIsWeb) const SizedBox(width: 5),
+        ExportButton(isMobile: isMobile),
+        const SizedBox(width: 5),
         AddButton(isMobile: isMobile),
         const SizedBox(width: 5),
       ],

@@ -12,7 +12,12 @@ class FileExporter implements FileRepository {
   Future<void> exportTrainees(List<Trainee> trainees) async {
     String json = encodeJson(trainees);
 
-    if (Platform.isWindows) {
+    if (kIsWeb) {
+      await FilePicker.platform.saveFile(
+        fileName: _getFileName(),
+        bytes: utf8.encode(json),
+      );
+    } else if (Platform.isWindows) {
       await _exportFileOnWindows(json);
     } else {
       await _exportFileOnAndroid(json);
