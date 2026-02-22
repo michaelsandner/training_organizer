@@ -1,10 +1,11 @@
 # Copilot Instructions
 
 ## Project
-- Flutter/Dart app for managing members of a water rescue organization (Wasserwacht)
 - Target platforms: Android, iOS, Web, Windows
 
 ## Architecture
+- Clean Architecture with layers: presentation, domain, data
+- Each feature has its own folder with the same structure (presentation, domain, data)
 - State management: flutter_bloc (Cubit)
 
 ## Conventions
