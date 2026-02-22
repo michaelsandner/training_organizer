@@ -38,4 +38,20 @@ class FileCubit extends Cubit<FileState> {
       emit(state.copyWith(exportState: ExportState.none));
     }
   }
+
+  Future<void> saveRescueCertificationAttendeesAsCsv(
+      List<Trainee> trainees, String qualificationSuffix) async {
+    try {
+      await _fileExporter.exportCertificationAttendeesAsCsv(
+          trainees, qualificationSuffix);
+      emit(state.copyWith(exportState: ExportState.exportSuccessful));
+    } catch (e) {
+      emit(state.copyWith(
+        exportState: ExportState.exportFailed,
+        errorMessage: 'Export fehlgeschlagen: ${e.toString()}',
+      ));
+    } finally {
+      emit(state.copyWith(exportState: ExportState.none));
+    }
+  }
 }

@@ -58,6 +58,61 @@ class FileExporter implements FileRepository {
   }
 
   @override
+  Future<void> exportCertificationAttendeesAsCsv(
+      List<Trainee> trainees, String qualificationSuffix) async {
+    final csv = _encodeCsv(trainees);
+    final fileName = _getCsvFileName(qualificationSuffix);
+
+    if (kIsWeb) {
+      await FilePicker.platform.saveFile(
+        fileName: fileName,
+        bytes: utf8.encode(csv),
+      );
+    } else {
+      String? outputFile = await FilePicker.platform.saveFile(
+        dialogTitle: 'Speicherort wählen:',
+        fileName: fileName,
+        allowedExtensions: ['csv'],
+        type: FileType.custom,
+      );
+
+      if (outputFile != null) {
+        final saveFile = File(outputFile);
+        await saveFile.writeAsString(csv);
+      }
+    }
+  }
+
+  String _encodeCsv(List<Trainee> trainees) {
+    const separator = ';';
+    final buffer = StringBuffer();
+    for (final t in trainees) {
+      buffer.writeln(
+        '${_escapeCsv(t.forename)}$separator'
+        '${_escapeCsv(t.surname)}$separator'
+        '${_escapeCsv(t.dateOfBirth)}$separator'
+        'Langenzenn$separator'
+        'Fürth$separator'
+        '$separator'
+        '$separator',
+      );
+    }
+    return buffer.toString();
+  }
+
+  String _escapeCsv(String value) {
+    if (value.contains(';') || value.contains('"') || value.contains('\n')) {
+      return '"${value.replaceAll('"', '""')}"';
+    }
+    return value;
+  }
+
+  static String _getCsvFileName(String qualificationSuffix) {
+    final now = DateTime.now();
+    return 'export_${now.year}_${now.month}_${now.day}_$qualificationSuffix.csv';
+  }
+
+  @override
   Future<List<Trainee>> importTrainees() async {
     try {
       String? json = await _importFile();
