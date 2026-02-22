@@ -10,6 +10,10 @@ class RescueQualificationCubit extends Cubit<RescueQualificationState> {
     emit(state.copyWith(selectedFilter: filter));
   }
 
+  void setQualification(RescueQualificationType qualification) {
+    emit(state.copyWith(selectedQualification: qualification));
+  }
+
   void toggleTraineeSelection(Trainee trainee) {
     final updated = Set<Trainee>.from(state.selectedTrainees);
     if (updated.contains(trainee)) {

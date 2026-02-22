@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/import_export/ui/file_cubit.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/rescue_qualification/ui/rescue_qualification_cubit.dart';
 import 'package:training_organizer/rescue_qualification/ui/rescue_qualification_list_item.dart';
@@ -14,11 +15,27 @@ class RescueQualificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => RescueQualificationCubit(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Rettungsschwimmausbildung'),
-        ),
-        body: const _RescueQualificationBody(),
+      child: BlocBuilder<RescueQualificationCubit, RescueQualificationState>(
+        builder: (context, rescueState) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Rettungsschwimmausbildung'),
+            ),
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: rescueState.selectedTrainees.isEmpty
+                  ? null
+                  : () => context
+                      .read<FileCubit>()
+                      .saveRescueCertificationAttendeesAsCsv(
+                        rescueState.selectedTrainees.toList(),
+                        rescueState.selectedQualification.name,
+                      ),
+              icon: const Icon(Icons.download),
+              label: const Text('Exportieren'),
+            ),
+            body: const _RescueQualificationBody(),
+          );
+        },
       ),
     );
   }
@@ -67,6 +84,37 @@ class _RescueQualificationBody extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: Text('Aktiv'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12.0),
+              child: ToggleButtons(
+                isSelected: [
+                  rescueState.selectedQualification ==
+                      RescueQualificationType.bronze,
+                  rescueState.selectedQualification ==
+                      RescueQualificationType.silber,
+                  rescueState.selectedQualification ==
+                      RescueQualificationType.gold,
+                ],
+                onPressed: (index) {
+                  cubit.setQualification(RescueQualificationType.values[index]);
+                },
+                borderRadius: BorderRadius.circular(8),
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text('Bronze'),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text('Silber'),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text('Gold'),
                   ),
                 ],
               ),
