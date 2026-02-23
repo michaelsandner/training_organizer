@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:training_organizer/edit/domain/add_qualification_usecase.dart';
 import 'package:training_organizer/edit/ui/certification_state.dart';
 import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/services/qualification_service.dart';
 
 class CertificationCubit extends Cubit<CertificationState> {
-  CertificationCubit(Trainee? trainee)
+  final AddQualificationUseCase _addQualificationUseCase;
+
+  CertificationCubit(Trainee? trainee, this._addQualificationUseCase)
       : super(
           trainee != null
               ? CertificationState(
@@ -36,7 +38,7 @@ class CertificationCubit extends Cubit<CertificationState> {
   void reset() => emit(const CertificationState());
 
   List<Qualification> createQualifications(Trainee? trainee) {
-    return addQualifications(
+    return _addQualificationUseCase.execute(
       currentQualifications: trainee?.qualifications ?? [],
       shouldSetCurrentDate: state.enableCurrentqualificationDate,
       shouldAddPirat: state.isPiratChecked,
