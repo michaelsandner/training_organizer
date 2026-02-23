@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/model/qualifications/bronze.dart';
+import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 import 'package:training_organizer/model/qualifications/rs_silber.dart';
@@ -209,6 +210,28 @@ void main() {
         expect(result.any((q) => q.name == bronze), isTrue);
         expect(result.any((q) => q.name == gold), isTrue);
         expect(result.length, 3);
+      });
+    });
+  });
+
+  group('Given a qualification list with Gold', () {
+    final existing = [Gold(DateTime(2023, 7, 20))];
+
+    group('When addQualifications is called with Silber added', () {
+      test('Then both Silber and Gold are present', () {
+        final result = addQualifications(
+          currentQualifications: existing,
+          shouldSetCurrentDate: false,
+          shouldAddPirat: false,
+          shouldAddBronze: false,
+          shouldAddSilber: true,
+          shouldAddGold: true,
+          shouldAddRsBronze: false,
+        );
+
+        expect(result.any((q) => q.name == silber), isTrue);
+        expect(result.any((q) => q.name == gold), isTrue);
+        expect(result.length, 2);
       });
     });
   });
