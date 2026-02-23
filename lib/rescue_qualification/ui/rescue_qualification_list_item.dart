@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/overview/trainee_list_item.dart';
+import 'package:training_organizer/overview/qualifications.dart';
 import 'package:training_organizer/rescue_qualification/ui/rescue_qualification_cubit.dart';
 import 'package:training_organizer/rescue_qualification/ui/rescue_qualification_state.dart';
 
