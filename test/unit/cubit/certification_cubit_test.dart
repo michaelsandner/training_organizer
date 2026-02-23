@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/edit/ui/certification_cubit.dart';
 import 'package:training_organizer/edit/ui/certification_state.dart';
 import 'package:training_organizer/model/qualifications/bronze.dart';
+import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 import 'package:training_organizer/model/trainee.dart';
@@ -208,6 +209,43 @@ void main() {
         expect(qualifications.any((q) => q.name == rettungsschwimmerBronze),
             isTrue);
         expect(qualifications.length, 5);
+      });
+    });
+  });
+
+  group('Given an existing trainee with only Gold qualification', () {
+    late CertificationCubit cubit;
+    late Trainee trainee;
+
+    setUp(() {
+      trainee = Trainee(
+        surname: 'Mustermann',
+        forename: 'Max',
+        qualifications: [Gold(DateTime(2023, 7, 20))],
+      );
+      cubit = CertificationCubit(trainee);
+    });
+
+    tearDown(() => cubit.close());
+
+    group('When the cubit is created', () {
+      test('Then isGoldChecked is true and all others are false', () {
+        expect(cubit.state.isGoldChecked, isTrue);
+        expect(cubit.state.isPiratChecked, isFalse);
+        expect(cubit.state.isBronzeChecked, isFalse);
+        expect(cubit.state.isSilverChecked, isFalse);
+        expect(cubit.state.isRSBronzeChecked, isFalse);
+      });
+    });
+
+    group('When Silber is toggled on without touching Gold', () {
+      test('Then createQualifications returns both Silber and Gold', () {
+        cubit.toggleSilber(true);
+        final qualifications = cubit.createQualifications(trainee);
+
+        expect(qualifications.any((q) => q.name == silber), isTrue);
+        expect(qualifications.any((q) => q.name == gold), isTrue);
+        expect(qualifications.length, 2);
       });
     });
   });
