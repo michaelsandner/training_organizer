@@ -3,15 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/qualifications/bronze.dart';
-import 'package:training_organizer/model/qualifications/gold.dart';
-import 'package:training_organizer/model/qualifications/pirat.dart';
-import 'package:training_organizer/model/qualifications/qualification.dart';
-import 'package:training_organizer/model/qualifications/rs_bronze.dart';
-import 'package:training_organizer/model/qualifications/silber.dart';
+import 'package:training_organizer/edit/ui/certification_cubit.dart';
+import 'package:training_organizer/edit/ui/create_certification.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/services/date_service.dart';
-import 'package:training_organizer/services/qualification_service.dart';
 
 class AddTrainee extends StatefulWidget {
   /// null if new trainee is added
@@ -32,18 +27,15 @@ class _AddTraineeState extends State<AddTrainee> {
   TextEditingController commentController = TextEditingController();
   Group? group = Group.waitingList;
 
-  bool isPiratChecked = false;
-  bool isBronzeChecked = false;
-  bool isSilverChecked = false;
-  bool isGoldChecked = false;
-  bool isRSBronzeChecked = false;
+  late final CertificationCubit _certificationCubit;
+
   bool isMember = false;
   bool isTrainer = false;
-  bool enableCurrentqualificationDate = false;
 
   @override
   void initState() {
     super.initState();
+    _certificationCubit = CertificationCubit(widget.trainee);
     if (widget.trainee != null) {
       sureNameController.text = widget.trainee!.surname;
       foreNameController.text = widget.trainee!.forename;
@@ -57,15 +49,13 @@ class _AddTraineeState extends State<AddTrainee> {
       group = widget.trainee!.trainingGroup;
       isMember = widget.trainee!.isMember;
       isTrainer = widget.trainee!.isTrainer;
-      setState(() {
-        isPiratChecked = widget.trainee!.hasQualification('Pirat');
-        isBronzeChecked = widget.trainee!.hasQualification('Bronze');
-        isSilverChecked = widget.trainee!.hasQualification('Silber');
-        isGoldChecked = widget.trainee!.hasQualification('Gold');
-        isRSBronzeChecked =
-            widget.trainee!.hasQualification('RettungsschwimmerBronze');
-      });
     }
+  }
+
+  @override
+  void dispose() {
+    _certificationCubit.close();
+    super.dispose();
   }
 
   @override
@@ -84,13 +74,7 @@ class _AddTraineeState extends State<AddTrainee> {
       commentController.clear();
       isMember = false;
       isTrainer = false;
-      setState(() {
-        isPiratChecked = false;
-        isBronzeChecked = false;
-        isSilverChecked = false;
-        isGoldChecked = false;
-        isRSBronzeChecked = false;
-      });
+      _certificationCubit.reset();
     }
 
     Future<void> showAcceptDialog(Trainee newTrainee) async {
@@ -166,23 +150,6 @@ class _AddTraineeState extends State<AddTrainee> {
           });
     }
 
-    List<Qualification> createqualifications() {
-      List<Qualification> qualifications = [];
-      if (widget.trainee != null) {
-        qualifications = widget.trainee!.qualifications;
-      }
-
-      return addQualifications(
-        currentQualifications: qualifications,
-        shouldSetCurrentDate: enableCurrentqualificationDate,
-        shouldAddPirat: isPiratChecked,
-        shouldAddBronze: isBronzeChecked,
-        shouldAddSilber: isSilverChecked,
-        shouldAddGold: isGoldChecked,
-        shouldAddRsBronze: isRSBronzeChecked,
-      );
-    }
-
     Trainee createTraineeFromInputs() {
       return Trainee(
         forename: foreNameController.text.trim(),
@@ -195,7 +162,8 @@ class _AddTraineeState extends State<AddTrainee> {
             DateService.formatToGerman(registrationDateController.text.trim()),
         comment: commentController.text.trim(),
         trainingGroup: group ?? Group.waitingList,
-        qualifications: createqualifications(),
+        qualifications:
+            _certificationCubit.createQualifications(widget.trainee),
         isMember: isMember,
         isTrainer: isTrainer,
       );
@@ -222,200 +190,154 @@ class _AddTraineeState extends State<AddTrainee> {
       }
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: widget.trainee == null
-            ? const Text('Hinzufügen')
-            : const Text('Bearbeiten'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Column(children: [
-              TextFormField(
-                controller: foreNameController,
-                decoration: const InputDecoration(hintText: 'Vorname'),
-                keyboardType: TextInputType.name,
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Bitte Vorname angeben';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: sureNameController,
-                decoration: const InputDecoration(hintText: 'Nachname'),
-                keyboardType: TextInputType.name,
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Bitte Nachname angeben';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: emailController,
-                decoration: const InputDecoration(hintText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
-              ),
-              TextFormField(
-                controller: phoneController,
-                decoration: const InputDecoration(hintText: 'Tel.'),
-                keyboardType: TextInputType.phone,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              ),
-              TextFormField(
-                controller: dateOfBirthController,
-                decoration: const InputDecoration(labelText: 'Geb. Datum'),
-                readOnly: true,
-                onTap: () async {
-                  DateTime? picked = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(1950),
-                    lastDate: DateTime.now(),
-                  );
-                  if (picked != null) {
-                    dateOfBirthController.text =
-                        '${picked.day.toString().padLeft(2, '0')}.${picked.month.toString().padLeft(2, '0')}.${picked.year}';
-                  }
-                },
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  FilterChip(
-                    selected: isMember,
-                    label: const Text('ist Mitglied'),
-                    onSelected: (bool value) => setState(() {
-                      isMember = value;
-                    }),
-                  ),
-                  const SizedBox(width: 10),
-                  FilterChip(
-                    selected: isTrainer,
-                    label: const Text('ist Trainer*in'),
-                    onSelected: (bool value) => setState(() {
-                      isTrainer = value;
-                    }),
-                  ),
-                ],
-              ),
-              TextFormField(
-                controller: registrationDateController,
-                decoration: const InputDecoration(labelText: 'Anmeldedatum'),
-                readOnly: true,
-                onTap: () async {
-                  DateTime? picked = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2023),
-                    lastDate: DateTime.now(),
-                  );
-                  if (picked != null) {
-                    registrationDateController.text =
-                        '${picked.day.toString().padLeft(2, '0')}.${picked.month.toString().padLeft(2, '0')}.${picked.year}';
-                  }
-                },
-              ),
-              TextFormField(
-                controller: commentController,
-                decoration: const InputDecoration(hintText: 'Kommentar'),
-                keyboardType: TextInputType.multiline,
-              ),
-              DropdownButton<Group>(
-                focusColor: Colors.white,
-                elevation: 15,
-                icon: const Icon(Icons.arrow_downward),
-                underline: Container(
-                  height: 2,
-                  color: Colors.blue,
+    return BlocProvider<CertificationCubit>.value(
+      value: _certificationCubit,
+      child: Scaffold(
+        appBar: AppBar(
+          title: widget.trainee == null
+              ? const Text('Hinzufügen')
+              : const Text('Bearbeiten'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Column(children: [
+                TextFormField(
+                  controller: foreNameController,
+                  decoration: const InputDecoration(hintText: 'Vorname'),
+                  keyboardType: TextInputType.name,
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Bitte Vorname angeben';
+                    }
+                    return null;
+                  },
                 ),
-                value: group,
-                items: Group.values
-                    .map<DropdownMenuItem<Group>>((Group value) =>
-                        DropdownMenuItem(
-                            value: value,
-                            child: Text(cubit.getNameForGroupEnum(value))))
-                    .toList(),
-                onChanged: (Group? value) => setState(() {
-                  group = value;
-                }),
-              ),
-              SwitchListTile(
-                title: const Text(
-                    'Setze heutiges Datum als Abnahmedatum für Abzeichen'),
-                value: enableCurrentqualificationDate,
-                onChanged: (bool value) {
-                  setState(() {
-                    enableCurrentqualificationDate = value;
-                  });
-                },
-              ),
-              CheckboxListTile(
-                value: isPiratChecked,
-                title: const Text('Pirat'),
-                secondary: Pirat(null).icon,
-                onChanged: (bool? value) => setState(() {
-                  isPiratChecked = value! ? value : false;
-                }),
-              ),
-              CheckboxListTile(
-                value: isBronzeChecked,
-                title: const Text('Bronze'),
-                secondary: Bronze(null).icon,
-                onChanged: (bool? value) => setState(() {
-                  isBronzeChecked = value! ? value : false;
-                }),
-              ),
-              CheckboxListTile(
-                value: isSilverChecked,
-                title: const Text('Silber'),
-                secondary: Silber(null).icon,
-                onChanged: (bool? value) => setState(() {
-                  isSilverChecked = value! ? value : false;
-                }),
-              ),
-              CheckboxListTile(
-                value: isGoldChecked,
-                title: const Text('Gold'),
-                secondary: Gold(null).icon,
-                onChanged: (bool? value) => setState(() {
-                  isGoldChecked = value! ? value : false;
-                }),
-              ),
-              CheckboxListTile(
-                value: isRSBronzeChecked,
-                title: const Text('RS Bronze'),
-                secondary: RsBronze(null).icon,
-                onChanged: (bool? value) => setState(() {
-                  isRSBronzeChecked = value! ? value : false;
-                }),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                TextFormField(
+                  controller: sureNameController,
+                  decoration: const InputDecoration(hintText: 'Nachname'),
+                  keyboardType: TextInputType.name,
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Bitte Nachname angeben';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: emailController,
+                  decoration: const InputDecoration(hintText: 'Email'),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                TextFormField(
+                  controller: phoneController,
+                  decoration: const InputDecoration(hintText: 'Tel.'),
+                  keyboardType: TextInputType.phone,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                ),
+                TextFormField(
+                  controller: dateOfBirthController,
+                  decoration: const InputDecoration(labelText: 'Geb. Datum'),
+                  readOnly: true,
+                  onTap: () async {
+                    DateTime? picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1950),
+                      lastDate: DateTime.now(),
+                    );
+                    if (picked != null) {
+                      dateOfBirthController.text =
+                          '${picked.day.toString().padLeft(2, '0')}.${picked.month.toString().padLeft(2, '0')}.${picked.year}';
+                    }
+                  },
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    ElevatedButton(
-                      onPressed: onPressed,
-                      child: widget.trainee != null
-                          ? const Text('Editieren')
-                          : const Text('Hinzufügen'),
+                    FilterChip(
+                      selected: isMember,
+                      label: const Text('ist Mitglied'),
+                      onSelected: (bool value) => setState(() {
+                        isMember = value;
+                      }),
                     ),
-                    if (widget.trainee != null)
-                      ElevatedButton(
-                        onPressed: showDeleteDialog,
-                        child: const Text('Löschen'),
-                      )
+                    const SizedBox(width: 10),
+                    FilterChip(
+                      selected: isTrainer,
+                      label: const Text('ist Trainer*in'),
+                      onSelected: (bool value) => setState(() {
+                        isTrainer = value;
+                      }),
+                    ),
                   ],
                 ),
-              )
-            ]),
+                TextFormField(
+                  controller: registrationDateController,
+                  decoration: const InputDecoration(labelText: 'Anmeldedatum'),
+                  readOnly: true,
+                  onTap: () async {
+                    DateTime? picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2023),
+                      lastDate: DateTime.now(),
+                    );
+                    if (picked != null) {
+                      registrationDateController.text =
+                          '${picked.day.toString().padLeft(2, '0')}.${picked.month.toString().padLeft(2, '0')}.${picked.year}';
+                    }
+                  },
+                ),
+                TextFormField(
+                  controller: commentController,
+                  decoration: const InputDecoration(hintText: 'Kommentar'),
+                  keyboardType: TextInputType.multiline,
+                ),
+                DropdownButton<Group>(
+                  focusColor: Colors.white,
+                  elevation: 15,
+                  icon: const Icon(Icons.arrow_downward),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.blue,
+                  ),
+                  value: group,
+                  items: Group.values
+                      .map<DropdownMenuItem<Group>>((Group value) =>
+                          DropdownMenuItem(
+                              value: value,
+                              child: Text(cubit.getNameForGroupEnum(value))))
+                      .toList(),
+                  onChanged: (Group? value) => setState(() {
+                    group = value;
+                  }),
+                ),
+                const CreateCertification(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: onPressed,
+                        child: widget.trainee != null
+                            ? const Text('Editieren')
+                            : const Text('Hinzufügen'),
+                      ),
+                      if (widget.trainee != null)
+                        ElevatedButton(
+                          onPressed: showDeleteDialog,
+                          child: const Text('Löschen'),
+                        )
+                    ],
+                  ),
+                )
+              ]),
+            ),
           ),
         ),
       ),
