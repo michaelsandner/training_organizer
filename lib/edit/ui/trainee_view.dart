@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/edit/ui/drop_down.dart';
+import 'package:training_organizer/edit/ui/selected_count.dart';
 import 'package:training_organizer/import_export/ui/file_cubit.dart';
 import 'package:training_organizer/import_export/ui/file_state.dart';
 import 'package:training_organizer/overview/button_row.dart';
@@ -53,52 +53,6 @@ class TraineeView extends StatelessWidget {
             ],
           ),
         );
-      },
-    );
-  }
-}
-
-class SelectedCount extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AppCubit, AppState>(
-      builder: (context, state) {
-        final count = state.selectedTrainees.length;
-        return SizedBox(
-          width: 100,
-          child: Text(
-            'Count: $count',
-            style: const TextStyle(fontSize: 20),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class DropDown extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<AppCubit>();
-    return BlocBuilder<AppCubit, AppState>(
-      builder: (context, state) {
-        return DropdownButton<FilterableGroup>(
-            focusColor: Colors.white,
-            elevation: 15,
-            icon: const Icon(Icons.arrow_downward),
-            underline: Container(
-              height: 2,
-              color: Colors.blue,
-            ),
-            value: state.selectedGroup,
-            items: FilterableGroup.values
-                .map<DropdownMenuItem<FilterableGroup>>(
-                    (FilterableGroup value) => DropdownMenuItem(
-                        value: value,
-                        child: Text(cubit.getNameForFilteredGroupEnum(value))))
-                .toList(),
-            onChanged: (FilterableGroup? value) =>
-                cubit.setSelectedGroup(value));
       },
     );
   }
