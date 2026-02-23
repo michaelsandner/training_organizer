@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/edit/domain/add_qualification_usecase.dart';
@@ -43,11 +44,13 @@ class _AddTraineeState extends State<AddTrainee> {
       sureNameController.text = widget.trainee!.surname;
       foreNameController.text = widget.trainee!.forename;
       emailController.text = widget.trainee!.email;
-      dateOfBirthController.text =
-          DateService.parseToDate(widget.trainee!.dateOfBirth).toString();
+      final dateOfBirth = DateService.parseToDate(widget.trainee!.dateOfBirth);
+      final dateFormatter = DateFormat('dd.MM.yyyy');
+      dateOfBirthController.text = dateFormatter.format(dateOfBirth);
       phoneController.text = widget.trainee!.phone;
-      registrationDateController.text =
-          DateService.parseToDate(widget.trainee!.registrationDate).toString();
+      final registrationDate =
+          DateService.parseToDate(widget.trainee!.registrationDate);
+      registrationDateController.text = dateFormatter.format(registrationDate);
       commentController.text = widget.trainee!.comment;
       group = widget.trainee!.trainingGroup;
       isMember = widget.trainee!.isMember;
