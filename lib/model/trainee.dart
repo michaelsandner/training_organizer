@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
@@ -211,10 +212,20 @@ class Trainee {
   bool operator ==(Object other) =>
       other is Trainee &&
       other.forename == forename &&
-      other.surname == surname;
+      other.surname == surname &&
+      other.email == email &&
+      other.phone == phone &&
+      other.dateOfBirth == dateOfBirth &&
+      other.registrationDate == registrationDate &&
+      other.trainingGroup == trainingGroup &&
+      other.isMember == isMember &&
+      other.isTrainer == isTrainer &&
+      other.comment == comment &&
+      listEquals(other.qualifications, qualifications);
 
   @override
-  int get hashCode => Object.hash(forename, surname, email);
+  int get hashCode => Object.hash(
+      forename, surname, email, phone, trainingGroup, isMember, isTrainer);
 
   Map<String, dynamic> toJson() => {
         'surname': surname,
