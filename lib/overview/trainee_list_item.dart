@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/overview/edit_button.dart';
-import 'package:training_organizer/overview/email_button.dart';
 import 'package:training_organizer/overview/item_text_box.dart';
 import 'package:training_organizer/overview/qualifications.dart';
 import 'package:training_organizer/overview/up_and_down_buttons.dart';
@@ -37,7 +36,6 @@ class TraineeListItem extends StatelessWidget {
                   width: 120,
                 ),
                 EditButton(trainee: trainee),
-                EmailButton(trainee: trainee),
                 QualificationOverlay(
                   trainee: trainee,
                   child: Qualifications(trainee: trainee),
@@ -60,7 +58,6 @@ class TraineeListItem extends StatelessWidget {
                   ),
                 ),
                 EditButton(trainee: trainee),
-                EmailButton(trainee: trainee),
               ],
             ),
           );

@@ -10,6 +10,7 @@ import 'package:training_organizer/edit/ui/certification_cubit.dart';
 import 'package:training_organizer/edit/ui/create_certification.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/services/date_service.dart';
+import 'package:training_organizer/shared/widgets/email_button.dart';
 
 class AddTrainee extends StatefulWidget {
   /// null if new trainee is added
@@ -282,7 +283,9 @@ class _AddTraineeState extends State<AddTrainee> {
                         ElevatedButton(
                           onPressed: showDeleteDialog,
                           child: const Text('Löschen'),
-                        )
+                        ),
+                      EmailButton(
+                          trainee: widget.trainee ?? createTraineeFromInputs()),
                     ],
                   ),
                 )
