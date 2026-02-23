@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/edit/domain/add_qualification_usecase.dart';
+import 'package:training_organizer/edit/ui/basic_trainee_info.dart';
 import 'package:training_organizer/edit/ui/certification_cubit.dart';
 import 'package:training_organizer/edit/ui/create_certification.dart';
 import 'package:training_organizer/model/trainee.dart';
@@ -206,55 +207,19 @@ class _AddTraineeState extends State<AddTrainee> {
             child: Form(
               key: formKey,
               child: Column(children: [
-                TextFormField(
-                  controller: foreNameController,
-                  decoration: const InputDecoration(hintText: 'Vorname'),
-                  keyboardType: TextInputType.name,
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Bitte Vorname angeben';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: sureNameController,
-                  decoration: const InputDecoration(hintText: 'Nachname'),
-                  keyboardType: TextInputType.name,
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Bitte Nachname angeben';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: emailController,
-                  decoration: const InputDecoration(hintText: 'Email'),
-                  keyboardType: TextInputType.emailAddress,
+                BasicTraineeInfo(
+                  foreNameController: foreNameController,
+                  sureNameController: sureNameController,
+                  emailController: emailController,
+                  dateOfBirthController: dateOfBirthController,
+                  registrationDateController: registrationDateController,
+                  commentController: commentController,
                 ),
                 TextFormField(
                   controller: phoneController,
                   decoration: const InputDecoration(hintText: 'Tel.'),
                   keyboardType: TextInputType.phone,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                ),
-                TextFormField(
-                  controller: dateOfBirthController,
-                  decoration: const InputDecoration(labelText: 'Geb. Datum'),
-                  readOnly: true,
-                  onTap: () async {
-                    DateTime? picked = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1950),
-                      lastDate: DateTime.now(),
-                    );
-                    if (picked != null) {
-                      dateOfBirthController.text =
-                          '${picked.day.toString().padLeft(2, '0')}.${picked.month.toString().padLeft(2, '0')}.${picked.year}';
-                    }
-                  },
                 ),
                 const SizedBox(height: 10),
                 Row(
@@ -275,48 +240,28 @@ class _AddTraineeState extends State<AddTrainee> {
                         isTrainer = value;
                       }),
                     ),
+                    const SizedBox(width: 10),
+                    DropdownButton<Group>(
+                      focusColor: Colors.white,
+                      elevation: 15,
+                      icon: const Icon(Icons.arrow_downward),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.blue,
+                      ),
+                      value: group,
+                      items: Group.values
+                          .map<DropdownMenuItem<Group>>((Group value) =>
+                              DropdownMenuItem(
+                                  value: value,
+                                  child:
+                                      Text(cubit.getNameForGroupEnum(value))))
+                          .toList(),
+                      onChanged: (Group? value) => setState(() {
+                        group = value;
+                      }),
+                    ),
                   ],
-                ),
-                TextFormField(
-                  controller: registrationDateController,
-                  decoration: const InputDecoration(labelText: 'Anmeldedatum'),
-                  readOnly: true,
-                  onTap: () async {
-                    DateTime? picked = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2023),
-                      lastDate: DateTime.now(),
-                    );
-                    if (picked != null) {
-                      registrationDateController.text =
-                          '${picked.day.toString().padLeft(2, '0')}.${picked.month.toString().padLeft(2, '0')}.${picked.year}';
-                    }
-                  },
-                ),
-                TextFormField(
-                  controller: commentController,
-                  decoration: const InputDecoration(hintText: 'Kommentar'),
-                  keyboardType: TextInputType.multiline,
-                ),
-                DropdownButton<Group>(
-                  focusColor: Colors.white,
-                  elevation: 15,
-                  icon: const Icon(Icons.arrow_downward),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.blue,
-                  ),
-                  value: group,
-                  items: Group.values
-                      .map<DropdownMenuItem<Group>>((Group value) =>
-                          DropdownMenuItem(
-                              value: value,
-                              child: Text(cubit.getNameForGroupEnum(value))))
-                      .toList(),
-                  onChanged: (Group? value) => setState(() {
-                    group = value;
-                  }),
                 ),
                 const CreateCertification(),
                 Padding(
