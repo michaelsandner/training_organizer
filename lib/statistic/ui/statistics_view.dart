@@ -51,7 +51,8 @@ List<Qualification> _dataAusbilder = [
 
 int getqualificationOfYear(AppState state, String qualification, int year) {
   return state.trainees
-      .where((element) => element.hasQualificationFromYear(qualification, year))
+      .where((element) =>
+          element.qualifications.hasQualificationFromYear(qualification, year))
       .length;
 }
 

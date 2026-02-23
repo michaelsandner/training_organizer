@@ -12,6 +12,8 @@
 - Unit tests for domain layer (business logic)
 - Unit tests for Cubit classes in the presentation layer
 - Unit tests are written in Gherkin style (Given-When-Then)
+- Each Given step is a group
+- Each When step is a group
 
 
 ## Conventions

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/model/qualifications.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/silber.dart';
 import 'package:training_organizer/model/trainee.dart';
@@ -40,14 +41,18 @@ void main() {
         expect(output.isMember, true);
         expect(output.isTrainer, true);
 
-        expect(output.qualifications[0].name, 'RettungsschwimmerBronze');
-        expect(output.qualifications[1].name, 'RettungsschwimmerSilber');
-        expect(output.qualifications[2].name, 'Ausbildungsassistent');
-        expect(output.qualifications[3].name, 'San');
-        expect(output.qualifications[4].name, 'FachSan');
-        expect(output.qualifications[5].name, 'RettSan');
+        expect(output.qualifications.qualifications[0].name,
+            'RettungsschwimmerBronze');
+        expect(output.qualifications.qualifications[1].name,
+            'RettungsschwimmerSilber');
+        expect(output.qualifications.qualifications[2].name,
+            'Ausbildungsassistent');
+        expect(output.qualifications.qualifications[3].name, 'San');
+        expect(output.qualifications.qualifications[4].name, 'FachSan');
+        expect(output.qualifications.qualifications[5].name, 'RettSan');
 
-        expect(output.qualifications[0].date, DateTime(2020, 9, 9));
+        expect(
+            output.qualifications.qualifications[0].date, DateTime(2020, 9, 9));
       });
     });
 
@@ -64,7 +69,8 @@ void main() {
           comment: 'this is a comment',
           isMember: true,
           isTrainer: true,
-          qualifications: [Silber(null), Gold(null)],
+          qualifications:
+              Qualifications(qualifications: [Silber(null), Gold(null)]),
         );
 
         final expectedJson = {
@@ -119,7 +125,7 @@ void main() {
         expect(output.isMember, false);
         expect(output.isTrainer, false);
         expect(output.trainingGroup, Group.waitingList);
-        expect(output.qualifications.isEmpty, true);
+        expect(output.qualifications.qualifications.isEmpty, true);
       });
     });
 
@@ -136,7 +142,7 @@ void main() {
           comment: 'this is a comment',
           isMember: false,
           isTrainer: false,
-          qualifications: [],
+          qualifications: const Qualifications(),
         );
 
         final expectedJson = {
