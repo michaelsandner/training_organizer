@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/overview/edit_button.dart';
 import 'package:training_organizer/overview/item_text_box.dart';
+import 'package:training_organizer/overview/qualification_overlay.dart';
 import 'package:training_organizer/overview/qualifications.dart';
 import 'package:training_organizer/overview/up_and_down_buttons.dart';
 
