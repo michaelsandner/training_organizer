@@ -15,33 +15,31 @@ List<Qualification> addQualifications({
   required bool shouldAddGold,
   required bool shouldAddRsBronze,
 }) {
-  DateTime? date;
-  List<Qualification> qualifications = [];
+  final DateTime? newDate = shouldSetCurrentDate ? DateTime.now() : null;
 
-  if (shouldSetCurrentDate) {
-    date = DateTime.now();
+  // Start from the current qualifications to preserve non-checkbox entries
+  // and existing dates.
+  List<Qualification> qualifications = [...currentQualifications];
+
+  void manage(
+    String name,
+    Qualification Function(DateTime?) create,
+    bool shouldAdd,
+  ) {
+    final int idx = qualifications.indexWhere((e) => e.name == name);
+    final DateTime? existingDate = idx >= 0 ? qualifications[idx].date : null;
+    qualifications.removeWhere((e) => e.name == name);
+    if (shouldAdd) {
+      // Use new date if requested, otherwise preserve the existing date.
+      qualifications.add(create(shouldSetCurrentDate ? newDate : existingDate));
+    }
   }
 
-  if (shouldAddPirat) {
-    qualifications.removeWhere((element) => element.name == pirat);
-    qualifications.add(Pirat(date));
-  }
-  if (shouldAddBronze) {
-    qualifications.removeWhere((element) => element.name == bronze);
-    qualifications.add(Bronze(date));
-  }
-  if (shouldAddSilber) {
-    qualifications.removeWhere((element) => element.name == silber);
-    qualifications.add(Silber(date));
-  }
-  if (shouldAddGold) {
-    qualifications.removeWhere((element) => element.name == gold);
-    qualifications.add(Gold(date));
-  }
-  if (shouldAddRsBronze) {
-    qualifications
-        .removeWhere((element) => element.name == rettungsschwimmerBronze);
-    qualifications.add(RsBronze(date));
-  }
+  manage(pirat, Pirat.new, shouldAddPirat);
+  manage(bronze, Bronze.new, shouldAddBronze);
+  manage(silber, Silber.new, shouldAddSilber);
+  manage(gold, Gold.new, shouldAddGold);
+  manage(rettungsschwimmerBronze, RsBronze.new, shouldAddRsBronze);
+
   return qualifications;
 }
