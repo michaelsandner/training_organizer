@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/edit/domain/add_qualification_usecase.dart';
 import 'package:training_organizer/edit/ui/certification_cubit.dart';
 import 'package:training_organizer/edit/ui/certification_state.dart';
+import 'package:training_organizer/model/qualifications.dart';
 import 'package:training_organizer/model/qualifications/bronze.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
@@ -114,8 +115,9 @@ void main() {
         cubit.toggleSilber(true);
         final qualifications = cubit.createQualifications(null);
 
-        expect(qualifications.any((q) => q.name == silber), isTrue);
-        expect(qualifications.length, 1);
+        expect(
+            qualifications.qualifications.any((q) => q.name == silber), isTrue);
+        expect(qualifications.qualifications.length, 1);
       });
     });
   });
@@ -128,10 +130,10 @@ void main() {
       trainee = Trainee(
         surname: 'Mustermann',
         forename: 'Max',
-        qualifications: [
+        qualifications: Qualifications(qualifications: [
           Pirat(DateTime(2022, 5, 10)),
           Bronze(DateTime(2023, 3, 1))
-        ],
+        ]),
       );
       cubit = CertificationCubit(trainee, addQualificationUseCase);
     });
@@ -153,10 +155,13 @@ void main() {
         cubit.toggleSilber(true);
         final qualifications = cubit.createQualifications(trainee);
 
-        expect(qualifications.any((q) => q.name == pirat), isTrue);
-        expect(qualifications.any((q) => q.name == bronze), isTrue);
-        expect(qualifications.any((q) => q.name == silber), isTrue);
-        expect(qualifications.length, 3);
+        expect(
+            qualifications.qualifications.any((q) => q.name == pirat), isTrue);
+        expect(
+            qualifications.qualifications.any((q) => q.name == bronze), isTrue);
+        expect(
+            qualifications.qualifications.any((q) => q.name == silber), isTrue);
+        expect(qualifications.qualifications.length, 3);
       });
     });
 
@@ -165,8 +170,10 @@ void main() {
         cubit.toggleBronze(false);
         final qualifications = cubit.createQualifications(trainee);
 
-        expect(qualifications.any((q) => q.name == bronze), isFalse);
-        expect(qualifications.any((q) => q.name == pirat), isTrue);
+        expect(qualifications.qualifications.any((q) => q.name == bronze),
+            isFalse);
+        expect(
+            qualifications.qualifications.any((q) => q.name == pirat), isTrue);
       });
     });
 
@@ -174,8 +181,10 @@ void main() {
       test('Then existing dates are preserved', () {
         final qualifications = cubit.createQualifications(trainee);
 
-        final piratQ = qualifications.firstWhere((q) => q.name == pirat);
-        final bronzeQ = qualifications.firstWhere((q) => q.name == bronze);
+        final piratQ =
+            qualifications.qualifications.firstWhere((q) => q.name == pirat);
+        final bronzeQ =
+            qualifications.qualifications.firstWhere((q) => q.name == bronze);
 
         expect(piratQ.date, DateTime(2022, 5, 10));
         expect(bronzeQ.date, DateTime(2023, 3, 1));
@@ -189,8 +198,8 @@ void main() {
         cubit.toggleCurrentQualificationDate(true);
         final qualifications = cubit.createQualifications(trainee);
 
-        for (final q
-            in qualifications.where((q) => [pirat, bronze].contains(q.name))) {
+        for (final q in qualifications.qualifications
+            .where((q) => [pirat, bronze].contains(q.name))) {
           expect(q.date, isNotNull);
           expect(q.date!.isAfter(before), isTrue);
         }
@@ -204,13 +213,19 @@ void main() {
         cubit.toggleRsBronze(true);
         final qualifications = cubit.createQualifications(trainee);
 
-        expect(qualifications.any((q) => q.name == pirat), isTrue);
-        expect(qualifications.any((q) => q.name == bronze), isTrue);
-        expect(qualifications.any((q) => q.name == silber), isTrue);
-        expect(qualifications.any((q) => q.name == gold), isTrue);
-        expect(qualifications.any((q) => q.name == rettungsschwimmerBronze),
+        expect(
+            qualifications.qualifications.any((q) => q.name == pirat), isTrue);
+        expect(
+            qualifications.qualifications.any((q) => q.name == bronze), isTrue);
+        expect(
+            qualifications.qualifications.any((q) => q.name == silber), isTrue);
+        expect(
+            qualifications.qualifications.any((q) => q.name == gold), isTrue);
+        expect(
+            qualifications.qualifications
+                .any((q) => q.name == rettungsschwimmerBronze),
             isTrue);
-        expect(qualifications.length, 5);
+        expect(qualifications.qualifications.length, 5);
       });
     });
   });
@@ -223,7 +238,8 @@ void main() {
       trainee = Trainee(
         surname: 'Mustermann',
         forename: 'Max',
-        qualifications: [Gold(DateTime(2023, 7, 20))],
+        qualifications:
+            Qualifications(qualifications: [Gold(DateTime(2023, 7, 20))]),
       );
       cubit = CertificationCubit(trainee, addQualificationUseCase);
     });
@@ -245,9 +261,11 @@ void main() {
         cubit.toggleSilber(true);
         final qualifications = cubit.createQualifications(trainee);
 
-        expect(qualifications.any((q) => q.name == silber), isTrue);
-        expect(qualifications.any((q) => q.name == gold), isTrue);
-        expect(qualifications.length, 2);
+        expect(
+            qualifications.qualifications.any((q) => q.name == silber), isTrue);
+        expect(
+            qualifications.qualifications.any((q) => q.name == gold), isTrue);
+        expect(qualifications.qualifications.length, 2);
       });
     });
   });

@@ -22,9 +22,10 @@ class QualificationOverlay extends StatelessWidget {
               content: SizedBox(
                 height: 200,
                 child: Column(
-                  children:
-                      List.generate(trainee.qualifications.length, (index) {
-                    final currentqualification = trainee.qualifications[index];
+                  children: List.generate(
+                      trainee.qualifications.qualifications.length, (index) {
+                    final currentqualification =
+                        trainee.qualifications.qualifications[index];
 
                     return Row(
                       children: [

@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/model/qualifications/qualification.dart';
-import 'package:training_organizer/model/qualifications/qualification_factory.dart';
+import 'package:training_organizer/model/qualifications.dart';
 
 class Trainee {
   final String surname;
@@ -13,7 +11,7 @@ class Trainee {
   final String phone;
   final String comment;
   final bool isMember;
-  final List<Qualification> qualifications;
+  final Qualifications qualifications;
   final bool isTrainer;
 
   Trainee({
@@ -26,12 +24,11 @@ class Trainee {
     this.phone = '',
     this.comment = '',
     this.isMember = false,
-    this.qualifications = const [],
+    this.qualifications = const Qualifications(),
     this.isTrainer = false,
   });
 
   factory Trainee.fromJson(dynamic json) {
-    final qualificationFactory = QualificationFactory();
     return Trainee(
       surname: json['surname'] ?? '',
       forename: json['forename'] ?? '',
@@ -50,9 +47,7 @@ class Trainee {
       trainingGroup: mapGroupToEnum(json['trainingGroup']),
       comment: json['comment'] ?? '',
       isMember: json['isMember'] ?? false,
-      qualifications: json['qualifications'] == null
-          ? []
-          : qualificationFactory.createQualifications(json['qualifications']),
+      qualifications: Qualifications.fromJson(json['qualifications']),
       isTrainer: json['isTrainer'] ?? false,
     );
   }
@@ -103,45 +98,6 @@ class Trainee {
     }
   }
 
-  bool hasQualificationFromYear(String qualificationName, int year) {
-    for (var element in qualifications) {
-      if (element.name == qualificationName &&
-          element.date != null &&
-          element.date!.year == year) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  bool hasQualification(String qualificationName) {
-    for (var element in qualifications) {
-      if (element.name == qualificationName && element.isUp2Date) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  String getHighestQualification() {
-    if (qualifications.isEmpty) {
-      return '';
-    }
-    if (qualifications.any((element) => element.name == gold)) {
-      return 'G';
-    }
-    if (qualifications.any((element) => element.name == silber)) {
-      return 'S';
-    }
-    if (qualifications.any((element) => element.name == bronze)) {
-      return 'B';
-    }
-    if (qualifications.any((element) => element.name == pirat)) {
-      return 'P';
-    }
-    return '';
-  }
-
   static Group mapGroupToEnum(String? groupName) {
     switch (groupName) {
       case 'waitingList':
@@ -173,7 +129,7 @@ class Trainee {
     String? phone,
     String? comment,
     bool? isMember,
-    List<Qualification>? qualifications,
+    Qualifications? qualifications,
     String? dateOfBirth,
     String? registrationDate,
     bool? isTrainer,
@@ -221,7 +177,7 @@ class Trainee {
       other.isMember == isMember &&
       other.isTrainer == isTrainer &&
       other.comment == comment &&
-      listEquals(other.qualifications, qualifications);
+      other.qualifications == qualifications;
 
   @override
   int get hashCode => Object.hash(
@@ -237,20 +193,9 @@ class Trainee {
         'trainingGroup': getTrainingGroupValue(),
         'comment': comment,
         'isMember': isMember,
-        'qualifications': mapqualificationsToJson(qualifications),
+        'qualifications': qualifications.toJson()['qualifications'],
         'isTrainer': isTrainer,
       };
-
-  List<Map<String, dynamic>> mapqualificationsToJson(
-      List<Qualification> qualifications) {
-    List<Map<String, dynamic>> qualificationsAsJson = [];
-
-    for (var element in qualifications) {
-      qualificationsAsJson.add(element.toJson());
-    }
-
-    return qualificationsAsJson;
-  }
 
   String getTrainingGroupValue() {
     return trainingGroup.toString().split('.').last;

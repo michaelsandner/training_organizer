@@ -163,10 +163,8 @@ class _AddTraineeState extends State<AddTrainee> {
         surname: sureNameController.text.trim(),
         email: emailController.text.trim(),
         phone: phoneController.text.trim(),
-        dateOfBirth:
-            DateService.formatToGerman(dateOfBirthController.text.trim()),
-        registrationDate:
-            DateService.formatToGerman(registrationDateController.text.trim()),
+        dateOfBirth: dateOfBirthController.text.trim(),
+        registrationDate: registrationDateController.text.trim(),
         comment: commentController.text.trim(),
         trainingGroup: group ?? Group.waitingList,
         qualifications:

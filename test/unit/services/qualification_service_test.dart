@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/edit/domain/add_qualification_usecase.dart';
+import 'package:training_organizer/model/qualifications.dart';
 import 'package:training_organizer/model/qualifications/bronze.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
@@ -13,7 +14,7 @@ void main() {
     group('When addQualifications is called with all flags false', () {
       test('Then an empty list is returned', () {
         final result = useCase.execute(
-          currentQualifications: [],
+          currentQualifications: const Qualifications(),
           shouldSetCurrentDate: false,
           shouldAddPirat: false,
           shouldAddBronze: false,
@@ -22,14 +23,14 @@ void main() {
           shouldAddRsBronze: false,
         );
 
-        expect(result, isEmpty);
+        expect(result.qualifications, isEmpty);
       });
     });
 
     group('When addQualifications is called with all flags true', () {
       test('Then all five qualifications are added', () {
         final result = useCase.execute(
-          currentQualifications: [],
+          currentQualifications: const Qualifications(),
           shouldSetCurrentDate: false,
           shouldAddPirat: true,
           shouldAddBronze: true,
@@ -38,12 +39,14 @@ void main() {
           shouldAddRsBronze: true,
         );
 
-        expect(result.length, 5);
-        expect(result.any((q) => q.name == pirat), isTrue);
-        expect(result.any((q) => q.name == bronze), isTrue);
-        expect(result.any((q) => q.name == silber), isTrue);
-        expect(result.any((q) => q.name == gold), isTrue);
-        expect(result.any((q) => q.name == rettungsschwimmerBronze), isTrue);
+        expect(result.qualifications.length, 5);
+        expect(result.qualifications.any((q) => q.name == pirat), isTrue);
+        expect(result.qualifications.any((q) => q.name == bronze), isTrue);
+        expect(result.qualifications.any((q) => q.name == silber), isTrue);
+        expect(result.qualifications.any((q) => q.name == gold), isTrue);
+        expect(
+            result.qualifications.any((q) => q.name == rettungsschwimmerBronze),
+            isTrue);
       });
     });
 
@@ -53,7 +56,7 @@ void main() {
         final before = DateTime.now().subtract(const Duration(seconds: 1));
 
         final result = useCase.execute(
-          currentQualifications: [],
+          currentQualifications: const Qualifications(),
           shouldSetCurrentDate: true,
           shouldAddPirat: true,
           shouldAddBronze: false,
@@ -62,7 +65,7 @@ void main() {
           shouldAddRsBronze: false,
         );
 
-        final piratQ = result.firstWhere((q) => q.name == pirat);
+        final piratQ = result.qualifications.firstWhere((q) => q.name == pirat);
         expect(piratQ.date, isNotNull);
         expect(piratQ.date!.isAfter(before), isTrue);
       });
@@ -78,7 +81,7 @@ void main() {
         () {
       test('Then the existing date is preserved', () {
         final result = useCase.execute(
-          currentQualifications: existing,
+          currentQualifications: Qualifications(qualifications: existing),
           shouldSetCurrentDate: false,
           shouldAddPirat: true,
           shouldAddBronze: false,
@@ -87,7 +90,7 @@ void main() {
           shouldAddRsBronze: false,
         );
 
-        final piratQ = result.firstWhere((q) => q.name == pirat);
+        final piratQ = result.qualifications.firstWhere((q) => q.name == pirat);
         expect(piratQ.date, existingDate);
       });
     });
@@ -99,7 +102,7 @@ void main() {
         final before = DateTime.now().subtract(const Duration(seconds: 1));
 
         final result = useCase.execute(
-          currentQualifications: existing,
+          currentQualifications: Qualifications(qualifications: existing),
           shouldSetCurrentDate: true,
           shouldAddPirat: true,
           shouldAddBronze: false,
@@ -108,7 +111,7 @@ void main() {
           shouldAddRsBronze: false,
         );
 
-        final piratQ = result.firstWhere((q) => q.name == pirat);
+        final piratQ = result.qualifications.firstWhere((q) => q.name == pirat);
         expect(piratQ.date, isNotNull);
         expect(piratQ.date!.isAfter(before), isTrue);
       });
@@ -117,7 +120,7 @@ void main() {
     group('When addQualifications is called with shouldAddPirat false', () {
       test('Then Pirat is removed from the list', () {
         final result = useCase.execute(
-          currentQualifications: existing,
+          currentQualifications: Qualifications(qualifications: existing),
           shouldSetCurrentDate: false,
           shouldAddPirat: false,
           shouldAddBronze: false,
@@ -126,7 +129,7 @@ void main() {
           shouldAddRsBronze: false,
         );
 
-        expect(result.any((q) => q.name == pirat), isFalse);
+        expect(result.qualifications.any((q) => q.name == pirat), isFalse);
       });
     });
   });
@@ -138,7 +141,7 @@ void main() {
     group('When addQualifications is called with Bronze added', () {
       test('Then RsSilber is preserved alongside Bronze', () {
         final result = useCase.execute(
-          currentQualifications: existing,
+          currentQualifications: Qualifications(qualifications: existing),
           shouldSetCurrentDate: false,
           shouldAddPirat: false,
           shouldAddBronze: true,
@@ -147,16 +150,18 @@ void main() {
           shouldAddRsBronze: false,
         );
 
-        expect(result.any((q) => q.name == rettungsschwimmerSilber), isTrue);
-        expect(result.any((q) => q.name == bronze), isTrue);
-        expect(result.length, 2);
+        expect(
+            result.qualifications.any((q) => q.name == rettungsschwimmerSilber),
+            isTrue);
+        expect(result.qualifications.any((q) => q.name == bronze), isTrue);
+        expect(result.qualifications.length, 2);
       });
     });
 
     group('When addQualifications is called with all flags false', () {
       test('Then RsSilber is preserved', () {
         final result = useCase.execute(
-          currentQualifications: existing,
+          currentQualifications: Qualifications(qualifications: existing),
           shouldSetCurrentDate: false,
           shouldAddPirat: false,
           shouldAddBronze: false,
@@ -165,8 +170,8 @@ void main() {
           shouldAddRsBronze: false,
         );
 
-        expect(result.length, 1);
-        expect(result.first.name, rettungsschwimmerSilber);
+        expect(result.qualifications.length, 1);
+        expect(result.qualifications.first.name, rettungsschwimmerSilber);
       });
     });
   });
@@ -180,7 +185,7 @@ void main() {
     group('When addQualifications is called with only Silber checked', () {
       test('Then Bronze is removed and Silber is preserved', () {
         final result = useCase.execute(
-          currentQualifications: existing,
+          currentQualifications: Qualifications(qualifications: existing),
           shouldSetCurrentDate: false,
           shouldAddPirat: false,
           shouldAddBronze: false,
@@ -189,16 +194,16 @@ void main() {
           shouldAddRsBronze: false,
         );
 
-        expect(result.any((q) => q.name == silber), isTrue);
-        expect(result.any((q) => q.name == bronze), isFalse);
-        expect(result.length, 1);
+        expect(result.qualifications.any((q) => q.name == silber), isTrue);
+        expect(result.qualifications.any((q) => q.name == bronze), isFalse);
+        expect(result.qualifications.length, 1);
       });
     });
 
     group('When addQualifications is called with Gold added', () {
       test('Then Silber, Bronze, and Gold are all present', () {
         final result = useCase.execute(
-          currentQualifications: existing,
+          currentQualifications: Qualifications(qualifications: existing),
           shouldSetCurrentDate: false,
           shouldAddPirat: false,
           shouldAddBronze: true,
@@ -207,10 +212,10 @@ void main() {
           shouldAddRsBronze: false,
         );
 
-        expect(result.any((q) => q.name == silber), isTrue);
-        expect(result.any((q) => q.name == bronze), isTrue);
-        expect(result.any((q) => q.name == gold), isTrue);
-        expect(result.length, 3);
+        expect(result.qualifications.any((q) => q.name == silber), isTrue);
+        expect(result.qualifications.any((q) => q.name == bronze), isTrue);
+        expect(result.qualifications.any((q) => q.name == gold), isTrue);
+        expect(result.qualifications.length, 3);
       });
     });
   });
@@ -221,7 +226,7 @@ void main() {
     group('When addQualifications is called with Silber added', () {
       test('Then both Silber and Gold are present', () {
         final result = useCase.execute(
-          currentQualifications: existing,
+          currentQualifications: Qualifications(qualifications: existing),
           shouldSetCurrentDate: false,
           shouldAddPirat: false,
           shouldAddBronze: false,
@@ -230,9 +235,9 @@ void main() {
           shouldAddRsBronze: false,
         );
 
-        expect(result.any((q) => q.name == silber), isTrue);
-        expect(result.any((q) => q.name == gold), isTrue);
-        expect(result.length, 2);
+        expect(result.qualifications.any((q) => q.name == silber), isTrue);
+        expect(result.qualifications.any((q) => q.name == gold), isTrue);
+        expect(result.qualifications.length, 2);
       });
     });
   });

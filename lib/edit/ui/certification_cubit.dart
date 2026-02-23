@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/edit/domain/add_qualification_usecase.dart';
 import 'package:training_organizer/edit/ui/certification_state.dart';
-import 'package:training_organizer/model/qualifications/qualification.dart';
+import 'package:training_organizer/model/qualifications.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 class CertificationCubit extends Cubit<CertificationState> {
@@ -11,12 +11,16 @@ class CertificationCubit extends Cubit<CertificationState> {
       : super(
           trainee != null
               ? CertificationState(
-                  isPiratChecked: trainee.hasQualification('Pirat'),
-                  isBronzeChecked: trainee.hasQualification('Bronze'),
-                  isSilverChecked: trainee.hasQualification('Silber'),
-                  isGoldChecked: trainee.hasQualification('Gold'),
-                  isRSBronzeChecked:
-                      trainee.hasQualification('RettungsschwimmerBronze'),
+                  isPiratChecked:
+                      trainee.qualifications.hasQualification('Pirat'),
+                  isBronzeChecked:
+                      trainee.qualifications.hasQualification('Bronze'),
+                  isSilverChecked:
+                      trainee.qualifications.hasQualification('Silber'),
+                  isGoldChecked:
+                      trainee.qualifications.hasQualification('Gold'),
+                  isRSBronzeChecked: trainee.qualifications
+                      .hasQualification('RettungsschwimmerBronze'),
                 )
               : const CertificationState(),
         );
@@ -37,9 +41,9 @@ class CertificationCubit extends Cubit<CertificationState> {
 
   void reset() => emit(const CertificationState());
 
-  List<Qualification> createQualifications(Trainee? trainee) {
+  Qualifications createQualifications(Trainee? trainee) {
     return _addQualificationUseCase.execute(
-      currentQualifications: trainee?.qualifications ?? [],
+      currentQualifications: trainee?.qualifications ?? const Qualifications(),
       shouldSetCurrentDate: state.enableCurrentqualificationDate,
       shouldAddPirat: state.isPiratChecked,
       shouldAddBronze: state.isBronzeChecked,
