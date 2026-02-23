@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:training_organizer/edit/domain/add_qualification_usecase.dart';
 import 'package:training_organizer/edit/ui/certification_cubit.dart';
 import 'package:training_organizer/edit/ui/certification_state.dart';
 import 'package:training_organizer/model/qualifications/bronze.dart';
@@ -9,11 +10,12 @@ import 'package:training_organizer/model/qualifications/qualification_factory.da
 import 'package:training_organizer/model/trainee.dart';
 
 void main() {
+  final addQualificationUseCase = AddQualificationUseCase();
   group('Given no trainee (neuer Teilnehmer)', () {
     late CertificationCubit cubit;
 
     setUp(() {
-      cubit = CertificationCubit(null);
+      cubit = CertificationCubit(null, addQualificationUseCase);
     });
 
     tearDown(() => cubit.close());
@@ -33,7 +35,7 @@ void main() {
     group('When togglePirat is called with true', () {
       blocTest<CertificationCubit, CertificationState>(
         'Then isPiratChecked is true',
-        build: () => CertificationCubit(null),
+        build: () => CertificationCubit(null, addQualificationUseCase),
         act: (cubit) => cubit.togglePirat(true),
         expect: () => [const CertificationState(isPiratChecked: true)],
       );
@@ -42,7 +44,7 @@ void main() {
     group('When toggleBronze is called with true', () {
       blocTest<CertificationCubit, CertificationState>(
         'Then isBronzeChecked is true',
-        build: () => CertificationCubit(null),
+        build: () => CertificationCubit(null, addQualificationUseCase),
         act: (cubit) => cubit.toggleBronze(true),
         expect: () => [const CertificationState(isBronzeChecked: true)],
       );
@@ -51,7 +53,7 @@ void main() {
     group('When toggleSilber is called with true', () {
       blocTest<CertificationCubit, CertificationState>(
         'Then isSilverChecked is true',
-        build: () => CertificationCubit(null),
+        build: () => CertificationCubit(null, addQualificationUseCase),
         act: (cubit) => cubit.toggleSilber(true),
         expect: () => [const CertificationState(isSilverChecked: true)],
       );
@@ -60,7 +62,7 @@ void main() {
     group('When toggleGold is called with true', () {
       blocTest<CertificationCubit, CertificationState>(
         'Then isGoldChecked is true',
-        build: () => CertificationCubit(null),
+        build: () => CertificationCubit(null, addQualificationUseCase),
         act: (cubit) => cubit.toggleGold(true),
         expect: () => [const CertificationState(isGoldChecked: true)],
       );
@@ -69,7 +71,7 @@ void main() {
     group('When toggleRsBronze is called with true', () {
       blocTest<CertificationCubit, CertificationState>(
         'Then isRSBronzeChecked is true',
-        build: () => CertificationCubit(null),
+        build: () => CertificationCubit(null, addQualificationUseCase),
         act: (cubit) => cubit.toggleRsBronze(true),
         expect: () => [const CertificationState(isRSBronzeChecked: true)],
       );
@@ -78,7 +80,7 @@ void main() {
     group('When toggleCurrentQualificationDate is called with true', () {
       blocTest<CertificationCubit, CertificationState>(
         'Then enableCurrentqualificationDate is true',
-        build: () => CertificationCubit(null),
+        build: () => CertificationCubit(null, addQualificationUseCase),
         act: (cubit) => cubit.toggleCurrentQualificationDate(true),
         expect: () =>
             [const CertificationState(enableCurrentqualificationDate: true)],
@@ -88,7 +90,7 @@ void main() {
     group('When multiple toggles are called and then reset', () {
       blocTest<CertificationCubit, CertificationState>(
         'Then state is reset to all false',
-        build: () => CertificationCubit(null),
+        build: () => CertificationCubit(null, addQualificationUseCase),
         act: (cubit) {
           cubit.togglePirat(true);
           cubit.toggleSilber(true);
@@ -131,7 +133,7 @@ void main() {
           Bronze(DateTime(2023, 3, 1))
         ],
       );
-      cubit = CertificationCubit(trainee);
+      cubit = CertificationCubit(trainee, addQualificationUseCase);
     });
 
     tearDown(() => cubit.close());
@@ -223,7 +225,7 @@ void main() {
         forename: 'Max',
         qualifications: [Gold(DateTime(2023, 7, 20))],
       );
-      cubit = CertificationCubit(trainee);
+      cubit = CertificationCubit(trainee, addQualificationUseCase);
     });
 
     tearDown(() => cubit.close());

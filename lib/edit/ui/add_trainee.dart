@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/edit/domain/add_qualification_usecase.dart';
 import 'package:training_organizer/edit/ui/certification_cubit.dart';
 import 'package:training_organizer/edit/ui/create_certification.dart';
 import 'package:training_organizer/model/trainee.dart';
@@ -35,7 +36,8 @@ class _AddTraineeState extends State<AddTrainee> {
   @override
   void initState() {
     super.initState();
-    _certificationCubit = CertificationCubit(widget.trainee);
+    _certificationCubit =
+        CertificationCubit(widget.trainee, AddQualificationUseCase());
     if (widget.trainee != null) {
       sureNameController.text = widget.trainee!.surname;
       foreNameController.text = widget.trainee!.forename;
