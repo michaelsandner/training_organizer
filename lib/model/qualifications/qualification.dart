@@ -23,4 +23,11 @@ abstract class Qualification {
   static String _parseDateTimeToString(DateTime date) {
     return DateFormat('dd.MM.yyyy').format(date);
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is Qualification && other.name == name && other.date == date;
+
+  @override
+  int get hashCode => Object.hash(name, date);
 }
