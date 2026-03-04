@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/import_export/adapter/file_handler.dart';
+import 'package:training_organizer/data/file_handler.dart';
 import 'package:training_organizer/import_export/ui/file_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 

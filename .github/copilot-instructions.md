@@ -5,7 +5,8 @@
 
 ## Architecture
 - Clean Architecture with layers: presentation, domain, data
-- Each feature has its own folder with the same structure (presentation, domain, data)
+- Each feature has its own folder with the presentation layer
+- Data layer and domain layer are shared across features
 - State management: flutter_bloc (Cubit)
 
 ## Tests

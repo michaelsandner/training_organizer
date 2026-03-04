@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/app_drawer.dart';
 import 'package:training_organizer/blocklist/ui/pdf_view.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/data/email_handler.dart';
+import 'package:training_organizer/data/file_handler.dart';
 import 'package:training_organizer/edit/ui/trainee_view.dart';
-import 'package:training_organizer/email/adpater/email_handler.dart';
 import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/email/ui/email_cubit.dart';
-import 'package:training_organizer/import_export/adapter/file_handler.dart';
 import 'package:training_organizer/import_export/ui/file_cubit.dart';
 import 'package:training_organizer/statistic/ui/statistics_view.dart';
 
