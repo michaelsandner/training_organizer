@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:training_organizer/email/ui/send_email_page.dart';
+import 'package:training_organizer/performance_data/ui/performance_data_page.dart';
 import 'package:training_organizer/rescue_qualification/ui/rescue_qualification_page.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -40,6 +41,18 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const RescueQualificationPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.bar_chart),
+            title: const Text('Leistungsdaten'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const PerformanceDataPage(),
                 ),
               );
             },
