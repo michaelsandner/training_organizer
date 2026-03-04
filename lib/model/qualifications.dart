@@ -64,4 +64,7 @@ class Qualifications {
   bool operator ==(Object other) =>
       other is Qualifications &&
       listEquals(other.qualifications, qualifications);
+
+  @override
+  int get hashCode => Object.hashAll(qualifications);
 }
