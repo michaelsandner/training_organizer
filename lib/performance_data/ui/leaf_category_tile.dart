@@ -1,0 +1,86 @@
+import 'package:flutter/material.dart';
+import 'package:training_organizer/performance_data/domain/category_position.dart';
+import 'package:training_organizer/performance_data/domain/performance_category.dart';
+import 'package:training_organizer/performance_data/ui/category_positions_list.dart';
+import 'package:training_organizer/performance_data/ui/performance_category_tile.dart';
+
+class LeafCategoryTile extends StatelessWidget {
+  final PerformanceCategory category;
+  final List<int> path;
+  final int level;
+  final void Function(List<int> categoryPath, int positionIndex,
+      CategoryPosition updatedPosition) onPositionChanged;
+  final void Function(List<int> categoryPath) onPositionAdded;
+  final void Function(List<int> categoryPath, int positionIndex)
+      onPositionRemoved;
+
+  const LeafCategoryTile({
+    super.key,
+    required this.category,
+    required this.path,
+    required this.level,
+    required this.onPositionChanged,
+    required this.onPositionAdded,
+    required this.onPositionRemoved,
+  });
+
+  Color get _accentColor => levelColors[level % levelColors.length];
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: level * 20.0, top: 2, bottom: 2, right: 4),
+      child: Card(
+        elevation: 1,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: BorderSide(color: _accentColor.withAlpha(60)),
+        ),
+        child: Theme(
+          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+          child: ExpansionTile(
+            leading: Icon(Icons.drag_indicator, color: _accentColor, size: 20),
+            title: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    category.name,
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: _accentColor.withAlpha(25),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: _accentColor.withAlpha(80)),
+                  ),
+                  child: Text(
+                    '${category.anzahl ?? 0}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: _accentColor,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            initiallyExpanded: false,
+            children: [
+              CategoryPositionsList(
+                positionen: category.positionen,
+                categoryPath: path,
+                accentColor: _accentColor,
+                onPositionChanged: onPositionChanged,
+                onPositionAdded: onPositionAdded,
+                onPositionRemoved: onPositionRemoved,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

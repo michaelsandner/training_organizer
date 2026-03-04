@@ -5,10 +5,12 @@ import 'package:training_organizer/blocklist/ui/pdf_view.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/data/email_handler.dart';
 import 'package:training_organizer/data/file_handler.dart';
+import 'package:training_organizer/data/performance_data_file_handler.dart';
 import 'package:training_organizer/edit/ui/trainee_view.dart';
 import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/email/ui/email_cubit.dart';
 import 'package:training_organizer/import_export/ui/file_cubit.dart';
+import 'package:training_organizer/performance_data/ui/performance_data_cubit.dart';
 import 'package:training_organizer/statistic/ui/statistics_view.dart';
 
 void main() {
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
         providers: [
           RepositoryProvider(create: (context) => EmailHandler()),
           RepositoryProvider(create: (context) => FileExporter()),
+          RepositoryProvider(create: (context) => PerformanceDataFileHandler()),
         ],
         child: MultiBlocProvider(
           providers: [
@@ -41,6 +44,11 @@ class MyApp extends StatelessWidget {
               final sendEmail = SendEmailUseCase(context.read<EmailHandler>());
               return EmailCubit(sendEmail);
             }),
+            BlocProvider(
+              create: (context) => PerformanceDataCubit(
+                context.read<PerformanceDataFileHandler>(),
+              ),
+            ),
           ],
           child: MaterialApp(
             title: 'Training Organizer',
