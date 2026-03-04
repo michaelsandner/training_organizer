@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
+import 'package:training_organizer/model/qualifications/qualification_validity.dart';
 
 class RsSilber extends Qualification {
   RsSilber(super.date);
@@ -21,16 +22,18 @@ class RsSilber extends Qualification {
   String? get iconName => 'assets/images/DRSA_Silber.svg';
 
   @override
-  bool get isUp2Date {
+  QualificationValidity get isUp2Date {
     if (date == null) {
-      return false;
+      return QualificationValidity.expired;
     }
     final dateDifference = DateTime.now().difference(date!);
-    const leapYearTolerance = 1;
-    if (dateDifference >= const Duration(days: (365 * 2) + leapYearTolerance)) {
-      return false;
+    if (dateDifference >= const Duration(days: (365 * 2))) {
+      return QualificationValidity.expired;
+    }
+    if (dateDifference >= const Duration(days: (400))) {
+      return QualificationValidity.expiring;
     }
 
-    return true;
+    return QualificationValidity.valid;
   }
 }

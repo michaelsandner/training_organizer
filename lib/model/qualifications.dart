@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
+import 'package:training_organizer/model/qualifications/qualification_validity.dart';
 
 class Qualifications {
   final List<Qualification> qualifications;
@@ -34,7 +35,8 @@ class Qualifications {
 
   bool hasQualification(String qualificationName) {
     for (var element in qualifications) {
-      if (element.name == qualificationName && element.isUp2Date) {
+      if (element.name == qualificationName &&
+          element.isUp2Date == QualificationValidity.valid) {
         return true;
       }
     }
