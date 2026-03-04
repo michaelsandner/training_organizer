@@ -43,9 +43,25 @@ class LeafCategoryTile extends StatelessWidget {
             title: Row(
               children: [
                 Expanded(
-                  child: Text(
-                    category.name,
-                    style: const TextStyle(fontSize: 14),
+                  child: Row(
+                    children: [
+                      Text(
+                        category.name,
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                      if (category.hint != null && category.hint!.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4),
+                          child: Tooltip(
+                            message: category.hint!,
+                            child: Icon(
+                              Icons.info_outline,
+                              size: 16,
+                              color: _accentColor,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                 ),
                 Container(

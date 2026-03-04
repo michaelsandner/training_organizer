@@ -7,12 +7,14 @@ import 'package:training_organizer/performance_data/domain/category_position.dar
 class PerformanceCategory with EquatableMixin {
   final String name;
   final int? anzahl;
+  final String? hint;
   final List<PerformanceCategory> children;
   final List<CategoryPosition> positionen;
 
   const PerformanceCategory({
     required this.name,
     this.anzahl,
+    this.hint,
     this.children = const [],
     this.positionen = const [],
   });
@@ -46,6 +48,7 @@ class PerformanceCategory with EquatableMixin {
     return PerformanceCategory(
       name: json['name'] as String,
       anzahl: anzahl,
+      hint: children.isEmpty ? json['hint'] as String? : null,
       children: children,
       positionen: children.isEmpty ? positionen : const [],
     );
@@ -59,6 +62,9 @@ class PerformanceCategory with EquatableMixin {
     if (isLeaf && anzahl != null) {
       map['anzahl'] = anzahl;
     }
+    if (isLeaf && hint != null) {
+      map['hint'] = hint;
+    }
     if (isLeaf && positionen.isNotEmpty) {
       map['positionen'] = positionen.map((p) => p.toJson()).toList();
     }
@@ -68,12 +74,14 @@ class PerformanceCategory with EquatableMixin {
   PerformanceCategory copyWith({
     String? name,
     int? anzahl,
+    String? hint,
     List<PerformanceCategory>? children,
     List<CategoryPosition>? positionen,
   }) {
     return PerformanceCategory(
       name: name ?? this.name,
       anzahl: anzahl ?? this.anzahl,
+      hint: hint ?? this.hint,
       children: children ?? this.children,
       positionen: positionen ?? this.positionen,
     );
@@ -148,5 +156,5 @@ class PerformanceCategory with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [name, anzahl, children, positionen];
+  List<Object?> get props => [name, anzahl, hint, children, positionen];
 }
