@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/edit/ui/drop_down.dart';
+import 'package:training_organizer/edit/ui/no_trainee_data_state.dart';
 import 'package:training_organizer/edit/ui/selected_count.dart';
 import 'package:training_organizer/import_export/ui/file_cubit.dart';
 import 'package:training_organizer/import_export/ui/file_state.dart';
@@ -15,43 +18,50 @@ class TraineeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return BlocBuilder<FileCubit, FileState>(
-      builder: (context, state) {
-        return Padding(
-          padding: isMobile(screenSize)
-              ? const EdgeInsets.all(5)
-              : const EdgeInsets.all(16.0),
-          child: Stack(
-            children: [
-              Column(
+    return BlocBuilder<AppCubit, AppState>(
+      builder: (context, appState) {
+        if (appState.trainees.isEmpty) {
+          return const NoTraineeDataState();
+        }
+        return BlocBuilder<FileCubit, FileState>(
+          builder: (context, fileState) {
+            return Padding(
+              padding: isMobile(screenSize)
+                  ? const EdgeInsets.all(5)
+                  : const EdgeInsets.all(16.0),
+              child: Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        SelectedCount(),
-                        DropDown(),
-                      ],
-                    ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            SelectedCount(),
+                            DropDown(),
+                          ],
+                        ),
+                      ),
+                      fileState.showLoadingSpinner
+                          ? const SizedBox(
+                              width: 300,
+                              height: 300,
+                              child: LoadingIndicator(
+                                  indicatorType: Indicator.ballPulse,
+                                  colors: [Colors.blue],
+                                  strokeWidth: 2,
+                                  backgroundColor: Colors.white,
+                                  pathBackgroundColor: Colors.white),
+                            )
+                          : Expanded(child: TraineeList()),
+                    ],
                   ),
-                  state.showLoadingSpinner
-                      ? const SizedBox(
-                          width: 300,
-                          height: 300,
-                          child: LoadingIndicator(
-                              indicatorType: Indicator.ballPulse,
-                              colors: [Colors.blue],
-                              strokeWidth: 2,
-                              backgroundColor: Colors.white,
-                              pathBackgroundColor: Colors.white),
-                        )
-                      : Expanded(child: TraineeList()),
+                  ButtonRow(),
                 ],
               ),
-              ButtonRow(),
-            ],
-          ),
+            );
+          },
         );
       },
     );

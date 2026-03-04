@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:training_organizer/model/qualifications.dart';
-import 'package:training_organizer/model/qualifications/bronze.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 enum FilterableGroup {
@@ -43,41 +41,10 @@ class AppState with EquatableMixin {
   });
 
   factory AppState.initial() {
-    return AppState(
-      trainees: [
-        Trainee(
-          surname: 'Musterman',
-          forename: 'Max',
-          email: 'email@email.de',
-          dateOfBirth: '10.10.2000',
-          registrationDate: '09.04.2023',
-          phone: '01000 1100',
-          trainingGroup: Group.waitingList,
-          qualifications: Qualifications(qualifications: [
-            Bronze(DateTime.now()),
-          ]),
-        ),
-        Trainee(
-          surname: 'Musterman',
-          forename: 'Manuel',
-          email: 'email@email.de',
-          dateOfBirth: '10.10.2000',
-          registrationDate: '09.04.2023',
-          phone: '0000 000',
-          trainingGroup: Group.group1,
-        ),
-        Trainee(
-          surname: 'Musterman',
-          forename: 'Mathilda',
-          email: 'email@email.de',
-          dateOfBirth: '10.10.2000',
-          registrationDate: '09.04.2023',
-          phone: '0100 023892',
-          trainingGroup: Group.group2,
-        )
-      ],
+    return const AppState(
+      trainees: [],
       selectedGroup: FilterableGroup.all,
-      selectedTrainees: List<Trainee>.empty(),
+      selectedTrainees: [],
     );
   }
 
