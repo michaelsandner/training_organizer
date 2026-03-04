@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:external_path/external_path.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:external_path/external_path.dart';
 import 'package:training_organizer/performance_data/domain/performance_data.dart';
 import 'package:training_organizer/performance_data/domain/performance_data_repository.dart';
 
@@ -76,6 +76,9 @@ class PerformanceDataFileHandler implements PerformanceDataRepository {
 
   static String _getFileName() {
     final now = DateTime.now();
-    return 'performance_data_${now.year}_${now.month}_${now.day}.json';
+    final date = '${now.year}_${now.month}_${now.day}';
+    final time =
+        '${now.hour.toString().padLeft(2, '0')}_${now.minute.toString().padLeft(2, '0')}_${now.second.toString().padLeft(2, '0')}';
+    return 'performance_data_${date}_$time.json';
   }
 }
