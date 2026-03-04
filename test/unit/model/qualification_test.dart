@@ -8,6 +8,7 @@ import 'package:training_organizer/model/qualifications/bronze.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/gruppenleiter.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
+import 'package:training_organizer/model/qualifications/qualification_validity.dart';
 import 'package:training_organizer/model/qualifications/rs_bronze.dart';
 import 'package:training_organizer/model/qualifications/rs_gold.dart';
 import 'package:training_organizer/model/qualifications/rs_silber.dart';
@@ -243,23 +244,34 @@ void main() {
 
     group('Given is older than two years isUpToDate', () {
       group('When isUpToDate is called', () {
-        test('Then it should return false', () {
+        test('Then it should return expired', () {
           final date = DateTime(DateTime.now().year - 2, DateTime.now().month,
               DateTime.now().day - 2);
           final rsSilber = RsSilber(date);
 
-          expect(rsSilber.isUp2Date, false);
+          expect(rsSilber.isUp2Date, QualificationValidity.expired);
         });
       });
     });
     group('Given is younger than two years', () {
       group('When isUpToDate is called', () {
-        test('Then it should return true', () {
+        test('Then it should return expiring', () {
           final date = DateTime(DateTime.now().year - 2, DateTime.now().month,
               DateTime.now().day + 1);
           final rsSilber = RsSilber(date);
 
-          expect(rsSilber.isUp2Date, true);
+          expect(rsSilber.isUp2Date, QualificationValidity.expiring);
+        });
+      });
+    });
+    group('Given is younger than one years', () {
+      group('When isUpToDate is called', () {
+        test('Then it should return valid', () {
+          final date = DateTime(DateTime.now().year - 1, DateTime.now().month,
+              DateTime.now().day + 1);
+          final rsSilber = RsSilber(date);
+
+          expect(rsSilber.isUp2Date, QualificationValidity.valid);
         });
       });
     });

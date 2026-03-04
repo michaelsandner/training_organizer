@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:training_organizer/model/qualifications/qualification_validity.dart';
 
 abstract class Qualification {
   DateTime? date;
@@ -13,7 +14,7 @@ abstract class Qualification {
   Icon get icon;
   String? get iconName;
 
-  bool get isUp2Date => true;
+  QualificationValidity get isUp2Date => QualificationValidity.valid;
 
   Map<String, dynamic> toJson() => {
         'name': name,
