@@ -863,7 +863,7 @@ END:VCALENDAR''';
       group('When parse für 2025 aufgerufen wird', () {
         test('Then werden beide Events korrekt gezählt', () {
           const ical =
-              'BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nDTSTART:20250118T130000Z\r\nDTEND:20250118T150000Z\r\nSUMMARY:SPD Neujahrsempfang (intern) (Öffentlichkeitsarbeit)\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nDTSTART:20250628T160000Z\r\nDTEND:20250628T180000Z\r\nSUMMARY:Festzug 125 Jahre FFW Keidenzell Stinzendorf (Öffentlichkeitsarbeit\r\n )\r\nEND:VEVENT\r\nEND:VCALENDAR';
+              'BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nDTSTART:20250118T130000Z\r\nDTEND:20250118T150000Z\r\nSUMMARY:SPD Neujahrsempfang (intern) (Offentlichkeitsarbeit)\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nDTSTART:20250628T160000Z\r\nDTEND:20250628T180000Z\r\nSUMMARY:Festzug 125 Jahre FFW Keidenzell Stinzendorf (Offentlichkeitsarbeit\r\n )\r\nEND:VEVENT\r\nEND:VCALENDAR';
 
           final result = sut.parse(ical, 2025);
 
