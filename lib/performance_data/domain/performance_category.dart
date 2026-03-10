@@ -155,6 +155,49 @@ class PerformanceCategory with EquatableMixin {
     return copyWith(children: updatedChildren);
   }
 
+  /// Recursively searches for a leaf category with the given [name].
+  int? findCountByName(String name) {
+    if (isLeaf && this.name == name) return anzahl ?? 0;
+    for (final child in children) {
+      final result = child.findCountByName(name);
+      if (result != null) return result;
+    }
+    return null;
+  }
+
+  /// Adds [amount] to the count of the leaf category with the given [name].
+  PerformanceCategory addToCountByName(String name, int amount) {
+    if (isLeaf && this.name == name) {
+      return copyWith(anzahl: (anzahl ?? 0) + amount);
+    }
+    if (children.isNotEmpty) {
+      final updatedChildren =
+          children.map((c) => c.addToCountByName(name, amount)).toList();
+      return copyWith(children: updatedChildren);
+    }
+    return this;
+  }
+
+  /// Adds a new [CategoryPosition] to the leaf category with the given [name].
+  PerformanceCategory addPositionByName(
+    String name,
+    CategoryPosition position,
+  ) {
+    if (isLeaf && this.name == name) {
+      final updatedPositionen = List<CategoryPosition>.from(positionen)
+        ..add(position);
+      final newAnzahl =
+          updatedPositionen.fold<int>(0, (sum, p) => sum + p.anzahl);
+      return copyWith(positionen: updatedPositionen, anzahl: newAnzahl);
+    }
+    if (children.isNotEmpty) {
+      final updatedChildren =
+          children.map((c) => c.addPositionByName(name, position)).toList();
+      return copyWith(children: updatedChildren);
+    }
+    return this;
+  }
+
   @override
   List<Object?> get props => [name, anzahl, hint, children, positionen];
 }

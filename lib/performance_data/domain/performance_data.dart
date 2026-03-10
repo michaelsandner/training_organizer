@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:training_organizer/performance_data/domain/performance_category.dart';
 import 'package:training_organizer/performance_data/domain/category_position.dart';
+import 'package:training_organizer/performance_data/domain/performance_category.dart';
 
 /// Root object of the performance data.
 /// Contains a list of top-level (level 1) categories.
@@ -76,6 +76,33 @@ class PerformanceData with EquatableMixin {
     updatedCategories[categoryPath.first] =
         updatedCategories[categoryPath.first]
             .removePosition(categoryPath.sublist(1), positionIndex);
+    return PerformanceData(categories: updatedCategories);
+  }
+
+  /// Recursively searches for a leaf category with the given [name]
+  /// and returns its current count.
+  int? findCountByName(String name) {
+    for (final category in categories) {
+      final result = category.findCountByName(name);
+      if (result != null) return result;
+    }
+    return null;
+  }
+
+  /// Adds [amount] to the count of the leaf category with the given [name].
+  PerformanceData addToCountByName(String name, int amount) {
+    final updatedCategories =
+        categories.map((c) => c.addToCountByName(name, amount)).toList();
+    return PerformanceData(categories: updatedCategories);
+  }
+
+  /// Adds a new [CategoryPosition] to the leaf category with the given [name].
+  PerformanceData addPositionByName(
+    String name,
+    CategoryPosition position,
+  ) {
+    final updatedCategories =
+        categories.map((c) => c.addPositionByName(name, position)).toList();
     return PerformanceData(categories: updatedCategories);
   }
 
