@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:training_organizer/performance_data/domain/badge_import_result.dart';
 import 'package:training_organizer/performance_data/domain/ical_parser/ical_import_result.dart';
 import 'package:training_organizer/performance_data/domain/performance_data.dart';
 
@@ -15,6 +16,7 @@ class PerformanceDataState with EquatableMixin {
   final PerformanceDataExportState exportState;
   final int selectedYear;
   final IcalImportResult? icalImportResult;
+  final BadgeImportResult? badgeImportResult;
 
   const PerformanceDataState({
     required this.performanceData,
@@ -23,6 +25,7 @@ class PerformanceDataState with EquatableMixin {
     required this.selectedYear,
     this.errorMessage,
     this.icalImportResult,
+    this.badgeImportResult,
   });
 
   factory PerformanceDataState.initial() {
@@ -33,6 +36,7 @@ class PerformanceDataState with EquatableMixin {
       errorMessage: null,
       selectedYear: DateTime.now().year,
       icalImportResult: null,
+      badgeImportResult: null,
     );
   }
 
@@ -44,6 +48,8 @@ class PerformanceDataState with EquatableMixin {
     int? selectedYear,
     IcalImportResult? icalImportResult,
     bool clearIcalImportResult = false,
+    BadgeImportResult? badgeImportResult,
+    bool clearBadgeImportResult = false,
   }) {
     return PerformanceDataState(
       performanceData: performanceData ?? this.performanceData,
@@ -54,6 +60,9 @@ class PerformanceDataState with EquatableMixin {
       icalImportResult: clearIcalImportResult
           ? null
           : (icalImportResult ?? this.icalImportResult),
+      badgeImportResult: clearBadgeImportResult
+          ? null
+          : (badgeImportResult ?? this.badgeImportResult),
     );
   }
 
@@ -65,5 +74,6 @@ class PerformanceDataState with EquatableMixin {
         exportState,
         selectedYear,
         icalImportResult,
+        badgeImportResult,
       ];
 }

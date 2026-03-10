@@ -2,9 +2,19 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:training_organizer/data/performance_data_file_handler.dart';
+import 'package:training_organizer/model/qualifications.dart';
+import 'package:training_organizer/model/qualifications/bronze.dart';
+import 'package:training_organizer/model/qualifications/gold.dart';
+import 'package:training_organizer/model/qualifications/pirat.dart';
+import 'package:training_organizer/model/qualifications/rs_bronze.dart';
+import 'package:training_organizer/model/qualifications/rs_gold.dart';
+import 'package:training_organizer/model/qualifications/rs_silber.dart';
+import 'package:training_organizer/model/qualifications/silber.dart';
+import 'package:training_organizer/model/trainee.dart';
+import 'package:training_organizer/performance_data/domain/badge_import_result.dart';
+import 'package:training_organizer/performance_data/domain/category_position.dart';
 import 'package:training_organizer/performance_data/domain/performance_category.dart';
 import 'package:training_organizer/performance_data/domain/performance_data.dart';
-import 'package:training_organizer/performance_data/domain/category_position.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_cubit.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_state.dart';
 
@@ -283,6 +293,311 @@ void main() {
                   .performanceData!.categories[0].children[0].positionen.length,
               'positionen count',
               0,
+            ),
+          ],
+        );
+      });
+    });
+
+    group('Given no trainees available', () {
+      const performanceData = PerformanceData(
+        categories: [
+          PerformanceCategory(
+            name: 'Breitenausbildung',
+            children: [
+              PerformanceCategory(name: 'DSA-Bronze'),
+            ],
+          ),
+        ],
+      );
+
+      group('When importBadges is called with empty list', () {
+        blocTest<PerformanceDataCubit, PerformanceDataState>(
+          'Then an error message is emitted',
+          build: () => PerformanceDataCubit(mockFileHandler),
+          seed: () => PerformanceDataState.initial().copyWith(
+            performanceData: performanceData,
+          ),
+          act: (cubit) => cubit.importBadges([]),
+          expect: () => [
+            isA<PerformanceDataState>().having(
+              (s) => s.errorMessage,
+              'error',
+              'Keine Mitgliedsdaten importiert',
+            ),
+          ],
+        );
+      });
+    });
+
+    group('Given trainees with badges for the selected year', () {
+      const performanceData = PerformanceData(
+        categories: [
+          PerformanceCategory(
+            name: 'Breitenausbildung',
+            children: [
+              PerformanceCategory(name: 'DSA-Bronze'),
+              PerformanceCategory(name: 'DSA-Silber'),
+              PerformanceCategory(name: 'DSA-Gold'),
+              PerformanceCategory(name: 'DRSA-Bronze'),
+              PerformanceCategory(name: 'DRSA-Silber'),
+              PerformanceCategory(name: 'DRSA-Gold'),
+              PerformanceCategory(name: 'sonstige Schwimmabzeichen'),
+            ],
+          ),
+        ],
+      );
+
+      final trainees = [
+        Trainee(
+          surname: 'Müller',
+          qualifications: Qualifications(qualifications: [
+            Bronze(DateTime(2025, 3, 1)),
+            RsBronze(DateTime(2025, 5, 1)),
+          ]),
+        ),
+        Trainee(
+          surname: 'Schmidt',
+          qualifications: Qualifications(qualifications: [
+            Bronze(DateTime(2025, 6, 1)),
+            Silber(DateTime(2025, 7, 1)),
+            RsSilber(DateTime(2025, 8, 1)),
+          ]),
+        ),
+        Trainee(
+          surname: 'Fischer',
+          qualifications: Qualifications(qualifications: [
+            Gold(DateTime(2025, 4, 1)),
+            RsGold(DateTime(2025, 9, 1)),
+            Pirat(DateTime(2025, 2, 1)),
+          ]),
+        ),
+      ];
+
+      group('When importBadges is called', () {
+        blocTest<PerformanceDataCubit, PerformanceDataState>(
+          'Then a badgeImportResult with correct entries is emitted',
+          build: () => PerformanceDataCubit(mockFileHandler),
+          seed: () => PerformanceDataState.initial().copyWith(
+            performanceData: performanceData,
+            selectedYear: 2025,
+          ),
+          act: (cubit) => cubit.importBadges(trainees),
+          expect: () => [
+            isA<PerformanceDataState>().having(
+              (s) => s.badgeImportResult,
+              'badgeImportResult',
+              isA<BadgeImportResult>()
+                  .having((r) => r.entries.length, 'entries count', 7)
+                  .having(
+                    (r) => r.entries
+                        .firstWhere(
+                            (e) => e.targetCategoryName == 'DRSA-Bronze')
+                        .count,
+                    'DRSA-Bronze',
+                    1,
+                  )
+                  .having(
+                    (r) => r.entries
+                        .firstWhere((e) => e.targetCategoryName == 'DSA-Bronze')
+                        .count,
+                    'DSA-Bronze',
+                    2,
+                  )
+                  .having(
+                    (r) => r.entries
+                        .firstWhere((e) =>
+                            e.targetCategoryName == 'sonstige Schwimmabzeichen')
+                        .beschreibung,
+                    'Pirat beschreibung',
+                    'Pirat',
+                  ),
+            ),
+          ],
+        );
+      });
+
+      group('When applyBadgeImport is called after importBadges', () {
+        blocTest<PerformanceDataCubit, PerformanceDataState>(
+          'Then badge counts are added as positions to matching categories',
+          build: () => PerformanceDataCubit(mockFileHandler),
+          seed: () => PerformanceDataState.initial().copyWith(
+            performanceData: performanceData,
+            selectedYear: 2025,
+          ),
+          act: (cubit) {
+            cubit.importBadges(trainees);
+            cubit.applyBadgeImport();
+          },
+          expect: () => [
+            // First emission: badgeImportResult is set
+            isA<PerformanceDataState>().having(
+              (s) => s.badgeImportResult,
+              'badgeImportResult',
+              isNotNull,
+            ),
+            // Second emission: positions applied, result cleared
+            isA<PerformanceDataState>()
+                .having(
+                  (s) => s.badgeImportResult,
+                  'badgeImportResult cleared',
+                  isNull,
+                )
+                .having(
+                  (s) => s.performanceData!.categories[0].children
+                      .firstWhere((c) => c.name == 'DSA-Bronze')
+                      .positionen
+                      .first
+                      .anzahl,
+                  'DSA-Bronze count',
+                  2,
+                )
+                .having(
+                  (s) => s.performanceData!.categories[0].children
+                      .firstWhere((c) => c.name == 'DSA-Silber')
+                      .positionen
+                      .first
+                      .anzahl,
+                  'DSA-Silber count',
+                  1,
+                )
+                .having(
+                  (s) => s.performanceData!.categories[0].children
+                      .firstWhere((c) => c.name == 'DSA-Gold')
+                      .positionen
+                      .first
+                      .anzahl,
+                  'DSA-Gold count',
+                  1,
+                )
+                .having(
+                  (s) => s.performanceData!.categories[0].children
+                      .firstWhere((c) => c.name == 'DRSA-Bronze')
+                      .positionen
+                      .first
+                      .anzahl,
+                  'DRSA-Bronze count',
+                  1,
+                )
+                .having(
+                  (s) => s.performanceData!.categories[0].children
+                      .firstWhere((c) => c.name == 'DRSA-Silber')
+                      .positionen
+                      .first
+                      .anzahl,
+                  'DRSA-Silber count',
+                  1,
+                )
+                .having(
+                  (s) => s.performanceData!.categories[0].children
+                      .firstWhere((c) => c.name == 'DRSA-Gold')
+                      .positionen
+                      .first
+                      .anzahl,
+                  'DRSA-Gold count',
+                  1,
+                )
+                .having(
+                  (s) => s.performanceData!.categories[0].children
+                      .firstWhere((c) => c.name == 'sonstige Schwimmabzeichen')
+                      .positionen
+                      .first
+                      .anzahl,
+                  'sonstige Schwimmabzeichen count',
+                  1,
+                )
+                .having(
+                  (s) => s.performanceData!.categories[0].children
+                      .firstWhere((c) => c.name == 'sonstige Schwimmabzeichen')
+                      .positionen
+                      .first
+                      .beschreibung,
+                  'sonstige Schwimmabzeichen beschreibung',
+                  'intern',
+                ),
+          ],
+        );
+      });
+    });
+
+    group('Given trainees with badges from a different year', () {
+      const performanceData = PerformanceData(
+        categories: [
+          PerformanceCategory(
+            name: 'Breitenausbildung',
+            children: [
+              PerformanceCategory(name: 'DSA-Bronze'),
+            ],
+          ),
+        ],
+      );
+
+      final trainees = [
+        Trainee(
+          surname: 'Müller',
+          qualifications: Qualifications(qualifications: [
+            Bronze(DateTime(2024, 3, 1)),
+          ]),
+        ),
+      ];
+
+      group('When importBadges is called for year 2025', () {
+        blocTest<PerformanceDataCubit, PerformanceDataState>(
+          'Then a badgeImportResult with empty entries is emitted',
+          build: () => PerformanceDataCubit(mockFileHandler),
+          seed: () => PerformanceDataState.initial().copyWith(
+            performanceData: performanceData,
+            selectedYear: 2025,
+          ),
+          act: (cubit) => cubit.importBadges(trainees),
+          expect: () => [
+            isA<PerformanceDataState>().having(
+              (s) => s.badgeImportResult?.entries,
+              'entries',
+              isEmpty,
+            ),
+          ],
+        );
+      });
+    });
+
+    group('Given no performance data loaded', () {
+      final trainees = [
+        Trainee(
+          surname: 'Müller',
+          qualifications: Qualifications(qualifications: [
+            Bronze(DateTime(2025, 3, 1)),
+          ]),
+        ),
+      ];
+
+      group('When importBadges is called', () {
+        blocTest<PerformanceDataCubit, PerformanceDataState>(
+          'Then nothing happens',
+          build: () => PerformanceDataCubit(mockFileHandler),
+          act: (cubit) => cubit.importBadges(trainees),
+          expect: () => [],
+        );
+      });
+    });
+
+    group('Given a pending badge import result', () {
+      group('When dismissBadgeImport is called', () {
+        blocTest<PerformanceDataCubit, PerformanceDataState>(
+          'Then the badge import result is cleared',
+          build: () => PerformanceDataCubit(mockFileHandler),
+          seed: () => PerformanceDataState.initial().copyWith(
+            performanceData: const PerformanceData(categories: []),
+            badgeImportResult: const BadgeImportResult(entries: [
+              BadgeImportEntry(targetCategoryName: 'DSA-Bronze', count: 1),
+            ]),
+          ),
+          act: (cubit) => cubit.dismissBadgeImport(),
+          expect: () => [
+            isA<PerformanceDataState>().having(
+              (s) => s.badgeImportResult,
+              'badgeImportResult',
+              isNull,
             ),
           ],
         );

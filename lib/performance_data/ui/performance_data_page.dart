@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:training_organizer/performance_data/ui/badge_import_dialog.dart';
 import 'package:training_organizer/performance_data/ui/ical_import_dialog.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_action_button_row.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_body.dart';
@@ -63,6 +64,22 @@ class PerformanceDataPage extends StatelessWidget {
               },
               onAbort: () {
                 context.read<PerformanceDataCubit>().dismissIcalImport();
+                Navigator.of(context).pop();
+              },
+            ),
+          );
+        }
+        if (state.badgeImportResult != null) {
+          showDialog(
+            context: context,
+            builder: (_) => BadgeImportDialog(
+              importResult: state.badgeImportResult!,
+              onConfirm: () {
+                context.read<PerformanceDataCubit>().applyBadgeImport();
+                Navigator.of(context).pop();
+              },
+              onAbort: () {
+                context.read<PerformanceDataCubit>().dismissBadgeImport();
                 Navigator.of(context).pop();
               },
             ),
