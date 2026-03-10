@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:training_organizer/performance_data/ui/ical_import_dialog.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_action_button_row.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_body.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_cubit.dart';
@@ -29,6 +30,41 @@ class PerformanceDataPage extends StatelessWidget {
               content: Text('Export erfolgreich'),
               backgroundColor: Colors.green,
               behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+        if (state.icalImportResult != null && state.performanceData != null) {
+          final data = state.performanceData!;
+          final result = state.icalImportResult!;
+
+          // Aggregate apply entries by target category name
+          final aggregated = <String, int>{};
+          for (final entry in result.applyEntries) {
+            aggregated[entry.targetCategoryName] =
+                (aggregated[entry.targetCategoryName] ?? 0) + entry.value;
+          }
+          final changePreviews = aggregated.entries.map((entry) {
+            final current = data.findCountByName(entry.key) ?? 0;
+            return IcalChangePreview(
+              categoryName: entry.key,
+              parsedDelta: entry.value,
+              currentValue: current,
+            );
+          }).toList();
+
+          showDialog(
+            context: context,
+            builder: (_) => IcalImportDialog(
+              importResult: result,
+              changePreviews: changePreviews,
+              onConfirm: () {
+                context.read<PerformanceDataCubit>().applyIcalImport();
+                Navigator.of(context).pop();
+              },
+              onAbort: () {
+                context.read<PerformanceDataCubit>().dismissIcalImport();
+                Navigator.of(context).pop();
+              },
             ),
           );
         }

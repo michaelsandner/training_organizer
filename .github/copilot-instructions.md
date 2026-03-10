@@ -20,13 +20,12 @@
 ## UI and Widgets
 - Use Widgets instead of build methods for better readability and testability
 
-
-
 ## Conventions
-- German for UI texts and comments
+- German for UI texts
 - Methods and variables in English
 - Classes in PascalCase, files in snake_case
-
+- Each public class should be in a separate file
+- Source code comments are in english
 ## Special rules
 
 
