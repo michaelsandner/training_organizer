@@ -4,6 +4,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/data/performance_data_file_handler.dart';
+import 'package:training_organizer/model/qualifications/qualification_factory.dart';
+import 'package:training_organizer/model/trainee.dart';
+import 'package:training_organizer/performance_data/domain/badge_import_result.dart';
 import 'package:training_organizer/performance_data/domain/category_position.dart';
 import 'package:training_organizer/performance_data/domain/ical_parser/ical_parser.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_state.dart';
@@ -166,6 +169,80 @@ class PerformanceDataCubit extends Cubit<PerformanceDataState> {
 
   void dismissIcalImport() {
     emit(state.copyWith(clearIcalImportResult: true));
+  }
+
+  void importBadges(List<Trainee> trainees) {
+    if (trainees.isEmpty) {
+      emit(state.copyWith(
+        errorMessage: 'Keine Mitgliedsdaten importiert',
+      ));
+      return;
+    }
+
+    if (state.performanceData == null) return;
+
+    const badgeMapping = {
+      rettungsschwimmerBronze: 'DRSA-Bronze',
+      rettungsschwimmerSilber: 'DRSA-Silber',
+      rettungsschwimmerGold: 'DRSA-Gold',
+      bronze: 'DSA-Bronze',
+      silber: 'DSA-Silber',
+      gold: 'DSA-Gold',
+    };
+
+    final year = state.selectedYear;
+    final entries = <BadgeImportEntry>[];
+
+    for (final entry in badgeMapping.entries) {
+      final count = trainees
+          .where(
+              (t) => t.qualifications.hasQualificationFromYear(entry.key, year))
+          .length;
+      if (count > 0) {
+        entries.add(BadgeImportEntry(
+          targetCategoryName: entry.value,
+          count: count,
+        ));
+      }
+    }
+
+    // pirat → sonstige Schwimmabzeichen with beschreibung "Pirat"
+    final piratCount = trainees
+        .where((t) => t.qualifications.hasQualificationFromYear(pirat, year))
+        .length;
+    if (piratCount > 0) {
+      entries.add(BadgeImportEntry(
+        targetCategoryName: 'sonstige Schwimmabzeichen',
+        count: piratCount,
+        beschreibung: 'Pirat',
+      ));
+    }
+
+    emit(state.copyWith(
+      badgeImportResult: BadgeImportResult(entries: entries),
+    ));
+  }
+
+  void applyBadgeImport() {
+    var data = state.performanceData;
+    final result = state.badgeImportResult;
+    if (data == null || result == null) return;
+
+    for (final entry in result.entries) {
+      data = data!.addPositionByName(
+        entry.targetCategoryName,
+        CategoryPosition(anzahl: entry.count, beschreibung: 'intern'),
+      );
+    }
+
+    emit(state.copyWith(
+      performanceData: data,
+      clearBadgeImportResult: true,
+    ));
+  }
+
+  void dismissBadgeImport() {
+    emit(state.copyWith(clearBadgeImportResult: true));
   }
 
   Future<String?> _pickIcalFile() async {
