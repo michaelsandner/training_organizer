@@ -16,10 +16,11 @@ class Qualifications extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
-        children: List.generate(trainee.qualifications.qualifications.length,
+        children: List.generate(
+            trainee.qualifications.getOnlyHighestQualifications().length,
             (index) {
           final currentqualification =
-              trainee.qualifications.qualifications[index];
+              trainee.qualifications.getOnlyHighestQualifications()[index];
 
           return Tooltip(
             message: currentqualification.date == null

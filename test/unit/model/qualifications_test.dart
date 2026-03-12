@@ -9,7 +9,12 @@ import 'package:training_organizer/model/qualifications/bronze.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
+import 'package:training_organizer/model/qualifications/rs_bronze.dart';
+import 'package:training_organizer/model/qualifications/rs_silber.dart';
+import 'package:training_organizer/model/qualifications/rsiwrd.dart';
+import 'package:training_organizer/model/qualifications/san.dart';
 import 'package:training_organizer/model/qualifications/silber.dart';
+import 'package:training_organizer/model/qualifications/wasserretter.dart';
 
 void main() {
   group('Qualifications', () {
@@ -256,6 +261,222 @@ void main() {
           expect(
             qualifications.hasQualificationAndNoHigherQualification(gold),
             isFalse,
+          );
+        });
+      });
+    });
+
+    group('Given a Qualifications object with no qualifications', () {
+      final qualifications = const Qualifications();
+      group('When getOnlyHighestQualifications is called', () {
+        test('Then it returns an empty list', () {
+          expect(qualifications.getOnlyHighestQualifications(), isEmpty);
+        });
+      });
+    });
+
+    group('Given a Qualifications object with RettungsschwimmerBronze only',
+        () {
+      final rsBronze = RsBronze(null);
+      final qualifications = Qualifications(
+        qualifications: [rsBronze],
+      );
+      group('When getOnlyHighestQualifications is called', () {
+        test('Then RettungsschwimmerBronze is kept', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            contains(rsBronze),
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with RettungsschwimmerBronze and RettungsschwimmerSilber',
+        () {
+      final rsBronze = RsBronze(null);
+      final rsSilber = RsSilber(null);
+      final qualifications = Qualifications(
+        qualifications: [rsBronze, rsSilber],
+      );
+      group('When getOnlyHighestQualifications is called', () {
+        test('Then RettungsschwimmerBronze is removed', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            isNot(contains(rsBronze)),
+          );
+        });
+        test('Then RettungsschwimmerSilber is kept', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            contains(rsSilber),
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with Ausbildungsassistent and no Ausbilder',
+        () {
+      final assistent = Assistent(null);
+      final qualifications = Qualifications(
+        qualifications: [assistent],
+      );
+      group('When getOnlyHighestQualifications is called', () {
+        test('Then Ausbildungsassistent is kept', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            contains(assistent),
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with Ausbildungsassistent and AusbilderS1',
+        () {
+      final assistent = Assistent(null);
+      final ausbilder = AusbilderS1(null);
+      final qualifications = Qualifications(
+        qualifications: [assistent, ausbilder],
+      );
+      group('When getOnlyHighestQualifications is called', () {
+        test('Then Ausbildungsassistent is removed', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            isNot(contains(assistent)),
+          );
+        });
+        test('Then AusbilderS1 is kept', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            contains(ausbilder),
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with Ausbildungsassistent and AusbilderS2',
+        () {
+      final assistent = Assistent(null);
+      final ausbilder = AusbilderS2(null);
+      final qualifications = Qualifications(
+        qualifications: [assistent, ausbilder],
+      );
+      group('When getOnlyHighestQualifications is called', () {
+        test('Then Ausbildungsassistent is removed', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            isNot(contains(assistent)),
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with Ausbildungsassistent and AusbilderR1',
+        () {
+      final assistent = Assistent(null);
+      final ausbilder = AusbilderR1(null);
+      final qualifications = Qualifications(
+        qualifications: [assistent, ausbilder],
+      );
+      group('When getOnlyHighestQualifications is called', () {
+        test('Then Ausbildungsassistent is removed', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            isNot(contains(assistent)),
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with Ausbildungsassistent and AusbilderR2',
+        () {
+      final assistent = Assistent(null);
+      final ausbilder = AusbilderR2(null);
+      final qualifications = Qualifications(
+        qualifications: [assistent, ausbilder],
+      );
+      group('When getOnlyHighestQualifications is called', () {
+        test('Then Ausbildungsassistent is removed', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            isNot(contains(assistent)),
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with RSiWRD and San without Wasserretter',
+        () {
+      final rsiwrdQ = RSiWRD(null);
+      final sanQ = San(null);
+      final qualifications = Qualifications(
+        qualifications: [rsiwrdQ, sanQ],
+      );
+      group('When getOnlyHighestQualifications is called', () {
+        test('Then RSiWRD is kept', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            contains(rsiwrdQ),
+          );
+        });
+        test('Then San is kept', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            contains(sanQ),
+          );
+        });
+      });
+    });
+
+    group('Given a Qualifications object with RSiWRD, San and Wasserretter',
+        () {
+      final rsiwrdQ = RSiWRD(null);
+      final sanQ = San(null);
+      final wasserretterQ = Wasserretter(null);
+      final qualifications = Qualifications(
+        qualifications: [rsiwrdQ, sanQ, wasserretterQ],
+      );
+      group('When getOnlyHighestQualifications is called', () {
+        test('Then RSiWRD is removed', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            isNot(contains(rsiwrdQ)),
+          );
+        });
+        test('Then San is removed', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            isNot(contains(sanQ)),
+          );
+        });
+        test('Then Wasserretter is kept', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            contains(wasserretterQ),
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with unrelated qualifications like Gold and Pirat',
+        () {
+      final goldQ = Gold(null);
+      final piratQ = Pirat(null);
+      final qualifications = Qualifications(
+        qualifications: [goldQ, piratQ],
+      );
+      group('When getOnlyHighestQualifications is called', () {
+        test('Then all qualifications are kept', () {
+          expect(
+            qualifications.getOnlyHighestQualifications(),
+            containsAll([goldQ, piratQ]),
           );
         });
       });
