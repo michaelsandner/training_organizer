@@ -54,6 +54,16 @@ class Qualifications {
         _hasAusbilderQualification()) {
       return false;
     }
+
+    if ((qualificationName == rsiwrd || qualificationName == san) &&
+        _hasWasserretterQualification()) {
+      return false;
+    }
+
+    if ((qualificationName == san || qualificationName == fachsan) &&
+        _hasRettSanQualification()) {
+      return false;
+    }
     return hasValidQualification;
   }
 
@@ -63,6 +73,14 @@ class Qualifications {
         element.name == ausbilderS2 ||
         element.name == ausbilderR1 ||
         element.name == ausbilderR2);
+  }
+
+  bool _hasWasserretterQualification() {
+    return qualifications.any((element) => element.name == wasserretter);
+  }
+
+  bool _hasRettSanQualification() {
+    return qualifications.any((element) => element.name == rettsan);
   }
 
   /// Returns the highest qualification as a single character:
