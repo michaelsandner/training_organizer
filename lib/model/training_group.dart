@@ -95,6 +95,14 @@ final trainingGroups = [
     name: 'Aktiv',
     shortName: 'A',
     group: Group.active,
+    nextGroup: Group.leisure,
     lastGroup: Group.wednesday,
+  ),
+  TrainingGroup(
+    id: 'leisure',
+    name: 'Freizeit',
+    shortName: 'L',
+    group: Group.leisure,
+    lastGroup: Group.active,
   ),
 ];

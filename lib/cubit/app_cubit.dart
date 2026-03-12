@@ -61,7 +61,7 @@ class AppCubit extends Cubit<AppState> {
   }
 
   bool isUpgradePossible(Trainee trainee) {
-    return trainee.trainingGroup != Group.active;
+    return trainee.trainingGroup != Group.leisure;
   }
 
   void upgradeTrainee(Trainee trainee) {
@@ -155,6 +155,8 @@ class AppCubit extends Cubit<AppState> {
         return FilterableGroup.wednesday;
       case Group.active:
         return FilterableGroup.active;
+      case Group.leisure:
+        return FilterableGroup.leisure;
     }
   }
 
@@ -178,6 +180,8 @@ class AppCubit extends Cubit<AppState> {
         return Group.wednesday;
       case FilterableGroup.active:
         return Group.active;
+      case FilterableGroup.leisure:
+        return Group.leisure;
       default:
         return Group.waitingList;
     }

@@ -12,6 +12,7 @@ enum FilterableGroup {
   group5,
   wednesday,
   active,
+  leisure,
   all,
 }
 
@@ -25,6 +26,7 @@ enum Group {
   group5,
   wednesday,
   active,
+  leisure,
 }
 
 @immutable
