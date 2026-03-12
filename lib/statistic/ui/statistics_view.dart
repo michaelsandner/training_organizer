@@ -4,35 +4,18 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/model/qualifications/bronze.dart';
-import 'package:training_organizer/model/qualifications/fachsan.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
 import 'package:training_organizer/model/qualifications/qualification.dart';
-import 'package:training_organizer/model/qualifications/rettsan.dart';
-import 'package:training_organizer/model/qualifications/rs_bronze.dart';
-import 'package:training_organizer/model/qualifications/rs_silber.dart';
-import 'package:training_organizer/model/qualifications/rsiwrd.dart';
-import 'package:training_organizer/model/qualifications/san.dart';
 import 'package:training_organizer/model/qualifications/silber.dart';
-import 'package:training_organizer/model/qualifications/wasserretter.dart';
-import 'package:training_organizer/services/trainees_filter_service.dart';
 import 'package:training_organizer/statistic/ausbilder_statistics_view.dart';
+import 'package:training_organizer/statistic/ui/aktiven_statistics_view.dart';
 
 List<Qualification> _dataJugendausbildung = [
   Pirat(null),
   Bronze(null),
   Silber(null),
   Gold(null),
-];
-
-List<Qualification> _dataAusbildung = [
-  RsBronze(null),
-  RsSilber(null),
-  RSiWRD(null),
-  San(null),
-  FachSan(null),
-  Wasserretter(null),
-  RettSan(null),
 ];
 
 int getqualificationOfYear(AppState state, String qualification, int year) {
@@ -59,7 +42,7 @@ class StatisticsView extends StatelessWidget {
                   style: TextStyle(fontSize: 30),
                 ),
                 _Jugendschwimmausbildungen(),
-                _AktivenAusbildungen(),
+                AktivenAusbildungen(),
                 Ausbilder(),
               ],
             ),
@@ -138,42 +121,6 @@ class _JugendschwimmausbildungenState
                         isVisible: true,
                         textStyle: TextStyle(fontWeight: FontWeight.bold)),
                     pointColorMapper: (_, __) => Colors.green),
-              ],
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-class _AktivenAusbildungen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AppCubit, AppState>(
-      builder: (context, state) {
-        return Column(
-          children: [
-            const SubHeader(text: 'Aktiven Ausbildungen'),
-            SfCartesianChart(
-              primaryXAxis: const CategoryAxis(
-                labelStyle: TextStyle(fontSize: 15),
-              ),
-              primaryYAxis:
-                  const NumericAxis(minimum: 0, maximum: 20, interval: 5),
-              series: <CartesianSeries>[
-                ColumnSeries<Qualification, String>(
-                    dataSource: _dataAusbildung,
-                    xValueMapper: (Qualification qualification, _) =>
-                        qualification.shortName,
-                    yValueMapper: (Qualification qualification, _) =>
-                        TraineesFilterService
-                            .getCountOfTraineesWithQualification(
-                                state.trainees, qualification.name),
-                    dataLabelSettings: const DataLabelSettings(
-                        isVisible: true,
-                        textStyle: TextStyle(fontWeight: FontWeight.bold)),
-                    pointColorMapper: (_, __) => Colors.red),
               ],
             ),
           ],
