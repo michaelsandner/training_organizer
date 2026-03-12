@@ -1,8 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/model/qualifications.dart';
+import 'package:training_organizer/model/qualifications/assitent.dart';
+import 'package:training_organizer/model/qualifications/ausbilder_r1.dart';
+import 'package:training_organizer/model/qualifications/ausbilder_r2.dart';
+import 'package:training_organizer/model/qualifications/ausbilder_s1.dart';
+import 'package:training_organizer/model/qualifications/ausbilder_s2.dart';
 import 'package:training_organizer/model/qualifications/bronze.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
+import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 import 'package:training_organizer/model/qualifications/silber.dart';
 
 void main() {
@@ -110,6 +116,148 @@ void main() {
       final q2 = Qualifications(qualifications: [Bronze(null)]);
       test('Then equality operator returns false', () {
         expect(q1 == q2, isFalse);
+      });
+    });
+
+    group(
+        'Given a Qualifications object with Ausbildungsassistent and no Ausbilder',
+        () {
+      final qualifications = Qualifications(
+        qualifications: [Assistent(null)],
+      );
+      group(
+          'When hasQualificationAndNoHigherQualification is called with ausbildungsAssistent',
+          () {
+        test('Then it returns true', () {
+          expect(
+            qualifications
+                .hasQualificationAndNoHigherQualification(ausbildungsAssistent),
+            isTrue,
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with Ausbildungsassistent and AusbilderS1',
+        () {
+      final qualifications = Qualifications(
+        qualifications: [Assistent(null), AusbilderS1(null)],
+      );
+      group(
+          'When hasQualificationAndNoHigherQualification is called with ausbildungsAssistent',
+          () {
+        test('Then it returns false', () {
+          expect(
+            qualifications
+                .hasQualificationAndNoHigherQualification(ausbildungsAssistent),
+            isFalse,
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with Ausbildungsassistent and AusbilderS2',
+        () {
+      final qualifications = Qualifications(
+        qualifications: [Assistent(null), AusbilderS2(null)],
+      );
+      group(
+          'When hasQualificationAndNoHigherQualification is called with ausbildungsAssistent',
+          () {
+        test('Then it returns false', () {
+          expect(
+            qualifications
+                .hasQualificationAndNoHigherQualification(ausbildungsAssistent),
+            isFalse,
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with Ausbildungsassistent and AusbilderR1',
+        () {
+      final qualifications = Qualifications(
+        qualifications: [Assistent(null), AusbilderR1(null)],
+      );
+      group(
+          'When hasQualificationAndNoHigherQualification is called with ausbildungsAssistent',
+          () {
+        test('Then it returns false', () {
+          expect(
+            qualifications
+                .hasQualificationAndNoHigherQualification(ausbildungsAssistent),
+            isFalse,
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with Ausbildungsassistent and AusbilderR2',
+        () {
+      final qualifications = Qualifications(
+        qualifications: [Assistent(null), AusbilderR2(null)],
+      );
+      group(
+          'When hasQualificationAndNoHigherQualification is called with ausbildungsAssistent',
+          () {
+        test('Then it returns false', () {
+          expect(
+            qualifications
+                .hasQualificationAndNoHigherQualification(ausbildungsAssistent),
+            isFalse,
+          );
+        });
+      });
+    });
+
+    group('Given a Qualifications object without Ausbildungsassistent', () {
+      final qualifications = Qualifications(
+        qualifications: [Gold(null)],
+      );
+      group(
+          'When hasQualificationAndNoHigherQualification is called with ausbildungsAssistent',
+          () {
+        test('Then it returns false', () {
+          expect(
+            qualifications
+                .hasQualificationAndNoHigherQualification(ausbildungsAssistent),
+            isFalse,
+          );
+        });
+      });
+    });
+
+    group('Given a Qualifications object with Gold', () {
+      final qualifications = Qualifications(
+        qualifications: [Gold(null)],
+      );
+      group('When hasQualificationAndNoHigherQualification is called with gold',
+          () {
+        test('Then it returns true', () {
+          expect(
+            qualifications.hasQualificationAndNoHigherQualification(gold),
+            isTrue,
+          );
+        });
+      });
+    });
+
+    group('Given a Qualifications object without Gold', () {
+      final qualifications = Qualifications(
+        qualifications: [Silber(null)],
+      );
+      group('When hasQualificationAndNoHigherQualification is called with gold',
+          () {
+        test('Then it returns false', () {
+          expect(
+            qualifications.hasQualificationAndNoHigherQualification(gold),
+            isFalse,
+          );
+        });
       });
     });
   });

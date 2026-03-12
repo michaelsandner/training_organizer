@@ -44,6 +44,27 @@ class Qualifications {
     return false;
   }
 
+  /// Returns true if the trainee has the specified qualification and does not have any higher qualification that is still valid.
+  bool hasQualificationAndNoHigherQualification(String qualificationName) {
+    final hasValidQualification = qualifications.any((element) =>
+        element.name == qualificationName &&
+        element.isUp2Date == QualificationValidity.valid);
+
+    if (qualificationName == ausbildungsAssistent &&
+        _hasAusbilderQualification()) {
+      return false;
+    }
+    return hasValidQualification;
+  }
+
+  bool _hasAusbilderQualification() {
+    return qualifications.any((element) =>
+        element.name == ausbilderS1 ||
+        element.name == ausbilderS2 ||
+        element.name == ausbilderR1 ||
+        element.name == ausbilderR2);
+  }
+
   /// Returns the highest qualification as a single character:
   /// 'G' for Gold, 'S' for Silber, 'B' for Bronze, 'P' for Pirat, or '' if no qualifications are present.
   String getHighestQualification() {
