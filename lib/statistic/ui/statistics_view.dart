@@ -8,8 +8,8 @@ import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
 import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/qualifications/silber.dart';
-import 'package:training_organizer/statistic/ausbilder_statistics_view.dart';
 import 'package:training_organizer/statistic/ui/aktiven_statistics_view.dart';
+import 'package:training_organizer/statistic/ui/ausbilder_statistics_view.dart';
 
 List<Qualification> _dataJugendausbildung = [
   Pirat(null),
