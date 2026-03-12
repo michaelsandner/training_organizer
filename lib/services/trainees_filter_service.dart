@@ -36,8 +36,8 @@ class TraineesFilterService {
   static int getCountOfTraineesWithQualification(
       List<Trainee> trainees, String qualification) {
     return trainees
-        .where(
-            (element) => element.qualifications.hasQualification(qualification))
+        .where((element) => element.qualifications
+            .hasQualificationAndNoHigherQualification(qualification))
         .length;
   }
 }
