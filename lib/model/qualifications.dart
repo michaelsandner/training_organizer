@@ -3,6 +3,7 @@ import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 import 'package:training_organizer/model/qualifications/qualification_validity.dart';
 
+/// The set of qualifications a trainee has.
 class Qualifications {
   final List<Qualification> qualifications;
 
@@ -43,6 +44,8 @@ class Qualifications {
     return false;
   }
 
+  /// Returns the highest qualification as a single character:
+  /// 'G' for Gold, 'S' for Silber, 'B' for Bronze, 'P' for Pirat, or '' if no qualifications are present.
   String getHighestQualification() {
     if (qualifications.isEmpty) {
       return '';
