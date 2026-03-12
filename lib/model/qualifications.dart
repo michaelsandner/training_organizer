@@ -83,6 +83,28 @@ class Qualifications {
     return qualifications.any((element) => element.name == rettsan);
   }
 
+  /// Returns a list of only the highest qualifications. For example, if a trainee has both RettSan and San, only RettSan will be returned for the icons, since it is the higher qualification.
+  List<Qualification> getOnlyHighestQualifications() {
+    List<Qualification> filteredQualifications =
+        List<Qualification>.from(qualifications);
+    if (qualifications
+        .any((element) => element.name == rettungsschwimmerSilber)) {
+      filteredQualifications
+          .removeWhere((element) => element.name == rettungsschwimmerBronze);
+    }
+
+    if (_hasAusbilderQualification()) {
+      filteredQualifications
+          .removeWhere((element) => element.name == ausbildungsAssistent);
+    }
+
+    if (_hasWasserretterQualification()) {
+      filteredQualifications.removeWhere(
+          (element) => element.name == rsiwrd || element.name == san);
+    }
+    return filteredQualifications;
+  }
+
   /// Returns the highest qualification as a single character:
   /// 'G' for Gold, 'S' for Silber, 'B' for Bronze, 'P' for Pirat, or '' if no qualifications are present.
   String getHighestQualification() {
