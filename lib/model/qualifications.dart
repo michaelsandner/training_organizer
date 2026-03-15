@@ -37,7 +37,8 @@ class Qualifications {
   bool hasQualification(String qualificationName) {
     for (var element in qualifications) {
       if (element.name == qualificationName &&
-          element.isUp2Date == QualificationValidity.valid) {
+          (element.isUp2Date == QualificationValidity.valid ||
+              element.isUp2Date == QualificationValidity.expiring)) {
         return true;
       }
     }
@@ -48,7 +49,8 @@ class Qualifications {
   bool hasQualificationAndNoHigherQualification(String qualificationName) {
     final hasValidQualification = qualifications.any((element) =>
         element.name == qualificationName &&
-        element.isUp2Date == QualificationValidity.valid);
+        (element.isUp2Date == QualificationValidity.valid ||
+            element.isUp2Date == QualificationValidity.expiring));
 
     if (qualificationName == ausbildungsAssistent &&
         _hasAusbilderQualification()) {
@@ -62,6 +64,12 @@ class Qualifications {
 
     if ((qualificationName == san || qualificationName == fachsan) &&
         _hasRettSanQualification()) {
+      return false;
+    }
+
+    if ((qualificationName == rettungsschwimmerBronze) &&
+        qualifications
+            .any((element) => element.name == rettungsschwimmerSilber)) {
       return false;
     }
     return hasValidQualification;
