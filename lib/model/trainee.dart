@@ -93,6 +93,8 @@ class Trainee {
         return 'Mittwoch';
       case Group.active:
         return 'Aktiv';
+      case Group.leisure:
+        return 'Freizeit';
       default:
         return '';
     }
@@ -118,6 +120,8 @@ class Trainee {
         return Group.wednesday;
       case 'active':
         return Group.active;
+      case 'leisure':
+        return Group.leisure;
       default:
         return Group.waitingList;
     }
