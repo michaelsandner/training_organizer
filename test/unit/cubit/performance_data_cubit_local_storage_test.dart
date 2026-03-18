@@ -2,7 +2,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:training_organizer/data/performance_data_file_handler.dart';
-import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/performance_data/domain/category_position.dart';
 import 'package:training_organizer/performance_data/domain/performance_category.dart';
 import 'package:training_organizer/performance_data/domain/performance_data.dart';
@@ -17,8 +16,6 @@ class MockLocalStorageRepository extends Mock
     implements LocalStorageRepository {}
 
 class FakePerformanceData extends Fake implements PerformanceData {}
-
-class FakeTraineeList extends Fake implements List<Trainee> {}
 
 void main() {
   late MockPerformanceDataFileHandler mockFileHandler;
