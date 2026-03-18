@@ -10,14 +10,28 @@ import 'package:training_organizer/performance_data/domain/badge_import_result.d
 import 'package:training_organizer/performance_data/domain/category_position.dart';
 import 'package:training_organizer/performance_data/domain/ical_parser/ical_parser.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_state.dart';
+import 'package:training_organizer/services/local_storage_repository.dart';
 
 class PerformanceDataCubit extends Cubit<PerformanceDataState> {
   final PerformanceDataFileHandler _fileHandler;
   final IcalParser _icalParser;
+  final LocalStorageRepository? _localStorageRepository;
 
-  PerformanceDataCubit(this._fileHandler, {IcalParser? icalParser})
-      : _icalParser = icalParser ?? IcalParser(),
+  PerformanceDataCubit(
+    this._fileHandler, {
+    IcalParser? icalParser,
+    LocalStorageRepository? localStorageRepository,
+  })  : _icalParser = icalParser ?? IcalParser(),
+        _localStorageRepository = localStorageRepository,
         super(PerformanceDataState.initial());
+
+  Future<void> init() async {
+    if (_localStorageRepository == null) return;
+    final data = await _localStorageRepository.loadPerformanceData();
+    if (data != null) {
+      emit(state.copyWith(performanceData: data));
+    }
+  }
 
   Future<void> importData() async {
     try {
@@ -28,6 +42,7 @@ class PerformanceDataCubit extends Cubit<PerformanceDataState> {
           performanceData: data,
           showLoadingSpinner: false,
         ));
+        _savePerformanceData(data);
       } else {
         emit(state.copyWith(showLoadingSpinner: false));
       }
@@ -66,6 +81,7 @@ class PerformanceDataCubit extends Cubit<PerformanceDataState> {
 
     final updatedData = data.updateCount(path, newCount);
     emit(state.copyWith(performanceData: updatedData));
+    _savePerformanceData(updatedData);
   }
 
   /// Updates a single position inside a leaf category.
@@ -77,6 +93,7 @@ class PerformanceDataCubit extends Cubit<PerformanceDataState> {
     final updatedData =
         data.updatePosition(categoryPath, positionIndex, updatedPosition);
     emit(state.copyWith(performanceData: updatedData));
+    _savePerformanceData(updatedData);
   }
 
   /// Adds a new empty position to a leaf category.
@@ -86,6 +103,7 @@ class PerformanceDataCubit extends Cubit<PerformanceDataState> {
 
     final updatedData = data.addPosition(categoryPath);
     emit(state.copyWith(performanceData: updatedData));
+    _savePerformanceData(updatedData);
   }
 
   /// Removes a position from a leaf category.
@@ -95,6 +113,7 @@ class PerformanceDataCubit extends Cubit<PerformanceDataState> {
 
     final updatedData = data.removePosition(categoryPath, positionIndex);
     emit(state.copyWith(performanceData: updatedData));
+    _savePerformanceData(updatedData);
   }
 
   void setSelectedYear(int year) {
@@ -165,6 +184,7 @@ class PerformanceDataCubit extends Cubit<PerformanceDataState> {
       performanceData: updatedData,
       clearIcalImportResult: true,
     ));
+    _savePerformanceData(updatedData);
   }
 
   void dismissIcalImport() {
@@ -239,10 +259,15 @@ class PerformanceDataCubit extends Cubit<PerformanceDataState> {
       performanceData: data,
       clearBadgeImportResult: true,
     ));
+    _savePerformanceData(data!);
   }
 
   void dismissBadgeImport() {
     emit(state.copyWith(clearBadgeImportResult: true));
+  }
+
+  void _savePerformanceData(PerformanceData data) {
+    _localStorageRepository?.savePerformanceData(data);
   }
 
   Future<String?> _pickIcalFile() async {
