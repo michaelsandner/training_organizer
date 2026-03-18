@@ -14,7 +14,7 @@ void main() {
           'forename': 'Max',
           'email': 'email@web.de',
           'dateOfBirth': '2000-05-01',
-          'trainingGroup': 'groupA',
+          'trainingGroup': 'group1',
           'phone': '000111',
           'comment': 'this is a comment',
           'isMember': true,
@@ -40,6 +40,7 @@ void main() {
         expect(output.comment, 'this is a comment');
         expect(output.isMember, true);
         expect(output.isTrainer, true);
+        expect(output.trainingGroup, Group.group1);
 
         expect(output.qualifications.qualifications[0].name,
             'RettungsschwimmerBronze');
@@ -53,6 +54,26 @@ void main() {
 
         expect(
             output.qualifications.qualifications[0].date, DateTime(2020, 9, 9));
+      });
+
+      test('Then training group leisure should be set', () {
+        final inputJson = {
+          'surname': 'Mustermann',
+          'forename': 'Max',
+          'email': 'email@web.de',
+          'dateOfBirth': '2000-05-01',
+          'trainingGroup': 'leisure',
+          'phone': '000111',
+          'comment': 'this is a comment',
+          'isMember': true,
+          'isTrainer': false,
+          'qualification': null,
+          'qualifications': null,
+        };
+
+        final output = Trainee.fromJson(inputJson);
+
+        expect(output.trainingGroup, Group.leisure);
       });
     });
 
@@ -93,6 +114,26 @@ void main() {
         final output = input.toJson();
 
         expect(output, expectedJson);
+      });
+
+      test('Then training group leisure should be set', () {
+        final input = Trainee(
+          surname: 'Mustermann',
+          forename: 'Max',
+          email: 'email@web.de',
+          phone: '000111',
+          dateOfBirth: '2000-05-01',
+          registrationDate: '01.01.2023',
+          trainingGroup: Group.leisure,
+          comment: 'this is a comment',
+          isMember: true,
+          isTrainer: false,
+          qualifications: const Qualifications(),
+        );
+
+        final output = input.toJson();
+
+        expect(output['trainingGroup'], 'leisure');
       });
     });
   });
