@@ -5,7 +5,6 @@ import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/performance_data/domain/performance_data.dart';
 import 'package:training_organizer/services/local_storage_repository.dart';
 
 class MockSendEmailUseCase extends Mock implements SendEmailUseCase {}
@@ -186,6 +185,3 @@ void main() {
     });
   });
 }
-
-// Required for mocktail to register fallback values
-class FakePerformanceData extends Fake implements PerformanceData {}

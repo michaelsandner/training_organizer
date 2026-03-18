@@ -229,6 +229,7 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void _saveTrainees(List<Trainee> trainees) {
+    // Fire-and-forget: save failures do not affect in-memory state
     _localStorageRepository?.saveTrainees(trainees);
   }
 

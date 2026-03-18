@@ -267,6 +267,7 @@ class PerformanceDataCubit extends Cubit<PerformanceDataState> {
   }
 
   void _savePerformanceData(PerformanceData data) {
+    // Fire-and-forget: save failures do not affect in-memory state
     _localStorageRepository?.savePerformanceData(data);
   }
 
