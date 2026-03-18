@@ -5,6 +5,7 @@ import 'package:training_organizer/blocklist/ui/pdf_view.dart';
 import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/data/email_handler.dart';
 import 'package:training_organizer/data/file_handler.dart';
+import 'package:training_organizer/data/local_storage_service.dart';
 import 'package:training_organizer/data/performance_data_file_handler.dart';
 import 'package:training_organizer/edit/ui/trainee_view.dart';
 import 'package:training_organizer/email/domain/send_email_usecase.dart';
@@ -27,13 +28,17 @@ class MyApp extends StatelessWidget {
           RepositoryProvider(create: (context) => EmailHandler()),
           RepositoryProvider(create: (context) => FileExporter()),
           RepositoryProvider(create: (context) => PerformanceDataFileHandler()),
+          RepositoryProvider(create: (context) => LocalStorageService()),
         ],
         child: MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) {
               final sendEmailUseCase =
                   SendEmailUseCase(context.read<EmailHandler>());
-              return AppCubit(sendEmailUseCase)..init();
+              return AppCubit(
+                sendEmailUseCase,
+                localStorageRepository: context.read<LocalStorageService>(),
+              )..init();
             }),
             BlocProvider(
               create: (context) {
@@ -47,7 +52,8 @@ class MyApp extends StatelessWidget {
             BlocProvider(
               create: (context) => PerformanceDataCubit(
                 context.read<PerformanceDataFileHandler>(),
-              ),
+                localStorageRepository: context.read<LocalStorageService>(),
+              )..init(),
             ),
           ],
           child: MaterialApp(
