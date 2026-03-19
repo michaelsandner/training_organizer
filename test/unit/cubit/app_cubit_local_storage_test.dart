@@ -5,7 +5,7 @@ import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/services/local_storage_repository.dart';
+import 'package:training_organizer/data/local_storage_repository.dart';
 
 class MockSendEmailUseCase extends Mock implements SendEmailUseCase {}
 
@@ -179,6 +179,44 @@ void main() {
           act: (cubit) => cubit.updateTraineeList([trainee]),
           verify: (_) {
             verifyNever(() => mockLocalStorage.saveTrainees(any()));
+          },
+        );
+      });
+    });
+
+    group('Given local storage has saved trainees', () {
+      final cachedTrainee = Trainee(
+        surname: 'Cached',
+        forename: 'User',
+        email: 'cached@example.de',
+        dateOfBirth: '1990-01-01',
+        trainingGroup: Group.group2,
+      );
+
+      setUp(() {
+        when(() => mockLocalStorage.loadTrainees())
+            .thenAnswer((_) async => [cachedTrainee]);
+      });
+
+      group('When updateTraineeList is called with new import data', () {
+        blocTest<AppCubit, AppState>(
+          'Then only the new imported trainees are used and cached state is overwritten',
+          build: () => AppCubit(
+            mockSendEmailUseCase,
+            localStorageRepository: mockLocalStorage,
+          ),
+          act: (cubit) => cubit.updateTraineeList([trainee]),
+          expect: () => [
+            predicate<AppState>((s) =>
+                s.trainees.length == 1 &&
+                s.trainees.first == trainee &&
+                !s.trainees.contains(cachedTrainee)),
+            predicate<AppState>((s) =>
+                s.selectedTrainees.length == 1 &&
+                s.selectedTrainees.first == trainee),
+          ],
+          verify: (_) {
+            verify(() => mockLocalStorage.saveTrainees([trainee])).called(1);
           },
         );
       });

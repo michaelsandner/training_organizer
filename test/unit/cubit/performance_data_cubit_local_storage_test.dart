@@ -7,7 +7,7 @@ import 'package:training_organizer/performance_data/domain/performance_category.
 import 'package:training_organizer/performance_data/domain/performance_data.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_cubit.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_state.dart';
-import 'package:training_organizer/services/local_storage_repository.dart';
+import 'package:training_organizer/data/local_storage_repository.dart';
 
 class MockPerformanceDataFileHandler extends Mock
     implements PerformanceDataFileHandler {}
@@ -147,7 +147,7 @@ void main() {
               children: [
                 PerformanceCategory(
                   name: 'Unterkategorie',
-                  positions: [
+                  positionen: [
                     CategoryPosition(anzahl: 2, beschreibung: 'Test'),
                   ],
                 ),
@@ -179,7 +179,7 @@ void main() {
               children: [
                 PerformanceCategory(
                   name: 'Unterkategorie',
-                  positions: [
+                  positionen: [
                     CategoryPosition(anzahl: 2, beschreibung: 'Test'),
                   ],
                 ),
@@ -222,6 +222,46 @@ void main() {
           verify: (_) {
             verifyNever(
                 () => mockLocalStorage.savePerformanceData(any()));
+          },
+        );
+      });
+    });
+
+    group('Given local storage has cached performance data', () {
+      const cachedData = PerformanceData(
+        categories: [
+          PerformanceCategory(name: 'Cached Category', anzahl: 99),
+        ],
+      );
+
+      setUp(() {
+        when(() => mockLocalStorage.loadPerformanceData())
+            .thenAnswer((_) async => cachedData);
+      });
+
+      group('When importData is called with a new file', () {
+        setUp(() {
+          when(() => mockFileHandler.importPerformanceData())
+              .thenAnswer((_) async => testData);
+        });
+
+        blocTest<PerformanceDataCubit, PerformanceDataState>(
+          'Then only the newly imported data is used and cached state is overwritten',
+          build: () => PerformanceDataCubit(
+            mockFileHandler,
+            localStorageRepository: mockLocalStorage,
+          ),
+          act: (cubit) => cubit.importData(),
+          expect: () => [
+            PerformanceDataState.initial().copyWith(showLoadingSpinner: true),
+            predicate<PerformanceDataState>((s) =>
+                s.performanceData == testData &&
+                s.performanceData != cachedData &&
+                !s.showLoadingSpinner),
+          ],
+          verify: (_) {
+            verify(() => mockLocalStorage.savePerformanceData(testData))
+                .called(1);
           },
         );
       });
