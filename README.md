@@ -9,13 +9,18 @@ Durch die Installation ist die App auf dem Desktop des mobile devices verfügbar
 ## Features
 
 ### Performance Data
-Daten für die Jahresstatistik können aus einem ICAL file importiert werden. Dafür muss die ICAL file exportiert werden und in der Performance Data view eingelesen werden. Die ICAL file wird auf entsprechende Einträge durchsucht und fügt sie der Statistik als Einträge hinzu.
-Damit die Einträge gelesen/gefunden werden können, muss TAG und TEILNEHMENDE in der Beschreibung des Kalnedertermins gesetzt sein.
 
-Beispiel:  
-TAG:Fortbildung  
-TEILNEHMENDE:3
+#### ICAL Kalender auslesen
+Daten für die Jahresstatistik können aus einem ICAL file importiert werden. Dafür muss die ICAL file aus dem Kalender exportiert werden und in der Performance Data view eingelesen werden.  
+Die ICAL file wird auf entsprechende Einträge durchsucht und fügt sie der Statistik als Einträge hinzu.
+Damit die Einträge gelesen/gefunden werden können, muss `TAG` und `TEILNEHMENDE` in der Beschreibung des Kalnedertermins gesetzt sein.
 
+**Beispiel:**  
+`TAG:Fortbildung`  
+`TEILNEHMENDE:3`
+
+**Berechnung der Einträge:**  
+Dauer des Kalendereintrages * Anzahl der Teilnehmenden
 
 #### Verfügbare Tags
 Fortbildung  
