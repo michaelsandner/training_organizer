@@ -9,8 +9,9 @@ import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/performance_data/domain/badge_import_result.dart';
 import 'package:training_organizer/performance_data/domain/category_position.dart';
 import 'package:training_organizer/performance_data/domain/ical_parser/ical_parser.dart';
+import 'package:training_organizer/data/local_storage_repository.dart';
+import 'package:training_organizer/performance_data/domain/performance_data.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_state.dart';
-import 'package:training_organizer/services/local_storage_repository.dart';
 
 class PerformanceDataCubit extends Cubit<PerformanceDataState> {
   final PerformanceDataFileHandler _fileHandler;

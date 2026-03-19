@@ -4,7 +4,7 @@ import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/model/training_group.dart';
 import 'package:training_organizer/services/date_service.dart';
-import 'package:training_organizer/services/local_storage_repository.dart';
+import 'package:training_organizer/data/local_storage_repository.dart';
 
 class AppCubit extends Cubit<AppState> {
   final SendEmailUseCase _sendEmailUseCase;

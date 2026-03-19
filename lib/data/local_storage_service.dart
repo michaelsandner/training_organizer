@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/performance_data/domain/performance_data.dart';
-import 'package:training_organizer/services/local_storage_repository.dart';
+import 'package:training_organizer/data/local_storage_repository.dart';
 
 class LocalStorageService implements LocalStorageRepository {
   static const String _traineesKey = 'trainees';
