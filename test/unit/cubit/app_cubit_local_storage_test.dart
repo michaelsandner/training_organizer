@@ -32,10 +32,6 @@ void main() {
         .thenAnswer((_) async {});
     when(() => mockLocalStorage.loadTrainees())
         .thenAnswer((_) async => null);
-    when(() => mockLocalStorage.loadPerformanceData())
-        .thenAnswer((_) async => null);
-    when(() => mockLocalStorage.savePerformanceData(any()))
-        .thenAnswer((_) async {});
   });
 
   group('AppCubit with LocalStorage', () {
@@ -66,13 +62,13 @@ void main() {
     group('Given local storage is empty', () {
       group('When init is called', () {
         blocTest<AppCubit, AppState>(
-          'Then initial empty state is emitted',
+          'Then state remains unchanged',
           build: () => AppCubit(
             mockSendEmailUseCase,
             localStorageRepository: mockLocalStorage,
           ),
           act: (cubit) => cubit.init(),
-          expect: () => [AppState.initial()],
+          expect: () => [],
         );
       });
     });
