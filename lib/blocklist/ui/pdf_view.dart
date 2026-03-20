@@ -7,18 +7,18 @@ import 'package:pdf/pdf.dart';
 // ignore: depend_on_referenced_packages
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
 import 'package:training_organizer/model/trainee.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_cubit.dart';
 
 class PdfView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<AppCubit>();
+    final selectionCubit = context.read<FilterTraineesCubit>();
     return PdfPreview(
         build: (format) => _generatePdf(
               format,
-              cubit.state.selectedTrainees,
-              cubit.getSelectedGroupName(),
+              selectionCubit.state.selectedTrainees,
+              selectionCubit.getSelectedGroupName(),
             ));
   }
 

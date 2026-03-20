@@ -1,20 +1,22 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/email/domain/send_email_usecase.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_cubit.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_state.dart';
 
-class MockSendEmailUseCase extends Mock implements SendEmailUseCase {}
 
 class MockLocalStorageRepository extends Mock
     implements LocalStorageRepository {}
 
+class MockFilterTraineesCubit extends Mock implements FilterTraineesCubit {}
+
 void main() {
-  late MockSendEmailUseCase mockSendEmailUseCase;
   late MockLocalStorageRepository mockLocalStorage;
+  late MockFilterTraineesCubit mockFilterTraineesCubit;
 
   final trainee = Trainee(
     surname: 'Muster',
@@ -25,16 +27,21 @@ void main() {
   );
 
   setUp(() {
-    mockSendEmailUseCase = MockSendEmailUseCase();
     mockLocalStorage = MockLocalStorageRepository();
+    mockFilterTraineesCubit = MockFilterTraineesCubit();
 
     when(() => mockLocalStorage.saveTrainees(any()))
         .thenAnswer((_) async {});
     when(() => mockLocalStorage.loadTrainees())
         .thenAnswer((_) async => null);
+    when(() => mockFilterTraineesCubit.state).thenReturn(FilterTraineesState.initial());
+    when(() => mockFilterTraineesCubit.setSelectedGroup(any(), any()))
+        .thenAnswer((_) {});
+    when(() => mockFilterTraineesCubit.getFilteredGroup(any()))
+        .thenReturn(FilterableGroup.all);
   });
 
-  group('AppCubit with LocalStorage', () {
+  group('TraineesCubit with LocalStorage', () {
     group('Given local storage has saved trainees', () {
       setUp(() {
         when(() => mockLocalStorage.loadTrainees())
@@ -42,17 +49,14 @@ void main() {
       });
 
       group('When init is called', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainees are loaded from local storage',
-          build: () => AppCubit(
-            mockSendEmailUseCase,
-            localStorageRepository: mockLocalStorage,
-          ),
+          build: () => TraineesCubit(localStorageRepository: mockLocalStorage,
+          )..setFilterTraineesCubit(mockFilterTraineesCubit),
           act: (cubit) => cubit.init(),
           expect: () => [
-            AppState.initial().copyWith(
+            TraineesState.initial().copyWith(
               trainees: [trainee],
-              selectedTrainees: [trainee],
             ),
           ],
         );
@@ -61,11 +65,9 @@ void main() {
 
     group('Given local storage is empty', () {
       group('When init is called', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then state remains unchanged',
-          build: () => AppCubit(
-            mockSendEmailUseCase,
-            localStorageRepository: mockLocalStorage,
+          build: () => TraineesCubit(localStorageRepository: mockLocalStorage,
           ),
           act: (cubit) => cubit.init(),
           expect: () => [],
@@ -75,12 +77,10 @@ void main() {
 
     group('Given a cubit with local storage', () {
       group('When updateTraineeList is called', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainees are saved to local storage',
-          build: () => AppCubit(
-            mockSendEmailUseCase,
-            localStorageRepository: mockLocalStorage,
-          ),
+          build: () => TraineesCubit(localStorageRepository: mockLocalStorage,
+          )..setFilterTraineesCubit(mockFilterTraineesCubit),
           act: (cubit) => cubit.updateTraineeList([trainee]),
           verify: (_) {
             verify(() => mockLocalStorage.saveTrainees([trainee])).called(1);
@@ -89,12 +89,10 @@ void main() {
       });
 
       group('When addTrainee is called', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainees are saved to local storage',
-          build: () => AppCubit(
-            mockSendEmailUseCase,
-            localStorageRepository: mockLocalStorage,
-          ),
+          build: () => TraineesCubit(localStorageRepository: mockLocalStorage,
+          )..setFilterTraineesCubit(mockFilterTraineesCubit),
           act: (cubit) => cubit.addTrainee(trainee),
           verify: (_) {
             verify(() => mockLocalStorage.saveTrainees([trainee])).called(1);
@@ -103,16 +101,13 @@ void main() {
       });
 
       group('When removeTrainee is called', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainees are saved to local storage',
-          seed: () => AppState.initial().copyWith(
+          seed: () => TraineesState.initial().copyWith(
             trainees: [trainee],
-            selectedTrainees: [trainee],
           ),
-          build: () => AppCubit(
-            mockSendEmailUseCase,
-            localStorageRepository: mockLocalStorage,
-          ),
+          build: () => TraineesCubit(localStorageRepository: mockLocalStorage,
+          )..setFilterTraineesCubit(mockFilterTraineesCubit),
           act: (cubit) => cubit.removeTrainee(trainee),
           verify: (_) {
             verify(() => mockLocalStorage.saveTrainees([])).called(1);
@@ -129,16 +124,13 @@ void main() {
           trainingGroup: Group.group1,
         );
 
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then updated trainees are saved to local storage',
-          seed: () => AppState.initial().copyWith(
+          seed: () => TraineesState.initial().copyWith(
             trainees: [trainee],
-            selectedTrainees: [trainee],
           ),
-          build: () => AppCubit(
-            mockSendEmailUseCase,
-            localStorageRepository: mockLocalStorage,
-          ),
+          build: () => TraineesCubit(localStorageRepository: mockLocalStorage,
+          )..setFilterTraineesCubit(mockFilterTraineesCubit),
           act: (cubit) => cubit.replaceTrainee(trainee, updatedTrainee),
           verify: (_) {
             verify(() =>
@@ -149,16 +141,13 @@ void main() {
       });
 
       group('When upgradeTrainee is called', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then updated trainees are saved to local storage',
-          seed: () => AppState.initial().copyWith(
+          seed: () => TraineesState.initial().copyWith(
             trainees: [trainee],
-            selectedTrainees: [trainee],
           ),
-          build: () => AppCubit(
-            mockSendEmailUseCase,
-            localStorageRepository: mockLocalStorage,
-          ),
+          build: () => TraineesCubit(localStorageRepository: mockLocalStorage,
+          )..setFilterTraineesCubit(mockFilterTraineesCubit),
           act: (cubit) => cubit.upgradeTrainee(trainee),
           verify: (_) {
             verify(() => mockLocalStorage.saveTrainees(any())).called(1);
@@ -169,9 +158,9 @@ void main() {
 
     group('Given no local storage repository', () {
       group('When updateTraineeList is called', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then no save is attempted',
-          build: () => AppCubit(mockSendEmailUseCase),
+          build: () => TraineesCubit(),
           act: (cubit) => cubit.updateTraineeList([trainee]),
           verify: (_) {
             verifyNever(() => mockLocalStorage.saveTrainees(any()));
@@ -195,21 +184,16 @@ void main() {
       });
 
       group('When updateTraineeList is called with new import data', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then only the new imported trainees are used and cached state is overwritten',
-          build: () => AppCubit(
-            mockSendEmailUseCase,
-            localStorageRepository: mockLocalStorage,
-          ),
+          build: () => TraineesCubit(localStorageRepository: mockLocalStorage,
+          )..setFilterTraineesCubit(mockFilterTraineesCubit),
           act: (cubit) => cubit.updateTraineeList([trainee]),
           expect: () => [
-            predicate<AppState>((s) =>
+            predicate<TraineesState>((s) =>
                 s.trainees.length == 1 &&
                 s.trainees.first == trainee &&
                 !s.trainees.contains(cachedTrainee)),
-            predicate<AppState>((s) =>
-                s.selectedTrainees.length == 1 &&
-                s.selectedTrainees.first == trainee),
           ],
           verify: (_) {
             verify(() => mockLocalStorage.saveTrainees([trainee])).called(1);

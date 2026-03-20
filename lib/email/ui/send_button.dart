@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
 import 'package:training_organizer/email/ui/email_cubit.dart';
 
 class SendButton extends StatelessWidget {
@@ -14,7 +14,7 @@ class SendButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
       child: ElevatedButton.icon(
         onPressed: () {
-          final trainees = context.read<AppCubit>().state.trainees;
+          final trainees = context.read<TraineesCubit>().state.trainees;
           emailCubit.sendEmail(trainees);
         },
         icon: const Icon(Icons.send, size: 24),

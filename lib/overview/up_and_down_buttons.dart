@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 class UpAndDownButtons extends StatelessWidget {
@@ -16,7 +16,7 @@ class UpAndDownButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<AppCubit>();
+    final cubit = context.read<TraineesCubit>();
     return Row(
       children: [
         IconButton(

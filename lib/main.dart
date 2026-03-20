@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/app_drawer.dart';
 import 'package:training_organizer/blocklist/ui/pdf_view.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
 import 'package:training_organizer/data/email_handler.dart';
 import 'package:training_organizer/data/file_handler.dart';
 import 'package:training_organizer/data/local_storage_service.dart';
@@ -11,6 +11,8 @@ import 'package:training_organizer/edit/ui/trainee_view.dart';
 import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/email/ui/email_cubit.dart';
 import 'package:training_organizer/import_export/ui/file_cubit.dart';
+import 'package:training_organizer/overview/domain/filter_trainees_usecase.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_cubit.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_cubit.dart';
 import 'package:training_organizer/statistic/ui/statistics_view.dart';
 
@@ -33,12 +35,17 @@ class MyApp extends StatelessWidget {
         child: MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) {
-              final sendEmailUseCase =
-                  SendEmailUseCase(context.read<EmailHandler>());
-              return AppCubit(
-                sendEmailUseCase,
+              return TraineesCubit(
                 localStorageRepository: context.read<LocalStorageService>(),
               )..init();
+            }),
+            BlocProvider(create: (context) {
+              final filterCubit =
+                  FilterTraineesCubit(FilterTraineesUseCase());
+              context
+                  .read<TraineesCubit>()
+                  .setFilterTraineesCubit(filterCubit);
+              return filterCubit;
             }),
             BlocProvider(
               create: (context) {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/edit/domain/add_qualification_usecase.dart';
 import 'package:training_organizer/edit/ui/basic_trainee_info.dart';
 import 'package:training_organizer/edit/ui/certification_cubit.dart';
@@ -68,7 +68,7 @@ class _AddTraineeState extends State<AddTrainee> {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final cubit = context.read<AppCubit>();
+    final cubit = context.read<TraineesCubit>();
 
     void clearInputControllers() {
       foreNameController.clear();

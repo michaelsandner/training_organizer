@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
 import 'package:training_organizer/import_export/ui/file_cubit.dart';
 
 class NoTraineeDataState extends StatelessWidget {
@@ -38,7 +38,7 @@ class NoTraineeDataState extends StatelessWidget {
             FilledButton.icon(
               onPressed: () async {
                 final fileCubit = context.read<FileCubit>();
-                final appCubit = context.read<AppCubit>();
+                final appCubit = context.read<TraineesCubit>();
                 final trainees = await fileCubit.loadFile();
                 appCubit.updateTraineeList(trainees);
               },

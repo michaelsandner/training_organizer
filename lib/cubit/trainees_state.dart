@@ -30,36 +30,24 @@ enum Group {
 }
 
 @immutable
-class AppState with EquatableMixin {
+class TraineesState with EquatableMixin {
   final List<Trainee> trainees;
-  final List<Trainee> selectedTrainees;
 
-  final FilterableGroup selectedGroup;
-
-  const AppState({
+  const TraineesState({
     required this.trainees,
-    required this.selectedGroup,
-    required this.selectedTrainees,
   });
 
-  factory AppState.initial() {
-    return const AppState(
+  factory TraineesState.initial() {
+    return const TraineesState(
       trainees: [],
-      selectedGroup: FilterableGroup.all,
-      selectedTrainees: [],
     );
   }
 
-  AppState copyWith({
+  TraineesState copyWith({
     List<Trainee>? trainees,
-    FilterableGroup? selectedGroup,
-    List<Trainee>? selectedTrainees,
-    bool? showLoadingSpinner,
   }) {
-    return AppState(
+    return TraineesState(
       trainees: trainees ?? this.trainees,
-      selectedGroup: selectedGroup ?? this.selectedGroup,
-      selectedTrainees: selectedTrainees ?? this.selectedTrainees,
     );
   }
 
@@ -69,9 +57,5 @@ class AppState with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [
-        trainees,
-        selectedGroup,
-        selectedTrainees,
-      ];
+  List<Object?> get props => [trainees];
 }

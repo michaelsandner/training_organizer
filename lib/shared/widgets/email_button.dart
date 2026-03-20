@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/email/ui/email_cubit.dart';
 import 'package:training_organizer/model/trainee.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_cubit.dart';
 
 class EmailButton extends StatelessWidget {
   final Trainee trainee;
@@ -12,11 +13,13 @@ class EmailButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<AppCubit>();
+    final emailCubit = context.read<EmailCubit>();
+    final selectedGroup =
+        context.read<FilterTraineesCubit>().state.selectedGroup;
 
     return IconButton(
       padding: const EdgeInsets.all(0),
-      onPressed: () => cubit.sendMailToTrainee(trainee),
+      onPressed: () => emailCubit.sendMailToTrainee(trainee, selectedGroup),
       icon: const Icon(Icons.mail),
       color: Colors.blue,
     );

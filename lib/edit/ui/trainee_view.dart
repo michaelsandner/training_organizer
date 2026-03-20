@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/edit/ui/drop_down.dart';
 import 'package:training_organizer/edit/ui/no_trainee_data_state.dart';
 import 'package:training_organizer/edit/ui/selected_count.dart';
@@ -18,7 +18,7 @@ class TraineeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return BlocBuilder<AppCubit, AppState>(
+    return BlocBuilder<TraineesCubit, TraineesState>(
       builder: (context, appState) {
         if (appState.trainees.isEmpty) {
           return const NoTraineeDataState();
