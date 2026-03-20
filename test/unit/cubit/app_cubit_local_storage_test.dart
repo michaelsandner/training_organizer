@@ -6,15 +6,20 @@ import 'package:training_organizer/cubit/app_state.dart';
 import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
+import 'package:training_organizer/overview/selection/selection_cubit.dart';
+import 'package:training_organizer/overview/selection/selection_state.dart';
 
 class MockSendEmailUseCase extends Mock implements SendEmailUseCase {}
 
 class MockLocalStorageRepository extends Mock
     implements LocalStorageRepository {}
 
+class MockSelectionCubit extends Mock implements SelectionCubit {}
+
 void main() {
   late MockSendEmailUseCase mockSendEmailUseCase;
   late MockLocalStorageRepository mockLocalStorage;
+  late MockSelectionCubit mockSelectionCubit;
 
   final trainee = Trainee(
     surname: 'Muster',
@@ -27,11 +32,17 @@ void main() {
   setUp(() {
     mockSendEmailUseCase = MockSendEmailUseCase();
     mockLocalStorage = MockLocalStorageRepository();
+    mockSelectionCubit = MockSelectionCubit();
 
     when(() => mockLocalStorage.saveTrainees(any()))
         .thenAnswer((_) async {});
     when(() => mockLocalStorage.loadTrainees())
         .thenAnswer((_) async => null);
+    when(() => mockSelectionCubit.state).thenReturn(SelectionState.initial());
+    when(() => mockSelectionCubit.setSelectedGroup(any(), any()))
+        .thenAnswer((_) {});
+    when(() => mockSelectionCubit.getFilteredGroup(any()))
+        .thenReturn(FilterableGroup.all);
   });
 
   group('AppCubit with LocalStorage', () {
@@ -47,12 +58,11 @@ void main() {
           build: () => AppCubit(
             mockSendEmailUseCase,
             localStorageRepository: mockLocalStorage,
-          ),
+          )..setSelectionCubit(mockSelectionCubit),
           act: (cubit) => cubit.init(),
           expect: () => [
             AppState.initial().copyWith(
               trainees: [trainee],
-              selectedTrainees: [trainee],
             ),
           ],
         );
@@ -80,7 +90,7 @@ void main() {
           build: () => AppCubit(
             mockSendEmailUseCase,
             localStorageRepository: mockLocalStorage,
-          ),
+          )..setSelectionCubit(mockSelectionCubit),
           act: (cubit) => cubit.updateTraineeList([trainee]),
           verify: (_) {
             verify(() => mockLocalStorage.saveTrainees([trainee])).called(1);
@@ -94,7 +104,7 @@ void main() {
           build: () => AppCubit(
             mockSendEmailUseCase,
             localStorageRepository: mockLocalStorage,
-          ),
+          )..setSelectionCubit(mockSelectionCubit),
           act: (cubit) => cubit.addTrainee(trainee),
           verify: (_) {
             verify(() => mockLocalStorage.saveTrainees([trainee])).called(1);
@@ -107,12 +117,11 @@ void main() {
           'Then trainees are saved to local storage',
           seed: () => AppState.initial().copyWith(
             trainees: [trainee],
-            selectedTrainees: [trainee],
           ),
           build: () => AppCubit(
             mockSendEmailUseCase,
             localStorageRepository: mockLocalStorage,
-          ),
+          )..setSelectionCubit(mockSelectionCubit),
           act: (cubit) => cubit.removeTrainee(trainee),
           verify: (_) {
             verify(() => mockLocalStorage.saveTrainees([])).called(1);
@@ -133,12 +142,11 @@ void main() {
           'Then updated trainees are saved to local storage',
           seed: () => AppState.initial().copyWith(
             trainees: [trainee],
-            selectedTrainees: [trainee],
           ),
           build: () => AppCubit(
             mockSendEmailUseCase,
             localStorageRepository: mockLocalStorage,
-          ),
+          )..setSelectionCubit(mockSelectionCubit),
           act: (cubit) => cubit.replaceTrainee(trainee, updatedTrainee),
           verify: (_) {
             verify(() =>
@@ -153,12 +161,11 @@ void main() {
           'Then updated trainees are saved to local storage',
           seed: () => AppState.initial().copyWith(
             trainees: [trainee],
-            selectedTrainees: [trainee],
           ),
           build: () => AppCubit(
             mockSendEmailUseCase,
             localStorageRepository: mockLocalStorage,
-          ),
+          )..setSelectionCubit(mockSelectionCubit),
           act: (cubit) => cubit.upgradeTrainee(trainee),
           verify: (_) {
             verify(() => mockLocalStorage.saveTrainees(any())).called(1);
@@ -200,16 +207,13 @@ void main() {
           build: () => AppCubit(
             mockSendEmailUseCase,
             localStorageRepository: mockLocalStorage,
-          ),
+          )..setSelectionCubit(mockSelectionCubit),
           act: (cubit) => cubit.updateTraineeList([trainee]),
           expect: () => [
             predicate<AppState>((s) =>
                 s.trainees.length == 1 &&
                 s.trainees.first == trainee &&
                 !s.trainees.contains(cachedTrainee)),
-            predicate<AppState>((s) =>
-                s.selectedTrainees.length == 1 &&
-                s.selectedTrainees.first == trainee),
           ],
           verify: (_) {
             verify(() => mockLocalStorage.saveTrainees([trainee])).called(1);
