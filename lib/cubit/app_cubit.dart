@@ -4,11 +4,12 @@ import 'package:training_organizer/data/local_storage_repository.dart';
 import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/model/training_group.dart';
-import 'package:training_organizer/services/date_service.dart';
+import 'package:training_organizer/overview/selection/selection_cubit.dart';
 
 class AppCubit extends Cubit<AppState> {
   final SendEmailUseCase _sendEmailUseCase;
   final LocalStorageRepository? _localStorageRepository;
+  SelectionCubit? _selectionCubit;
 
   AppCubit(
     this._sendEmailUseCase, {
@@ -16,11 +17,16 @@ class AppCubit extends Cubit<AppState> {
   })  : _localStorageRepository = localStorageRepository,
         super(AppState.initial());
 
+  void setSelectionCubit(SelectionCubit selectionCubit) {
+    _selectionCubit = selectionCubit;
+  }
+
   Future<void> init() async {
     if (_localStorageRepository != null) {
       final trainees = await _localStorageRepository.loadTrainees();
       if (trainees != null && trainees.isNotEmpty) {
-        emit(state.copyWith(trainees: trainees, selectedTrainees: trainees));
+        emit(state.copyWith(trainees: trainees));
+        _selectionCubit?.setSelectedGroup(FilterableGroup.all, trainees);
       }
     }
   }
@@ -28,7 +34,7 @@ class AppCubit extends Cubit<AppState> {
   void updateTraineeList(List<Trainee> trainees) {
     emit(state.copyWith(trainees: trainees));
     _saveTrainees(trainees);
-    setSelectedGroup(FilterableGroup.all);
+    _selectionCubit?.setSelectedGroup(FilterableGroup.all, trainees);
   }
 
   void processTrainee(Trainee? oldTrainee, Trainee newTrainee) {
@@ -49,26 +55,28 @@ class AppCubit extends Cubit<AppState> {
 
     emit(state.copyWith(trainees: updatedTraineeList));
     _saveTrainees(updatedTraineeList);
-    setSelectedGroup(FilterableGroup.all);
+    _selectionCubit?.setSelectedGroup(FilterableGroup.all, updatedTraineeList);
   }
 
   void removeTrainee(Trainee trainee) {
-    final selectedGroup = state.selectedGroup;
+    final selectedGroup =
+        _selectionCubit?.state.selectedGroup ?? FilterableGroup.all;
     final updatedTraineeList = [...state.trainees];
     updatedTraineeList.removeWhere((element) => element == trainee);
     emit(state.copyWith(trainees: updatedTraineeList));
     _saveTrainees(updatedTraineeList);
-    setSelectedGroup(selectedGroup);
+    _selectionCubit?.setSelectedGroup(selectedGroup, updatedTraineeList);
   }
 
   void replaceTrainee(Trainee oldTrainee, Trainee newTrainee) {
-    final selectedGroup = state.selectedGroup;
+    final selectedGroup =
+        _selectionCubit?.state.selectedGroup ?? FilterableGroup.all;
     final updatedTraineeList = [...state.trainees];
     updatedTraineeList.removeWhere((element) => element == oldTrainee);
     updatedTraineeList.add(newTrainee);
     emit(state.copyWith(trainees: updatedTraineeList));
     _saveTrainees(updatedTraineeList);
-    setSelectedGroup(selectedGroup);
+    _selectionCubit?.setSelectedGroup(selectedGroup, updatedTraineeList);
   }
 
   bool isDowngradePossible(Trainee trainee) {
@@ -96,7 +104,12 @@ class AppCubit extends Cubit<AppState> {
 
     emit(state.copyWith(trainees: currentList));
     _saveTrainees(currentList);
-    setSelectedGroup(getFilteredGroup(newGroup));
+    if (_selectionCubit != null) {
+      _selectionCubit!.setSelectedGroup(
+        _selectionCubit!.getFilteredGroup(newGroup),
+        currentList,
+      );
+    }
   }
 
   Group getUpgradedGroup(Group currentGroup) {
@@ -117,109 +130,6 @@ class AppCubit extends Cubit<AppState> {
     return current.lastGroup!;
   }
 
-  void setSelectedGroup(FilterableGroup? selectedValue) {
-    if (selectedValue == null || selectedValue == FilterableGroup.all) {
-      emit(state.copyWith(
-          selectedGroup: selectedValue, selectedTrainees: state.trainees));
-    } else {
-      final filteredItems = state.trainees
-          .where((element) => element.trainingGroup == getGroup(selectedValue))
-          .toList();
-
-      _sortTrainees(selectedValue, filteredItems);
-
-      emit(state.copyWith(
-          selectedGroup: selectedValue, selectedTrainees: filteredItems));
-    }
-  }
-
-  void _sortTrainees(FilterableGroup selectedValue, List<Trainee> trainees) {
-    if (selectedValue != FilterableGroup.waitingList) {
-      _sortBySurename(trainees);
-    }
-
-    if (selectedValue == FilterableGroup.waitingList) {
-      _sortByRegistrationDate(trainees);
-    }
-  }
-
-  void _sortBySurename(List<Trainee> trainees) {
-    trainees.sort((a, b) => a.surname.compareTo(b.surname));
-  }
-
-  void _sortByRegistrationDate(List<Trainee> trainees) {
-    trainees.sort((a, b) => DateService.parseToDate(a.registrationDate)
-        .compareTo(DateService.parseToDate(b.registrationDate)));
-  }
-
-  FilterableGroup getFilteredGroup(Group group) {
-    switch (group) {
-      case Group.waitingList:
-        return FilterableGroup.waitingList;
-      case Group.invited:
-        return FilterableGroup.invited;
-      case Group.group1:
-        return FilterableGroup.group1;
-      case Group.group2:
-        return FilterableGroup.group2;
-      case Group.group3:
-        return FilterableGroup.group3;
-      case Group.group4:
-        return FilterableGroup.group4;
-      case Group.group5:
-        return FilterableGroup.group5;
-      case Group.wednesday:
-        return FilterableGroup.wednesday;
-      case Group.active:
-        return FilterableGroup.active;
-      case Group.leisure:
-        return FilterableGroup.leisure;
-    }
-  }
-
-  Group getGroup(FilterableGroup filterableGroup) {
-    switch (filterableGroup) {
-      case FilterableGroup.waitingList:
-        return Group.waitingList;
-      case FilterableGroup.invited:
-        return Group.invited;
-      case FilterableGroup.group1:
-        return Group.group1;
-      case FilterableGroup.group2:
-        return Group.group2;
-      case FilterableGroup.group3:
-        return Group.group3;
-      case FilterableGroup.group4:
-        return Group.group4;
-      case FilterableGroup.group5:
-        return Group.group5;
-      case FilterableGroup.wednesday:
-        return Group.wednesday;
-      case FilterableGroup.active:
-        return Group.active;
-      case FilterableGroup.leisure:
-        return Group.leisure;
-      default:
-        return Group.waitingList;
-    }
-  }
-
-  String getSelectedGroupName() {
-    return getNameForFilteredGroupEnum(state.selectedGroup);
-  }
-
-  String getNameForFilteredGroupEnum(FilterableGroup? filterableGroup) {
-    if (filterableGroup == null || filterableGroup == FilterableGroup.all) {
-      return 'All';
-    }
-
-    final group = getGroup(filterableGroup);
-
-    final current =
-        trainingGroups.singleWhere((element) => element.group == group);
-    return current.name;
-  }
-
   String getNameForGroupEnum(Group? group) {
     final current =
         trainingGroups.singleWhere((element) => element.group == group);
@@ -231,8 +141,9 @@ class AppCubit extends Cubit<AppState> {
     _localStorageRepository?.saveTrainees(trainees);
   }
 
-  Future<void> sendMailToTrainee(Trainee trainee) async {
-    if (state.selectedGroup == FilterableGroup.waitingList) {
+  Future<void> sendMailToTrainee(
+      Trainee trainee, FilterableGroup selectedGroup) async {
+    if (selectedGroup == FilterableGroup.waitingList) {
       await _sendEmailUseCase.sendEmailToSingleWaitingListTrainee(trainee);
     } else {
       await _sendEmailUseCase.sendEmailToSingleTrainee(trainee);

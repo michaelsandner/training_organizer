@@ -11,6 +11,7 @@ import 'package:training_organizer/edit/ui/trainee_view.dart';
 import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/email/ui/email_cubit.dart';
 import 'package:training_organizer/import_export/ui/file_cubit.dart';
+import 'package:training_organizer/overview/selection/selection_cubit.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_cubit.dart';
 import 'package:training_organizer/statistic/ui/statistics_view.dart';
 
@@ -39,6 +40,11 @@ class MyApp extends StatelessWidget {
                 sendEmailUseCase,
                 localStorageRepository: context.read<LocalStorageService>(),
               )..init();
+            }),
+            BlocProvider(create: (context) {
+              final selectionCubit = SelectionCubit();
+              context.read<AppCubit>().setSelectionCubit(selectionCubit);
+              return selectionCubit;
             }),
             BlocProvider(
               create: (context) {
