@@ -1,24 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
-import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/model/training_group.dart';
-import 'package:training_organizer/overview/selection/selection_cubit.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_cubit.dart';
 
-class AppCubit extends Cubit<AppState> {
-  final SendEmailUseCase _sendEmailUseCase;
+class TraineesCubit extends Cubit<TraineesState> {
   final LocalStorageRepository? _localStorageRepository;
-  SelectionCubit? _selectionCubit;
+  FilterTraineesCubit? _filterTraineesCubit;
 
-  AppCubit(
-    this._sendEmailUseCase, {
+  TraineesCubit({
     LocalStorageRepository? localStorageRepository,
   })  : _localStorageRepository = localStorageRepository,
-        super(AppState.initial());
+        super(TraineesState.initial());
 
-  void setSelectionCubit(SelectionCubit selectionCubit) {
-    _selectionCubit = selectionCubit;
+  void setFilterTraineesCubit(FilterTraineesCubit filterTraineesCubit) {
+    _filterTraineesCubit = filterTraineesCubit;
   }
 
   Future<void> init() async {
@@ -26,7 +23,7 @@ class AppCubit extends Cubit<AppState> {
       final trainees = await _localStorageRepository.loadTrainees();
       if (trainees != null && trainees.isNotEmpty) {
         emit(state.copyWith(trainees: trainees));
-        _selectionCubit?.setSelectedGroup(FilterableGroup.all, trainees);
+        _filterTraineesCubit?.setSelectedGroup(FilterableGroup.all, trainees);
       }
     }
   }
@@ -34,7 +31,7 @@ class AppCubit extends Cubit<AppState> {
   void updateTraineeList(List<Trainee> trainees) {
     emit(state.copyWith(trainees: trainees));
     _saveTrainees(trainees);
-    _selectionCubit?.setSelectedGroup(FilterableGroup.all, trainees);
+    _filterTraineesCubit?.setSelectedGroup(FilterableGroup.all, trainees);
   }
 
   void processTrainee(Trainee? oldTrainee, Trainee newTrainee) {
@@ -55,28 +52,29 @@ class AppCubit extends Cubit<AppState> {
 
     emit(state.copyWith(trainees: updatedTraineeList));
     _saveTrainees(updatedTraineeList);
-    _selectionCubit?.setSelectedGroup(FilterableGroup.all, updatedTraineeList);
+    _filterTraineesCubit?.setSelectedGroup(
+        FilterableGroup.all, updatedTraineeList);
   }
 
   void removeTrainee(Trainee trainee) {
     final selectedGroup =
-        _selectionCubit?.state.selectedGroup ?? FilterableGroup.all;
+        _filterTraineesCubit?.state.selectedGroup ?? FilterableGroup.all;
     final updatedTraineeList = [...state.trainees];
     updatedTraineeList.removeWhere((element) => element == trainee);
     emit(state.copyWith(trainees: updatedTraineeList));
     _saveTrainees(updatedTraineeList);
-    _selectionCubit?.setSelectedGroup(selectedGroup, updatedTraineeList);
+    _filterTraineesCubit?.setSelectedGroup(selectedGroup, updatedTraineeList);
   }
 
   void replaceTrainee(Trainee oldTrainee, Trainee newTrainee) {
     final selectedGroup =
-        _selectionCubit?.state.selectedGroup ?? FilterableGroup.all;
+        _filterTraineesCubit?.state.selectedGroup ?? FilterableGroup.all;
     final updatedTraineeList = [...state.trainees];
     updatedTraineeList.removeWhere((element) => element == oldTrainee);
     updatedTraineeList.add(newTrainee);
     emit(state.copyWith(trainees: updatedTraineeList));
     _saveTrainees(updatedTraineeList);
-    _selectionCubit?.setSelectedGroup(selectedGroup, updatedTraineeList);
+    _filterTraineesCubit?.setSelectedGroup(selectedGroup, updatedTraineeList);
   }
 
   bool isDowngradePossible(Trainee trainee) {
@@ -104,9 +102,9 @@ class AppCubit extends Cubit<AppState> {
 
     emit(state.copyWith(trainees: currentList));
     _saveTrainees(currentList);
-    if (_selectionCubit != null) {
-      _selectionCubit!.setSelectedGroup(
-        _selectionCubit!.getFilteredGroup(newGroup),
+    if (_filterTraineesCubit != null) {
+      _filterTraineesCubit!.setSelectedGroup(
+        _filterTraineesCubit!.getFilteredGroup(newGroup),
         currentList,
       );
     }
@@ -139,14 +137,5 @@ class AppCubit extends Cubit<AppState> {
   void _saveTrainees(List<Trainee> trainees) {
     // Fire-and-forget: save failures do not affect in-memory state
     _localStorageRepository?.saveTrainees(trainees);
-  }
-
-  Future<void> sendMailToTrainee(
-      Trainee trainee, FilterableGroup selectedGroup) async {
-    if (selectedGroup == FilterableGroup.waitingList) {
-      await _sendEmailUseCase.sendEmailToSingleWaitingListTrainee(trainee);
-    } else {
-      await _sendEmailUseCase.sendEmailToSingleTrainee(trainee);
-    }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_cubit.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_state.dart';
 
@@ -45,7 +45,7 @@ class PerformanceDataActionButtonRow extends StatelessWidget {
               heroTag: 'badge_import',
               onPressed: () => context
                   .read<PerformanceDataCubit>()
-                  .importBadges(context.read<AppCubit>().state.trainees),
+                  .importBadges(context.read<TraineesCubit>().state.trainees),
               icon: const Icon(Icons.military_tech),
               label: const Text('Abzeichen importieren'),
             ),

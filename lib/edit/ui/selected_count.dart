@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/overview/selection/selection_cubit.dart';
-import 'package:training_organizer/overview/selection/selection_state.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_cubit.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_state.dart';
 
 class SelectedCount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SelectionCubit, SelectionState>(
+    return BlocBuilder<FilterTraineesCubit, FilterTraineesState>(
       builder: (context, state) {
         final count = state.selectedTrainees.length;
         return SizedBox(

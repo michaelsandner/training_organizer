@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/model/qualifications/fachsan.dart';
 import 'package:training_organizer/model/qualifications/qualification.dart';
 import 'package:training_organizer/model/qualifications/rettsan.dart';
@@ -27,7 +27,7 @@ List<Qualification> _dataAusbildung = [
 class AktivenAusbildungen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppCubit, AppState>(
+    return BlocBuilder<TraineesCubit, TraineesState>(
       builder: (context, state) {
         return Column(
           children: [

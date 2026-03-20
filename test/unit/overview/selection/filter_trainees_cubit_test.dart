@@ -1,16 +1,17 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/overview/selection/selection_cubit.dart';
-import 'package:training_organizer/overview/selection/selection_state.dart';
+import 'package:training_organizer/overview/domain/filter_trainees_usecase.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_cubit.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_state.dart';
 
 void main() {
-  group('SelectionCubit', () {
-    late SelectionCubit cubit;
+  group('FilterTraineesCubit', () {
+    late FilterTraineesCubit cubit;
 
     setUp(() {
-      cubit = SelectionCubit();
+      cubit = FilterTraineesCubit(FilterTraineesUseCase());
     });
 
     group('Given a list of trainees from different groups', () {
@@ -40,13 +41,13 @@ void main() {
       final allTrainees = [waitingListTrainee, group1Trainee, group2Trainee];
 
       group('When setSelectedGroup with FilterableGroup.all', () {
-        blocTest<SelectionCubit, SelectionState>(
+        blocTest<FilterTraineesCubit, FilterTraineesState>(
           'Then all trainees are selected',
           build: () => cubit,
           act: (cubit) =>
               cubit.setSelectedGroup(FilterableGroup.all, allTrainees),
           expect: () => [
-            SelectionState.initial().copyWith(
+            FilterTraineesState.initial().copyWith(
               selectedGroup: FilterableGroup.all,
               selectedTrainees: allTrainees,
             ),
@@ -55,12 +56,12 @@ void main() {
       });
 
       group('When setSelectedGroup with null', () {
-        blocTest<SelectionCubit, SelectionState>(
+        blocTest<FilterTraineesCubit, FilterTraineesState>(
           'Then all trainees are selected with group set to all',
           build: () => cubit,
           act: (cubit) => cubit.setSelectedGroup(null, allTrainees),
           expect: () => [
-            SelectionState.initial().copyWith(
+            FilterTraineesState.initial().copyWith(
               selectedGroup: FilterableGroup.all,
               selectedTrainees: allTrainees,
             ),
@@ -69,13 +70,13 @@ void main() {
       });
 
       group('When setSelectedGroup with FilterableGroup.group1', () {
-        blocTest<SelectionCubit, SelectionState>(
+        blocTest<FilterTraineesCubit, FilterTraineesState>(
           'Then only group1 trainees are selected',
           build: () => cubit,
           act: (cubit) =>
               cubit.setSelectedGroup(FilterableGroup.group1, allTrainees),
           expect: () => [
-            SelectionState.initial().copyWith(
+            FilterTraineesState.initial().copyWith(
               selectedGroup: FilterableGroup.group1,
               selectedTrainees: [group1Trainee],
             ),
@@ -84,13 +85,13 @@ void main() {
       });
 
       group('When setSelectedGroup with FilterableGroup.waitingList', () {
-        blocTest<SelectionCubit, SelectionState>(
+        blocTest<FilterTraineesCubit, FilterTraineesState>(
           'Then only waitingList trainees are selected',
           build: () => cubit,
           act: (cubit) =>
               cubit.setSelectedGroup(FilterableGroup.waitingList, allTrainees),
           expect: () => [
-            SelectionState.initial().copyWith(
+            FilterTraineesState.initial().copyWith(
               selectedGroup: FilterableGroup.waitingList,
               selectedTrainees: [waitingListTrainee],
             ),
@@ -125,13 +126,13 @@ void main() {
       final allTrainees = [traineeC, traineeA, traineeB];
 
       group('When setSelectedGroup with non-waitingList group', () {
-        blocTest<SelectionCubit, SelectionState>(
+        blocTest<FilterTraineesCubit, FilterTraineesState>(
           'Then trainees are sorted by surname',
           build: () => cubit,
           act: (cubit) =>
               cubit.setSelectedGroup(FilterableGroup.group1, allTrainees),
           expect: () => [
-            SelectionState.initial().copyWith(
+            FilterTraineesState.initial().copyWith(
               selectedGroup: FilterableGroup.group1,
               selectedTrainees: [traineeA, traineeB, traineeC],
             ),
@@ -170,13 +171,13 @@ void main() {
       final allTrainees = [traineeFirst, traineeSecond, traineeThird];
 
       group('When setSelectedGroup with FilterableGroup.waitingList', () {
-        blocTest<SelectionCubit, SelectionState>(
+        blocTest<FilterTraineesCubit, FilterTraineesState>(
           'Then trainees are sorted by registration date',
           build: () => cubit,
           act: (cubit) =>
               cubit.setSelectedGroup(FilterableGroup.waitingList, allTrainees),
           expect: () => [
-            SelectionState.initial().copyWith(
+            FilterTraineesState.initial().copyWith(
               selectedGroup: FilterableGroup.waitingList,
               selectedTrainees: [traineeSecond, traineeFirst, traineeThird],
             ),

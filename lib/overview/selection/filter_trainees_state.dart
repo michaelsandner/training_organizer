@@ -1,30 +1,30 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 @immutable
-class SelectionState with EquatableMixin {
+class FilterTraineesState with EquatableMixin {
   final List<Trainee> selectedTrainees;
   final FilterableGroup selectedGroup;
 
-  const SelectionState({
+  const FilterTraineesState({
     required this.selectedTrainees,
     required this.selectedGroup,
   });
 
-  factory SelectionState.initial() {
-    return const SelectionState(
+  factory FilterTraineesState.initial() {
+    return const FilterTraineesState(
       selectedTrainees: [],
       selectedGroup: FilterableGroup.all,
     );
   }
 
-  SelectionState copyWith({
+  FilterTraineesState copyWith({
     List<Trainee>? selectedTrainees,
     FilterableGroup? selectedGroup,
   }) {
-    return SelectionState(
+    return FilterTraineesState(
       selectedTrainees: selectedTrainees ?? this.selectedTrainees,
       selectedGroup: selectedGroup ?? this.selectedGroup,
     );

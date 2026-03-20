@@ -1,34 +1,29 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/email/domain/send_email_usecase.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/overview/selection/selection_cubit.dart';
-import 'package:training_organizer/overview/selection/selection_state.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_cubit.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_state.dart';
 
-class MockSendEmailUseCase extends Mock implements SendEmailUseCase {}
-
-class MockSelectionCubit extends Mock implements SelectionCubit {}
+class MockFilterTraineesCubit extends Mock implements FilterTraineesCubit {}
 
 void main() {
-  group('AppCubit', () {
-    late AppCubit cubit;
-    late AppState state;
-    late MockSendEmailUseCase mockSendEmailUseCase;
-    late MockSelectionCubit mockSelectionCubit;
+  group('TraineesCubit', () {
+    late TraineesCubit cubit;
+    late TraineesState state;
+    late MockFilterTraineesCubit mockFilterTraineesCubit;
 
     setUp(() {
-      mockSendEmailUseCase = MockSendEmailUseCase();
-      mockSelectionCubit = MockSelectionCubit();
-      when(() => mockSelectionCubit.state).thenReturn(SelectionState.initial());
-      when(() => mockSelectionCubit.setSelectedGroup(any(), any()))
+      mockFilterTraineesCubit = MockFilterTraineesCubit();
+      when(() => mockFilterTraineesCubit.state).thenReturn(FilterTraineesState.initial());
+      when(() => mockFilterTraineesCubit.setSelectedGroup(any(), any()))
           .thenAnswer((_) {});
-      when(() => mockSelectionCubit.getFilteredGroup(any()))
+      when(() => mockFilterTraineesCubit.getFilteredGroup(any()))
           .thenReturn(FilterableGroup.all);
-      cubit = AppCubit(mockSendEmailUseCase)
-        ..setSelectionCubit(mockSelectionCubit);
+      cubit = TraineesCubit()
+        ..setFilterTraineesCubit(mockFilterTraineesCubit);
     });
 
     group('Given trainee in waitingList', () {
@@ -45,7 +40,7 @@ void main() {
       });
 
       group('When upgradeTrainee', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainee should be updated to group invited',
           seed: () => state,
           build: () => cubit,
@@ -67,7 +62,7 @@ void main() {
       });
 
       group('When upgradeTrainee twice', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainee should be updated to group 5',
           seed: () => state,
           build: () => cubit,
@@ -103,7 +98,7 @@ void main() {
       });
 
       group('When addTrainee with same trainee', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainee should not be added to trainee list',
           seed: () => state,
           build: () => cubit,
@@ -127,7 +122,7 @@ void main() {
       });
 
       group('When upgradeTrainee', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainee should be updated to group 1',
           seed: () => state,
           build: () => cubit,
@@ -163,7 +158,7 @@ void main() {
       });
 
       group('When upgradeTrainee', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainee should be updated to group 2',
           seed: () => state,
           build: () => cubit,
@@ -199,7 +194,7 @@ void main() {
       });
 
       group('When upgradeTrainee', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainee should be updated to group 4',
           seed: () => state,
           build: () => cubit,
@@ -235,7 +230,7 @@ void main() {
       });
 
       group('When upgradeTrainee', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainee should be updated to group 3',
           seed: () => state,
           build: () => cubit,
@@ -271,7 +266,7 @@ void main() {
       });
 
       group('When upgradeTrainee', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainee should be updated to group wednesday',
           seed: () => state,
           build: () => cubit,
@@ -307,7 +302,7 @@ void main() {
       });
 
       group('When upgradeTrainee', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainee should be updated to group active',
           seed: () => state,
           build: () => cubit,
@@ -351,7 +346,7 @@ void main() {
           trainingGroup: Group.waitingList,
         );
 
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainee should be added to trainee list',
           seed: () => state,
           build: () => cubit,
@@ -436,7 +431,7 @@ void main() {
       });
 
       group('When removeTrainee', () {
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainee should be removed from trainee list',
           seed: () => state,
           build: () => cubit,
@@ -456,7 +451,7 @@ void main() {
           trainingGroup: Group.group1,
         );
 
-        blocTest<AppCubit, AppState>(
+        blocTest<TraineesCubit, TraineesState>(
           'Then trainee should be replaced in trainee list',
           seed: () => state,
           build: () => cubit,
@@ -468,9 +463,9 @@ void main() {
       });
     });
 
-    group('Given SelectionCubit is set', () {
+    group('Given FilterTraineesCubit is set', () {
       group('When upgradeTrainee', () {
-        test('Then SelectionCubit is updated with new group', () {
+        test('Then FilterTraineesCubit is updated with new group', () {
           final trainee = Trainee(
             surname: 'Test',
             forename: 'User',
@@ -478,13 +473,13 @@ void main() {
             dateOfBirth: '2000-01-01',
             trainingGroup: Group.waitingList,
           );
-          when(() => mockSelectionCubit.getFilteredGroup(Group.invited))
+          when(() => mockFilterTraineesCubit.getFilteredGroup(Group.invited))
               .thenReturn(FilterableGroup.invited);
 
-          cubit.emit(AppState(trainees: [trainee]));
+          cubit.emit(TraineesState(trainees: [trainee]));
           cubit.upgradeTrainee(trainee);
 
-          verify(() => mockSelectionCubit.setSelectedGroup(
+          verify(() => mockFilterTraineesCubit.setSelectedGroup(
                 FilterableGroup.invited,
                 any(),
               )).called(1);
@@ -492,7 +487,7 @@ void main() {
       });
 
       group('When addTrainee', () {
-        test('Then SelectionCubit is reset to all', () {
+        test('Then FilterTraineesCubit is reset to all', () {
           final trainee = Trainee(
             surname: 'Test',
             forename: 'User',
@@ -503,7 +498,7 @@ void main() {
 
           cubit.addTrainee(trainee);
 
-          verify(() => mockSelectionCubit.setSelectedGroup(
+          verify(() => mockFilterTraineesCubit.setSelectedGroup(
                 FilterableGroup.all,
                 any(),
               )).called(1);
