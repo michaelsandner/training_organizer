@@ -8,12 +8,12 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/overview/selection/selection_cubit.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_cubit.dart';
 
 class PdfView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final selectionCubit = context.read<SelectionCubit>();
+    final selectionCubit = context.read<FilterTraineesCubit>();
     return PdfPreview(
         build: (format) => _generatePdf(
               format,

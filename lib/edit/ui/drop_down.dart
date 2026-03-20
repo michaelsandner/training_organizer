@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/cubit/app_state.dart';
-import 'package:training_organizer/overview/selection/selection_cubit.dart';
-import 'package:training_organizer/overview/selection/selection_state.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_cubit.dart';
+import 'package:training_organizer/overview/selection/filter_trainees_state.dart';
 
 class DropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final selectionCubit = context.read<SelectionCubit>();
-    return BlocBuilder<SelectionCubit, SelectionState>(
+    final selectionCubit = context.read<FilterTraineesCubit>();
+    return BlocBuilder<FilterTraineesCubit, FilterTraineesState>(
       builder: (context, state) {
         return DropdownButton<FilterableGroup>(
             focusColor: Colors.white,
@@ -28,7 +28,7 @@ class DropDown extends StatelessWidget {
                             selectionCubit.getNameForFilteredGroupEnum(value))))
                 .toList(),
             onChanged: (FilterableGroup? value) => selectionCubit
-                .setSelectedGroup(value, context.read<AppCubit>().state.trainees));
+                .setSelectedGroup(value, context.read<TraineesCubit>().state.trainees));
       },
     );
   }

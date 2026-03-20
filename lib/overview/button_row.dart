@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
 import 'package:training_organizer/edit/ui/add_trainee.dart';
 import 'package:training_organizer/import_export/ui/file_cubit.dart';
 import 'package:training_organizer/import_export/ui/file_state.dart';
@@ -96,7 +96,7 @@ class ImportButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<AppCubit>();
+    final cubit = context.read<TraineesCubit>();
     final fileCubit = context.read<FileCubit>();
     return FloatingActionButton.extended(
       heroTag: 'importButton',
@@ -118,7 +118,7 @@ class ExportButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<AppCubit>();
+    final cubit = context.read<TraineesCubit>();
     final fileCubit = context.read<FileCubit>();
     return FloatingActionButton.extended(
       heroTag: 'exportButton',

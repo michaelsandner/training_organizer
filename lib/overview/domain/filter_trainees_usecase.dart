@@ -1,36 +1,27 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/model/training_group.dart';
-import 'package:training_organizer/overview/selection/selection_state.dart';
 import 'package:training_organizer/services/date_service.dart';
 
-class SelectionCubit extends Cubit<SelectionState> {
-  SelectionCubit() : super(SelectionState.initial());
-
-  void setSelectedGroup(
-      FilterableGroup? selectedValue, List<Trainee> allTrainees) {
-    if (selectedValue == null || selectedValue == FilterableGroup.all) {
-      emit(state.copyWith(
-        selectedGroup: selectedValue ?? FilterableGroup.all,
-        selectedTrainees: allTrainees,
-      ));
-    } else {
-      final filteredItems = allTrainees
-          .where((element) => element.trainingGroup == getGroup(selectedValue))
-          .toList();
-
-      _sortTrainees(selectedValue, filteredItems);
-
-      emit(state.copyWith(
-        selectedGroup: selectedValue,
-        selectedTrainees: filteredItems,
-      ));
+class FilterTraineesUseCase {
+  List<Trainee> execute(
+      List<Trainee> allTrainees, FilterableGroup? filterableGroup) {
+    if (filterableGroup == null || filterableGroup == FilterableGroup.all) {
+      return List.of(allTrainees);
     }
+
+    final group = getGroup(filterableGroup);
+    final filteredItems =
+        allTrainees.where((element) => element.trainingGroup == group).toList();
+
+    _sortTrainees(filterableGroup, filteredItems);
+
+    return filteredItems;
   }
 
-  void _sortTrainees(FilterableGroup selectedValue, List<Trainee> trainees) {
-    if (selectedValue == FilterableGroup.waitingList) {
+  void _sortTrainees(
+      FilterableGroup filterableGroup, List<Trainee> trainees) {
+    if (filterableGroup == FilterableGroup.waitingList) {
       _sortByRegistrationDate(trainees);
     } else {
       _sortBySurname(trainees);
@@ -98,17 +89,12 @@ class SelectionCubit extends Cubit<SelectionState> {
     }
   }
 
-  String getSelectedGroupName() {
-    return getNameForFilteredGroupEnum(state.selectedGroup);
-  }
-
-  String getNameForFilteredGroupEnum(FilterableGroup? filterableGroup) {
+  String getNameForFilteredGroup(FilterableGroup? filterableGroup) {
     if (filterableGroup == null || filterableGroup == FilterableGroup.all) {
       return 'All';
     }
 
     final group = getGroup(filterableGroup);
-
     final current =
         trainingGroups.singleWhere((element) => element.group == group);
     return current.name;

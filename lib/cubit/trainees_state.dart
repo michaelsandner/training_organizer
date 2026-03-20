@@ -30,23 +30,23 @@ enum Group {
 }
 
 @immutable
-class AppState with EquatableMixin {
+class TraineesState with EquatableMixin {
   final List<Trainee> trainees;
 
-  const AppState({
+  const TraineesState({
     required this.trainees,
   });
 
-  factory AppState.initial() {
-    return const AppState(
+  factory TraineesState.initial() {
+    return const TraineesState(
       trainees: [],
     );
   }
 
-  AppState copyWith({
+  TraineesState copyWith({
     List<Trainee>? trainees,
   }) {
-    return AppState(
+    return TraineesState(
       trainees: trainees ?? this.trainees,
     );
   }

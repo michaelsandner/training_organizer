@@ -1,4 +1,4 @@
-import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/model/qualifications.dart';
 
 class Trainee {

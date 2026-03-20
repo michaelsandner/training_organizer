@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/email/domain/send_email_usecase.dart';
 import 'package:training_organizer/email/ui/email_state.dart';
 import 'package:training_organizer/model/trainee.dart';
@@ -92,5 +92,14 @@ class EmailCubit extends Cubit<EmailState> {
       Group.invited,
     );
     await _sendEmailUseCase.sendEmailToInvitedListTrainees(invited);
+  }
+
+  Future<void> sendMailToTrainee(
+      Trainee trainee, FilterableGroup selectedGroup) async {
+    if (selectedGroup == FilterableGroup.waitingList) {
+      await _sendEmailUseCase.sendEmailToSingleWaitingListTrainee(trainee);
+    } else {
+      await _sendEmailUseCase.sendEmailToSingleTrainee(trainee);
+    }
   }
 }

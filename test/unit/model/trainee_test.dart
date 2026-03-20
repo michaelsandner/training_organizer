@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/model/qualifications.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/silber.dart';

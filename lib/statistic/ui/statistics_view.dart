@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/model/qualifications/bronze.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
@@ -18,7 +18,7 @@ List<Qualification> _dataJugendausbildung = [
   Gold(null),
 ];
 
-int getqualificationOfYear(AppState state, String qualification, int year) {
+int getqualificationOfYear(TraineesState state, String qualification, int year) {
   return state.trainees
       .where((element) =>
           element.qualifications.hasQualificationFromYear(qualification, year))
@@ -30,7 +30,7 @@ class StatisticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppCubit, AppState>(
+    return BlocBuilder<TraineesCubit, TraineesState>(
       builder: (context, state) {
         return Container(
           padding: const EdgeInsets.all(10),
@@ -68,7 +68,7 @@ class _JugendschwimmausbildungenState
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppCubit, AppState>(
+    return BlocBuilder<TraineesCubit, TraineesState>(
       builder: (context, state) {
         return Column(
           children: [

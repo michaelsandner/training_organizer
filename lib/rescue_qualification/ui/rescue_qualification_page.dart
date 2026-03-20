@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/app_cubit.dart';
-import 'package:training_organizer/cubit/app_state.dart';
+import 'package:training_organizer/cubit/trainees_cubit.dart';
+import 'package:training_organizer/cubit/trainees_state.dart';
 import 'package:training_organizer/import_export/ui/file_cubit.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/rescue_qualification/ui/rescue_qualification_cubit.dart';
@@ -58,7 +58,7 @@ class _RescueQualificationBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RescueQualificationCubit, RescueQualificationState>(
       builder: (context, rescueState) {
-        final allTrainees = context.watch<AppCubit>().state.trainees;
+        final allTrainees = context.watch<TraineesCubit>().state.trainees;
         final filtered =
             _filterTrainees(allTrainees, rescueState.selectedFilter);
 
