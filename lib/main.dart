@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/app_drawer.dart';
 import 'package:training_organizer/blocklist/ui/pdf_view.dart';
-import 'package:training_organizer/features/overview/trainees_cubit.dart';
-import 'package:training_organizer/data/email_handler.dart';
+import 'package:training_organizer/data/local_storage_repository.dart';
 import 'package:training_organizer/data/file_handler.dart';
-import 'package:training_organizer/data/local_storage_service.dart';
 import 'package:training_organizer/data/performance_data_file_handler.dart';
-import 'package:training_organizer/features/edit/trainee_view.dart';
+import 'package:training_organizer/di/service_locator.dart';
 import 'package:training_organizer/domain/send_email_usecase.dart';
-import 'package:training_organizer/features/email/email_cubit.dart';
-import 'package:training_organizer/import_export/ui/file_cubit.dart';
 import 'package:training_organizer/domain/filter_trainees_usecase.dart';
+import 'package:training_organizer/features/edit/trainee_view.dart';
+import 'package:training_organizer/features/email/email_cubit.dart';
 import 'package:training_organizer/features/overview/selection/filter_trainees_cubit.dart';
+import 'package:training_organizer/features/overview/trainees_cubit.dart';
 import 'package:training_organizer/features/performance_data/performance_data_cubit.dart';
 import 'package:training_organizer/features/statistic/statistics_view.dart';
+import 'package:training_organizer/import_export/ui/file_cubit.dart';
 
 void main() {
+  setupServiceLocator();
   runApp(const MyApp());
 }
 
@@ -25,54 +26,46 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider(create: (context) => EmailHandler()),
-          RepositoryProvider(create: (context) => FileExporter()),
-          RepositoryProvider(create: (context) => PerformanceDataFileHandler()),
-          RepositoryProvider(create: (context) => LocalStorageService()),
-        ],
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (context) {
-              return TraineesCubit(
-                localStorageRepository: context.read<LocalStorageService>(),
-              )..init();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) {
+          return TraineesCubit(
+            localStorageRepository: getIt<LocalStorageRepository>(),
+          )..init();
+        }),
+        BlocProvider(
+            lazy: false,
+            create: (context) {
+              final filterCubit =
+                  FilterTraineesCubit(getIt<FilterTraineesUseCase>());
+              context
+                  .read<TraineesCubit>()
+                  .setFilterTraineesCubit(filterCubit);
+              return filterCubit;
             }),
-            BlocProvider(
-                lazy: false,
-                create: (context) {
-                  final filterCubit =
-                      FilterTraineesCubit(FilterTraineesUseCase());
-                  context
-                      .read<TraineesCubit>()
-                      .setFilterTraineesCubit(filterCubit);
-                  return filterCubit;
-                }),
-            BlocProvider(
-              create: (context) {
-                return FileCubit(context.read<FileExporter>());
-              },
-            ),
-            BlocProvider(create: (context) {
-              final sendEmail = SendEmailUseCase(context.read<EmailHandler>());
-              return EmailCubit(sendEmail);
-            }),
-            BlocProvider(
-              create: (context) => PerformanceDataCubit(
-                context.read<PerformanceDataFileHandler>(),
-                localStorageRepository: context.read<LocalStorageService>(),
-              )..init(),
-            ),
-          ],
-          child: MaterialApp(
-            title: 'Training Organizer',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            home: const MyHomePage(title: 'Training Organizer'),
+        BlocProvider(
+          create: (context) {
+            return FileCubit(getIt<FileExporter>());
+          },
+        ),
+        BlocProvider(create: (context) {
+          return EmailCubit(getIt<SendEmailUseCase>());
+        }),
+        BlocProvider(
+          create: (context) => PerformanceDataCubit(
+            getIt<PerformanceDataFileHandler>(),
+            localStorageRepository: getIt<LocalStorageRepository>(),
+          )..init(),
+        ),
+      ],
+      child: MaterialApp(
+          title: 'Training Organizer',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
           ),
-        ));
+          home: const MyHomePage(title: 'Training Organizer'),
+        ),
+    );
   }
 }
 

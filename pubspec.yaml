@@ -47,6 +47,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   path_provider: ^2.0.11
   shared_preferences: ^2.3.2
+  get_it: ^8.0.0
 
 dependency_overrides:
   pdf_widget_wrapper: '1.0.4'
