@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:training_organizer/performance_data/domain/performance_category.dart';
-import 'package:training_organizer/performance_data/domain/category_position.dart';
+import 'package:training_organizer/domain/performance_category.dart';
+import 'package:training_organizer/domain/category_position.dart';
 import 'package:training_organizer/performance_data/ui/leaf_category_tile.dart';
 import 'package:training_organizer/performance_data/ui/parent_category_tile.dart';
 

@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/edit/domain/add_qualification_usecase.dart';
+import 'package:training_organizer/domain/add_qualification_usecase.dart';
 import 'package:training_organizer/edit/ui/certification_cubit.dart';
 import 'package:training_organizer/edit/ui/certification_state.dart';
 import 'package:training_organizer/model/qualifications.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/ical_import_result.dart';
+import 'package:training_organizer/domain/ical_parser/ical_import_result.dart';
 
 /// Preview of changes to a single performance data category.
 class IcalChangePreview {

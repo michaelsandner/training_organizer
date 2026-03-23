@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:training_organizer/cubit/trainees_state.dart';
+import 'package:training_organizer/overview/trainees_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 enum RescueQualificationType { bronze, silber, gold }

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/oeffentlichkeitsarbeit_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/oeffentlichkeitsarbeit_rule.dart';
 
 void main() {
   late OeffentlichkeitsarbeitRule sut;

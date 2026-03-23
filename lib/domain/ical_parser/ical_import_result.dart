@@ -1,4 +1,4 @@
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/ical_parser_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/ical_parser_rule.dart';
 
 /// Result of an iCal import with display and apply data from all rules.
 class IcalImportResult {

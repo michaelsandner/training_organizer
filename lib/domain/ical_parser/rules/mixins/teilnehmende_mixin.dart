@@ -1,4 +1,4 @@
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/ical_parser_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/ical_parser_rule.dart';
 
 /// Mixin for rules that count participants from the "Teilnehmende:" field.
 mixin TeilnehmendeMixin {

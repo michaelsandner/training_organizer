@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/mixins/teilnehmende_mixin.dart';
+import 'package:training_organizer/domain/ical_parser/rules/mixins/teilnehmende_mixin.dart';
 
 class _TestTeilnehmende with TeilnehmendeMixin {}
 

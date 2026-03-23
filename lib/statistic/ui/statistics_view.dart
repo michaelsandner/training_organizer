@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:training_organizer/cubit/trainees_cubit.dart';
-import 'package:training_organizer/cubit/trainees_state.dart';
+import 'package:training_organizer/overview/trainees_cubit.dart';
+import 'package:training_organizer/overview/trainees_state.dart';
 import 'package:training_organizer/model/qualifications/bronze.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';

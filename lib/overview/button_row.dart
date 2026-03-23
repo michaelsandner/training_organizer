@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/trainees_cubit.dart';
+import 'package:training_organizer/overview/trainees_cubit.dart';
 import 'package:training_organizer/edit/ui/add_trainee.dart';
 import 'package:training_organizer/import_export/ui/file_cubit.dart';
 import 'package:training_organizer/import_export/ui/file_state.dart';

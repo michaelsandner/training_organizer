@@ -1,23 +1,19 @@
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/ical_parser_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/mixins/event_count_mixin.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/mixins/event_time_mixin.dart';
+import 'package:training_organizer/domain/ical_parser/rules/ical_parser_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/mixins/event_count_mixin.dart';
+import 'package:training_organizer/domain/ical_parser/rules/mixins/event_time_mixin.dart';
 
-/// This rule should parse all "Gruppenstunden" events from the ical file
-class GruppenstundenRule
+/// This rule should parse all "Schwimmtraining" events from the ical file
+class SchwimmtrainingRule
     with EventCountMixin, EventTimeMixin
     implements IcalParserRule {
-  static const List<String> validSummaries = [
-    'Gruppenstunde',
-    'Gruppenstunde - Jugend',
-    'Gruppenstunde - Jugend (intern)',
-  ];
+  static const String summaryMatch = 'Schwimmtraining';
   static const String targetCategoryAnzahl =
       'Gruppenstunden/Jugendtraining (Anzahl)';
   static const String targetCategoryStunden =
       'Gruppenstunden/Jugendtraining (Stunden)';
 
   @override
-  bool matches(String summary) => validSummaries.contains(summary.trim());
+  bool matches(String summary) => summary.trim() == summaryMatch;
 
   @override
   void processEvent({
@@ -36,8 +32,8 @@ class GruppenstundenRule
     resetEventTime();
   }
 
-  static const String displayLabelAnzahl = 'Gruppenstunden (Anzahl)';
-  static const String displayLabelStunden = 'Gruppenstunden (Stunden)';
+  static const String displayLabelAnzahl = 'Jugendtraining (Anzahl)';
+  static const String displayLabelStunden = 'Jugendtraining (Stunden)';
 
   @override
   List<IcalRuleDisplayRow> get displayRows => [
@@ -56,12 +52,12 @@ class GruppenstundenRule
         IcalRuleApplyEntry(
           targetCategoryName: targetCategoryAnzahl,
           value: eventCount,
-          beschreibung: 'Gruppenstunden (iCal)',
+          beschreibung: 'Jugendtraining (iCal)',
         ),
         IcalRuleApplyEntry(
           targetCategoryName: targetCategoryStunden,
           value: totalHours,
-          beschreibung: 'Gruppenstunden (iCal)',
+          beschreibung: 'Jugendtraining (iCal)',
         ),
       ];
 }

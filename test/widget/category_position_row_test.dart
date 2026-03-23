@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/performance_data/domain/category_position.dart';
+import 'package:training_organizer/domain/category_position.dart';
 import 'package:training_organizer/performance_data/ui/category_position_row.dart';
 
 void main() {

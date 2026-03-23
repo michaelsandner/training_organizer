@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:training_organizer/performance_data/domain/category_position.dart';
-import 'package:training_organizer/performance_data/domain/performance_category.dart';
+import 'package:training_organizer/domain/category_position.dart';
+import 'package:training_organizer/domain/performance_category.dart';
 
 /// Root object of the performance data.
 /// Contains a list of top-level (level 1) categories.

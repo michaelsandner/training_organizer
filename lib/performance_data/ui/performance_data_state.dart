@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:training_organizer/performance_data/domain/badge_import_result.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/ical_import_result.dart';
-import 'package:training_organizer/performance_data/domain/performance_data.dart';
+import 'package:training_organizer/domain/badge_import_result.dart';
+import 'package:training_organizer/domain/ical_parser/ical_import_result.dart';
+import 'package:training_organizer/domain/performance_data.dart';
 
 enum PerformanceDataExportState {
   none,

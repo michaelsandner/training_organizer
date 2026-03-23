@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/gremienarbeit_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/gremienarbeit_rule.dart';
 
 void main() {
   late GremienarbeitRule sut;

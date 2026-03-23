@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_organizer/performance_data/domain/badge_import_result.dart';
+import 'package:training_organizer/domain/badge_import_result.dart';
 
 /// Confirmation dialog for the badge import.
 /// Shows the badges that will be added to performance data categories.

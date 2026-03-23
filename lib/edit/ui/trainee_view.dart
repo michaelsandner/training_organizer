@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:training_organizer/cubit/trainees_cubit.dart';
-import 'package:training_organizer/cubit/trainees_state.dart';
+import 'package:training_organizer/overview/trainees_cubit.dart';
+import 'package:training_organizer/overview/trainees_state.dart';
 import 'package:training_organizer/edit/ui/drop_down.dart';
 import 'package:training_organizer/edit/ui/no_trainee_data_state.dart';
 import 'package:training_organizer/edit/ui/selected_count.dart';

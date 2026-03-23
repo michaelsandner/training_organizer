@@ -1,11 +1,11 @@
 ﻿import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/ical_import_result.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/ical_parser.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/dienstabend_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/oeffentlichkeitsarbeit_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/rettungsschwimmausbildung_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/san_dienst_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/schwimmtraining_rule.dart';
+import 'package:training_organizer/domain/ical_parser/ical_import_result.dart';
+import 'package:training_organizer/domain/ical_parser/ical_parser.dart';
+import 'package:training_organizer/domain/ical_parser/rules/dienstabend_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/oeffentlichkeitsarbeit_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/rettungsschwimmausbildung_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/san_dienst_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/schwimmtraining_rule.dart';
 
 int _getApplyValue(IcalImportResult result, String categoryName) {
   return result.applyEntries

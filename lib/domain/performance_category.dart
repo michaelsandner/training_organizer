@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:training_organizer/performance_data/domain/category_position.dart';
+import 'package:training_organizer/domain/category_position.dart';
 
 /// A single category in the performance data hierarchy.
 /// May contain sub-categories (children) or be a leaf element (anzahl != null).
