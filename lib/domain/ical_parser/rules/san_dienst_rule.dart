@@ -1,19 +1,28 @@
 import 'package:training_organizer/domain/ical_parser/rules/ical_parser_rule.dart';
 import 'package:training_organizer/domain/ical_parser/rules/mixins/event_count_mixin.dart';
-import 'package:training_organizer/domain/ical_parser/rules/mixins/teilnehmende_mixin.dart';
+import 'package:training_organizer/domain/ical_parser/rules/mixins/per_event_position_mixin.dart';
 
-/// This rule should parse all "San-Dienst" events from the ical file
+/// This rule parses events with "tag:Sandienst" in their description.
+/// Anzahl counts events, Stunden multiplies hours × teilnehmende count.
 class SanDienstRule
-    with EventCountMixin, TeilnehmendeMixin
+    with EventCountMixin, PerEventPositionMixin
     implements IcalParserRule {
-  static const String summaryPattern = 'San-Dienst';
+  static const String tagName = 'Sandienst';
   static const String targetCategoryAnzahl =
       'ohne Wachdienste an Wachstationen (Anzahl)';
   static const String targetCategoryStunden =
       'ohne Wachdienste an Wachstationen (Stunden)';
 
+  int _totalStunden = 0;
+
+  int get totalStunden => _totalStunden;
+
   @override
-  bool matches(String summary) => summary.contains(summaryPattern);
+  String get targetCategoryName => targetCategoryAnzahl;
+
+  @override
+  bool matches({required String summary, String? description}) =>
+      matchesDescriptionTag(description, tagName);
 
   @override
   void processEvent({
@@ -23,13 +32,32 @@ class SanDienstRule
     String? summary,
   }) {
     trackEventCount();
-    trackTeilnehmende(description);
+    final count = parseTeilnehmendeCount(description);
+    final participants = count > 0 ? count : 1;
+    int hours = 0;
+    if (endDateTime != null) {
+      final minutes = endDateTime.difference(startDateTime).inMinutes;
+      hours = minutes > 0 ? (minutes / 60).ceil() : 0;
+    }
+    final stunden = hours > 0 ? hours * participants : participants;
+    _totalStunden += stunden;
+
+    final label = summary?.trim() ?? '';
+    final date = formatEventDate(startDateTime);
+    addPerEventEntry(IcalRuleApplyEntry(
+      targetCategoryName: targetCategoryAnzahl,
+      value: 1,
+      beschreibung:
+          label.isNotEmpty ? '$label $date (iCal)' : '$date (iCal)',
+      teilnehmende: count > 0 ? '$count' : '',
+    ));
   }
 
   @override
   void reset() {
     resetEventCount();
-    resetTeilnehmendeCount();
+    resetPerEventEntries();
+    _totalStunden = 0;
   }
 
   @override
@@ -40,20 +68,16 @@ class SanDienstRule
         ),
         IcalRuleDisplayRow(
           label: targetCategoryStunden,
-          value: teilnehmendeCount,
+          value: _totalStunden,
         ),
       ];
 
   @override
   List<IcalRuleApplyEntry> get applyEntries => [
-        IcalRuleApplyEntry(
-          targetCategoryName: targetCategoryAnzahl,
-          value: eventCount,
-          beschreibung: 'San-Dienst (iCal)',
-        ),
+        ...super.applyEntries,
         IcalRuleApplyEntry(
           targetCategoryName: targetCategoryStunden,
-          value: teilnehmendeCount,
+          value: _totalStunden,
           beschreibung: 'San-Dienst (iCal)',
         ),
       ];

@@ -9,46 +9,61 @@ void main() {
   });
 
   group('NaturschutzRule', () {
-    group('Given a summary "Biotoppflege (Naturschutz)"', () {
+    group('Given a description with "Tag:Naturschutz"', () {
       test('Then matches returns true', () {
-        expect(sut.matches('Biotoppflege (Naturschutz)'), isTrue);
+        expect(
+            sut.matches(
+                summary: 'Biotoppflege', description: 'Tag:Naturschutz'),
+            isTrue);
       });
     });
 
-    group('Given a summary "Naturschutz"', () {
-      test('Then matches returns false (needs parentheses)', () {
-        expect(sut.matches('Naturschutz'), isFalse);
+    group('Given a description with "tag: naturschutz" (lowercase)', () {
+      test('Then matches returns true', () {
+        expect(
+            sut.matches(
+                summary: 'Biotoppflege', description: 'tag: naturschutz'),
+            isTrue);
       });
     });
 
-    group('Given an event with 2 Teilnehmende', () {
+    group('Given no description', () {
+      test('Then matches returns false', () {
+        expect(sut.matches(summary: 'Naturschutz'), isFalse);
+      });
+    });
+
+    group('Given an event with Teilnehmende:2 and 3 hours', () {
       group('When processEvent is called', () {
-        test('Then applyEntries has one entry with value 2', () {
+        test('Then applyEntries has one entry with value 6 (3h × 2)', () {
           sut.processEvent(
             startDateTime: DateTime(2026, 4, 10, 9, 0),
-            description: 'Teilnehmende: Max, Erika',
-            summary: 'Biotoppflege (Naturschutz)',
+            endDateTime: DateTime(2026, 4, 10, 12, 0),
+            description: 'Tag:Naturschutz\nTeilnehmende:2',
+            summary: 'Biotoppflege',
           );
 
           expect(sut.applyEntries, hasLength(1));
-          expect(sut.applyEntries[0].value, 2);
+          expect(sut.applyEntries[0].value, 6);
           expect(sut.applyEntries[0].teilnehmende, '2');
           expect(sut.applyEntries[0].beschreibung,
-              'Biotoppflege (Naturschutz) (iCal)');
+              'Biotoppflege 10.04.2026 (iCal)');
         });
       });
     });
 
-    group('Given an event without description', () {
+    group('Given an event without Teilnehmende', () {
       group('When processEvent is called', () {
-        test('Then applyEntries has one entry with value 1', () {
+        test('Then value uses 1 as participant count', () {
           sut.processEvent(
             startDateTime: DateTime(2026, 4, 10, 9, 0),
-            summary: 'Gewässerreinigung (Naturschutz)',
+            endDateTime: DateTime(2026, 4, 10, 12, 0),
+            description: 'Tag:Naturschutz',
+            summary: 'Gewässerreinigung',
           );
 
           expect(sut.applyEntries, hasLength(1));
-          expect(sut.applyEntries[0].value, 1);
+          expect(sut.applyEntries[0].value, 3);
           expect(sut.applyEntries[0].teilnehmende, '');
         });
       });
@@ -56,37 +71,44 @@ void main() {
 
     group('Given multiple events', () {
       group('When processEvent is called for each', () {
-        test('Then each event creates a separate entry', () {
+        test('Then each event creates a separate entry with date', () {
           sut.processEvent(
             startDateTime: DateTime(2026, 4, 10, 9, 0),
-            description: 'Teilnehmende: Max, Erika',
-            summary: 'Biotoppflege (Naturschutz)',
+            endDateTime: DateTime(2026, 4, 10, 12, 0),
+            description: 'Tag:Naturschutz\nTeilnehmende:2',
+            summary: 'Biotoppflege',
           );
           sut.processEvent(
             startDateTime: DateTime(2026, 5, 15, 9, 0),
-            summary: 'Gewässerreinigung (Naturschutz)',
+            endDateTime: DateTime(2026, 5, 15, 11, 0),
+            description: 'Tag: Naturschutz',
+            summary: 'Gewässerreinigung',
           );
 
           expect(sut.applyEntries, hasLength(2));
           expect(sut.applyEntries[0].beschreibung,
-              'Biotoppflege (Naturschutz) (iCal)');
+              'Biotoppflege 10.04.2026 (iCal)');
           expect(sut.applyEntries[1].beschreibung,
-              'Gewässerreinigung (Naturschutz) (iCal)');
+              'Gewässerreinigung 15.05.2026 (iCal)');
         });
 
         test('Then displayRows shows the total', () {
           sut.processEvent(
             startDateTime: DateTime(2026, 4, 10, 9, 0),
-            description: 'Teilnehmende: Max, Erika',
-            summary: 'Biotoppflege (Naturschutz)',
+            endDateTime: DateTime(2026, 4, 10, 12, 0),
+            description: 'Tag:Naturschutz\nTeilnehmende:2',
+            summary: 'Biotoppflege',
           );
           sut.processEvent(
             startDateTime: DateTime(2026, 5, 15, 9, 0),
-            summary: 'Gewässerreinigung (Naturschutz)',
+            endDateTime: DateTime(2026, 5, 15, 11, 0),
+            description: 'Tag: Naturschutz',
+            summary: 'Gewässerreinigung',
           );
 
           expect(sut.displayRows, hasLength(1));
-          expect(sut.displayRows[0].value, 3);
+          // 3h×2 + 2h×1 = 8
+          expect(sut.displayRows[0].value, 8);
         });
       });
     });
@@ -102,7 +124,9 @@ void main() {
         test('Then applyEntries is empty', () {
           sut.processEvent(
             startDateTime: DateTime(2026, 4, 10, 9, 0),
-            summary: 'Test (Naturschutz)',
+            endDateTime: DateTime(2026, 4, 10, 12, 0),
+            description: 'Tag:Naturschutz',
+            summary: 'Test',
           );
 
           sut.reset();

@@ -1,16 +1,19 @@
 import 'package:training_organizer/domain/ical_parser/rules/ical_parser_rule.dart';
-import 'package:training_organizer/domain/ical_parser/rules/mixins/teilnehmende_mixin.dart';
+import 'package:training_organizer/domain/ical_parser/rules/mixins/per_event_position_mixin.dart';
 
-/// This rule should parse all "(Offentlichkeitsarbeit)" events from the ical file.
-/// We use O instead of Ö because the parsing is not working correctly
+/// This rule parses events with "tag:Offentlichkeitsarbeit" in their description.
 class OeffentlichkeitsarbeitRule
-    with TeilnehmendeMixin
+    with PerEventPositionMixin
     implements IcalParserRule {
-  static const String summaryPattern = '(Offentlichkeitsarbeit)';
+  static const String tagName = 'Offentlichkeitsarbeit';
   static const String targetCategory = 'Öffentlichkeitsarbeit';
 
   @override
-  bool matches(String summary) => summary.contains(summaryPattern);
+  String get targetCategoryName => targetCategory;
+
+  @override
+  bool matches({required String summary, String? description}) =>
+      matchesDescriptionTag(description, tagName);
 
   @override
   void processEvent({
@@ -19,26 +22,25 @@ class OeffentlichkeitsarbeitRule
     String? description,
     String? summary,
   }) {
-    trackTeilnehmende(description);
+    final count = parseTeilnehmendeCount(description);
+    final participants = count > 0 ? count : 1;
+    int hours = 0;
+    if (endDateTime != null) {
+      final minutes = endDateTime.difference(startDateTime).inMinutes;
+      hours = minutes > 0 ? (minutes / 60).ceil() : 0;
+    }
+    final value = hours > 0 ? hours * participants : participants;
+    final label = summary?.trim() ?? '';
+    final date = formatEventDate(startDateTime);
+    addPerEventEntry(IcalRuleApplyEntry(
+      targetCategoryName: targetCategory,
+      value: value,
+      beschreibung:
+          label.isNotEmpty ? '$label $date (iCal)' : '$date (iCal)',
+      teilnehmende: count > 0 ? '$count' : '',
+    ));
   }
 
   @override
-  void reset() => resetTeilnehmendeCount();
-
-  @override
-  List<IcalRuleDisplayRow> get displayRows => [
-        IcalRuleDisplayRow(
-          label: targetCategory,
-          value: teilnehmendeCount,
-        ),
-      ];
-
-  @override
-  List<IcalRuleApplyEntry> get applyEntries => [
-        IcalRuleApplyEntry(
-          targetCategoryName: targetCategory,
-          value: teilnehmendeCount,
-          beschreibung: 'Öffentlichkeitsarbeit (iCal)',
-        ),
-      ];
+  void reset() => resetPerEventEntries();
 }

@@ -11,19 +11,20 @@ void main() {
   group('RettungsschwimmausbildungRule', () {
     group('Given a summary "Rettungsschwimmausbildung"', () {
       test('Then matches returns true', () {
-        expect(sut.matches('Rettungsschwimmausbildung'), isTrue);
+        expect(sut.matches(summary: 'Rettungsschwimmausbildung'), isTrue);
       });
     });
 
     group('Given a summary "Rettungsschwimmausbildung Kinder"', () {
       test('Then matches returns true (contains match)', () {
-        expect(sut.matches('Rettungsschwimmausbildung Kinder'), isTrue);
+        expect(
+            sut.matches(summary: 'Rettungsschwimmausbildung Kinder'), isTrue);
       });
     });
 
     group('Given a summary "Schwimmtraining"', () {
       test('Then matches returns false', () {
-        expect(sut.matches('Schwimmtraining'), isFalse);
+        expect(sut.matches(summary: 'Schwimmtraining'), isFalse);
       });
     });
 

@@ -9,71 +9,103 @@ void main() {
   });
 
   group('OeffentlichkeitsarbeitRule', () {
-    group('Given a summary "Tag der offenen Tür (Öffentlichkeitsarbeit)"', () {
+    group('Given a description with "Tag:Offentlichkeitsarbeit"', () {
       test('Then matches returns true', () {
         expect(
-            sut.matches('Tag der offenen Tür (Offentlichkeitsarbeit)'), isTrue);
+            sut.matches(
+                summary: 'Tag der offenen Tür',
+                description: 'Tag:Offentlichkeitsarbeit'),
+            isTrue);
       });
     });
 
-    group('Given a summary "Öffentlichkeitsarbeit"', () {
-      test('Then matches returns false (needs parentheses)', () {
-        expect(sut.matches('Öffentlichkeitsarbeit'), isFalse);
+    group(
+        'Given a description with "tag: offentlichkeitsarbeit" (lowercase)',
+        () {
+      test('Then matches returns true', () {
+        expect(
+            sut.matches(
+                summary: 'Tag der offenen Tür',
+                description: 'tag: offentlichkeitsarbeit'),
+            isTrue);
       });
     });
 
-    group('Given an event with 3 Teilnehmende', () {
+    group('Given no description', () {
+      test('Then matches returns false', () {
+        expect(sut.matches(summary: 'Öffentlichkeitsarbeit'), isFalse);
+      });
+    });
+
+    group('Given an event with Teilnehmende:3 and 2 hours', () {
       group('When processEvent is called', () {
-        test('Then teilnehmendeCount is 3', () {
+        test('Then applyEntries has one entry with value 6 (2h × 3)', () {
           sut.processEvent(
             startDateTime: DateTime(2026, 5, 10, 10, 0),
-            description: 'Teilnehmende: Alex, Sandy, Uwe',
-          );
-
-          expect(sut.teilnehmendeCount, 3);
-        });
-      });
-    });
-
-    group('Given an event without description', () {
-      group('When processEvent is called', () {
-        test('Then teilnehmendeCount is 1 (fallback)', () {
-          sut.processEvent(
-            startDateTime: DateTime(2026, 5, 10, 10, 0),
-          );
-
-          expect(sut.teilnehmendeCount, 1);
-        });
-      });
-    });
-
-    group('Given events were processed', () {
-      group('When applyEntries is accessed', () {
-        test('Then it targets Öffentlichkeitsarbeit', () {
-          sut.processEvent(
-            startDateTime: DateTime(2026, 5, 10, 10, 0),
-            description: 'Teilnehmende: Alex, Sandy',
+            endDateTime: DateTime(2026, 5, 10, 12, 0),
+            description: 'Tag:Offentlichkeitsarbeit\nTeilnehmende:3',
+            summary: 'Tag der offenen Tür',
           );
 
           expect(sut.applyEntries, hasLength(1));
+          expect(sut.applyEntries[0].value, 6);
+          expect(sut.applyEntries[0].teilnehmende, '3');
           expect(sut.applyEntries[0].targetCategoryName,
               OeffentlichkeitsarbeitRule.targetCategory);
+        });
+      });
+    });
+
+    group('Given an event without Teilnehmende', () {
+      group('When processEvent is called', () {
+        test('Then value uses 1 as participant count', () {
+          sut.processEvent(
+            startDateTime: DateTime(2026, 5, 10, 10, 0),
+            endDateTime: DateTime(2026, 5, 10, 12, 0),
+            description: 'Tag: Offentlichkeitsarbeit',
+            summary: 'Infoveranstaltung',
+          );
+
+          expect(sut.applyEntries, hasLength(1));
           expect(sut.applyEntries[0].value, 2);
         });
       });
     });
 
     group('Given events were processed', () {
-      group('When reset is called', () {
-        test('Then teilnehmendeCount is 0', () {
+      group('When applyEntries is accessed', () {
+        test('Then it targets Öffentlichkeitsarbeit with date', () {
           sut.processEvent(
             startDateTime: DateTime(2026, 5, 10, 10, 0),
-            description: 'Teilnehmende: Alex',
+            endDateTime: DateTime(2026, 5, 10, 12, 0),
+            description: 'Tag:Offentlichkeitsarbeit\nTeilnehmende: 2',
+            summary: 'Tag der offenen Tür',
+          );
+
+          expect(sut.applyEntries, hasLength(1));
+          expect(sut.applyEntries[0].targetCategoryName,
+              OeffentlichkeitsarbeitRule.targetCategory);
+          expect(sut.applyEntries[0].value, 4);
+          expect(sut.applyEntries[0].beschreibung,
+              'Tag der offenen Tür 10.05.2026 (iCal)');
+        });
+      });
+    });
+
+    group('Given events were processed', () {
+      group('When reset is called', () {
+        test('Then applyEntries is empty', () {
+          sut.processEvent(
+            startDateTime: DateTime(2026, 5, 10, 10, 0),
+            endDateTime: DateTime(2026, 5, 10, 12, 0),
+            description: 'Tag:Offentlichkeitsarbeit',
+            summary: 'Test',
           );
 
           sut.reset();
 
-          expect(sut.teilnehmendeCount, 0);
+          expect(sut.applyEntries, isEmpty);
+          expect(sut.displayRows.first.value, 0);
         });
       });
     });
