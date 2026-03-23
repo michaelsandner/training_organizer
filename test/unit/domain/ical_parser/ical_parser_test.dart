@@ -1,7 +1,7 @@
-﻿import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/domain/ical_parser/ical_import_result.dart';
 import 'package:training_organizer/domain/ical_parser/ical_parser.dart';
-import 'package:training_organizer/domain/ical_parser/rules/dienstabend_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/fortbildung_rule.dart';
 import 'package:training_organizer/domain/ical_parser/rules/oeffentlichkeitsarbeit_rule.dart';
 import 'package:training_organizer/domain/ical_parser/rules/rettungsschwimmausbildung_rule.dart';
 import 'package:training_organizer/domain/ical_parser/rules/san_dienst_rule.dart';
@@ -21,6 +21,7 @@ int _getDisplayValue(IcalImportResult result, String label) {
 
 void main() {
   late IcalParser sut;
+  final fortbildungTargetCategory = FortbildungRule().targetCategoryName;
 
   setUp(() {
     sut = IcalParser();
@@ -29,18 +30,20 @@ void main() {
   group('IcalParser', () {
     group('Given eine iCal-Datei mit Schwimmtraining-Terminen', () {
       group('When parse mit dem richtigen Jahr aufgerufen wird', () {
-        test('Then werden exakte Treffer von Schwimmtraining gezÃ¤hlt', () {
+        test('Then werden exakte Treffer von Schwimmtraining gezählt', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART:20260420T150000Z
 DTEND:20260420T160000Z
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260427T150000Z
 DTEND:20260427T160000Z
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260504T150000Z
@@ -51,6 +54,7 @@ END:VCALENDAR''';
 
           final result = sut.parse(ical, 2026);
 
+          // 2 events with Tag:Schwimmtraining, each defaults to 1 participant
           expect(
             _getApplyValue(result, SchwimmtrainingRule.targetCategoryAnzahl),
             2,
@@ -59,13 +63,14 @@ END:VCALENDAR''';
       });
 
       group('When parse mit einem anderen Jahr aufgerufen wird', () {
-        test('Then werden keine Treffer gezÃ¤hlt', () {
+        test('Then werden keine Treffer gezählt', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART:20260420T150000Z
 DTEND:20260420T160000Z
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 END:VCALENDAR''';
 
@@ -81,23 +86,25 @@ END:VCALENDAR''';
 
     group('Given eine iCal-Datei mit San-Dienst-Terminen', () {
       group('When parse aufgerufen wird', () {
-        test('Then werden Treffer die San-Dienst enthalten gezÃ¤hlt', () {
+        test('Then werden Treffer die Tag:Sandienst enthalten gezählt', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART:20260601T080000Z
 DTEND:20260601T170000Z
 SUMMARY:San-Dienst Klosterhofspiele
+DESCRIPTION:Tag:Sandienst
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260615T080000Z
 DTEND:20260615T170000Z
 SUMMARY:San-Dienst
+DESCRIPTION:Tag:Sandienst
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260620T080000Z
 DTEND:20260620T170000Z
-SUMMARY:SanitÃ¤tsausbildung
+SUMMARY:Sanitätsausbildung
 END:VEVENT
 END:VCALENDAR''';
 
@@ -120,6 +127,7 @@ BEGIN:VEVENT
 DTSTART;TZID=Europe/Berlin:20260801T160000
 DTEND;TZID=Europe/Berlin:20260801T165500
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 END:VCALENDAR''';
 
@@ -142,6 +150,7 @@ BEGIN:VEVENT
 DTSTART;VALUE=DATE:20260518
 DTEND;VALUE=DATE:20260519
 SUMMARY:San-Dienst Volksfest
+DESCRIPTION:Tag:Sandienst
 END:VEVENT
 END:VCALENDAR''';
 
@@ -157,7 +166,7 @@ END:VCALENDAR''';
 
     group('Given eine leere iCal-Datei', () {
       group('When parse aufgerufen wird', () {
-        test('Then sind alle ZÃ¤hler 0', () {
+        test('Then sind alle Zähler 0', () {
           const ical = '''
 BEGIN:VCALENDAR
 END:VCALENDAR''';
@@ -173,7 +182,7 @@ END:VCALENDAR''';
             0,
           );
           expect(
-            _getApplyValue(result, DienstabendRule.targetCategory),
+            _getApplyValue(result, fortbildungTargetCategory),
             0,
           );
         });
@@ -182,28 +191,33 @@ END:VCALENDAR''';
 
     group('Given eine iCal-Datei mit gemischten Terminen', () {
       group('When parse aufgerufen wird', () {
-        test('Then werden alle Positionen korrekt gezÃ¤hlt', () {
+        test('Then werden alle Positionen korrekt gezählt', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART:20260420T150000Z
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260427T150000Z
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260504T150000Z
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260601T080000Z
 SUMMARY:San-Dienst Klosterhofspiele
+DESCRIPTION:Tag:Sandienst
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260615T080000Z
 SUMMARY:San-Dienst Musical
+DESCRIPTION:Tag:Sandienst
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260620T080000Z
@@ -212,6 +226,7 @@ END:VEVENT
 BEGIN:VEVENT
 DTSTART:20250420T150000Z
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 END:VCALENDAR''';
 
@@ -231,9 +246,9 @@ END:VCALENDAR''';
 
     group('Given eine iCal-Datei mit Line-Folding', () {
       group('When parse aufgerufen wird', () {
-        test('Then werden gefaltete Zeilen korrekt zusammengefÃ¼gt', () {
+        test('Then werden gefaltete Zeilen korrekt zusammengefügt', () {
           const ical =
-              'BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nDTSTART:20260420T150000Z\r\nSUMMARY:Schwimm\r\n training\r\nEND:VEVENT\r\nEND:VCALENDAR';
+              'BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nDTSTART:20260420T150000Z\r\nDTEND:20260420T160000Z\r\nSUMMARY:Schwimmtraining\r\nDESCRIPTION:Tag:Schwimm\r\n training\r\nEND:VEVENT\r\nEND:VCALENDAR';
 
           final result = sut.parse(ical, 2026);
 
@@ -245,9 +260,9 @@ END:VCALENDAR''';
       });
     });
 
-    group('Given eine iCal-Datei mit wÃ¶chentlicher Schwimmtraining-Serie', () {
+    group('Given eine iCal-Datei mit wöchentlicher Schwimmtraining-Serie', () {
       group('When parse aufgerufen wird', () {
-        test('Then werden alle Termine der Serie im Jahr gezÃ¤hlt', () {
+        test('Then werden alle Termine der Serie im Jahr gezählt', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -256,6 +271,7 @@ DTEND;TZID=Europe/Berlin:20260106T210000
 RRULE:FREQ=WEEKLY;UNTIL=20260224T225959Z;BYDAY=TU
 UID:weekly-test@test.com
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 END:VCALENDAR''';
 
@@ -270,9 +286,9 @@ END:VCALENDAR''';
       });
     });
 
-    group('Given eine Serie mit EXDATE-AusschlÃ¼ssen', () {
+    group('Given eine Serie mit EXDATE-Ausschlüssen', () {
       group('When parse aufgerufen wird', () {
-        test('Then werden ausgeschlossene Termine nicht gezÃ¤hlt', () {
+        test('Then werden ausgeschlossene Termine nicht gezählt', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -283,6 +299,7 @@ EXDATE;TZID=Europe/Berlin:20260113T200000
 EXDATE;TZID=Europe/Berlin:20260127T200000
 UID:weekly-exdate@test.com
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 END:VCALENDAR''';
 
@@ -297,9 +314,9 @@ END:VCALENDAR''';
       });
     });
 
-    group('Given eine Serie mit RECURRENCE-ID Ãœberschreibungen', () {
+    group('Given eine Serie mit RECURRENCE-ID Überschreibungen', () {
       group('When eine Instanz durch Nicht-Schwimmtraining ersetzt wird', () {
-        test('Then wird die Ã¼berschriebene Instanz nicht gezÃ¤hlt', () {
+        test('Then wird die überschriebene Instanz nicht gezählt', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -308,6 +325,7 @@ DTEND;TZID=Europe/Berlin:20260106T210000
 RRULE:FREQ=WEEKLY;UNTIL=20260127T225959Z;BYDAY=TU
 UID:weekly-override@test.com
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 BEGIN:VEVENT
 DTSTART;TZID=Europe/Berlin:20260113T200000
@@ -315,12 +333,13 @@ DTEND;TZID=Europe/Berlin:20260113T210000
 UID:weekly-override@test.com
 RECURRENCE-ID;TZID=Europe/Berlin:20260113T200000
 SUMMARY:Kein Schwimmtraining (Feiertag)
+DESCRIPTION:Kein Schwimmtraining (Feiertag)
 END:VEVENT
 END:VCALENDAR''';
 
           final result = sut.parse(ical, 2026);
 
-          // 4 weeks (06, 13, 20, 27), 13th overridden = 3
+          // 4 weeks (06, 13, 20, 27), 13th overridden without tag = 3
           expect(
             _getApplyValue(result, SchwimmtrainingRule.targetCategoryAnzahl),
             3,
@@ -329,7 +348,7 @@ END:VCALENDAR''';
       });
 
       group('When eine Instanz durch Schwimmtraining ersetzt wird', () {
-        test('Then wird die Ã¼berschriebene Instanz gezÃ¤hlt', () {
+        test('Then wird die überschriebene Instanz gezählt', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -338,6 +357,7 @@ DTEND;TZID=Europe/Berlin:20260106T210000
 RRULE:FREQ=WEEKLY;UNTIL=20260127T225959Z;BYDAY=TU
 UID:weekly-override2@test.com
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 BEGIN:VEVENT
 DTSTART;TZID=Europe/Berlin:20260113T200000
@@ -345,12 +365,13 @@ DTEND;TZID=Europe/Berlin:20260113T210000
 UID:weekly-override2@test.com
 RECURRENCE-ID;TZID=Europe/Berlin:20260113T200000
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 END:VCALENDAR''';
 
           final result = sut.parse(ical, 2026);
 
-          // 4 weeks, 1 override with same summary = still 4
+          // 4 weeks, override also has tag = still 4
           expect(
             _getApplyValue(result, SchwimmtrainingRule.targetCategoryAnzahl),
             4,
@@ -360,8 +381,8 @@ END:VCALENDAR''';
     });
 
     group('Given eine Serie die in einem Vorjahr startet', () {
-      group('When parse fÃ¼r das Folgejahr aufgerufen wird', () {
-        test('Then werden nur Termine des gewÃ¤hlten Jahres gezÃ¤hlt', () {
+      group('When parse für das Folgejahr aufgerufen wird', () {
+        test('Then werden nur Termine des gewählten Jahres gezählt', () {
           // Start 01.12.2025, weekly, until 19.01.2026
           const ical = '''
 BEGIN:VCALENDAR
@@ -371,6 +392,7 @@ DTEND;TZID=Europe/Berlin:20251201T210000
 RRULE:FREQ=WEEKLY;UNTIL=20260119T225959Z;BYDAY=MO
 UID:cross-year@test.com
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 END:VCALENDAR''';
 
@@ -387,7 +409,7 @@ END:VCALENDAR''';
 
     group('Given eine offene Serie ohne UNTIL', () {
       group('When parse aufgerufen wird', () {
-        test('Then werden alle Termine im gewÃ¤hlten Jahr gezÃ¤hlt', () {
+        test('Then werden alle Termine im gewählten Jahr gezählt', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -396,6 +418,7 @@ DTEND;TZID=Europe/Berlin:20260103T165500
 RRULE:FREQ=WEEKLY;BYDAY=SA
 UID:open-ended@test.com
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 END:VCALENDAR''';
 
@@ -412,7 +435,7 @@ END:VCALENDAR''';
 
     group('Given eine Serie mit COUNT-Begrenzung', () {
       group('When parse aufgerufen wird', () {
-        test('Then werden nur so viele Termine wie COUNT gezÃ¤hlt', () {
+        test('Then werden nur so viele Termine wie COUNT gezählt', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -421,6 +444,7 @@ DTEND;TZID=Europe/Berlin:20260106T210000
 RRULE:FREQ=WEEKLY;COUNT=3;BYDAY=TU
 UID:count-test@test.com
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 END:VCALENDAR''';
 
@@ -437,7 +461,7 @@ END:VCALENDAR''';
 
     group('Given eine Serie mit EXDATE und RECURRENCE-ID kombiniert', () {
       group('When parse aufgerufen wird', () {
-        test('Then werden EXDATE und Overrides korrekt berÃ¼cksichtigt', () {
+        test('Then werden EXDATE und Overrides korrekt berücksichtigt', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -448,6 +472,7 @@ EXDATE;TZID=Europe/Berlin:20260120T200000
 EXDATE;TZID=Europe/Berlin:20260203T200000
 UID:combined@test.com
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 BEGIN:VEVENT
 DTSTART;TZID=Europe/Berlin:20260210T200000
@@ -455,12 +480,13 @@ DTEND;TZID=Europe/Berlin:20260210T210000
 UID:combined@test.com
 RECURRENCE-ID;TZID=Europe/Berlin:20260210T200000
 SUMMARY:Freies Training
+DESCRIPTION:Freies Training
 END:VEVENT
 END:VCALENDAR''';
 
           final result = sut.parse(ical, 2026);
 
-          // 8 weeks - 2 EXDATE - 1 override (different summary) = 5
+          // 8 weeks - 2 EXDATE - 1 override (no tag) = 5
           expect(
             _getApplyValue(result, SchwimmtrainingRule.targetCategoryAnzahl),
             5,
@@ -469,96 +495,102 @@ END:VCALENDAR''';
       });
     });
 
-    group('Given eine iCal-Datei mit Dienstabend-Terminen', () {
+    group('Given eine iCal-Datei mit Fortbildung-Terminen', () {
       group('When parse aufgerufen wird', () {
-        test('Then werden nur exakte Treffer von Dienstabend gezÃ¤hlt', () {
+        test('Then werden nur Treffer mit Tag:Fortbildung gezählt', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART:20260115T190000Z
 DTEND:20260115T210000Z
-SUMMARY:Dienstabend
+SUMMARY:Fortbildung
+DESCRIPTION:Tag:Fortbildung
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260212T190000Z
 DTEND:20260212T210000Z
-SUMMARY:Dienstabend
+SUMMARY:Fortbildung
+DESCRIPTION:Tag:Fortbildung
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260305T190000Z
 DTEND:20260305T210000Z
-SUMMARY:Dienstabend FÃ¼rth - VerbÃ¤nde (intern)
+SUMMARY:Fortbildung Fürth - Verbände (intern)
 END:VEVENT
 END:VCALENDAR''';
 
           final result = sut.parse(ical, 2026);
 
-          // Only exact matches, not "Dienstabend FÃ¼rth..."
+          // 2 events: each 2h × 1 participant = 2, total = 4
           expect(
-            _getApplyValue(result, DienstabendRule.targetCategory),
-            2,
+            _getApplyValue(result, fortbildungTargetCategory),
+            4,
           );
         });
       });
     });
 
-    group('Given Dienstabend-Termine mit Namen in der Beschreibung', () {
+    group('Given Fortbildung-Termine mit Teilnehmenden in der Beschreibung',
+        () {
       group('When parse aufgerufen wird', () {
-        test('Then wird der ZÃ¤hler mit der Anzahl der Namen multipliziert',
+        test(
+            'Then wird der Wert als Stunden mal Teilnehmende berechnet',
             () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART:20260115T190000Z
 DTEND:20260115T210000Z
-SUMMARY:Dienstabend
-DESCRIPTION:Teilnehmende: Alex, Uwe, Sandy
+SUMMARY:Fortbildung
+DESCRIPTION:Tag:Fortbildung\\nTeilnehmende:3
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260212T190000Z
 DTEND:20260212T210000Z
-SUMMARY:Dienstabend
-DESCRIPTION:Teilnehmende: Uwe, Sandy
+SUMMARY:Fortbildung
+DESCRIPTION:Tag:Fortbildung\\nTeilnehmende:2
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260312T190000Z
 DTEND:20260312T210000Z
-SUMMARY:Dienstabend
+SUMMARY:Fortbildung
+DESCRIPTION:Tag:Fortbildung
 END:VEVENT
 END:VCALENDAR''';
 
           final result = sut.parse(ical, 2026);
 
-          // Event 1: 3 names, Event 2: 2 names, Event 3: no desc â†’ 1
-          // Applied = 3 + 2 + 1 = 6
+          // Event 1: 2h × 3 = 6, Event 2: 2h × 2 = 4, Event 3: 2h × 1 = 2
+          // Total = 12
           expect(
-            _getApplyValue(result, DienstabendRule.targetCategory),
-            6,
+            _getApplyValue(result, fortbildungTargetCategory),
+            12,
           );
 
-          // Display: targetCategory label with multiplied total = 6
           expect(
-            _getDisplayValue(result, DienstabendRule.summaryMatch),
-            6,
+            _getDisplayValue(result, fortbildungTargetCategory),
+            12,
           );
         });
       });
     });
 
-    group('Given San-Dienst-Termine ohne Beschreibung', () {
+    group('Given San-Dienst-Termine ohne Teilnehmende', () {
       group('When parse aufgerufen wird', () {
-        test('Then wird je Ereignis ein Stundenwert von 1 gezÃ¤hlt', () {
+        test('Then werden Stunden als Dauer mal 1 berechnet', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART:20260601T080000Z
 DTEND:20260601T170000Z
 SUMMARY:San-Dienst Klosterhofspiele
+DESCRIPTION:Tag:Sandienst
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260615T090000Z
 DTEND:20260615T113000Z
 SUMMARY:San-Dienst Post
+DESCRIPTION:Tag:Sandienst
 END:VEVENT
 END:VCALENDAR''';
 
@@ -569,45 +601,47 @@ END:VCALENDAR''';
             _getApplyValue(result, SanDienstRule.targetCategoryAnzahl),
             2,
           );
-          // Stunden = 1 + 1 = 2 (no description â†’ count 1 per event)
+          // Stunden: 9h × 1 + 3h × 1 = 12
           expect(
             _getApplyValue(result, SanDienstRule.targetCategoryStunden),
-            2,
+            12,
           );
         });
       });
     });
 
-    group('Given San-Dienst-Termine mit Namen in der Beschreibung', () {
+    group('Given San-Dienst-Termine mit Teilnehmenden in der Beschreibung',
+        () {
       group('When parse aufgerufen wird', () {
-        test('Then werden Stunden als Ereignisse mal Namen berechnet', () {
+        test('Then werden Stunden als Dauer mal Teilnehmende berechnet', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART:20260601T080000Z
 DTEND:20260601T170000Z
 SUMMARY:San-Dienst Post
-DESCRIPTION:Teilnehmende: Uwe, Andi
+DESCRIPTION:Tag:Sandienst\\nTeilnehmende:2
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260615T080000Z
 DTEND:20260615T170000Z
 SUMMARY:San-Dienst
+DESCRIPTION:Tag:Sandienst
 END:VEVENT
 END:VCALENDAR''';
 
           final result = sut.parse(ical, 2026);
 
-          // Anzahl = event count (not multiplied) = 2
+          // Anzahl = event count = 2
           expect(
             _getApplyValue(result, SanDienstRule.targetCategoryAnzahl),
             2,
           );
 
-          // Stunden = name-multiplied: 2 + 1 = 3
+          // Stunden: 9h × 2 + 9h × 1 = 27
           expect(
             _getApplyValue(result, SanDienstRule.targetCategoryStunden),
-            3,
+            27,
           );
         });
       });
@@ -615,23 +649,26 @@ END:VCALENDAR''';
 
     group('Given eine iCal-Datei mit allen drei Regeltypen', () {
       group('When parse aufgerufen wird', () {
-        test('Then werden alle Regeln korrekt gezÃ¤hlt', () {
+        test('Then werden alle Regeln korrekt gezählt', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART:20260420T150000Z
 DTEND:20260420T160000Z
 SUMMARY:Schwimmtraining
+DESCRIPTION:Tag:Schwimmtraining
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260601T080000Z
 DTEND:20260601T170000Z
 SUMMARY:San-Dienst Klosterhofspiele
+DESCRIPTION:Tag:Sandienst
 END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260115T190000Z
 DTEND:20260115T210000Z
-SUMMARY:Dienstabend
+SUMMARY:Fortbildung
+DESCRIPTION:Tag:Fortbildung
 END:VEVENT
 END:VCALENDAR''';
 
@@ -645,85 +682,15 @@ END:VCALENDAR''';
             _getApplyValue(result, SanDienstRule.targetCategoryAnzahl),
             1,
           );
+          // San-Dienst: 9h × 1 = 9
           expect(
             _getApplyValue(result, SanDienstRule.targetCategoryStunden),
-            1,
+            9,
           );
+          // Fortbildung: 2h × 1 = 2
           expect(
-            _getApplyValue(result, DienstabendRule.targetCategory),
-            1,
-          );
-        });
-      });
-    });
-
-    group('Given iCal-Datei mit ähnlichen Dienstabend-Einträgen', () {
-      group('When parse aufgerufen wird', () {
-        test('Then wird "Dienstabend - Fürth" nicht als Dienstabend gezählt',
-            () {
-          const ical = '''
-BEGIN:VCALENDAR
-BEGIN:VEVENT
-DTSTART:20260115T190000Z
-DTEND:20260115T210000Z
-SUMMARY:Dienstabend - Fürth
-END:VEVENT
-END:VCALENDAR''';
-
-          final result = sut.parse(ical, 2026);
-
-          expect(
-            _getApplyValue(result, DienstabendRule.targetCategory),
-            0,
-          );
-        });
-
-        test('Then wird "Dienstabend (abgesagt)" nicht als Dienstabend gezählt',
-            () {
-          const ical = '''
-BEGIN:VCALENDAR
-BEGIN:VEVENT
-DTSTART:20260115T190000Z
-DTEND:20260115T210000Z
-SUMMARY:Dienstabend (abgesagt)
-END:VEVENT
-END:VCALENDAR''';
-
-          final result = sut.parse(ical, 2026);
-
-          expect(
-            _getApplyValue(result, DienstabendRule.targetCategory),
-            0,
-          );
-        });
-
-        test(
-            'Then wird nur exakter "Dienstabend" gezählt, nicht ähnliche Einträge',
-            () {
-          const ical = '''
-BEGIN:VCALENDAR
-BEGIN:VEVENT
-DTSTART:20260115T190000Z
-DTEND:20260115T210000Z
-SUMMARY:Dienstabend
-END:VEVENT
-BEGIN:VEVENT
-DTSTART:20260122T190000Z
-DTEND:20260122T210000Z
-SUMMARY:Dienstabend - Fürth
-END:VEVENT
-BEGIN:VEVENT
-DTSTART:20260129T190000Z
-DTEND:20260129T210000Z
-SUMMARY:Dienstabend (abgesagt)
-END:VEVENT
-END:VCALENDAR''';
-
-          final result = sut.parse(ical, 2026);
-
-          expect(
-            _getApplyValue(result, DienstabendRule.targetCategory),
-            1,
+            _getApplyValue(result, fortbildungTargetCategory),
+            2,
           );
         });
       });
@@ -781,7 +748,7 @@ END:VCALENDAR''';
         });
 
         test(
-            'Then wird Rettungsschwimmausbildung getrennt von Dienstabend gezählt',
+            'Then wird Rettungsschwimmausbildung getrennt von Fortbildung gezählt',
             () {
           const ical = '''
 BEGIN:VCALENDAR
@@ -794,8 +761,8 @@ END:VEVENT
 BEGIN:VEVENT
 DTSTART:20260312T190000Z
 DTEND:20260312T210000Z
-SUMMARY:Dienstabend
-DESCRIPTION:Teilnehmende: Uwe, Sandy, Tom
+SUMMARY:Fortbildung
+DESCRIPTION:Tag:Fortbildung\\nTeilnehmende:3
 END:VEVENT
 END:VCALENDAR''';
 
@@ -807,45 +774,27 @@ END:VCALENDAR''';
                 result, RettungsschwimmausbildungRule.summaryPattern),
             4,
           );
+          // Fortbildung: 2h × 3 = 6
           expect(
-            _getDisplayValue(result, DienstabendRule.summaryMatch),
-            3,
+            _getDisplayValue(result, fortbildungTargetCategory),
+            6,
           );
         });
       });
     });
 
-    group('Given iCal-Datei mit Whitespace in Summary', () {
+    group('Given iCal-Datei mit Whitespace in Description', () {
       group('When parse aufgerufen wird', () {
         test(
-            'Then wird Dienstabend mit führenden/nachfolgenden Leerzeichen erkannt',
-            () {
-          const ical = '''
-BEGIN:VCALENDAR
-BEGIN:VEVENT
-DTSTART:20260115T190000Z
-DTEND:20260115T210000Z
-SUMMARY: Dienstabend 
-END:VEVENT
-END:VCALENDAR''';
-
-          final result = sut.parse(ical, 2026);
-
-          expect(
-            _getApplyValue(result, DienstabendRule.targetCategory),
-            1,
-          );
-        });
-
-        test(
-            'Then wird Schwimmtraining mit führenden/nachfolgenden Leerzeichen erkannt',
+            'Then wird Schwimmtraining mit Leerzeichen um den Tag erkannt',
             () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART:20260420T150000Z
 DTEND:20260420T160000Z
-SUMMARY:  Schwimmtraining  
+SUMMARY:Schwimmtraining
+DESCRIPTION:  Tag:Schwimmtraining  
 END:VEVENT
 END:VCALENDAR''';
 
@@ -859,23 +808,25 @@ END:VCALENDAR''';
       });
     });
 
-    group('Given eine iCal-Datei mit Öffentlichkeitsarbeit-Events in 2025', () {
+    group('Given eine iCal-Datei mit Öffentlichkeitsarbeit-Events in 2025',
+        () {
       group('When parse für 2025 aufgerufen wird', () {
         test('Then werden beide Events korrekt gezählt', () {
           const ical =
-              'BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nDTSTART:20250118T130000Z\r\nDTEND:20250118T150000Z\r\nSUMMARY:SPD Neujahrsempfang (intern) (Offentlichkeitsarbeit)\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nDTSTART:20250628T160000Z\r\nDTEND:20250628T180000Z\r\nSUMMARY:Festzug 125 Jahre FFW Keidenzell Stinzendorf (Offentlichkeitsarbeit\r\n )\r\nEND:VEVENT\r\nEND:VCALENDAR';
+              'BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nDTSTART:20250118T130000Z\r\nDTEND:20250118T150000Z\r\nSUMMARY:SPD Neujahrsempfang (intern)\r\nDESCRIPTION:Tag:Offentlichkeitsarbeit\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nDTSTART:20250628T160000Z\r\nDTEND:20250628T180000Z\r\nSUMMARY:Festzug 125 Jahre FFW Keidenzell Stinzendorf\r\nDESCRIPTION:Tag:Offentlichkeitsarbeit\r\nEND:VEVENT\r\nEND:VCALENDAR';
 
           final result = sut.parse(ical, 2025);
 
+          // Event 1: 2h × 1 = 2, Event 2: 2h × 1 = 2, total = 4
           expect(
             _getApplyValue(result, OeffentlichkeitsarbeitRule.targetCategory),
-            2,
+            4,
           );
         });
 
         test('Then werden die Events für 2026 nicht gezählt', () {
           const ical =
-              'BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nDTSTART:20250118T130000Z\r\nDTEND:20250118T150000Z\r\nSUMMARY:SPD Neujahrsempfang (intern) (Öffentlichkeitsarbeit)\r\nEND:VEVENT\r\nEND:VCALENDAR';
+              'BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nDTSTART:20250118T130000Z\r\nDTEND:20250118T150000Z\r\nSUMMARY:SPD Neujahrsempfang (intern)\r\nDESCRIPTION:Tag:Offentlichkeitsarbeit\r\nEND:VEVENT\r\nEND:VCALENDAR';
 
           final result = sut.parse(ical, 2026);
 
