@@ -17,12 +17,22 @@ void main() {
       });
     });
 
-    group('Given a description with Teilnehmende marker and 3 names', () {
+    group('Given a description with Teilnehmende:3', () {
       group('When trackTeilnehmende is called', () {
         test('Then teilnehmendeCount is 3', () {
-          sut.trackTeilnehmende('Teilnehmende: Alex, Uwe, Sandy');
+          sut.trackTeilnehmende('Teilnehmende:3');
 
           expect(sut.teilnehmendeCount, 3);
+        });
+      });
+    });
+
+    group('Given a description with "Teilnehmende: 5" (with space)', () {
+      group('When trackTeilnehmende is called', () {
+        test('Then teilnehmendeCount is 5', () {
+          sut.trackTeilnehmende('Teilnehmende: 5');
+
+          expect(sut.teilnehmendeCount, 5);
         });
       });
     });
@@ -47,11 +57,11 @@ void main() {
       });
     });
 
-    group('Given multiple events with participants', () {
+    group('Given multiple events with participant counts', () {
       group('When trackTeilnehmende is called for each', () {
         test('Then teilnehmendeCount is the sum', () {
-          sut.trackTeilnehmende('Teilnehmende: Alex, Uwe');
-          sut.trackTeilnehmende('Teilnehmende: Sandy');
+          sut.trackTeilnehmende('Teilnehmende:2');
+          sut.trackTeilnehmende('Teilnehmende: 1');
 
           expect(sut.teilnehmendeCount, 3);
         });
@@ -61,7 +71,7 @@ void main() {
     group('Given trackTeilnehmende was called', () {
       group('When resetTeilnehmendeCount is called', () {
         test('Then teilnehmendeCount is 0', () {
-          sut.trackTeilnehmende('Teilnehmende: Alex, Uwe');
+          sut.trackTeilnehmende('Teilnehmende:2');
 
           sut.resetTeilnehmendeCount();
 
@@ -72,21 +82,21 @@ void main() {
 
     group('Given a description with text before the marker', () {
       group('When trackTeilnehmende is called', () {
-        test('Then names after Teilnehmende: are counted', () {
+        test('Then count after Teilnehmende: is parsed', () {
           sut.trackTeilnehmende(
-              'https://trello.com/abc\nTeilnehmende: Alex, Uwe, Sandy');
+              'Tag:Fortbildung\nTeilnehmende: 3');
 
           expect(sut.teilnehmendeCount, 3);
         });
       });
     });
 
-    group('Given a description with text after names on next line', () {
+    group('Given a description with lowercase "teilnehmende: 4"', () {
       group('When trackTeilnehmende is called', () {
-        test('Then only names on the Teilnehmende line are counted', () {
-          sut.trackTeilnehmende('Teilnehmende: Alex, Uwe\nSome other content');
+        test('Then count is parsed case-insensitively', () {
+          sut.trackTeilnehmende('teilnehmende: 4');
 
-          expect(sut.teilnehmendeCount, 2);
+          expect(sut.teilnehmendeCount, 4);
         });
       });
     });

@@ -1,19 +1,23 @@
 import 'package:training_organizer/domain/ical_parser/rules/ical_parser_rule.dart';
-import 'package:training_organizer/domain/ical_parser/rules/mixins/event_count_mixin.dart';
 import 'package:training_organizer/domain/ical_parser/rules/mixins/event_time_mixin.dart';
 
-/// This rule should parse all "Schwimmtraining" events from the ical file
-class SchwimmtrainingRule
-    with EventCountMixin, EventTimeMixin
-    implements IcalParserRule {
-  static const String summaryMatch = 'Schwimmtraining';
+/// This rule parses events with "tag:Schwimmtraining" in their description.
+/// Anzahl = sum of teilnehmende counts, Stunden = total hours.
+/// Single summarized position (no per-event breakdown).
+class SchwimmtrainingRule with EventTimeMixin implements IcalParserRule {
+  static const String tagName = 'Schwimmtraining';
   static const String targetCategoryAnzahl =
       'Gruppenstunden/Jugendtraining (Anzahl)';
   static const String targetCategoryStunden =
       'Gruppenstunden/Jugendtraining (Stunden)';
 
+  int _teilnehmendeTotal = 0;
+
+  int get teilnehmendeTotal => _teilnehmendeTotal;
+
   @override
-  bool matches(String summary) => summary.trim() == summaryMatch;
+  bool matches({required String summary, String? description}) =>
+      matchesDescriptionTag(description, tagName);
 
   @override
   void processEvent({
@@ -22,13 +26,14 @@ class SchwimmtrainingRule
     String? description,
     String? summary,
   }) {
-    trackEventCount();
+    final count = parseTeilnehmendeCount(description);
+    _teilnehmendeTotal += count > 0 ? count : 1;
     trackEventTime(startDateTime, endDateTime);
   }
 
   @override
   void reset() {
-    resetEventCount();
+    _teilnehmendeTotal = 0;
     resetEventTime();
   }
 
@@ -39,7 +44,7 @@ class SchwimmtrainingRule
   List<IcalRuleDisplayRow> get displayRows => [
         IcalRuleDisplayRow(
           label: displayLabelAnzahl,
-          value: eventCount,
+          value: _teilnehmendeTotal,
         ),
         IcalRuleDisplayRow(
           label: displayLabelStunden,
@@ -51,7 +56,7 @@ class SchwimmtrainingRule
   List<IcalRuleApplyEntry> get applyEntries => [
         IcalRuleApplyEntry(
           targetCategoryName: targetCategoryAnzahl,
-          value: eventCount,
+          value: _teilnehmendeTotal,
           beschreibung: 'Jugendtraining (iCal)',
         ),
         IcalRuleApplyEntry(

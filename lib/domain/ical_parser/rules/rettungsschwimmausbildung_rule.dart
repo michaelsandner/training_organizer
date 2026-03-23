@@ -10,7 +10,8 @@ class RettungsschwimmausbildungRule implements IcalParserRule {
   int get total => _total;
 
   @override
-  bool matches(String summary) => summary.contains(summaryPattern);
+  bool matches({required String summary, String? description}) =>
+      summary.contains(summaryPattern);
 
   @override
   void processEvent({

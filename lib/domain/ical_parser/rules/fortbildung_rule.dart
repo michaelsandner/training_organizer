@@ -1,18 +1,17 @@
 import 'package:training_organizer/domain/ical_parser/rules/ical_parser_rule.dart';
 import 'package:training_organizer/domain/ical_parser/rules/mixins/per_event_position_mixin.dart';
-import 'package:training_organizer/domain/ical_parser/rules/mixins/teilnehmende_mixin.dart';
 
-/// This rule should parse all "Fortbildung" events from the ical file
-class FortbildungRule
-    with TeilnehmendeMixin, PerEventPositionMixin
-    implements IcalParserRule {
-  static const String summaryPattern = '(Fortbildung)';
+/// This rule parses events with "tag:Fortbildung" in their description.
+/// Replaces the old DienstabendRule and FortbildungRule.
+class FortbildungRule with PerEventPositionMixin implements IcalParserRule {
+  static const String tagName = 'Fortbildung';
 
   @override
   String get targetCategoryName => 'Ausbildung/Fortbildung';
 
   @override
-  bool matches(String summary) => summary.contains(summaryPattern);
+  bool matches({required String summary, String? description}) =>
+      matchesDescriptionTag(description, tagName);
 
   @override
   void processEvent({
@@ -21,20 +20,27 @@ class FortbildungRule
     String? description,
     String? summary,
   }) {
-    final names = parseNameCount(description);
-    final count = names > 0 ? names : 1;
+    final count = parseTeilnehmendeCount(description);
+    final participants = count > 0 ? count : 1;
+    int hours = 0;
+    if (endDateTime != null) {
+      final minutes = endDateTime.difference(startDateTime).inMinutes;
+      hours = minutes > 0 ? (minutes / 60).ceil() : 0;
+    }
+    final value = hours > 0 ? hours * participants : participants;
     final label = summary?.trim() ?? '';
+    final date = formatEventDate(startDateTime);
     addPerEventEntry(IcalRuleApplyEntry(
       targetCategoryName: targetCategoryName,
-      value: count,
-      beschreibung: label.isNotEmpty ? '$label (iCal)' : '(iCal)',
-      teilnehmende: names > 0 ? '$names' : '',
+      value: value,
+      beschreibung:
+          label.isNotEmpty ? '$label $date (iCal)' : '$date (iCal)',
+      teilnehmende: count > 0 ? '$count' : '',
     ));
   }
 
   @override
   void reset() {
-    resetTeilnehmendeCount();
     resetPerEventEntries();
   }
 }

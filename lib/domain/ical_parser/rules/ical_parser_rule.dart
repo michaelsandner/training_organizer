@@ -1,7 +1,8 @@
 /// Interface for iCal parser rules that match and count specific event types.
 abstract class IcalParserRule {
-  /// Returns true if the trimmed [summary] matches this rule.
-  bool matches(String summary);
+  /// Returns true if this rule matches the event.
+  /// Rules can match on [summary], [description], or both.
+  bool matches({required String summary, String? description});
 
   /// Processes a single event occurrence.
   void processEvent({
@@ -44,6 +45,32 @@ class IcalRuleApplyEntry {
   });
 }
 
+/// Returns true if [description] contains "tag:{tagName}" (case-insensitive,
+/// optional whitespace after the colon).
+bool matchesDescriptionTag(String? description, String tagName) {
+  if (description == null || description.trim().isEmpty) return false;
+  final pattern = RegExp(
+    r'tag:\s*' + RegExp.escape(tagName),
+    caseSensitive: false,
+  );
+  return pattern.hasMatch(description);
+}
+
+/// Parses a numeric count from the "Teilnehmende:" field in a description.
+/// Matches "Teilnehmende:{count}" where {count} is a number (e.g. 1, 2, 10).
+/// Case-insensitive, optional whitespace after the colon.
+/// Returns 0 if description is null or does not contain a valid marker.
+int parseTeilnehmendeCount(String? description) {
+  if (description == null || description.trim().isEmpty) return 0;
+  final pattern = RegExp(
+    r'teilnehmende:\s*(\d+)',
+    caseSensitive: false,
+  );
+  final match = pattern.firstMatch(description);
+  if (match == null) return 0;
+  return int.tryParse(match.group(1)!) ?? 0;
+}
+
 /// Parses comma-separated names from the "Teilnehmende:" field in a description.
 /// Returns 0 if description is null or does not contain the marker.
 int parseNameCount(String? description) {
@@ -61,4 +88,11 @@ int parseNameCount(String? description) {
       .map((e) => e.trim())
       .where((e) => e.isNotEmpty)
       .length;
+}
+
+/// Formats a date as DD.MM.YYYY for display in position descriptions.
+String formatEventDate(DateTime date) {
+  final day = date.day.toString().padLeft(2, '0');
+  final month = date.month.toString().padLeft(2, '0');
+  return '$day.$month.${date.year}';
 }

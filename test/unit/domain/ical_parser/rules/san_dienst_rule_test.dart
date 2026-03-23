@@ -9,70 +9,92 @@ void main() {
   });
 
   group('SanDienstRule', () {
-    group('Given a summary "San-Dienst Post"', () {
-      test('Then matches returns true (contains match)', () {
-        expect(sut.matches('San-Dienst Post'), isTrue);
-      });
-    });
-
-    group('Given a summary "San-Dienst"', () {
+    group('Given a description with "Tag:Sandienst"', () {
       test('Then matches returns true', () {
-        expect(sut.matches('San-Dienst'), isTrue);
+        expect(
+            sut.matches(
+                summary: 'San-Dienst Post', description: 'Tag:Sandienst'),
+            isTrue);
       });
     });
 
-    group('Given a summary "Dienstabend"', () {
+    group('Given a description with "tag: sandienst" (lowercase)', () {
+      test('Then matches returns true', () {
+        expect(
+            sut.matches(
+                summary: 'San-Dienst', description: 'tag: sandienst'),
+            isTrue);
+      });
+    });
+
+    group('Given no description', () {
       test('Then matches returns false', () {
-        expect(sut.matches('Dienstabend'), isFalse);
+        expect(sut.matches(summary: 'San-Dienst'), isFalse);
       });
     });
 
-    group('Given an event with 2 Teilnehmende', () {
+    group('Given an event with Teilnehmende:2 and 9 hours', () {
       group('When processEvent is called', () {
-        test('Then eventCount is 1 and teilnehmendeCount is 2', () {
+        test('Then eventCount is 1 and totalStunden is 18 (9h × 2)', () {
           sut.processEvent(
             startDateTime: DateTime(2026, 6, 1, 8, 0),
-            description: 'Teilnehmende: Uwe, Andi',
+            endDateTime: DateTime(2026, 6, 1, 17, 0),
+            description: 'Tag:Sandienst\nTeilnehmende:2',
           );
 
           expect(sut.eventCount, 1);
-          expect(sut.teilnehmendeCount, 2);
+          expect(sut.totalStunden, 18);
         });
       });
     });
 
-    group('Given an event without description', () {
+    group('Given an event without Teilnehmende', () {
       group('When processEvent is called', () {
-        test('Then eventCount is 1 and teilnehmendeCount is 1', () {
+        test('Then eventCount is 1 and totalStunden is hours × 1', () {
           sut.processEvent(
             startDateTime: DateTime(2026, 6, 1, 8, 0),
+            endDateTime: DateTime(2026, 6, 1, 17, 0),
+            description: 'Tag: Sandienst',
           );
 
           expect(sut.eventCount, 1);
-          expect(sut.teilnehmendeCount, 1);
+          expect(sut.totalStunden, 9);
         });
       });
     });
 
     group('Given two events processed', () {
       group('When applyEntries is accessed', () {
-        test('Then Anzahl uses eventCount and Stunden uses teilnehmendeCount',
+        test(
+            'Then Anzahl has per-event entries and Stunden uses total hours × count',
             () {
           sut.processEvent(
             startDateTime: DateTime(2026, 6, 1, 8, 0),
-            description: 'Teilnehmende: Uwe, Andi',
+            endDateTime: DateTime(2026, 6, 1, 17, 0),
+            description: 'Tag:Sandienst\nTeilnehmende:2',
+            summary: 'San-Dienst Post',
           );
           sut.processEvent(
             startDateTime: DateTime(2026, 6, 15, 8, 0),
+            endDateTime: DateTime(2026, 6, 15, 12, 0),
+            description: 'Tag: Sandienst',
+            summary: 'San-Dienst Musical',
           );
 
-          expect(sut.applyEntries, hasLength(2));
+          // 2 per-event Anzahl entries + 1 Stunden entry = 3
+          expect(sut.applyEntries, hasLength(3));
           expect(sut.applyEntries[0].targetCategoryName,
               SanDienstRule.targetCategoryAnzahl);
-          expect(sut.applyEntries[0].value, 2);
+          expect(sut.applyEntries[0].value, 1);
+          expect(sut.applyEntries[0].beschreibung,
+              'San-Dienst Post 01.06.2026 (iCal)');
           expect(sut.applyEntries[1].targetCategoryName,
+              SanDienstRule.targetCategoryAnzahl);
+          expect(sut.applyEntries[1].value, 1);
+          expect(sut.applyEntries[2].targetCategoryName,
               SanDienstRule.targetCategoryStunden);
-          expect(sut.applyEntries[1].value, 3);
+          // 9h×2 + 4h×1 = 22
+          expect(sut.applyEntries[2].value, 22);
         });
       });
     });
@@ -82,13 +104,14 @@ void main() {
         test('Then all counters are 0', () {
           sut.processEvent(
             startDateTime: DateTime(2026, 6, 1, 8, 0),
-            description: 'Teilnehmende: Uwe',
+            endDateTime: DateTime(2026, 6, 1, 17, 0),
+            description: 'Tag:Sandienst\nTeilnehmende: 2',
           );
 
           sut.reset();
 
           expect(sut.eventCount, 0);
-          expect(sut.teilnehmendeCount, 0);
+          expect(sut.totalStunden, 0);
         });
       });
     });

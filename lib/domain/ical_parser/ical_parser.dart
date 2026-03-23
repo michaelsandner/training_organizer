@@ -1,6 +1,5 @@
 import 'package:training_organizer/domain/ical_parser/ical_date_parser.dart';
 import 'package:training_organizer/domain/ical_parser/ical_import_result.dart';
-import 'package:training_organizer/domain/ical_parser/rules/dienstabend_rule.dart';
 import 'package:training_organizer/domain/ical_parser/rules/fortbildung_rule.dart';
 import 'package:training_organizer/domain/ical_parser/rules/gremienarbeit_rule.dart';
 import 'package:training_organizer/domain/ical_parser/rules/gruppenstunden_rule.dart';
@@ -56,7 +55,6 @@ class IcalParser {
   static List<IcalParserRule> get defaultRules => [
         SchwimmtrainingRule(),
         GruppenstundenRule(),
-        DienstabendRule(),
         RettungsschwimmausbildungRule(),
         FortbildungRule(),
         NaturschutzRule(),
@@ -81,7 +79,8 @@ class IcalParser {
 
     for (final event in resolved) {
       for (final rule in activeRules) {
-        if (rule.matches(event.summary)) {
+        if (rule.matches(
+            summary: event.summary, description: event.description)) {
           rule.processEvent(
             startDateTime: event.startDateTime,
             endDateTime: event.endDateTime,
