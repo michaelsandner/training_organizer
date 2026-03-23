@@ -42,5 +42,13 @@ class RettungsschwimmausbildungRule
   }
 
   @override
+  List<IcalRuleDisplayRow> get displayRows => [
+        IcalRuleDisplayRow(
+          label: summaryPattern,
+          value: perEventTotal,
+        ),
+      ];
+
+  @override
   void reset() => resetPerEventEntries();
 }
