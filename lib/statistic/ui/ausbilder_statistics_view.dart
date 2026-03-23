@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:training_organizer/cubit/trainees_cubit.dart';
-import 'package:training_organizer/cubit/trainees_state.dart';
+import 'package:training_organizer/overview/trainees_cubit.dart';
+import 'package:training_organizer/overview/trainees_state.dart';
 import 'package:training_organizer/model/qualifications/assitent.dart';
 import 'package:training_organizer/model/qualifications/ausbilder_r1.dart';
 import 'package:training_organizer/model/qualifications/ausbilder_r2.dart';

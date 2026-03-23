@@ -6,11 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/data/performance_data_file_handler.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/performance_data/domain/badge_import_result.dart';
-import 'package:training_organizer/performance_data/domain/category_position.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/ical_parser.dart';
+import 'package:training_organizer/domain/badge_import_result.dart';
+import 'package:training_organizer/domain/category_position.dart';
+import 'package:training_organizer/domain/ical_parser/ical_parser.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
-import 'package:training_organizer/performance_data/domain/performance_data.dart';
+import 'package:training_organizer/domain/performance_data.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_state.dart';
 
 class PerformanceDataCubit extends Cubit<PerformanceDataState> {

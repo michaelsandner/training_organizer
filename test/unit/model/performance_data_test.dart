@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/performance_data/domain/performance_category.dart';
-import 'package:training_organizer/performance_data/domain/performance_data.dart';
-import 'package:training_organizer/performance_data/domain/category_position.dart';
+import 'package:training_organizer/domain/performance_category.dart';
+import 'package:training_organizer/domain/performance_data.dart';
+import 'package:training_organizer/domain/category_position.dart';
 
 void main() {
   group('PerformanceData', () {

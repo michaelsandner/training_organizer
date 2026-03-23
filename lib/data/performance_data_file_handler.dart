@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:external_path/external_path.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:training_organizer/performance_data/domain/performance_data.dart';
-import 'package:training_organizer/performance_data/domain/performance_data_repository.dart';
+import 'package:training_organizer/domain/performance_data.dart';
+import 'package:training_organizer/domain/performance_data_repository.dart';
 
 class PerformanceDataFileHandler implements PerformanceDataRepository {
   @override

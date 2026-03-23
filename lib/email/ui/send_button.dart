@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/trainees_cubit.dart';
+import 'package:training_organizer/overview/trainees_cubit.dart';
 import 'package:training_organizer/email/ui/email_cubit.dart';
 
 class SendButton extends StatelessWidget {

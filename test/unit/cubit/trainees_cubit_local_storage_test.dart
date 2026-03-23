@@ -1,8 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:training_organizer/cubit/trainees_cubit.dart';
-import 'package:training_organizer/cubit/trainees_state.dart';
+import 'package:training_organizer/overview/trainees_cubit.dart';
+import 'package:training_organizer/overview/trainees_state.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/overview/selection/filter_trainees_cubit.dart';

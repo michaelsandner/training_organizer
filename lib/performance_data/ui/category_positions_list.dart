@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_organizer/performance_data/domain/category_position.dart';
+import 'package:training_organizer/domain/category_position.dart';
 import 'package:training_organizer/performance_data/ui/category_position_row.dart';
 
 /// Displays a list of positions with a header and an add button.

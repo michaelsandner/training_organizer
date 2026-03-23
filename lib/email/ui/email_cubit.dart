@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/cubit/trainees_state.dart';
-import 'package:training_organizer/email/domain/send_email_usecase.dart';
+import 'package:training_organizer/overview/trainees_state.dart';
+import 'package:training_organizer/domain/send_email_usecase.dart';
 import 'package:training_organizer/email/ui/email_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/services/trainees_filter_service.dart';

@@ -1,15 +1,15 @@
-import 'package:training_organizer/performance_data/domain/ical_parser/ical_date_parser.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/ical_import_result.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/dienstabend_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/fortbildung_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/gremienarbeit_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/gruppenstunden_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/ical_parser_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/naturschutz_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/oeffentlichkeitsarbeit_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/rettungsschwimmausbildung_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/san_dienst_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/schwimmtraining_rule.dart';
+import 'package:training_organizer/domain/ical_parser/ical_date_parser.dart';
+import 'package:training_organizer/domain/ical_parser/ical_import_result.dart';
+import 'package:training_organizer/domain/ical_parser/rules/dienstabend_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/fortbildung_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/gremienarbeit_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/gruppenstunden_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/ical_parser_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/naturschutz_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/oeffentlichkeitsarbeit_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/rettungsschwimmausbildung_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/san_dienst_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/schwimmtraining_rule.dart';
 
 /// Internal model for a parsed VEVENT.
 class _IcalEvent {

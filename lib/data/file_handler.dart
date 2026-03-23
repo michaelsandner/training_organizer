@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:external_path/external_path.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:training_organizer/import_export/domain/file_repository.dart';
+import 'package:training_organizer/domain/file_repository.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 class FileExporter implements FileRepository {

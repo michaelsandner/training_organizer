@@ -11,10 +11,10 @@ import 'package:training_organizer/model/qualifications/rs_gold.dart';
 import 'package:training_organizer/model/qualifications/rs_silber.dart';
 import 'package:training_organizer/model/qualifications/silber.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/performance_data/domain/badge_import_result.dart';
-import 'package:training_organizer/performance_data/domain/category_position.dart';
-import 'package:training_organizer/performance_data/domain/performance_category.dart';
-import 'package:training_organizer/performance_data/domain/performance_data.dart';
+import 'package:training_organizer/domain/badge_import_result.dart';
+import 'package:training_organizer/domain/category_position.dart';
+import 'package:training_organizer/domain/performance_category.dart';
+import 'package:training_organizer/domain/performance_data.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_cubit.dart';
 import 'package:training_organizer/performance_data/ui/performance_data_state.dart';
 

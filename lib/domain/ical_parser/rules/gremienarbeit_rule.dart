@@ -1,5 +1,5 @@
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/ical_parser_rule.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/mixins/per_event_position_mixin.dart';
+import 'package:training_organizer/domain/ical_parser/rules/ical_parser_rule.dart';
+import 'package:training_organizer/domain/ical_parser/rules/mixins/per_event_position_mixin.dart';
 
 /// This rule should parse all "Gremienarbeit" events from the ical file
 class GremienarbeitRule with PerEventPositionMixin implements IcalParserRule {

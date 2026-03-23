@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/performance_data/domain/ical_parser/rules/mixins/event_time_mixin.dart';
+import 'package:training_organizer/domain/ical_parser/rules/mixins/event_time_mixin.dart';
 
 class _TestEventTime with EventTimeMixin {}
 
