@@ -1,4 +1,4 @@
-import 'package:training_organizer/overview/trainees_state.dart';
+import 'package:training_organizer/features/overview/trainees_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 class TraineesFilterService {

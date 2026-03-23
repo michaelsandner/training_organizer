@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training_organizer/email/ui/email_cubit.dart';
+import 'package:training_organizer/features/email/email_cubit.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/overview/selection/filter_trainees_cubit.dart';
+import 'package:training_organizer/features/overview/selection/filter_trainees_cubit.dart';
 
 class EmailButton extends StatelessWidget {
   final Trainee trainee;

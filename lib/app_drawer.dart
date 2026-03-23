@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:training_organizer/email/ui/send_email_page.dart';
-import 'package:training_organizer/performance_data/ui/performance_data_page.dart';
-import 'package:training_organizer/rescue_qualification/ui/rescue_qualification_page.dart';
+import 'package:training_organizer/features/email/send_email_page.dart';
+import 'package:training_organizer/features/performance_data/performance_data_page.dart';
+import 'package:training_organizer/features/rescue_qualification/rescue_qualification_page.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});

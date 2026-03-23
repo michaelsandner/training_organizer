@@ -1,0 +1,148 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:training_organizer/features/overview/trainees_cubit.dart';
+import 'package:training_organizer/features/edit/add_trainee.dart';
+import 'package:training_organizer/import_export/ui/file_cubit.dart';
+import 'package:training_organizer/import_export/ui/file_state.dart';
+
+class ButtonRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<FileCubit, FileState>(
+      listenWhen: (previous, current) {
+        return previous.exportState != current.exportState ||
+            previous.errorMessage != current.errorMessage;
+      },
+      listener: (context, state) {
+        if (state.exportState == ExportState.exportSuccessful) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Export successful')),
+          );
+        }
+        if (state.exportState == ExportState.exportFailed &&
+            state.errorMessage != null) {
+          ScaffoldMessenger.of(context).showMaterialBanner(
+            MaterialBanner(
+              content: Text(state.errorMessage!),
+              backgroundColor: Colors.red.shade100,
+              leading: const Icon(Icons.error_outline, color: Colors.red),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                  },
+                  child: const Text('Dismiss'),
+                ),
+              ],
+            ),
+          );
+        }
+        if (state.errorMessage != null &&
+            state.exportState == ExportState.none) {
+          ScaffoldMessenger.of(context).showMaterialBanner(
+            MaterialBanner(
+              content: Text(state.errorMessage!),
+              backgroundColor: Colors.red.shade100,
+              leading: const Icon(Icons.error_outline, color: Colors.red),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                  },
+                  child: const Text('Dismiss'),
+                ),
+              ],
+            ),
+          );
+        }
+      },
+      child: Align(
+        alignment: Alignment.bottomRight,
+        child: DefaultButtonContainer(),
+      ),
+    );
+  }
+}
+
+class DefaultButtonContainer extends StatelessWidget {
+  bool isMobileLayout(BuildContext context) {
+    final data = MediaQueryData.fromView(View.of(context));
+    return data.size.shortestSide < 700;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isMobile = isMobileLayout(context);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        ImportButton(isMobile: isMobile),
+        const SizedBox(width: 5),
+        ExportButton(isMobile: isMobile),
+        const SizedBox(width: 5),
+        AddButton(isMobile: isMobile),
+        const SizedBox(width: 5),
+      ],
+    );
+  }
+}
+
+class ImportButton extends StatelessWidget {
+  final bool isMobile;
+
+  const ImportButton({required this.isMobile});
+
+  String get title => isMobile ? 'Import' : 'Importieren';
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<TraineesCubit>();
+    final fileCubit = context.read<FileCubit>();
+    return FloatingActionButton.extended(
+      heroTag: 'importButton',
+      onPressed: () async {
+        final trainees = await fileCubit.loadFile();
+        cubit.updateTraineeList(trainees);
+      },
+      icon: const Icon(Icons.data_object),
+      label: Text(title),
+    );
+  }
+}
+
+class ExportButton extends StatelessWidget {
+  final bool isMobile;
+  const ExportButton({required this.isMobile});
+
+  String get title => isMobile ? 'Export' : 'Exportieren';
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<TraineesCubit>();
+    final fileCubit = context.read<FileCubit>();
+    return FloatingActionButton.extended(
+      heroTag: 'exportButton',
+      onPressed: () => fileCubit.saveFile(cubit.state.trainees),
+      icon: const Icon(Icons.data_object),
+      label: Text(title),
+    );
+  }
+}
+
+class AddButton extends StatelessWidget {
+  final bool isMobile;
+  const AddButton({required this.isMobile});
+
+  String get title => isMobile ? '' : 'Hinzufügen';
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton.extended(
+      heroTag: 'addButton',
+      onPressed: () => Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const AddTrainee())),
+      icon: const Icon(Icons.add),
+      label: Text(title),
+    );
+  }
+}
