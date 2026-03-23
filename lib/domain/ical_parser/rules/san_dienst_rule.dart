@@ -14,6 +14,7 @@ class SanDienstRule
       'ohne Wachdienste an Wachstationen (Stunden)';
 
   int _totalStunden = 0;
+  final List<IcalRuleApplyEntry> _perEventStunden = [];
 
   int get totalStunden => _totalStunden;
 
@@ -44,11 +45,20 @@ class SanDienstRule
 
     final label = summary?.trim() ?? '';
     final date = formatEventDate(startDateTime);
+    final beschreibung =
+        label.isNotEmpty ? '$label $date (iCal)' : '$date (iCal)';
+
     addPerEventEntry(IcalRuleApplyEntry(
       targetCategoryName: targetCategoryAnzahl,
       value: 1,
-      beschreibung:
-          label.isNotEmpty ? '$label $date (iCal)' : '$date (iCal)',
+      beschreibung: beschreibung,
+      teilnehmende: count > 0 ? '$count' : '',
+    ));
+
+    _perEventStunden.add(IcalRuleApplyEntry(
+      targetCategoryName: targetCategoryStunden,
+      value: stunden,
+      beschreibung: beschreibung,
       teilnehmende: count > 0 ? '$count' : '',
     ));
   }
@@ -57,6 +67,7 @@ class SanDienstRule
   void reset() {
     resetEventCount();
     resetPerEventEntries();
+    _perEventStunden.clear();
     _totalStunden = 0;
   }
 
@@ -75,10 +86,6 @@ class SanDienstRule
   @override
   List<IcalRuleApplyEntry> get applyEntries => [
         ...super.applyEntries,
-        IcalRuleApplyEntry(
-          targetCategoryName: targetCategoryStunden,
-          value: _totalStunden,
-          beschreibung: 'San-Dienst (iCal)',
-        ),
+        ..._perEventStunden,
       ];
 }

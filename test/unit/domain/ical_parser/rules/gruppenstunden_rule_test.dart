@@ -27,6 +27,24 @@ void main() {
       });
     });
 
+    group('Given a description with "TAG:GRUPPENSTUNDE" (uppercase)', () {
+      test('Then matches returns true', () {
+        expect(
+            sut.matches(
+                summary: 'Gruppenstunde', description: 'TAG:GRUPPENSTUNDE'),
+            isTrue);
+      });
+    });
+
+    group('Given a description with "TaG: GrUppenStunde" (mixed case)', () {
+      test('Then matches returns true', () {
+        expect(
+            sut.matches(
+                summary: 'Gruppenstunde', description: 'TaG: GrUppenStunde'),
+            isTrue);
+      });
+    });
+
     group('Given no description', () {
       test('Then matches returns false', () {
         expect(sut.matches(summary: 'Gruppenstunde'), isFalse);
@@ -35,7 +53,7 @@ void main() {
 
     group('Given two events with Teilnehmende:5 and 2h/3h duration', () {
       group('When processEvent is called for each', () {
-        test('Then teilnehmendeTotal is 10 and totalHours is 5', () {
+        test('Then eventCount is 2 and totalStunden is 25', () {
           sut.processEvent(
             startDateTime: DateTime(2026, 2, 7, 14, 0),
             endDateTime: DateTime(2026, 2, 7, 16, 0),
@@ -49,15 +67,18 @@ void main() {
             summary: 'Gruppenstunde',
           );
 
-          expect(sut.teilnehmendeTotal, 10);
-          expect(sut.totalHours, 5);
+          // 2h*5 + 3h*5 = 25
+          expect(sut.eventCount, 2);
+          expect(sut.totalStunden, 25);
         });
       });
     });
 
     group('Given events were processed', () {
       group('When displayRows is accessed', () {
-        test('Then it contains Anzahl and Stunden rows', () {
+        test(
+            'Then Anzahl shows event count and Stunden shows hours*participants',
+            () {
           sut.processEvent(
             startDateTime: DateTime(2026, 2, 7, 14, 0),
             endDateTime: DateTime(2026, 2, 7, 16, 0),
@@ -68,17 +89,19 @@ void main() {
           expect(sut.displayRows, hasLength(2));
           expect(
               sut.displayRows[0].label, GruppenstundenRule.displayLabelAnzahl);
-          expect(sut.displayRows[0].value, 3);
+          expect(sut.displayRows[0].value, 1);
           expect(
               sut.displayRows[1].label, GruppenstundenRule.displayLabelStunden);
-          expect(sut.displayRows[1].value, 2);
+          // 2h * 3 participants = 6
+          expect(sut.displayRows[1].value, 6);
         });
       });
     });
 
     group('Given events were processed', () {
       group('When applyEntries is accessed', () {
-        test('Then per-event Anzahl entries have dates and one Stunden entry',
+        test(
+            'Then per-event Anzahl entries have value 1 and per-event Stunden entries have hours*participants',
             () {
           sut.processEvent(
             startDateTime: DateTime(2026, 2, 7, 14, 0),
@@ -93,21 +116,34 @@ void main() {
             summary: 'Gruppenstunde - Jugend',
           );
 
-          // 2 per-event Anzahl entries + 1 Stunden entry = 3
-          expect(sut.applyEntries, hasLength(3));
+          // 2 per-event Anzahl entries + 2 per-event Stunden entries = 4
+          expect(sut.applyEntries, hasLength(4));
+
+          // Anzahl entries (value = 1 per event)
           expect(sut.applyEntries[0].targetCategoryName,
               GruppenstundenRule.targetCategoryAnzahl);
-          expect(sut.applyEntries[0].value, 3);
+          expect(sut.applyEntries[0].value, 1);
           expect(sut.applyEntries[0].beschreibung,
               'Gruppenstunde 07.02.2026 (iCal)');
           expect(sut.applyEntries[1].targetCategoryName,
               GruppenstundenRule.targetCategoryAnzahl);
-          expect(sut.applyEntries[1].value, 5);
+          expect(sut.applyEntries[1].value, 1);
           expect(sut.applyEntries[1].beschreibung,
               'Gruppenstunde - Jugend 14.03.2026 (iCal)');
+
+          // Stunden entries (hours * participants)
           expect(sut.applyEntries[2].targetCategoryName,
               GruppenstundenRule.targetCategoryStunden);
-          expect(sut.applyEntries[2].value, 5);
+          // 2h * 3 = 6
+          expect(sut.applyEntries[2].value, 6);
+          expect(sut.applyEntries[2].beschreibung,
+              'Gruppenstunde 07.02.2026 (iCal)');
+          expect(sut.applyEntries[3].targetCategoryName,
+              GruppenstundenRule.targetCategoryStunden);
+          // 3h * 5 = 15
+          expect(sut.applyEntries[3].value, 15);
+          expect(sut.applyEntries[3].beschreibung,
+              'Gruppenstunde - Jugend 14.03.2026 (iCal)');
         });
       });
     });
@@ -124,8 +160,8 @@ void main() {
 
           sut.reset();
 
-          expect(sut.teilnehmendeTotal, 0);
-          expect(sut.totalHours, 0);
+          expect(sut.eventCount, 0);
+          expect(sut.totalStunden, 0);
         });
       });
     });

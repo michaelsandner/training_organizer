@@ -1,19 +1,18 @@
 import 'package:training_organizer/domain/ical_parser/rules/ical_parser_rule.dart';
-import 'package:training_organizer/domain/ical_parser/rules/mixins/event_time_mixin.dart';
+import 'package:training_organizer/domain/ical_parser/rules/mixins/event_count_mixin.dart';
 
 /// This rule parses events with "tag:Schwimmtraining" in their description.
-/// Anzahl = sum of teilnehmende counts, Stunden = total hours.
-/// Single summarized position (no per-event breakdown).
-class SchwimmtrainingRule with EventTimeMixin implements IcalParserRule {
+/// Anzahl = number of events, Stunden = total hours × participants (summarized).
+class SchwimmtrainingRule with EventCountMixin implements IcalParserRule {
   static const String tagName = 'Schwimmtraining';
   static const String targetCategoryAnzahl =
       'Gruppenstunden/Jugendtraining (Anzahl)';
   static const String targetCategoryStunden =
       'Gruppenstunden/Jugendtraining (Stunden)';
 
-  int _teilnehmendeTotal = 0;
+  int _totalStunden = 0;
 
-  int get teilnehmendeTotal => _teilnehmendeTotal;
+  int get totalStunden => _totalStunden;
 
   @override
   bool matches({required String summary, String? description}) =>
@@ -26,15 +25,21 @@ class SchwimmtrainingRule with EventTimeMixin implements IcalParserRule {
     String? description,
     String? summary,
   }) {
+    trackEventCount();
     final count = parseTeilnehmendeCount(description);
-    _teilnehmendeTotal += count > 0 ? count : 1;
-    trackEventTime(startDateTime, endDateTime);
+    final participants = count > 0 ? count : 1;
+    int hours = 0;
+    if (endDateTime != null) {
+      final minutes = endDateTime.difference(startDateTime).inMinutes;
+      hours = minutes > 0 ? (minutes / 60).ceil() : 0;
+    }
+    _totalStunden += hours * participants;
   }
 
   @override
   void reset() {
-    _teilnehmendeTotal = 0;
-    resetEventTime();
+    resetEventCount();
+    _totalStunden = 0;
   }
 
   static const String displayLabelAnzahl = 'Jugendtraining (Anzahl)';
@@ -44,11 +49,11 @@ class SchwimmtrainingRule with EventTimeMixin implements IcalParserRule {
   List<IcalRuleDisplayRow> get displayRows => [
         IcalRuleDisplayRow(
           label: displayLabelAnzahl,
-          value: _teilnehmendeTotal,
+          value: eventCount,
         ),
         IcalRuleDisplayRow(
           label: displayLabelStunden,
-          value: totalHours,
+          value: _totalStunden,
         ),
       ];
 
@@ -56,12 +61,12 @@ class SchwimmtrainingRule with EventTimeMixin implements IcalParserRule {
   List<IcalRuleApplyEntry> get applyEntries => [
         IcalRuleApplyEntry(
           targetCategoryName: targetCategoryAnzahl,
-          value: _teilnehmendeTotal,
+          value: eventCount,
           beschreibung: 'Jugendtraining (iCal)',
         ),
         IcalRuleApplyEntry(
           targetCategoryName: targetCategoryStunden,
-          value: totalHours,
+          value: _totalStunden,
           beschreibung: 'Jugendtraining (iCal)',
         ),
       ];
