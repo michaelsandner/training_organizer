@@ -21,8 +21,7 @@ void main() {
     group('Given a description with "tag: sandienst" (lowercase)', () {
       test('Then matches returns true', () {
         expect(
-            sut.matches(
-                summary: 'San-Dienst', description: 'tag: sandienst'),
+            sut.matches(summary: 'San-Dienst', description: 'tag: sandienst'),
             isTrue);
       });
     });
@@ -66,7 +65,7 @@ void main() {
     group('Given two events processed', () {
       group('When applyEntries is accessed', () {
         test(
-            'Then Anzahl has per-event entries and Stunden uses total hours × count',
+            'Then Anzahl and Stunden each have per-event entries with title and date',
             () {
           sut.processEvent(
             startDateTime: DateTime(2026, 6, 1, 8, 0),
@@ -81,8 +80,10 @@ void main() {
             summary: 'San-Dienst Musical',
           );
 
-          // 2 per-event Anzahl entries + 1 Stunden entry = 3
-          expect(sut.applyEntries, hasLength(3));
+          // 2 per-event Anzahl + 2 per-event Stunden = 4
+          expect(sut.applyEntries, hasLength(4));
+
+          // Anzahl entries
           expect(sut.applyEntries[0].targetCategoryName,
               SanDienstRule.targetCategoryAnzahl);
           expect(sut.applyEntries[0].value, 1);
@@ -91,10 +92,22 @@ void main() {
           expect(sut.applyEntries[1].targetCategoryName,
               SanDienstRule.targetCategoryAnzahl);
           expect(sut.applyEntries[1].value, 1);
+          expect(sut.applyEntries[1].beschreibung,
+              'San-Dienst Musical 15.06.2026 (iCal)');
+
+          // Stunden entries
           expect(sut.applyEntries[2].targetCategoryName,
               SanDienstRule.targetCategoryStunden);
-          // 9h×2 + 4h×1 = 22
-          expect(sut.applyEntries[2].value, 22);
+          // 9h × 2 = 18
+          expect(sut.applyEntries[2].value, 18);
+          expect(sut.applyEntries[2].beschreibung,
+              'San-Dienst Post 01.06.2026 (iCal)');
+          expect(sut.applyEntries[3].targetCategoryName,
+              SanDienstRule.targetCategoryStunden);
+          // 4h × 1 = 4
+          expect(sut.applyEntries[3].value, 4);
+          expect(sut.applyEntries[3].beschreibung,
+              'San-Dienst Musical 15.06.2026 (iCal)');
         });
       });
     });
