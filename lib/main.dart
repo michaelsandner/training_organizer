@@ -39,14 +39,16 @@ class MyApp extends StatelessWidget {
                 localStorageRepository: context.read<LocalStorageService>(),
               )..init();
             }),
-            BlocProvider(create: (context) {
-              final filterCubit =
-                  FilterTraineesCubit(FilterTraineesUseCase());
-              context
-                  .read<TraineesCubit>()
-                  .setFilterTraineesCubit(filterCubit);
-              return filterCubit;
-            }),
+            BlocProvider(
+                lazy: false,
+                create: (context) {
+                  final filterCubit =
+                      FilterTraineesCubit(FilterTraineesUseCase());
+                  context
+                      .read<TraineesCubit>()
+                      .setFilterTraineesCubit(filterCubit);
+                  return filterCubit;
+                }),
             BlocProvider(
               create: (context) {
                 return FileCubit(context.read<FileExporter>());
