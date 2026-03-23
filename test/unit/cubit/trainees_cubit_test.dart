@@ -10,6 +10,12 @@ import 'package:training_organizer/overview/selection/filter_trainees_state.dart
 class MockFilterTraineesCubit extends Mock implements FilterTraineesCubit {}
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(Group.waitingList);
+    registerFallbackValue(FilterableGroup.all);
+    registerFallbackValue(<Trainee>[]);
+  });
+
   group('TraineesCubit', () {
     late TraineesCubit cubit;
     late TraineesState state;
@@ -17,13 +23,13 @@ void main() {
 
     setUp(() {
       mockFilterTraineesCubit = MockFilterTraineesCubit();
-      when(() => mockFilterTraineesCubit.state).thenReturn(FilterTraineesState.initial());
+      when(() => mockFilterTraineesCubit.state)
+          .thenReturn(FilterTraineesState.initial());
       when(() => mockFilterTraineesCubit.setSelectedGroup(any(), any()))
           .thenAnswer((_) {});
       when(() => mockFilterTraineesCubit.getFilteredGroup(any()))
           .thenReturn(FilterableGroup.all);
-      cubit = TraineesCubit()
-        ..setFilterTraineesCubit(mockFilterTraineesCubit);
+      cubit = TraineesCubit()..setFilterTraineesCubit(mockFilterTraineesCubit);
     });
 
     group('Given trainee in waitingList', () {

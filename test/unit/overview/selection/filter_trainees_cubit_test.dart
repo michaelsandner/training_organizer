@@ -20,7 +20,7 @@ void main() {
         forename: 'Max',
         email: 'beta@email.de',
         dateOfBirth: '2000-10-10',
-        registrationDate: '2023-02-01',
+        registrationDate: '01.02.2023',
         trainingGroup: Group.waitingList,
       );
       final group1Trainee = Trainee(
@@ -141,14 +141,15 @@ void main() {
       });
     });
 
-    group('Given multiple trainees in waitingList with different registration dates',
+    group(
+        'Given multiple trainees in waitingList with different registration dates',
         () {
       final traineeFirst = Trainee(
         surname: 'Zweiter',
         forename: 'Max',
         email: 'second@email.de',
         dateOfBirth: '2000-01-01',
-        registrationDate: '2023-01-01',
+        registrationDate: '01.01.2023',
         trainingGroup: Group.waitingList,
       );
       final traineeSecond = Trainee(
@@ -156,7 +157,7 @@ void main() {
         forename: 'Anna',
         email: 'first@email.de',
         dateOfBirth: '2000-01-01',
-        registrationDate: '2022-06-15',
+        registrationDate: '15.06.2022',
         trainingGroup: Group.waitingList,
       );
       final traineeThird = Trainee(
@@ -164,7 +165,7 @@ void main() {
         forename: 'Karl',
         email: 'third@email.de',
         dateOfBirth: '2000-01-01',
-        registrationDate: '2023-05-20',
+        registrationDate: '20.05.2023',
         trainingGroup: Group.waitingList,
       );
 
@@ -191,16 +192,18 @@ void main() {
         test('Then each Group maps to the correct FilterableGroup', () {
           expect(cubit.getFilteredGroup(Group.waitingList),
               FilterableGroup.waitingList);
-          expect(cubit.getFilteredGroup(Group.invited), FilterableGroup.invited);
+          expect(
+              cubit.getFilteredGroup(Group.invited), FilterableGroup.invited);
           expect(cubit.getFilteredGroup(Group.group1), FilterableGroup.group1);
           expect(cubit.getFilteredGroup(Group.group2), FilterableGroup.group2);
           expect(cubit.getFilteredGroup(Group.group3), FilterableGroup.group3);
           expect(cubit.getFilteredGroup(Group.group4), FilterableGroup.group4);
           expect(cubit.getFilteredGroup(Group.group5), FilterableGroup.group5);
-          expect(
-              cubit.getFilteredGroup(Group.wednesday), FilterableGroup.wednesday);
+          expect(cubit.getFilteredGroup(Group.wednesday),
+              FilterableGroup.wednesday);
           expect(cubit.getFilteredGroup(Group.active), FilterableGroup.active);
-          expect(cubit.getFilteredGroup(Group.leisure), FilterableGroup.leisure);
+          expect(
+              cubit.getFilteredGroup(Group.leisure), FilterableGroup.leisure);
         });
       });
 
@@ -230,17 +233,14 @@ void main() {
 
       group('When getNameForFilteredGroupEnum with FilterableGroup.all', () {
         test('Then returns All', () {
-          expect(
-              cubit.getNameForFilteredGroupEnum(FilterableGroup.all), 'All');
+          expect(cubit.getNameForFilteredGroupEnum(FilterableGroup.all), 'All');
         });
       });
 
-      group(
-          'When getNameForFilteredGroupEnum with FilterableGroup.waitingList',
+      group('When getNameForFilteredGroupEnum with FilterableGroup.waitingList',
           () {
         test('Then returns correct German name', () {
-          expect(
-              cubit.getNameForFilteredGroupEnum(FilterableGroup.waitingList),
+          expect(cubit.getNameForFilteredGroupEnum(FilterableGroup.waitingList),
               'Warteliste');
         });
       });
