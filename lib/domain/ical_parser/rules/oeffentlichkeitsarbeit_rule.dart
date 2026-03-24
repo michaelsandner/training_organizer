@@ -1,11 +1,11 @@
 import 'package:training_organizer/domain/ical_parser/rules/ical_parser_rule.dart';
 import 'package:training_organizer/domain/ical_parser/rules/mixins/per_event_position_mixin.dart';
 
-/// This rule parses events with "tag:Offentlichkeitsarbeit" in their description.
+/// This rule parses events with "tag:Öffentlichkeitsarbeit" in their description.
 class OeffentlichkeitsarbeitRule
     with PerEventPositionMixin
     implements IcalParserRule {
-  static const String tagName = 'Offentlichkeitsarbeit';
+  static const String tagName = 'Öffentlichkeitsarbeit';
   static const String targetCategory = 'Öffentlichkeitsarbeit';
 
   @override
@@ -35,8 +35,7 @@ class OeffentlichkeitsarbeitRule
     addPerEventEntry(IcalRuleApplyEntry(
       targetCategoryName: targetCategory,
       value: value,
-      beschreibung:
-          label.isNotEmpty ? '$label $date (iCal)' : '$date (iCal)',
+      beschreibung: label.isNotEmpty ? '$label $date (iCal)' : '$date (iCal)',
       teilnehmende: count > 0 ? '$count' : '',
     ));
   }

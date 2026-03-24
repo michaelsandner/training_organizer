@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:training_organizer/domain/category_position.dart';
 import 'package:training_organizer/domain/performance_category.dart';
 import 'package:training_organizer/domain/performance_data.dart';
-import 'package:training_organizer/domain/category_position.dart';
 
 void main() {
   group('PerformanceData', () {
@@ -205,6 +205,60 @@ void main() {
 
         test('Then the leaf has 0 positionen', () {
           expect(updated.categories[0].children[0].positionen.length, 0);
+        });
+      });
+    });
+
+    group('Given PerformanceData with an existing leaf category', () {
+      const data = PerformanceData(
+        categories: [
+          PerformanceCategory(name: 'Öffentlichkeitsarbeit', anzahl: 0),
+        ],
+      );
+
+      group('When addPositionByName is called with an existing name', () {
+        final updated = data.addPositionByName(
+          'Öffentlichkeitsarbeit',
+          const CategoryPosition(
+              anzahl: 6,
+              teilnehmende: '3',
+              beschreibung: 'Test 10.05.2026 (iCal)'),
+        );
+
+        test('Then the position is added to the existing category', () {
+          expect(updated.categories, hasLength(1));
+          expect(updated.categories[0].positionen, hasLength(1));
+          expect(updated.categories[0].positionen[0].anzahl, 6);
+        });
+      });
+    });
+
+    group('Given PerformanceData without the target leaf category', () {
+      const data = PerformanceData(
+        categories: [
+          PerformanceCategory(name: 'Gremienarbeit', anzahl: 0),
+        ],
+      );
+
+      group('When addPositionByName is called with a missing name', () {
+        final updated = data.addPositionByName(
+          'Öffentlichkeitsarbeit',
+          const CategoryPosition(
+              anzahl: 6,
+              teilnehmende: '3',
+              beschreibung: 'Test 10.05.2026 (iCal)'),
+        );
+
+        test('Then a new top-level leaf category is created', () {
+          expect(updated.categories, hasLength(2));
+          expect(updated.categories[1].name, 'Öffentlichkeitsarbeit');
+          expect(updated.categories[1].isLeaf, isTrue);
+        });
+
+        test('Then the new category contains the position', () {
+          expect(updated.categories[1].positionen, hasLength(1));
+          expect(updated.categories[1].positionen[0].anzahl, 6);
+          expect(updated.categories[1].anzahl, 6);
         });
       });
     });

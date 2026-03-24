@@ -533,9 +533,7 @@ END:VCALENDAR''';
     group('Given Fortbildung-Termine mit Teilnehmenden in der Beschreibung',
         () {
       group('When parse aufgerufen wird', () {
-        test(
-            'Then wird der Wert als Stunden mal Teilnehmende berechnet',
-            () {
+        test('Then wird der Wert als Stunden mal Teilnehmende berechnet', () {
           const ical = '''
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -610,8 +608,7 @@ END:VCALENDAR''';
       });
     });
 
-    group('Given San-Dienst-Termine mit Teilnehmenden in der Beschreibung',
-        () {
+    group('Given San-Dienst-Termine mit Teilnehmenden in der Beschreibung', () {
       group('When parse aufgerufen wird', () {
         test('Then werden Stunden als Dauer mal Teilnehmende berechnet', () {
           const ical = '''
@@ -785,8 +782,7 @@ END:VCALENDAR''';
 
     group('Given iCal-Datei mit Whitespace in Description', () {
       group('When parse aufgerufen wird', () {
-        test(
-            'Then wird Schwimmtraining mit Leerzeichen um den Tag erkannt',
+        test('Then wird Schwimmtraining mit Leerzeichen um den Tag erkannt',
             () {
           const ical = '''
 BEGIN:VCALENDAR
@@ -808,12 +804,11 @@ END:VCALENDAR''';
       });
     });
 
-    group('Given eine iCal-Datei mit Öffentlichkeitsarbeit-Events in 2025',
-        () {
+    group('Given eine iCal-Datei mit Öffentlichkeitsarbeit-Events in 2025', () {
       group('When parse für 2025 aufgerufen wird', () {
         test('Then werden beide Events korrekt gezählt', () {
           const ical =
-              'BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nDTSTART:20250118T130000Z\r\nDTEND:20250118T150000Z\r\nSUMMARY:SPD Neujahrsempfang (intern)\r\nDESCRIPTION:Tag:Offentlichkeitsarbeit\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nDTSTART:20250628T160000Z\r\nDTEND:20250628T180000Z\r\nSUMMARY:Festzug 125 Jahre FFW Keidenzell Stinzendorf\r\nDESCRIPTION:Tag:Offentlichkeitsarbeit\r\nEND:VEVENT\r\nEND:VCALENDAR';
+              'BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nDTSTART:20250118T130000Z\r\nDTEND:20250118T150000Z\r\nSUMMARY:SPD Neujahrsempfang (intern)\r\nDESCRIPTION:Tag:Öffentlichkeitsarbeit\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nDTSTART:20250628T160000Z\r\nDTEND:20250628T180000Z\r\nSUMMARY:Festzug 125 Jahre FFW Keidenzell Stinzendorf\r\nDESCRIPTION:Tag:Öffentlichkeitsarbeit\r\nEND:VEVENT\r\nEND:VCALENDAR';
 
           final result = sut.parse(ical, 2025);
 
@@ -826,13 +821,31 @@ END:VCALENDAR''';
 
         test('Then werden die Events für 2026 nicht gezählt', () {
           const ical =
-              'BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nDTSTART:20250118T130000Z\r\nDTEND:20250118T150000Z\r\nSUMMARY:SPD Neujahrsempfang (intern)\r\nDESCRIPTION:Tag:Offentlichkeitsarbeit\r\nEND:VEVENT\r\nEND:VCALENDAR';
+              'BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nDTSTART:20250118T130000Z\r\nDTEND:20250118T150000Z\r\nSUMMARY:SPD Neujahrsempfang (intern)\r\nDESCRIPTION:Tag:Öffentlichkeitsarbeit\r\nEND:VEVENT\r\nEND:VCALENDAR';
 
           final result = sut.parse(ical, 2026);
 
           expect(
             _getApplyValue(result, OeffentlichkeitsarbeitRule.targetCategory),
             0,
+          );
+        });
+      });
+    });
+
+    group('Given eine iCal-Datei mit Eisschwimmen-Event mit non-breaking space',
+        () {
+      group('When parse für 2026 aufgerufen wird', () {
+        test('Then wird das Event als Öffentlichkeitsarbeit erkannt', () {
+          final ical =
+              'BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nDTSTART:20260110T070000Z\r\nDTEND:20260110T150000Z\r\nSUMMARY:Eisschwimmen Veitsbronn\r\nDESCRIPTION:Tag:\u00a0Öffentlichkeitsarbeit\\nTeilnehmende:4\r\nEND:VEVENT\r\nEND:VCALENDAR';
+
+          final result = sut.parse(ical, 2026);
+
+          // 8h × 4 participants = 32
+          expect(
+            _getApplyValue(result, OeffentlichkeitsarbeitRule.targetCategory),
+            32,
           );
         });
       });

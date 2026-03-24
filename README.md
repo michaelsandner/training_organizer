@@ -18,19 +18,24 @@ Die ICAL file wird auf entsprechende Einträge durchsucht und fügt sie der Stat
 Damit die Einträge gelesen/gefunden werden können, muss `TAG` und `TEILNEHMENDE` in der Beschreibung des Kalnedertermins gesetzt sein.
 
 **Beispiel:**  
-`TAG:Fortbildung`  
-`TEILNEHMENDE:3`
+`TAG:FORTBILDUNG`  
+`TEILNEHMENDE:3`  
+
+Großschreibung und Leerzeichen nach dem Doppelpunkt is ebenfalls erlaubt:
+
+`tag: Fortbildung`  
+`teilnehmende:3`  
 
 **Berechnung der Einträge:**  
 Dauer des Kalendereintrages * Anzahl der Teilnehmenden
 
 #### Verfügbare Tags
 
-Fortbildung  
-Naturschutz  
-Gremienarbeit  
-Schwimmtraining  
-Gruppenstunde
+`FORTBILDUNG`  
+`NATURSCHUTZ`  
+`GREMIENARBEIT`  
+`SCHWIMMTRAINING`  
+`GRUPPENSTUNDE`
 
 ## Daten
 

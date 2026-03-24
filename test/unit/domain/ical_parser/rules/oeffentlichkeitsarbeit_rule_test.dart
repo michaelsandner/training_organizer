@@ -9,24 +9,33 @@ void main() {
   });
 
   group('OeffentlichkeitsarbeitRule', () {
-    group('Given a description with "Tag:Offentlichkeitsarbeit"', () {
+    group('Given a description with "Tag:Öffentlichkeitsarbeit"', () {
       test('Then matches returns true', () {
         expect(
             sut.matches(
                 summary: 'Tag der offenen Tür',
-                description: 'Tag:Offentlichkeitsarbeit'),
+                description: 'Tag:Öffentlichkeitsarbeit'),
             isTrue);
       });
     });
 
-    group(
-        'Given a description with "tag: offentlichkeitsarbeit" (lowercase)',
+    group('Given a description with "tag: öffentlichkeitsarbeit" (lower case)',
         () {
       test('Then matches returns true', () {
         expect(
             sut.matches(
                 summary: 'Tag der offenen Tür',
-                description: 'tag: offentlichkeitsarbeit'),
+                description: 'tag: öffentlichkeitsarbeit'),
+            isTrue);
+      });
+    });
+
+    group('Given a description with non-breaking space after Tag:', () {
+      test('Then matches returns true', () {
+        expect(
+            sut.matches(
+                summary: 'Tag der offenen Tür',
+                description: 'Tag:\u00a0Öffentlichkeitsarbeit'),
             isTrue);
       });
     });
@@ -43,7 +52,7 @@ void main() {
           sut.processEvent(
             startDateTime: DateTime(2026, 5, 10, 10, 0),
             endDateTime: DateTime(2026, 5, 10, 12, 0),
-            description: 'Tag:Offentlichkeitsarbeit\nTeilnehmende:3',
+            description: 'Tag:Öffentlichkeitsarbeit\nTeilnehmende:3',
             summary: 'Tag der offenen Tür',
           );
 
@@ -62,7 +71,7 @@ void main() {
           sut.processEvent(
             startDateTime: DateTime(2026, 5, 10, 10, 0),
             endDateTime: DateTime(2026, 5, 10, 12, 0),
-            description: 'Tag: Offentlichkeitsarbeit',
+            description: 'Tag: Öffentlichkeitsarbeit',
             summary: 'Infoveranstaltung',
           );
 
@@ -78,7 +87,7 @@ void main() {
           sut.processEvent(
             startDateTime: DateTime(2026, 5, 10, 10, 0),
             endDateTime: DateTime(2026, 5, 10, 12, 0),
-            description: 'Tag:Offentlichkeitsarbeit\nTeilnehmende: 2',
+            description: 'Tag:Öffentlichkeitsarbeit\nTeilnehmende: 2',
             summary: 'Tag der offenen Tür',
           );
 
@@ -98,7 +107,7 @@ void main() {
           sut.processEvent(
             startDateTime: DateTime(2026, 5, 10, 10, 0),
             endDateTime: DateTime(2026, 5, 10, 12, 0),
-            description: 'Tag:Offentlichkeitsarbeit',
+            description: 'Tag:Öffentlichkeitsarbeit',
             summary: 'Test',
           );
 

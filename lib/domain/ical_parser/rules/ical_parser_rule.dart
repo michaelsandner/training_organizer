@@ -52,6 +52,7 @@ bool matchesDescriptionTag(String? description, String tagName) {
   final pattern = RegExp(
     r'tag:\s*' + RegExp.escape(tagName),
     caseSensitive: false,
+    unicode: true,
   );
   return pattern.hasMatch(description);
 }
@@ -65,6 +66,7 @@ int parseTeilnehmendeCount(String? description) {
   final pattern = RegExp(
     r'teilnehmende:\s*(\d+)',
     caseSensitive: false,
+    unicode: true,
   );
   final match = pattern.firstMatch(description);
   if (match == null) return 0;

@@ -97,13 +97,22 @@ class PerformanceData with EquatableMixin {
   }
 
   /// Adds a new [CategoryPosition] to the leaf category with the given [name].
+  /// If no leaf category with [name] exists, a new top-level leaf is created.
   PerformanceData addPositionByName(
     String name,
     CategoryPosition position,
   ) {
-    final updatedCategories =
-        categories.map((c) => c.addPositionByName(name, position)).toList();
-    return PerformanceData(categories: updatedCategories);
+    if (findCountByName(name) != null) {
+      final updatedCategories =
+          categories.map((c) => c.addPositionByName(name, position)).toList();
+      return PerformanceData(categories: updatedCategories);
+    }
+    final newCategory = PerformanceCategory(
+      name: name,
+      positionen: [position],
+      anzahl: position.anzahl,
+    );
+    return PerformanceData(categories: [...categories, newCategory]);
   }
 
   @override

@@ -1,17 +1,18 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:training_organizer/data/local_storage_repository.dart';
 import 'package:training_organizer/data/performance_data_file_handler.dart';
-import 'package:training_organizer/model/qualifications/qualification_factory.dart';
-import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/domain/badge_import_result.dart';
 import 'package:training_organizer/domain/category_position.dart';
 import 'package:training_organizer/domain/ical_parser/ical_parser.dart';
-import 'package:training_organizer/data/local_storage_repository.dart';
 import 'package:training_organizer/domain/performance_data.dart';
 import 'package:training_organizer/features/performance_data/performance_data_state.dart';
+import 'package:training_organizer/model/qualifications/qualification_factory.dart';
+import 'package:training_organizer/model/trainee.dart';
 
 class PerformanceDataCubit extends Cubit<PerformanceDataState> {
   final PerformanceDataFileHandler _fileHandler;
@@ -282,7 +283,7 @@ class PerformanceDataCubit extends Cubit<PerformanceDataState> {
     if (result == null) return null;
 
     if (kIsWeb) {
-      return String.fromCharCodes(result.files.single.bytes!);
+      return utf8.decode(result.files.single.bytes!);
     } else {
       final file = File(result.files.single.path!);
       return file.readAsString();
