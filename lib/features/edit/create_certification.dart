@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:training_organizer/features/edit/add_certification_dialog.dart';
 import 'package:training_organizer/features/edit/certification_cubit.dart';
 import 'package:training_organizer/features/edit/certification_state.dart';
+import 'package:training_organizer/shared/widgets/qualification_icon.dart';
 
 class CreateCertification extends StatelessWidget {
   const CreateCertification({super.key});
@@ -29,7 +30,7 @@ class CreateCertification extends StatelessWidget {
                     ? DateFormat('dd.MM.yyyy').format(qualification.date!)
                     : '';
                 return ListTile(
-                  leading: qualification.icon,
+                  leading: QualificationIcon(qualification: qualification),
                   title: Text(qualification.fullName),
                   subtitle: dateText.isNotEmpty ? Text(dateText) : null,
                   trailing: IconButton(
