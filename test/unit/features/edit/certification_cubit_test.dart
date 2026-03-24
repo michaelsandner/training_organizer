@@ -7,7 +7,7 @@ import 'package:training_organizer/model/qualifications/bronze.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
-import 'package:training_organizer/model/qualifications/silber.dart';
+
 import 'package:training_organizer/model/trainee.dart';
 
 void main() {
