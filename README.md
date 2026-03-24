@@ -35,7 +35,8 @@ Dauer des Kalendereintrages * Anzahl der Teilnehmenden
 `NATURSCHUTZ`  
 `GREMIENARBEIT`  
 `SCHWIMMTRAINING`  
-`GRUPPENSTUNDE`
+`GRUPPENSTUNDE`  
+`SANDIENST`
 
 ## Daten
 
