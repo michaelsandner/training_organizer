@@ -63,7 +63,7 @@ class _AddCertificationDialogState extends State<AddCertificationDialog> {
             decoration: const InputDecoration(
               labelText: 'Abzeichen',
             ),
-            value: _selectedQualification,
+            initialValue: _selectedQualification,
             items: allQualificationNames
                 .map((name) => DropdownMenuItem<String>(
                       value: name,
