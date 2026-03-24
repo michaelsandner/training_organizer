@@ -1,6 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/domain/add_qualification_usecase.dart';
 import 'package:training_organizer/features/edit/certification_cubit.dart';
 import 'package:training_organizer/features/edit/certification_state.dart';
 import 'package:training_organizer/model/qualifications.dart';
@@ -8,112 +7,74 @@ import 'package:training_organizer/model/qualifications/bronze.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/pirat.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
+import 'package:training_organizer/model/qualifications/silber.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 void main() {
-  final addQualificationUseCase = AddQualificationUseCase();
+  final qualificationFactory = QualificationFactory();
+
   group('Given no trainee (neuer Teilnehmer)', () {
     late CertificationCubit cubit;
 
     setUp(() {
-      cubit = CertificationCubit(null, addQualificationUseCase);
+      cubit = CertificationCubit(null, qualificationFactory);
     });
 
     tearDown(() => cubit.close());
 
     group('When the cubit is created', () {
-      test('Then all checkboxes are false', () {
+      test('Then qualifications list is empty', () {
         expect(cubit.state, const CertificationState());
-        expect(cubit.state.isPiratChecked, isFalse);
-        expect(cubit.state.isBronzeChecked, isFalse);
-        expect(cubit.state.isSilverChecked, isFalse);
-        expect(cubit.state.isGoldChecked, isFalse);
-        expect(cubit.state.isRSBronzeChecked, isFalse);
-        expect(cubit.state.enableCurrentqualificationDate, isFalse);
+        expect(cubit.state.qualifications, isEmpty);
       });
     });
 
-    group('When togglePirat is called with true', () {
+    group('When addQualification is called with Pirat', () {
       blocTest<CertificationCubit, CertificationState>(
-        'Then isPiratChecked is true',
-        build: () => CertificationCubit(null, addQualificationUseCase),
-        act: (cubit) => cubit.togglePirat(true),
-        expect: () => [const CertificationState(isPiratChecked: true)],
+        'Then state contains Pirat qualification',
+        build: () => CertificationCubit(null, qualificationFactory),
+        act: (cubit) => cubit.addQualification(pirat, null),
+        verify: (cubit) {
+          expect(cubit.state.qualifications.length, 1);
+          expect(cubit.state.qualifications.first.name, pirat);
+        },
       );
     });
 
-    group('When toggleBronze is called with true', () {
+    group('When addQualification is called with Bronze and a date', () {
+      final date = DateTime(2023, 6, 15);
+
       blocTest<CertificationCubit, CertificationState>(
-        'Then isBronzeChecked is true',
-        build: () => CertificationCubit(null, addQualificationUseCase),
-        act: (cubit) => cubit.toggleBronze(true),
-        expect: () => [const CertificationState(isBronzeChecked: true)],
+        'Then state contains Bronze qualification with date',
+        build: () => CertificationCubit(null, qualificationFactory),
+        act: (cubit) => cubit.addQualification(bronze, date),
+        verify: (cubit) {
+          expect(cubit.state.qualifications.length, 1);
+          expect(cubit.state.qualifications.first.name, bronze);
+          expect(cubit.state.qualifications.first.date, date);
+        },
       );
     });
 
-    group('When toggleSilber is called with true', () {
+    group('When multiple qualifications are added and then reset', () {
       blocTest<CertificationCubit, CertificationState>(
-        'Then isSilverChecked is true',
-        build: () => CertificationCubit(null, addQualificationUseCase),
-        act: (cubit) => cubit.toggleSilber(true),
-        expect: () => [const CertificationState(isSilverChecked: true)],
-      );
-    });
-
-    group('When toggleGold is called with true', () {
-      blocTest<CertificationCubit, CertificationState>(
-        'Then isGoldChecked is true',
-        build: () => CertificationCubit(null, addQualificationUseCase),
-        act: (cubit) => cubit.toggleGold(true),
-        expect: () => [const CertificationState(isGoldChecked: true)],
-      );
-    });
-
-    group('When toggleRsBronze is called with true', () {
-      blocTest<CertificationCubit, CertificationState>(
-        'Then isRSBronzeChecked is true',
-        build: () => CertificationCubit(null, addQualificationUseCase),
-        act: (cubit) => cubit.toggleRsBronze(true),
-        expect: () => [const CertificationState(isRSBronzeChecked: true)],
-      );
-    });
-
-    group('When toggleCurrentQualificationDate is called with true', () {
-      blocTest<CertificationCubit, CertificationState>(
-        'Then enableCurrentqualificationDate is true',
-        build: () => CertificationCubit(null, addQualificationUseCase),
-        act: (cubit) => cubit.toggleCurrentQualificationDate(true),
-        expect: () =>
-            [const CertificationState(enableCurrentqualificationDate: true)],
-      );
-    });
-
-    group('When multiple toggles are called and then reset', () {
-      blocTest<CertificationCubit, CertificationState>(
-        'Then state is reset to all false',
-        build: () => CertificationCubit(null, addQualificationUseCase),
+        'Then state is reset to empty',
+        build: () => CertificationCubit(null, qualificationFactory),
         act: (cubit) {
-          cubit.togglePirat(true);
-          cubit.toggleSilber(true);
-          cubit.toggleCurrentQualificationDate(true);
+          cubit.addQualification(pirat, null);
+          cubit.addQualification(silber, DateTime(2023, 1, 1));
           cubit.reset();
         },
-        expect: () => [
-          const CertificationState(isPiratChecked: true),
-          const CertificationState(isPiratChecked: true, isSilverChecked: true),
-          const CertificationState(
-              isPiratChecked: true,
-              isSilverChecked: true,
-              enableCurrentqualificationDate: true),
-          const CertificationState(),
-        ],
+        verify: (cubit) {
+          expect(cubit.state.qualifications, isEmpty);
+        },
       );
     });
 
-    group('When createQualifications is called with Silber toggled', () {
-      test('Then the result contains Silber', () {
-        cubit.toggleSilber(true);
-        final qualifications = cubit.createQualifications(null);
+    group('When addQualification is called with Silber', () {
+      test('Then getQualifications returns Qualifications with Silber', () {
+        cubit.addQualification(silber, null);
+        final qualifications = cubit.getQualifications();
 
         expect(
             qualifications.qualifications.any((q) => q.name == silber), isTrue);
@@ -135,25 +96,25 @@ void main() {
           Bronze(DateTime(2023, 3, 1))
         ]),
       );
-      cubit = CertificationCubit(trainee, addQualificationUseCase);
+      cubit = CertificationCubit(trainee, qualificationFactory);
     });
 
     tearDown(() => cubit.close());
 
     group('When the cubit is created', () {
-      test('Then isPiratChecked and isBronzeChecked are true', () {
-        expect(cubit.state.isPiratChecked, isTrue);
-        expect(cubit.state.isBronzeChecked, isTrue);
-        expect(cubit.state.isSilverChecked, isFalse);
-        expect(cubit.state.isGoldChecked, isFalse);
-        expect(cubit.state.isRSBronzeChecked, isFalse);
+      test('Then qualifications contain Pirat and Bronze', () {
+        expect(cubit.state.qualifications.length, 2);
+        expect(
+            cubit.state.qualifications.any((q) => q.name == pirat), isTrue);
+        expect(
+            cubit.state.qualifications.any((q) => q.name == bronze), isTrue);
       });
     });
 
-    group('When Silber is toggled on', () {
-      test('Then createQualifications returns Pirat, Bronze and Silber', () {
-        cubit.toggleSilber(true);
-        final qualifications = cubit.createQualifications(trainee);
+    group('When Silber is added', () {
+      test('Then getQualifications returns Pirat, Bronze and Silber', () {
+        cubit.addQualification(silber, null);
+        final qualifications = cubit.getQualifications();
 
         expect(
             qualifications.qualifications.any((q) => q.name == pirat), isTrue);
@@ -165,10 +126,12 @@ void main() {
       });
     });
 
-    group('When Bronze is toggled off', () {
-      test('Then createQualifications does not contain Bronze', () {
-        cubit.toggleBronze(false);
-        final qualifications = cubit.createQualifications(trainee);
+    group('When Bronze is removed by index', () {
+      test('Then getQualifications does not contain Bronze', () {
+        final bronzeIndex = cubit.state.qualifications
+            .indexWhere((q) => q.name == bronze);
+        cubit.removeQualification(bronzeIndex);
+        final qualifications = cubit.getQualifications();
 
         expect(qualifications.qualifications.any((q) => q.name == bronze),
             isFalse);
@@ -177,9 +140,9 @@ void main() {
       });
     });
 
-    group('When createQualifications is called without date toggle', () {
+    group('When getQualifications is called', () {
       test('Then existing dates are preserved', () {
-        final qualifications = cubit.createQualifications(trainee);
+        final qualifications = cubit.getQualifications();
 
         final piratQ =
             qualifications.qualifications.firstWhere((q) => q.name == pirat);
@@ -191,27 +154,11 @@ void main() {
       });
     });
 
-    group('When createQualifications is called with date toggle enabled', () {
-      test('Then dates are updated to today', () {
-        final before = DateTime.now().subtract(const Duration(seconds: 1));
-
-        cubit.toggleCurrentQualificationDate(true);
-        final qualifications = cubit.createQualifications(trainee);
-
-        for (final q in qualifications.qualifications
-            .where((q) => [pirat, bronze].contains(q.name))) {
-          expect(q.date, isNotNull);
-          expect(q.date!.isAfter(before), isTrue);
-        }
-      });
-    });
-
-    group('When Gold and RsBronze are added', () {
-      test('Then createQualifications returns all five qualifications', () {
-        cubit.toggleSilber(true);
-        cubit.toggleGold(true);
-        cubit.toggleRsBronze(true);
-        final qualifications = cubit.createQualifications(trainee);
+    group('When Gold and Silber are added', () {
+      test('Then getQualifications returns all four qualifications', () {
+        cubit.addQualification(silber, null);
+        cubit.addQualification(gold, null);
+        final qualifications = cubit.getQualifications();
 
         expect(
             qualifications.qualifications.any((q) => q.name == pirat), isTrue);
@@ -221,11 +168,7 @@ void main() {
             qualifications.qualifications.any((q) => q.name == silber), isTrue);
         expect(
             qualifications.qualifications.any((q) => q.name == gold), isTrue);
-        expect(
-            qualifications.qualifications
-                .any((q) => q.name == rettungsschwimmerBronze),
-            isTrue);
-        expect(qualifications.qualifications.length, 5);
+        expect(qualifications.qualifications.length, 4);
       });
     });
   });
@@ -241,25 +184,23 @@ void main() {
         qualifications:
             Qualifications(qualifications: [Gold(DateTime(2023, 7, 20))]),
       );
-      cubit = CertificationCubit(trainee, addQualificationUseCase);
+      cubit = CertificationCubit(trainee, qualificationFactory);
     });
 
     tearDown(() => cubit.close());
 
     group('When the cubit is created', () {
-      test('Then isGoldChecked is true and all others are false', () {
-        expect(cubit.state.isGoldChecked, isTrue);
-        expect(cubit.state.isPiratChecked, isFalse);
-        expect(cubit.state.isBronzeChecked, isFalse);
-        expect(cubit.state.isSilverChecked, isFalse);
-        expect(cubit.state.isRSBronzeChecked, isFalse);
+      test('Then qualifications contain only Gold', () {
+        expect(cubit.state.qualifications.length, 1);
+        expect(
+            cubit.state.qualifications.any((q) => q.name == gold), isTrue);
       });
     });
 
-    group('When Silber is toggled on without touching Gold', () {
-      test('Then createQualifications returns both Silber and Gold', () {
-        cubit.toggleSilber(true);
-        final qualifications = cubit.createQualifications(trainee);
+    group('When Silber is added', () {
+      test('Then getQualifications returns both Silber and Gold', () {
+        cubit.addQualification(silber, null);
+        final qualifications = cubit.getQualifications();
 
         expect(
             qualifications.qualifications.any((q) => q.name == silber), isTrue);

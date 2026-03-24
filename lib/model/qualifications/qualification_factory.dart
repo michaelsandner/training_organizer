@@ -39,6 +39,28 @@ const String ausbilderR1 = 'AusbilderR1';
 const String ausbilderR2 = 'AusbilderR2';
 const String gruppenleiter = 'Gruppenleiter';
 
+/// All available qualification name constants.
+const List<String> allQualificationNames = [
+  pirat,
+  bronze,
+  silber,
+  gold,
+  rettungsschwimmerBronze,
+  rettungsschwimmerSilber,
+  rettungsschwimmerGold,
+  rsiwrd,
+  san,
+  fachsan,
+  rettsan,
+  wasserretter,
+  ausbildungsAssistent,
+  ausbilderS1,
+  ausbilderS2,
+  ausbilderR1,
+  ausbilderR2,
+  gruppenleiter,
+];
+
 class QualificationFactory {
   List<Qualification> createQualifications(List<dynamic> qualifications) {
     List<Qualification> result = [];
@@ -47,13 +69,13 @@ class QualificationFactory {
       DateTime? parsedDate = parseDateFromJson(element);
       final name = element['name'];
 
-      result.add(_createQualification(name, parsedDate));
+      result.add(createQualification(name, parsedDate));
     }
 
     return result;
   }
 
-  Qualification _createQualification(String name, DateTime? date) {
+  Qualification createQualification(String name, DateTime? date) {
     switch (name) {
       case pirat:
         return Pirat(date);

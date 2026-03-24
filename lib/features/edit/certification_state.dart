@@ -1,48 +1,19 @@
 import 'package:equatable/equatable.dart';
+import 'package:training_organizer/model/qualifications/qualification.dart';
 
 class CertificationState with EquatableMixin {
-  final bool isPiratChecked;
-  final bool isBronzeChecked;
-  final bool isSilverChecked;
-  final bool isGoldChecked;
-  final bool isRSBronzeChecked;
-  final bool enableCurrentqualificationDate;
+  final List<Qualification> qualifications;
 
-  const CertificationState({
-    this.isPiratChecked = false,
-    this.isBronzeChecked = false,
-    this.isSilverChecked = false,
-    this.isGoldChecked = false,
-    this.isRSBronzeChecked = false,
-    this.enableCurrentqualificationDate = false,
-  });
+  const CertificationState({this.qualifications = const []});
 
   CertificationState copyWith({
-    bool? isPiratChecked,
-    bool? isBronzeChecked,
-    bool? isSilverChecked,
-    bool? isGoldChecked,
-    bool? isRSBronzeChecked,
-    bool? enableCurrentqualificationDate,
+    List<Qualification>? qualifications,
   }) {
     return CertificationState(
-      isPiratChecked: isPiratChecked ?? this.isPiratChecked,
-      isBronzeChecked: isBronzeChecked ?? this.isBronzeChecked,
-      isSilverChecked: isSilverChecked ?? this.isSilverChecked,
-      isGoldChecked: isGoldChecked ?? this.isGoldChecked,
-      isRSBronzeChecked: isRSBronzeChecked ?? this.isRSBronzeChecked,
-      enableCurrentqualificationDate:
-          enableCurrentqualificationDate ?? this.enableCurrentqualificationDate,
+      qualifications: qualifications ?? this.qualifications,
     );
   }
 
   @override
-  List<Object?> get props => [
-        isPiratChecked,
-        isBronzeChecked,
-        isSilverChecked,
-        isGoldChecked,
-        isRSBronzeChecked,
-        enableCurrentqualificationDate,
-      ];
+  List<Object?> get props => [qualifications];
 }
