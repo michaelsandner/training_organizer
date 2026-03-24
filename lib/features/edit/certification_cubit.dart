@@ -8,6 +8,8 @@ import 'package:training_organizer/model/trainee.dart';
 class CertificationCubit extends Cubit<CertificationState> {
   final QualificationFactory _qualificationFactory;
 
+  QualificationFactory get qualificationFactory => _qualificationFactory;
+
   CertificationCubit(Trainee? trainee, this._qualificationFactory)
       : super(
           CertificationState(

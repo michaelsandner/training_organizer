@@ -6,10 +6,12 @@ import 'package:training_organizer/model/qualifications/qualification_factory.da
 /// Shows a dropdown of all available qualifications and a date picker.
 class AddCertificationDialog extends StatefulWidget {
   final void Function(String name, DateTime? date) onConfirm;
+  final QualificationFactory qualificationFactory;
 
   const AddCertificationDialog({
     super.key,
     required this.onConfirm,
+    required this.qualificationFactory,
   });
 
   @override
@@ -21,7 +23,6 @@ class _AddCertificationDialogState extends State<AddCertificationDialog> {
   String? _selectedQualification;
   DateTime? _selectedDate;
   final _dateController = TextEditingController();
-  final _qualificationFactory = QualificationFactory();
 
   @override
   void dispose() {
@@ -30,7 +31,8 @@ class _AddCertificationDialogState extends State<AddCertificationDialog> {
   }
 
   String _getDisplayName(String name) {
-    final qualification = _qualificationFactory.createQualification(name, null);
+    final qualification =
+        widget.qualificationFactory.createQualification(name, null);
     return qualification.fullName;
   }
 
