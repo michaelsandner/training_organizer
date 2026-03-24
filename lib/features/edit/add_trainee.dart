@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:training_organizer/features/overview/trainees_cubit.dart';
 import 'package:training_organizer/features/overview/trainees_state.dart';
-import 'package:training_organizer/domain/add_qualification_usecase.dart';
 import 'package:training_organizer/features/edit/basic_trainee_info.dart';
 import 'package:training_organizer/features/edit/certification_cubit.dart';
 import 'package:training_organizer/features/edit/create_certification.dart';
+import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/services/date_service.dart';
 import 'package:training_organizer/shared/widgets/email_button.dart';
@@ -40,7 +40,7 @@ class _AddTraineeState extends State<AddTrainee> {
   void initState() {
     super.initState();
     _certificationCubit =
-        CertificationCubit(widget.trainee, AddQualificationUseCase());
+        CertificationCubit(widget.trainee, QualificationFactory());
     if (widget.trainee != null) {
       sureNameController.text = widget.trainee!.surname;
       foreNameController.text = widget.trainee!.forename;
@@ -168,7 +168,7 @@ class _AddTraineeState extends State<AddTrainee> {
         comment: commentController.text.trim(),
         trainingGroup: group ?? Group.waitingList,
         qualifications:
-            _certificationCubit.createQualifications(widget.trainee),
+            _certificationCubit.getQualifications(),
         isMember: isMember,
         isTrainer: isTrainer,
       );
