@@ -47,6 +47,7 @@ class CreateCertification extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (_) => AddCertificationDialog(
+                      qualificationFactory: cubit.qualificationFactory,
                       onConfirm: (name, date) {
                         cubit.addQualification(name, date);
                       },
