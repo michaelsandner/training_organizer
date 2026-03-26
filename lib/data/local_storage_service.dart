@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:training_organizer/features/exercise_plan/domain/exercise_plan_entry.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/domain/performance_data.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
@@ -8,6 +9,7 @@ import 'package:training_organizer/data/local_storage_repository.dart';
 class LocalStorageService implements LocalStorageRepository {
   static const String _traineesKey = 'trainees';
   static const String _performanceDataKey = 'performance_data';
+  static const String _exercisePlanKey = 'exercise_plan';
 
   @override
   Future<List<Trainee>?> loadTrainees() async {
@@ -43,5 +45,27 @@ class LocalStorageService implements LocalStorageRepository {
   Future<void> savePerformanceData(PerformanceData data) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_performanceDataKey, jsonEncode(data.toJson()));
+  }
+
+  @override
+  Future<List<ExercisePlanEntry>?> loadExercisePlan() async {
+    final prefs = await SharedPreferences.getInstance();
+    final json = prefs.getString(_exercisePlanKey);
+    if (json == null) return null;
+
+    final map = jsonDecode(json) as Map<String, dynamic>;
+    final list = map['entries'] as List<dynamic>;
+    return list
+        .map((e) => ExercisePlanEntry.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  @override
+  Future<void> saveExercisePlan(List<ExercisePlanEntry> entries) async {
+    final prefs = await SharedPreferences.getInstance();
+    final map = {
+      'entries': entries.map((e) => e.toJson()).toList(),
+    };
+    await prefs.setString(_exercisePlanKey, jsonEncode(map));
   }
 }
