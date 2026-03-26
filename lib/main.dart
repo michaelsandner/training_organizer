@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/app_drawer.dart';
 import 'package:training_organizer/blocklist/ui/pdf_view.dart';
-import 'package:training_organizer/data/local_storage_repository.dart';
 import 'package:training_organizer/data/file_handler.dart';
+import 'package:training_organizer/data/local_storage_repository.dart';
 import 'package:training_organizer/data/performance_data_file_handler.dart';
 import 'package:training_organizer/di/service_locator.dart';
-import 'package:training_organizer/domain/send_email_usecase.dart';
 import 'package:training_organizer/domain/filter_trainees_usecase.dart';
+import 'package:training_organizer/domain/send_email_usecase.dart';
 import 'package:training_organizer/features/edit/trainee_view.dart';
 import 'package:training_organizer/features/email/email_cubit.dart';
 import 'package:training_organizer/features/exercise_plan/domain/exercise_repository.dart';
@@ -41,9 +41,7 @@ class MyApp extends StatelessWidget {
             create: (context) {
               final filterCubit =
                   FilterTraineesCubit(getIt<FilterTraineesUseCase>());
-              context
-                  .read<TraineesCubit>()
-                  .setFilterTraineesCubit(filterCubit);
+              context.read<TraineesCubit>().setFilterTraineesCubit(filterCubit);
               return filterCubit;
             }),
         BlocProvider(
@@ -68,12 +66,12 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-          title: 'Training Organizer',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: const MyHomePage(title: 'Training Organizer'),
+        title: 'Training Organizer',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
+        home: const MyHomePage(title: 'Training Organizer'),
+      ),
     );
   }
 }
@@ -111,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Tab(
                 icon: Icon(Icons.fitness_center),
-                text: 'Übungsplan',
+                text: 'Trainingsplan',
               ),
             ],
           ),
