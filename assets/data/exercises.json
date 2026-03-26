@@ -1,0 +1,28 @@
+{
+  "exercises": [
+    {
+      "id": 1,
+      "name": "Einschwimmen",
+      "description": "Schwimme x meter",
+      "type": "einschwimmen",
+      "imageName": null,
+      "unit": "Meter"
+    },
+    {
+      "id": 2,
+      "name": "Kraus Beine",
+      "description": "Schwimme nur Kraul Beine",
+      "type": "technik",
+      "imageName": null,
+      "unit": "Meter"
+    },
+    {
+      "id": 3,
+      "name": "Wasserball",
+      "description": "Spiele Wasserball",
+      "type": "spiel",
+      "imageName": null,
+      "unit": "Minuten"
+    }
+  ]
+}

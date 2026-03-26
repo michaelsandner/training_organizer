@@ -10,6 +10,9 @@ import 'package:training_organizer/domain/send_email_usecase.dart';
 import 'package:training_organizer/domain/filter_trainees_usecase.dart';
 import 'package:training_organizer/features/edit/trainee_view.dart';
 import 'package:training_organizer/features/email/email_cubit.dart';
+import 'package:training_organizer/features/exercise_plan/domain/exercise_repository.dart';
+import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_cubit.dart';
+import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_page.dart';
 import 'package:training_organizer/features/overview/selection/filter_trainees_cubit.dart';
 import 'package:training_organizer/features/overview/trainees_cubit.dart';
 import 'package:training_organizer/features/performance_data/performance_data_cubit.dart';
@@ -57,6 +60,12 @@ class MyApp extends StatelessWidget {
             localStorageRepository: getIt<LocalStorageRepository>(),
           )..init(),
         ),
+        BlocProvider(
+          create: (context) => ExercisePlanCubit(
+            getIt<ExerciseRepository>(),
+            localStorageRepository: getIt<LocalStorageRepository>(),
+          )..init(),
+        ),
       ],
       child: MaterialApp(
           title: 'Training Organizer',
@@ -81,24 +90,31 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
-          bottom: const TabBar(tabs: [
-            Tab(
-              icon: Icon(Icons.accessibility),
-              text: 'Mitglieder',
-            ),
-            Tab(
-              icon: Icon(Icons.document_scanner),
-              text: 'Blocklisten',
-            ),
-            Tab(
-              icon: Icon(Icons.list),
-              text: 'Statistik',
-            ),
-          ]),
+          bottom: const TabBar(
+            isScrollable: true,
+            tabs: [
+              Tab(
+                icon: Icon(Icons.accessibility),
+                text: 'Mitglieder',
+              ),
+              Tab(
+                icon: Icon(Icons.document_scanner),
+                text: 'Blocklisten',
+              ),
+              Tab(
+                icon: Icon(Icons.list),
+                text: 'Statistik',
+              ),
+              Tab(
+                icon: Icon(Icons.fitness_center),
+                text: 'Übungsplan',
+              ),
+            ],
+          ),
         ),
         drawer: const AppDrawer(),
         body: Center(
@@ -107,6 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
               const TraineeView(),
               PdfView(),
               const StatisticsView(),
+              const ExercisePlanPage(),
             ],
           ),
         ),
