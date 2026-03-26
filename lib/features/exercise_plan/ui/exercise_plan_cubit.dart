@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
 import 'package:training_organizer/features/exercise_plan/domain/exercise.dart';
@@ -97,7 +99,7 @@ class ExercisePlanCubit extends Cubit<ExercisePlanState> {
   }
 
   void addEntry() {
-    final type = ExerciseType.einschwimmen;
+    const type = ExerciseType.einschwimmen;
     final exercisesForType =
         state.exercises.where((e) => e.type == type).toList();
     final exerciseId =
@@ -125,8 +127,8 @@ class ExercisePlanCubit extends Cubit<ExercisePlanState> {
 
   void applyPlanString(String planString) {
     if (planString.isEmpty) {
-      emit(state.copyWith(entries: [], clearError: true));
-      _saveExercisePlan([]);
+      emit(state.copyWith(entries: const [], clearError: true));
+      _saveExercisePlan(const []);
       return;
     }
 
@@ -163,6 +165,9 @@ class ExercisePlanCubit extends Cubit<ExercisePlanState> {
   }
 
   void _saveExercisePlan(List<ExercisePlanEntry> entries) {
-    _localStorageRepository?.saveExercisePlan(entries);
+    final future = _localStorageRepository?.saveExercisePlan(entries);
+    if (future != null) {
+      unawaited(future);
+    }
   }
 }
