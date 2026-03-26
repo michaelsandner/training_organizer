@@ -3,26 +3,82 @@
     {
       "id": 1,
       "name": "Einschwimmen",
-      "description": "Schwimme x meter",
+      "description": "Es wird x Meter lang locker geschwommen",
       "type": "einschwimmen",
       "imageName": null,
       "unit": "Meter"
     },
     {
+      "id": 11,
+      "name": "Einschwimmen",
+      "description": "Es wird x Minuten lang locker geschwommen",
+      "type": "einschwimmen",
+      "imageName": null,
+      "unit": "Minuten"
+    },
+    {
       "id": 2,
-      "name": "Kraus Beine",
+      "name": "Kraul Beine",
       "description": "Schwimme nur Kraul Beine",
       "type": "technik",
       "imageName": null,
       "unit": "Meter"
     },
     {
+      "id": 21,
+      "name": "Streckentauchen",
+      "description": "- Armzug bis zum Oberschenkel\n- Lange Gleitphasen",
+      "type": "technik",
+      "imageName": null,
+      "unit": "Runden"
+    },
+    {
       "id": 3,
+      "name": "Kraul: Daumen an der Körperseite",
+      "description": "Beim Kraularmschlag wird der Daumen an der Körperseite geführt\n- Wahlweise mit Pullboy, so dass ich auf den Armschlag konzentriert werden kann",
+      "type": "technik",
+      "imageName": null,
+      "unit": "Meter"
+    },
+    {
+      "id": 31,
+      "name": "Kraul: Armschlag mit Fäusten",
+      "description": "Beim Kraularmschlag wird die Faust benutzt, statt der gestreckten Hand",
+      "type": "technik",
+      "imageName": null,
+      "unit": "Meter"
+    },
+    {
+      "id": 4,
       "name": "Wasserball",
       "description": "Spiele Wasserball",
       "type": "spiel",
       "imageName": null,
       "unit": "Minuten"
+    },
+    {
+      "id": 5,
+      "name": "Ausschwimmen",
+      "description": "Es wird x Meter lang locker geschwommen",
+      "type": "ausschwimmen",
+      "imageName": null,
+      "unit": "Meter"
+    },
+    {
+      "id": 51,
+      "name": "Ausschwimmen",
+      "description": "Es wird x Minuten lang locker geschwommen",
+      "type": "ausschwimmen",
+      "imageName": null,
+      "unit": "Minuten"
+    },
+    {
+      "id": 7,
+      "name": "Langestrecke",
+      "description": "Es wird x Meter lang geschwommen",
+      "type": "ausdauer",
+      "imageName": null,
+      "unit": "Meter"
     }
   ]
 }

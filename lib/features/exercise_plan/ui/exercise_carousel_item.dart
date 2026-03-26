@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:training_organizer/features/exercise_plan/domain/exercise.dart';
 
-class ExerciseCarouselItem extends StatefulWidget {
+class ExerciseCarouselItem extends StatelessWidget {
   final Exercise exercise;
   final int distance;
   final Color color;
@@ -16,19 +16,12 @@ class ExerciseCarouselItem extends StatefulWidget {
   });
 
   @override
-  State<ExerciseCarouselItem> createState() => _ExerciseCarouselItemState();
-}
-
-class _ExerciseCarouselItemState extends State<ExerciseCarouselItem> {
-  bool _isExpanded = false;
-
-  @override
   Widget build(BuildContext context) {
     return Card(
-      color: widget.color.withAlpha(30),
+      color: color.withAlpha(30),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: widget.color, width: 2),
+        side: BorderSide(color: color, width: 2),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -36,66 +29,70 @@ class _ExerciseCarouselItemState extends State<ExerciseCarouselItem> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildHeader(),
-            if (_isExpanded) ...[
-              const SizedBox(height: 8),
-              _buildDescription(),
-              if (widget.exercise.imageName != null) _buildImageLink(context),
-            ],
-            const SizedBox(height: 8),
-            _buildDistanceInput(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return InkWell(
-      onTap: () => setState(() => _isExpanded = !_isExpanded),
-      child: Row(
-        children: [
-          Icon(
-            _isExpanded ? Icons.expand_less : Icons.expand_more,
-            color: widget.color,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            '#${widget.exercise.id}',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: widget.color,
+            Row(
+              children: [
+                Text(
+                  '#${exercise.id}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    exercise.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              widget.exercise.name,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.only(left: 32),
+              child: Text(exercise.description),
+            ),
+            if (exercise.imageName != null)
+              Padding(
+                padding: const EdgeInsets.only(left: 32, top: 4),
+                child: TextButton.icon(
+                  onPressed: () => _showImageDialog(context),
+                  icon: const Icon(Icons.image),
+                  label: const Text('Bild anzeigen'),
+                ),
+              ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.only(left: 32),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 80,
+                    child: TextFormField(
+                      initialValue: distance.toString(),
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        final d = int.tryParse(value);
+                        if (d != null) {
+                          onDistanceChanged(d);
+                        }
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(exercise.unit),
+                ],
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDescription() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 32),
-      child: Text(widget.exercise.description),
-    );
-  }
-
-  Widget _buildImageLink(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 32, top: 4),
-      child: TextButton.icon(
-        onPressed: () => _showImageDialog(context),
-        icon: const Icon(Icons.image),
-        label: const Text('Bild anzeigen'),
+          ],
+        ),
       ),
     );
   }
@@ -110,7 +107,7 @@ class _ExerciseCarouselItemState extends State<ExerciseCarouselItem> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                widget.exercise.name,
+                exercise.name,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -118,7 +115,7 @@ class _ExerciseCarouselItemState extends State<ExerciseCarouselItem> {
               ),
               const SizedBox(height: 16),
               Image.asset(
-                'assets/images/${widget.exercise.imageName}',
+                'assets/images/${exercise.imageName}',
                 errorBuilder: (context, error, stackTrace) {
                   return const Text('Bild nicht gefunden');
                 },
@@ -131,35 +128,6 @@ class _ExerciseCarouselItemState extends State<ExerciseCarouselItem> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildDistanceInput() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 32),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 80,
-            child: TextFormField(
-              initialValue: widget.distance.toString(),
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                isDense: true,
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (value) {
-                final distance = int.tryParse(value);
-                if (distance != null) {
-                  widget.onDistanceChanged(distance);
-                }
-              },
-            ),
-          ),
-          const SizedBox(width: 8),
-          Text(widget.exercise.unit),
-        ],
       ),
     );
   }
