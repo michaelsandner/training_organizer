@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 
 enum ExerciseType {
   einschwimmen,
+  anfaenger,
+  rettungsschwimmen,
+  technikBrust,
+  technikKraul,
+  technikRuecken,
   ausschwimmen,
-  technik,
   spiel,
   ausdauer,
   kraft;
@@ -12,10 +16,18 @@ enum ExerciseType {
     switch (this) {
       case ExerciseType.einschwimmen:
         return 'Einschwimmen';
+      case ExerciseType.anfaenger:
+        return 'Anfänger-Schwimmen';
+      case ExerciseType.rettungsschwimmen:
+        return 'Rettungsschwimmen';
+      case ExerciseType.technikBrust:
+        return 'Technik-Brust';
+      case ExerciseType.technikKraul:
+        return 'Technik-Kraul';
+      case ExerciseType.technikRuecken:
+        return 'Technik-Rücken';
       case ExerciseType.ausschwimmen:
         return 'Ausschwimmen';
-      case ExerciseType.technik:
-        return 'Technik';
       case ExerciseType.spiel:
         return 'Spiel';
       case ExerciseType.ausdauer:
@@ -29,10 +41,18 @@ enum ExerciseType {
     switch (this) {
       case ExerciseType.einschwimmen:
         return Colors.blue;
+      case ExerciseType.anfaenger:
+        return Colors.lightBlueAccent;
+      case ExerciseType.rettungsschwimmen:
+        return Colors.cyan;
+      case ExerciseType.technikBrust:
+        return Colors.orange;
+      case ExerciseType.technikKraul:
+        return Colors.deepOrange;
+      case ExerciseType.technikRuecken:
+        return Colors.amber;
       case ExerciseType.ausschwimmen:
         return Colors.teal;
-      case ExerciseType.technik:
-        return Colors.orange;
       case ExerciseType.spiel:
         return Colors.green;
       case ExerciseType.ausdauer:
@@ -43,9 +63,29 @@ enum ExerciseType {
   }
 
   static ExerciseType fromString(String value) {
-    return ExerciseType.values.firstWhere(
-      (e) => e.name == value,
-      orElse: () => throw ArgumentError('Unknown exercise type: $value'),
-    );
+    switch (value) {
+      case 'einschwimmen':
+        return ExerciseType.einschwimmen;
+      case 'anfänger':
+        return ExerciseType.anfaenger;
+      case 'rettungsschwimmen':
+        return ExerciseType.rettungsschwimmen;
+      case 'technik-brust':
+        return ExerciseType.technikBrust;
+      case 'technik-kraul':
+        return ExerciseType.technikKraul;
+      case 'technik-rücken':
+        return ExerciseType.technikRuecken;
+      case 'ausschwimmen':
+        return ExerciseType.ausschwimmen;
+      case 'spiel':
+        return ExerciseType.spiel;
+      case 'ausdauer':
+        return ExerciseType.ausdauer;
+      case 'kraft':
+        return ExerciseType.kraft;
+      default:
+        throw ArgumentError('Unknown exercise type: $value');
+    }
   }
 }

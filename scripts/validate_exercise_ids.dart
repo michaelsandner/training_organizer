@@ -1,7 +1,7 @@
-#!/usr/bin/env dart
-
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:training_organizer/features/exercise_plan/domain/exercise_type.dart';
 
 void main() {
   final file = File('assets/data/exercises.json');
@@ -16,6 +16,7 @@ void main() {
 
   final ids = <int>{};
   final duplicates = <int>[];
+  final invalidTypes = <String, int>{};
 
   for (final exercise in exercises) {
     final id = exercise['id'] as int;
@@ -23,6 +24,17 @@ void main() {
       duplicates.add(id);
     }
     ids.add(id);
+
+    final type = exercise['type'] as String?;
+    if (type == null) {
+      invalidTypes['null'] = id;
+      continue;
+    }
+    try {
+      ExerciseType.fromString(type);
+    } catch (_) {
+      invalidTypes[type] = id;
+    }
   }
 
   if (duplicates.isNotEmpty) {
@@ -30,6 +42,14 @@ void main() {
     exit(1);
   }
 
+  if (invalidTypes.isNotEmpty) {
+    stderr.writeln('Error: Invalid exercise types found:');
+    invalidTypes.forEach((type, id) {
+      stderr.writeln('  id $id: type "$type"');
+    });
+    exit(1);
+  }
+
   stdout.writeln(
-      'All ${exercises.length} exercise IDs are unique. Validation passed.');
+      'All ${exercises.length} exercise IDs are unique and all types are valid. Validation passed.');
 }

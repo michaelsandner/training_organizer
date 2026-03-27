@@ -21,14 +21,14 @@ void main() {
       group('When fromJson is called', () {
         test('Then an ExercisePlanEntry is created correctly', () {
           final json = {
-            'type': 'technik',
+            'type': 'technik-kraul',
             'selectedExerciseId': 2,
             'distance': 100,
           };
 
           final entry = ExercisePlanEntry.fromJson(json);
 
-          expect(entry.type, ExerciseType.technik);
+          expect(entry.type, ExerciseType.technikKraul);
           expect(entry.selectedExerciseId, 2);
           expect(entry.distance, 100);
         });

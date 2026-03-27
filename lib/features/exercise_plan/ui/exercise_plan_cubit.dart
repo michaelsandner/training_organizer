@@ -38,13 +38,14 @@ class ExercisePlanCubit extends Cubit<ExercisePlanState> {
   }
 
   List<ExercisePlanEntry> _createDefaultEntries(List<Exercise> exercises) {
+    final defaultTypes = [
+      ExerciseType.einschwimmen,
+      ExerciseType.technikKraul,
+      ExerciseType.technikBrust,
+    ];
     final defaultEntries = <ExercisePlanEntry>[];
-    final types = ExerciseType.values;
-
-    for (var i = 0; i < 5; i++) {
-      final type = types[i % types.length];
-      final exercisesForType =
-          exercises.where((e) => e.type == type).toList();
+    for (final type in defaultTypes) {
+      final exercisesForType = exercises.where((e) => e.type == type).toList();
       final exerciseId =
           exercisesForType.isNotEmpty ? exercisesForType.first.id : 1;
       defaultEntries.add(ExercisePlanEntry(
@@ -52,7 +53,6 @@ class ExercisePlanCubit extends Cubit<ExercisePlanState> {
         selectedExerciseId: exerciseId,
       ));
     }
-
     return defaultEntries;
   }
 

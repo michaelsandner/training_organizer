@@ -81,8 +81,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
-      - run: dart run scripts/validate_exercise_ids.dart
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{env.FLUTTER_VERSION}}
+      - run: flutter pub get
+      - run: flutter pub run scripts/validate_exercise_ids.dart
 
   tests:
     runs-on: ubuntu-latest
