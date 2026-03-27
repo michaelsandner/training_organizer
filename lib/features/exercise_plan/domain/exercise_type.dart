@@ -44,45 +44,45 @@ enum ExerciseType {
         return 'Einschwimmen';
       case ExerciseType.anfaenger:
         return 'Anfänger-Schwimmen';
-      case ExerciseType.rettungsschwimmen:
-        return 'Rettungsschwimmen';
       case ExerciseType.technikBrust:
         return 'Technik-Brust';
       case ExerciseType.technikKraul:
         return 'Technik-Kraul';
       case ExerciseType.technikRuecken:
         return 'Technik-Rücken';
-      case ExerciseType.ausschwimmen:
-        return 'Ausschwimmen';
-      case ExerciseType.spiel:
-        return 'Spiel';
+      case ExerciseType.rettungsschwimmen:
+        return 'Rettungsschwimmen';
       case ExerciseType.ausdauer:
         return 'Ausdauer';
       case ExerciseType.kraft:
         return 'Kraft';
+      case ExerciseType.spiel:
+        return 'Spiel';
+      case ExerciseType.ausschwimmen:
+        return 'Ausschwimmen';
     }
   }
 
   Color get color {
     switch (this) {
       case ExerciseType.einschwimmen:
-        return Colors.blue;
-      case ExerciseType.anfaenger:
-        return Colors.lightBlueAccent;
-      case ExerciseType.rettungsschwimmen:
-        return Colors.cyan;
-      case ExerciseType.technikBrust:
         return Colors.orange;
-      case ExerciseType.technikKraul:
-        return Colors.deepOrange;
-      case ExerciseType.technikRuecken:
-        return Colors.amber;
-      case ExerciseType.ausschwimmen:
+      case ExerciseType.anfaenger:
         return Colors.teal;
+      case ExerciseType.rettungsschwimmen:
+        return Colors.red;
+      case ExerciseType.technikBrust:
+        return Colors.cyan;
+      case ExerciseType.technikKraul:
+        return Colors.cyan;
+      case ExerciseType.technikRuecken:
+        return Colors.cyan;
+      case ExerciseType.ausschwimmen:
+        return Colors.orange;
       case ExerciseType.spiel:
         return Colors.green;
       case ExerciseType.ausdauer:
-        return Colors.red;
+        return Colors.purple;
       case ExerciseType.kraft:
         return Colors.purple;
     }
