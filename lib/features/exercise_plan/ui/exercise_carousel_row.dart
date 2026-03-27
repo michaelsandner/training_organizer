@@ -193,7 +193,7 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          height: 240,
+          height: 140,
           width: double.infinity,
           child: ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(
