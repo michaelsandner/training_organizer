@@ -105,6 +105,14 @@
       "unit": "Meter"
     },
     {
+      "id": 41,
+      "name": "Beinschlag mit Brett",
+      "description": "- Das Brett wird mit gestreckten Armen vor dem Körper gehalten\n- Es wird nur mit den Beinen geschwommen.",
+      "type": "technik-brust",
+      "imageName": null,
+      "unit": "Meter"
+    },
+    {
       "id": 5,
       "name": "Rücken: Wechselbeinschlag",
       "description": "Rückenschwimmen mit Wechselbeinschlag",
