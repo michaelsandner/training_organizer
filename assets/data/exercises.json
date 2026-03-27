@@ -26,19 +26,11 @@
     },
     {
       "id": 103,
-      "name": "Hecktschießen",
+      "name": "Hechtschießen",
       "description": "- Die Kinder stellen sich am Beckenrand auf mit einem Schwimmbrett\n- Das Schwimmbrett wird mit beiden Armen über den Kopf gehalten\n- Mit einem Fuß wird sich am Beckenrand abgestoßen und nach Vorne geschossen\n- Forgeschritten: Auf dem Beckenrand stehen",
       "type": "anfänger",
       "imageName": null,
       "unit": "Minuten"
-    },
-    {
-      "id": 103,
-      "name": "Hecktschießen",
-      "description": "- Die Kinder stellen sich am Beckenrand auf mit einem Schwimmbrett\n- Das Schwimmbrett wird mit beiden Armen über den Kopf gehalten\n- Mit einem Fuß wird sich am Beckenrand abgestoßen und nach Vorne geschossen\n- Forgeschritten: Auf dem Beckenrand stehen",
-      "type": "anfänger",
-      "imageName": null,
-      "unit": "Meter"
     },
     {
       "id": 102,
@@ -55,14 +47,6 @@
       "type": "anfänger",
       "imageName": null,
       "unit": "Minuten"
-    },
-    {
-      "id": 104,
-      "name": "Motorboot",
-      "description": "- Die Kinder bilden Zweiergruppen\n- Ein Kind (das Boot) legt sich flach auf den Bauch und hält dabei das Brett mit ausgestreckten Armen\n- Das zweite Kind hält das Kind an den Füßen und schiebt das Boot durchs Wasser",
-      "type": "anfänger",
-      "imageName": null,
-      "unit": "Meter"
     },
     {
       "id": 201,
