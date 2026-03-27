@@ -35,7 +35,7 @@ void main() {
             'id': 1,
             'name': 'Test',
             'description': 'desc',
-            'type': 'technik',
+            'type': 'technik-kraul',
             'imageName': 'test.png',
             'unit': 'Meter',
           };
@@ -54,7 +54,7 @@ void main() {
             id: 2,
             name: 'Kraul Beine',
             description: 'Schwimme nur Kraul Beine',
-            type: ExerciseType.technik,
+            type: ExerciseType.technikKraul,
             unit: 'Meter',
           );
 
@@ -63,7 +63,7 @@ void main() {
           expect(json['id'], 2);
           expect(json['name'], 'Kraul Beine');
           expect(json['description'], 'Schwimme nur Kraul Beine');
-          expect(json['type'], 'technik');
+          expect(json['type'], 'technik-kraul');
           expect(json['imageName'], isNull);
           expect(json['unit'], 'Meter');
         });

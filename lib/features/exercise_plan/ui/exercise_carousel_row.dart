@@ -15,6 +15,7 @@ class ExerciseCarouselRow extends StatefulWidget {
   final ValueChanged<int> onExerciseChanged;
   final ValueChanged<int> onDistanceChanged;
   final VoidCallback onRemove;
+  final bool collapseAll;
 
   const ExerciseCarouselRow({
     super.key,
@@ -27,6 +28,7 @@ class ExerciseCarouselRow extends StatefulWidget {
     required this.onExerciseChanged,
     required this.onDistanceChanged,
     required this.onRemove,
+    this.collapseAll = false,
   });
 
   @override
@@ -63,6 +65,11 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
       _pageController.dispose();
       _currentPage = _initialPage;
       _pageController = PageController(initialPage: _currentPage);
+    }
+    if (oldWidget.collapseAll != widget.collapseAll) {
+      setState(() {
+        _collapsed = widget.collapseAll;
+      });
     }
   }
 
@@ -166,11 +173,6 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
         ],
       ),
     );
-  }
-
-  Widget _buildTypeDropdown(BuildContext context) {
-    // unused, alles in build integriert
-    return const SizedBox.shrink();
   }
 
   Widget _buildCarousel(List<Exercise> exercises) {

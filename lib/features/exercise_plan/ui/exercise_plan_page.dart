@@ -4,8 +4,21 @@ import 'package:training_organizer/features/exercise_plan/ui/exercise_carousel_r
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_cubit.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_state.dart';
 
-class ExercisePlanPage extends StatelessWidget {
+class ExercisePlanPage extends StatefulWidget {
   const ExercisePlanPage({super.key});
+
+  @override
+  State<ExercisePlanPage> createState() => _ExercisePlanPageState();
+}
+
+class _ExercisePlanPageState extends State<ExercisePlanPage> {
+  bool _collapseAll = false;
+
+  void _toggleCollapseAll() {
+    setState(() {
+      _collapseAll = !_collapseAll;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +61,11 @@ class ExercisePlanPage extends StatelessWidget {
                 distance: entry.distance,
                 allExercises: state.exercises,
                 onTypeChanged: (type) => cubit.updateEntryType(index, type),
-                onExerciseChanged: (id) =>
-                    cubit.updateEntryExercise(index, id),
+                onExerciseChanged: (id) => cubit.updateEntryExercise(index, id),
                 onDistanceChanged: (distance) =>
                     cubit.updateEntryDistance(index, distance),
                 onRemove: () => cubit.removeEntry(index),
+                collapseAll: _collapseAll,
               );
             },
           ),
@@ -84,6 +97,11 @@ class ExercisePlanPage extends StatelessWidget {
                 context.read<ExercisePlanCubit>().applyPlanString(value);
               },
             ),
+          ),
+          IconButton(
+            icon: Icon(_collapseAll ? Icons.unfold_less : Icons.unfold_more),
+            tooltip: _collapseAll ? 'Alle aufklappen' : 'Alle zuklappen',
+            onPressed: _toggleCollapseAll,
           ),
         ],
       ),

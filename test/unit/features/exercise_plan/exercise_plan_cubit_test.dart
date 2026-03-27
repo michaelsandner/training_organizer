@@ -9,6 +9,8 @@ import 'package:training_organizer/features/exercise_plan/domain/exercise_type.d
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_cubit.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_state.dart';
 
+import 'performance_data_fake.dart';
+
 class MockExerciseRepository extends Mock implements ExerciseRepository {}
 
 class MockLocalStorageRepository extends Mock
@@ -30,7 +32,7 @@ void main() {
       id: 2,
       name: 'Kraul Beine',
       description: 'Schwimme nur Kraul Beine',
-      type: ExerciseType.technik,
+      type: ExerciseType.technikKraul,
       unit: 'Meter',
     ),
     Exercise(
@@ -44,6 +46,7 @@ void main() {
 
   setUpAll(() {
     registerFallbackValue(<ExercisePlanEntry>[]);
+    registerFallbackValue(PerformanceDataFake());
   });
 
   setUp(() {
@@ -56,10 +59,8 @@ void main() {
         .thenAnswer((_) async => null);
     when(() => mockLocalStorage.saveExercisePlan(any()))
         .thenAnswer((_) async {});
-    when(() => mockLocalStorage.loadTrainees())
-        .thenAnswer((_) async => null);
-    when(() => mockLocalStorage.saveTrainees(any()))
-        .thenAnswer((_) async {});
+    when(() => mockLocalStorage.loadTrainees()).thenAnswer((_) async => null);
+    when(() => mockLocalStorage.saveTrainees(any())).thenAnswer((_) async {});
     when(() => mockLocalStorage.loadPerformanceData())
         .thenAnswer((_) async => null);
     when(() => mockLocalStorage.savePerformanceData(any()))
@@ -78,9 +79,8 @@ void main() {
           act: (cubit) => cubit.init(),
           expect: () => [
             isA<ExercisePlanState>()
-                .having(
-                    (s) => s.exercises.length, 'exercises count', 3)
-                .having((s) => s.entries.length, 'entries count', 5),
+                .having((s) => s.exercises.length, 'exercises count', 3)
+                .having((s) => s.entries.length, 'entries count', 3),
           ],
         );
       });
@@ -89,7 +89,7 @@ void main() {
     group('Given saved exercise plan exists in local storage', () {
       const savedEntries = [
         ExercisePlanEntry(
-          type: ExerciseType.technik,
+          type: ExerciseType.technikKraul,
           selectedExerciseId: 2,
           distance: 100,
         ),
@@ -110,8 +110,7 @@ void main() {
           act: (cubit) => cubit.init(),
           expect: () => [
             isA<ExercisePlanState>()
-                .having(
-                    (s) => s.exercises.length, 'exercises count', 3)
+                .having((s) => s.exercises.length, 'exercises count', 3)
                 .having((s) => s.entries.length, 'entries count', 1)
                 .having((s) => s.entries.first.selectedExerciseId,
                     'selected id', 2),
@@ -141,11 +140,11 @@ void main() {
             mockExerciseRepository,
             localStorageRepository: mockLocalStorage,
           ),
-          act: (cubit) => cubit.updateEntryType(0, ExerciseType.technik),
+          act: (cubit) => cubit.updateEntryType(0, ExerciseType.technikKraul),
           expect: () => [
             isA<ExercisePlanState>()
                 .having((s) => s.entries.first.type, 'type',
-                    ExerciseType.technik)
+                    ExerciseType.technikKraul)
                 .having((s) => s.entries.first.selectedExerciseId,
                     'selected id', 2),
           ],
