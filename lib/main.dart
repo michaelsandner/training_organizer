@@ -92,26 +92,38 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
-          bottom: const TabBar(
-            isScrollable: true,
-            tabs: [
-              Tab(
-                icon: Icon(Icons.accessibility),
-                text: 'Mitglieder',
-              ),
-              Tab(
-                icon: Icon(Icons.document_scanner),
-                text: 'Blocklisten',
-              ),
-              Tab(
-                icon: Icon(Icons.list),
-                text: 'Statistik',
-              ),
-              Tab(
-                icon: Icon(Icons.fitness_center),
-                text: 'Trainingsplan',
-              ),
-            ],
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(48),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return const SizedBox(
+                  width: double.infinity,
+                  child: TabBar(
+                    isScrollable: false,
+                    tabs: [
+                      Tab(
+                        icon: Icon(Icons.accessibility),
+                        text: 'Mitglieder',
+                      ),
+                      Tab(
+                        icon: Icon(Icons.document_scanner),
+                        text: 'Blocklisten',
+                      ),
+                      Tab(
+                        icon: Icon(Icons.list),
+                        text: 'Statistik',
+                      ),
+                      Tab(
+                        icon: Icon(Icons.fitness_center),
+                        text: 'Trainingsplan',
+                      ),
+                    ],
+                    labelPadding: EdgeInsets.zero,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                  ),
+                );
+              },
+            ),
           ),
         ),
         drawer: const AppDrawer(),
