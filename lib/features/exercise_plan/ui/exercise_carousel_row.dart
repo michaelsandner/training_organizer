@@ -112,47 +112,59 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Dropdown für Typ
-                    DropdownButton<ExerciseType>(
-                      value: widget.selectedType,
-                      underline: const SizedBox(),
-                      items: ExerciseType.values
-                          .map((type) => DropdownMenuItem(
-                                value: type,
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 16,
-                                      height: 16,
-                                      decoration: BoxDecoration(
-                                        color: type.color,
-                                        shape: BoxShape.circle,
+                    Expanded(
+                      child: Row(
+                        children: [
+                          // Dropdown für Typ
+                          DropdownButton<ExerciseType>(
+                            value: widget.selectedType,
+                            underline: const SizedBox(),
+                            items: ExerciseType.values
+                                .map((type) => DropdownMenuItem(
+                                      value: type,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 16,
+                                            height: 16,
+                                            decoration: BoxDecoration(
+                                              color: type.color,
+                                              shape: BoxShape.circle,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(type.displayName),
+                                        ],
                                       ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(type.displayName),
-                                  ],
-                                ),
-                              ))
-                          .toList(),
-                      onChanged: (type) {
-                        if (type != null) widget.onTypeChanged(type);
-                      },
+                                    ))
+                                .toList(),
+                            onChanged: (type) {
+                              if (type != null) widget.onTypeChanged(type);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(width: 12),
-                    // Collapse/Expand Button
-                    IconButton(
-                      icon: Icon(
-                          _collapsed ? Icons.expand_more : Icons.expand_less),
-                      tooltip: _collapsed ? 'Aufklappen' : 'Zuklappen',
-                      onPressed: () => setState(() => _collapsed = !_collapsed),
-                    ),
-                    // Löschen
-                    IconButton(
-                      icon: const Icon(Icons.delete_outline),
-                      onPressed: widget.onRemove,
-                      tooltip: 'Entfernen',
+                    Row(
+                      children: [
+                        // Collapse/Expand Button
+                        IconButton(
+                          icon: Icon(_collapsed
+                              ? Icons.expand_more
+                              : Icons.expand_less),
+                          tooltip: _collapsed ? 'Aufklappen' : 'Zuklappen',
+                          onPressed: () =>
+                              setState(() => _collapsed = !_collapsed),
+                        ),
+                        // Löschen
+                        IconButton(
+                          icon: const Icon(Icons.delete_outline),
+                          onPressed: widget.onRemove,
+                          tooltip: 'Entfernen',
+                        ),
+                      ],
                     ),
                   ],
                 ),

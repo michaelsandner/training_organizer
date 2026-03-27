@@ -31,6 +31,7 @@ class ExerciseCarouselItem extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     '#${exercise.id}',
@@ -47,8 +48,34 @@ class ExerciseCarouselItem extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  const SizedBox(width: 8),
+                  SizedBox(
+                    width: 60,
+                    height: 28,
+                    child: TextFormField(
+                      initialValue: distance.toString(),
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 14, height: 1.1),
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        final d = int.tryParse(value);
+                        if (d != null) {
+                          onDistanceChanged(d);
+                        }
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(exercise.unit),
                 ],
               ),
               const SizedBox(height: 8),
@@ -65,38 +92,6 @@ class ExerciseCarouselItem extends StatelessWidget {
                     label: const Text('Bild anzeigen'),
                   ),
                 ),
-              const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.only(left: 32),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 60,
-                      height: 28,
-                      child: TextFormField(
-                        initialValue: distance.toString(),
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 14, height: 1.1),
-                        decoration: const InputDecoration(
-                          isDense: true,
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          final d = int.tryParse(value);
-                          if (d != null) {
-                            onDistanceChanged(d);
-                          }
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(exercise.unit),
-                  ],
-                ),
-              ),
             ],
           ),
         ),
