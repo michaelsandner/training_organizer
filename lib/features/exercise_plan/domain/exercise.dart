@@ -30,28 +30,11 @@ class Exercise with EquatableMixin {
   }
 
   Map<String, dynamic> toJson() {
-    String typeString;
-    switch (type) {
-      case ExerciseType.technikKraul:
-        typeString = 'technik-kraul';
-        break;
-      case ExerciseType.technikBrust:
-        typeString = 'technik-brust';
-        break;
-      case ExerciseType.technikRuecken:
-        typeString = 'technik-rücken';
-        break;
-      case ExerciseType.anfaenger:
-        typeString = 'anfänger';
-        break;
-      default:
-        typeString = type.name;
-    }
     return {
       'id': id,
       'name': name,
       'description': description,
-      'type': typeString,
+      'type': type.toStorageString(),
       'imageName': imageName,
       'unit': unit,
     };

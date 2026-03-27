@@ -34,7 +34,7 @@ class ExercisePlanEntry with EquatableMixin {
 
   Map<String, dynamic> toJson() {
     return {
-      'type': type.name,
+      'type': type.toStorageString(),
       'selectedExerciseId': selectedExerciseId,
       'distance': distance,
     };

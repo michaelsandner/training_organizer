@@ -12,6 +12,32 @@ enum ExerciseType {
   ausdauer,
   kraft;
 
+  /// Returns the canonical string for storage/serialization.
+  String toStorageString() {
+    switch (this) {
+      case ExerciseType.einschwimmen:
+        return 'einschwimmen';
+      case ExerciseType.anfaenger:
+        return 'anfänger';
+      case ExerciseType.rettungsschwimmen:
+        return 'rettungsschwimmen';
+      case ExerciseType.technikBrust:
+        return 'technik-brust';
+      case ExerciseType.technikKraul:
+        return 'technik-kraul';
+      case ExerciseType.technikRuecken:
+        return 'technik-rücken';
+      case ExerciseType.ausschwimmen:
+        return 'ausschwimmen';
+      case ExerciseType.spiel:
+        return 'spiel';
+      case ExerciseType.ausdauer:
+        return 'ausdauer';
+      case ExerciseType.kraft:
+        return 'kraft';
+    }
+  }
+
   String get displayName {
     switch (this) {
       case ExerciseType.einschwimmen:
@@ -85,6 +111,10 @@ enum ExerciseType {
       case 'kraft':
         return ExerciseType.kraft;
       default:
+        // fallback for legacy/enum names
+        for (final type in ExerciseType.values) {
+          if (type.name == value) return type;
+        }
         throw ArgumentError('Unknown exercise type: $value');
     }
   }
