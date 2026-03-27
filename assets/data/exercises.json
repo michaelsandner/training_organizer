@@ -2,7 +2,7 @@
   "exercises": [
     {
       "id": 1,
-      "name": "Einschwimmen",
+      "name": "Einschwimmen Strecke",
       "description": "Es wird x Meter lang locker geschwommen",
       "type": "einschwimmen",
       "imageName": null,
@@ -10,7 +10,7 @@
     },
     {
       "id": 11,
-      "name": "Einschwimmen",
+      "name": "Einschwimmen Zeit",
       "description": "Es wird x Minuten lang locker geschwommen",
       "type": "einschwimmen",
       "imageName": null,
@@ -25,9 +25,25 @@
       "unit": "Meter"
     },
     {
+      "id": 103,
+      "name": "Hecktschießen",
+      "description": "- Die Kinder stellen sich am Beckenrand auf mit einem Schwimmbrett\n- Das Schwimmbrett wird mit beiden Armen über den Kopf gehalten\n- Mit einem Fuß wird sich am Beckenrand abgestoßen und nach Vorne geschossen\n- Forgeschritten: Auf dem Beckenrand stehen",
+      "type": "anfänger",
+      "imageName": null,
+      "unit": "Meter"
+    },
+    {
       "id": 102,
       "name": "Büffel-Spiel",
       "description": "- Kleingruppen\n- Die Kinder tauchen den Kopf abwechselnd ins Wasser und Pusten 1, 2 oder 3 mal ins Wasser (Rauchzeichen)\n- Die anderen Kinder in der Gruppe müssen erraten, wie oft ins Wasser gepustet wurde",
+      "type": "anfänger",
+      "imageName": null,
+      "unit": "Meter"
+    },
+    {
+      "id": 104,
+      "name": "Motorboot",
+      "description": "- Die Kinder bilden Zweiergruppen\n- Ein Kind (das Boot) legt sich flach auf den Bauch und hält dabei das Brett mit ausgestreckten Armen\n- Das zweite Kind hält das Kind an den Füßen und schiebt das Boot durchs Wasser",
       "type": "anfänger",
       "imageName": null,
       "unit": "Meter"
@@ -50,7 +66,7 @@
     },
     {
       "id": 2,
-      "name": "Kraul Beine",
+      "name": "Beine",
       "description": "Schwimme nur Kraul Beine",
       "type": "technik-kraul",
       "imageName": null,
@@ -58,7 +74,7 @@
     },
     {
       "id": 3,
-      "name": "Kraul: Daumen an der Körperseite",
+      "name": "Daumen an der Körperseite",
       "description": "Beim Kraularmschlag wird der Daumen an der Körperseite geführt",
       "type": "technik-kraul",
       "imageName": null,
@@ -66,7 +82,7 @@
     },
     {
       "id": 4,
-      "name": "Brust: Gleitphase verlängern",
+      "name": "Gleitphase verlängern",
       "description": "Brustschwimmen mit extra langer Gleitphase",
       "type": "technik-brust",
       "imageName": null,
@@ -82,19 +98,27 @@
     },
     {
       "id": 6,
-      "name": "Wasserball",
-      "description": "Spiele Wasserball",
+      "name": "Ameisen-Spiel",
+      "description": "- Bildet zwei Mannschaften\n- Jede Mannschaft hat einen 'Ameisenhaufen' bestehend aus Schwimmhilfen (z.B. Nudeln, Bretter, etc.)\n- Ziel ist es, so viele Schwimmhilfen wie möglich von der gegnerischen Seite in den eigenen Ameisenhaufen zu transportieren\n- Es darf immer nur ein Gegenstand transportiert werden",
       "type": "spiel",
       "imageName": null,
       "unit": "Minuten"
     },
     {
       "id": 7,
-      "name": "Ausschwimmen",
+      "name": "Ausschwimmen Strecke",
       "description": "Es wird x Meter lang locker geschwommen",
       "type": "ausschwimmen",
       "imageName": null,
       "unit": "Meter"
+    },
+    {
+      "id": 71,
+      "name": "Ausschwimmen Zeit",
+      "description": "Es wird x Minuten lang locker geschwommen",
+      "type": "ausschwimmen",
+      "imageName": null,
+      "unit": "Minuten"
     },
     {
       "id": 8,
