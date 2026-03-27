@@ -22,7 +22,15 @@
       "description": "- Zweiergruppen\n- Ein Kind legt sich auf den Rücken\n- Das zweite Kind trägt den 'Tisch' durch das Wasser",
       "type": "anfänger",
       "imageName": null,
-      "unit": "Meter"
+      "unit": "Minuten"
+    },
+    {
+      "id": 103,
+      "name": "Hecktschießen",
+      "description": "- Die Kinder stellen sich am Beckenrand auf mit einem Schwimmbrett\n- Das Schwimmbrett wird mit beiden Armen über den Kopf gehalten\n- Mit einem Fuß wird sich am Beckenrand abgestoßen und nach Vorne geschossen\n- Forgeschritten: Auf dem Beckenrand stehen",
+      "type": "anfänger",
+      "imageName": null,
+      "unit": "Minuten"
     },
     {
       "id": 103,
@@ -38,7 +46,15 @@
       "description": "- Kleingruppen\n- Die Kinder tauchen den Kopf abwechselnd ins Wasser und Pusten 1, 2 oder 3 mal ins Wasser (Rauchzeichen)\n- Die anderen Kinder in der Gruppe müssen erraten, wie oft ins Wasser gepustet wurde",
       "type": "anfänger",
       "imageName": null,
-      "unit": "Meter"
+      "unit": "Minuten"
+    },
+    {
+      "id": 104,
+      "name": "Motorboot",
+      "description": "- Die Kinder bilden Zweiergruppen\n- Ein Kind (das Boot) legt sich flach auf den Bauch und hält dabei das Brett mit ausgestreckten Armen\n- Das zweite Kind hält das Kind an den Füßen und schiebt das Boot durchs Wasser",
+      "type": "anfänger",
+      "imageName": null,
+      "unit": "Minuten"
     },
     {
       "id": 104,
