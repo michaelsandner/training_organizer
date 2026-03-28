@@ -49,6 +49,14 @@
       "unit": "Minuten"
     },
     {
+      "id": 105,
+      "name": "Ü-Eier pusten",
+      "description": "- Jedes Kind bekommt ein Ü-Ei\n- Die Kinder laufen durch das Wasser und pusten das Ü-Ei vor sich her\n- Der Mund soll dabei möglichst komplett im Wasser sein",
+      "type": "anfänger",
+      "imageName": null,
+      "unit": "Minuten"
+    },
+    {
       "id": 201,
       "name": "Achselgriff",
       "description": "- Rettling liegt auf dem Rücken\n- Retter greift unter die Achseln und zieht den Rettling durch das Wasser\n- Bei Anfängern nicht mehr als 25 Meter",
