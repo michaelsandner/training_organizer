@@ -156,7 +156,7 @@
       "id": 9,
       "name": "Beinschlag mit Brett hochkant",
       "description": "- Das Brett wird mit gestreckten Armen vor dem Körper gehalten\n- Es wird nur mit den Beinen geschwommen\n- Das Brett wird dabei hochkant in das Wasser gedrückt",
-      "type": "technik-brust",
+      "type": "kraft",
       "imageName": null,
       "unit": "Meter"
     }
