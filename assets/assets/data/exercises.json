@@ -70,12 +70,12 @@
       "description": "- Rettling liegt auf dem Rücken\n- Retter schwimmt Brust\n- Rettling hält sich mit den Händen an den Schultern des Retters fest",
       "type": "rettungsschwimmen",
       "imageName": null,
-      "unit": "Wiederholungen"
+      "unit": "Meter"
     },
     {
       "id": 2,
       "name": "Beine",
-      "description": "Schwimme nur Kraul Beine",
+      "description": "- Schwimme nur Kraul Beine\- Die ausgestreckten Arme halten dabei ein Brett, einen Pullboy oder kein Hilfsmittel",
       "type": "technik-kraul",
       "imageName": null,
       "unit": "Meter"
@@ -141,6 +141,22 @@
       "name": "Langestrecke",
       "description": "Es wird x Meter lang geschwommen",
       "type": "ausdauer",
+      "imageName": null,
+      "unit": "Meter"
+    },
+    {
+      "id": 81,
+      "name": "Fliegermarsch",
+      "description": "- Es wird 25 Meter schnell geschwommen\n- Danach wird langsam zurückgelaufen und sich dabei erholt\n- Für die Runden wird die Disziplin angesagt oder gewürfelt",
+      "type": "ausdauer",
+      "imageName": null,
+      "unit": "Minuten"
+    },
+    {
+      "id": 9,
+      "name": "Beinschlag mit Brett hochkant",
+      "description": "- Das Brett wird mit gestreckten Armen vor dem Körper gehalten\n- Es wird nur mit den Beinen geschwommen\n- Das Brett wird dabei hochkant in das Wasser gedrückt",
+      "type": "technik-brust",
       "imageName": null,
       "unit": "Meter"
     }
