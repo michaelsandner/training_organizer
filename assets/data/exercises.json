@@ -75,7 +75,7 @@
     {
       "id": 2,
       "name": "Beine",
-      "description": "- Schwimme nur Kraul Beine\- Die ausgestreckten Arme halten dabei ein Brett, einen Pullboy oder kein Hilfsmittel",
+      "description": "- Schwimme nur Kraul Beine\n- Die ausgestreckten Arme halten dabei ein Brett, einen Pullboy oder kein Hilfsmittel",
       "type": "technik-kraul",
       "imageName": null,
       "unit": "Meter"
