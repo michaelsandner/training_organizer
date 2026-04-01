@@ -215,6 +215,104 @@ void main() {
         );
       });
 
+      group('When moveEntryUp is called', () {
+        ExercisePlanState multiEntryState() {
+          return const ExercisePlanState(
+            exercises: testExercises,
+            entries: [
+              ExercisePlanEntry(
+                type: ExerciseType.einschwimmen,
+                selectedExerciseId: 1,
+              ),
+              ExercisePlanEntry(
+                type: ExerciseType.technikKraul,
+                selectedExerciseId: 2,
+              ),
+              ExercisePlanEntry(
+                type: ExerciseType.spiel,
+                selectedExerciseId: 3,
+              ),
+            ],
+          );
+        }
+
+        blocTest<ExercisePlanCubit, ExercisePlanState>(
+          'Then the entry is moved one position up',
+          seed: multiEntryState,
+          build: () => ExercisePlanCubit(
+            mockExerciseRepository,
+            localStorageRepository: mockLocalStorage,
+          ),
+          act: (cubit) => cubit.moveEntryUp(1),
+          expect: () => [
+            isA<ExercisePlanState>()
+                .having((s) => s.entries.length, 'entries count', 3)
+                .having((s) => s.entries[0].selectedExerciseId, 'first id', 2)
+                .having((s) => s.entries[1].selectedExerciseId, 'second id', 1),
+          ],
+        );
+
+        blocTest<ExercisePlanCubit, ExercisePlanState>(
+          'Then nothing happens when the entry is already the first',
+          seed: multiEntryState,
+          build: () => ExercisePlanCubit(
+            mockExerciseRepository,
+            localStorageRepository: mockLocalStorage,
+          ),
+          act: (cubit) => cubit.moveEntryUp(0),
+          expect: () => [],
+        );
+      });
+
+      group('When moveEntryDown is called', () {
+        ExercisePlanState multiEntryState() {
+          return const ExercisePlanState(
+            exercises: testExercises,
+            entries: [
+              ExercisePlanEntry(
+                type: ExerciseType.einschwimmen,
+                selectedExerciseId: 1,
+              ),
+              ExercisePlanEntry(
+                type: ExerciseType.technikKraul,
+                selectedExerciseId: 2,
+              ),
+              ExercisePlanEntry(
+                type: ExerciseType.spiel,
+                selectedExerciseId: 3,
+              ),
+            ],
+          );
+        }
+
+        blocTest<ExercisePlanCubit, ExercisePlanState>(
+          'Then the entry is moved one position down',
+          seed: multiEntryState,
+          build: () => ExercisePlanCubit(
+            mockExerciseRepository,
+            localStorageRepository: mockLocalStorage,
+          ),
+          act: (cubit) => cubit.moveEntryDown(0),
+          expect: () => [
+            isA<ExercisePlanState>()
+                .having((s) => s.entries.length, 'entries count', 3)
+                .having((s) => s.entries[0].selectedExerciseId, 'first id', 2)
+                .having((s) => s.entries[1].selectedExerciseId, 'second id', 1),
+          ],
+        );
+
+        blocTest<ExercisePlanCubit, ExercisePlanState>(
+          'Then nothing happens when the entry is already the last',
+          seed: multiEntryState,
+          build: () => ExercisePlanCubit(
+            mockExerciseRepository,
+            localStorageRepository: mockLocalStorage,
+          ),
+          act: (cubit) => cubit.moveEntryDown(2),
+          expect: () => [],
+        );
+      });
+
       group('When applyPlanString is called with valid string', () {
         blocTest<ExercisePlanCubit, ExercisePlanState>(
           'Then entries are updated based on the plan string',

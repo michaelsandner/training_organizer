@@ -15,6 +15,8 @@ class ExerciseCarouselRow extends StatefulWidget {
   final ValueChanged<int> onExerciseChanged;
   final ValueChanged<int> onDistanceChanged;
   final VoidCallback onRemove;
+  final VoidCallback? onMoveUp;
+  final VoidCallback? onMoveDown;
   final bool collapseAll;
 
   const ExerciseCarouselRow({
@@ -28,6 +30,8 @@ class ExerciseCarouselRow extends StatefulWidget {
     required this.onExerciseChanged,
     required this.onDistanceChanged,
     required this.onRemove,
+    this.onMoveUp,
+    this.onMoveDown,
     this.collapseAll = false,
   });
 
@@ -149,6 +153,18 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
                     ),
                     Row(
                       children: [
+                        // Move up
+                        IconButton(
+                          icon: const Icon(Icons.arrow_upward),
+                          onPressed: widget.onMoveUp,
+                          tooltip: 'Nach oben',
+                        ),
+                        // Move down
+                        IconButton(
+                          icon: const Icon(Icons.arrow_downward),
+                          onPressed: widget.onMoveDown,
+                          tooltip: 'Nach unten',
+                        ),
                         // Collapse/Expand Button
                         IconButton(
                           icon: Icon(_collapsed

@@ -55,6 +55,8 @@ class _ExercisePlanPageState extends State<ExercisePlanPage> {
             itemCount: state.entries.length,
             itemBuilder: (context, index) {
               final entry = state.entries[index];
+              final isFirst = index == 0;
+              final isLast = index == state.entries.length - 1;
               return ExerciseCarouselRow(
                 index: index,
                 selectedType: entry.type,
@@ -66,6 +68,8 @@ class _ExercisePlanPageState extends State<ExercisePlanPage> {
                 onDistanceChanged: (distance) =>
                     cubit.updateEntryDistance(index, distance),
                 onRemove: () => cubit.removeEntry(index),
+                onMoveUp: isFirst ? null : () => cubit.moveEntryUp(index),
+                onMoveDown: isLast ? null : () => cubit.moveEntryDown(index),
                 collapseAll: _collapseAll,
               );
             },
