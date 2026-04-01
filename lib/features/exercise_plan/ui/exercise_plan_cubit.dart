@@ -125,6 +125,28 @@ class ExercisePlanCubit extends Cubit<ExercisePlanState> {
     _saveExercisePlan(updatedEntries);
   }
 
+  void moveEntryUp(int index) {
+    if (index <= 0 || index >= state.entries.length) return;
+
+    final updatedEntries = List<ExercisePlanEntry>.from(state.entries);
+    final entry = updatedEntries.removeAt(index);
+    updatedEntries.insert(index - 1, entry);
+
+    emit(state.copyWith(entries: updatedEntries, clearError: true));
+    _saveExercisePlan(updatedEntries);
+  }
+
+  void moveEntryDown(int index) {
+    if (index < 0 || index >= state.entries.length - 1) return;
+
+    final updatedEntries = List<ExercisePlanEntry>.from(state.entries);
+    final entry = updatedEntries.removeAt(index);
+    updatedEntries.insert(index + 1, entry);
+
+    emit(state.copyWith(entries: updatedEntries, clearError: true));
+    _saveExercisePlan(updatedEntries);
+  }
+
   void applyPlanString(String planString) {
     if (planString.isEmpty) {
       emit(state.copyWith(entries: const [], clearError: true));
