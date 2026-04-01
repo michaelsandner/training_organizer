@@ -9,6 +9,8 @@ import 'package:training_organizer/features/overview/selection/filter_trainees_c
 import 'package:training_organizer/features/overview/selection/filter_trainees_state.dart';
 import 'package:training_organizer/features/overview/trainees_cubit.dart';
 import 'package:training_organizer/features/overview/trainees_state.dart';
+import 'package:training_organizer/import_export/ui/file_cubit.dart';
+import 'package:training_organizer/import_export/ui/file_state.dart';
 import 'package:training_organizer/services/platform_service.dart';
 
 class AttendancePage extends StatelessWidget {
@@ -149,6 +151,65 @@ class AttendanceListHeader extends StatelessWidget {
 class AttendanceButtonRow extends StatelessWidget {
   const AttendanceButtonRow({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<FileCubit, FileState>(
+      listenWhen: (previous, current) {
+        return previous.exportState != current.exportState ||
+            previous.errorMessage != current.errorMessage;
+      },
+      listener: (context, state) {
+        if (state.exportState == ExportState.exportSuccessful) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Export successful')),
+          );
+        }
+        if (state.exportState == ExportState.exportFailed &&
+            state.errorMessage != null) {
+          ScaffoldMessenger.of(context).showMaterialBanner(
+            MaterialBanner(
+              content: Text(state.errorMessage!),
+              backgroundColor: Colors.red.shade100,
+              leading: const Icon(Icons.error_outline, color: Colors.red),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                  },
+                  child: const Text('Dismiss'),
+                ),
+              ],
+            ),
+          );
+        }
+        if (state.errorMessage != null &&
+            state.exportState == ExportState.none) {
+          ScaffoldMessenger.of(context).showMaterialBanner(
+            MaterialBanner(
+              content: Text(state.errorMessage!),
+              backgroundColor: Colors.red.shade100,
+              leading: const Icon(Icons.error_outline, color: Colors.red),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                  },
+                  child: const Text('Dismiss'),
+                ),
+              ],
+            ),
+          );
+        }
+      },
+      child: Align(
+        alignment: Alignment.bottomRight,
+        child: _AttendanceButtonContainer(),
+      ),
+    );
+  }
+}
+
+class _AttendanceButtonContainer extends StatelessWidget {
   bool _isMobileLayout(BuildContext context) {
     final data = MediaQueryData.fromView(View.of(context));
     return data.size.shortestSide < 700;
@@ -157,17 +218,14 @@ class AttendanceButtonRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isMobile = _isMobileLayout(context);
-    return Align(
-      alignment: Alignment.bottomRight,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          ImportButton(isMobile: isMobile),
-          const SizedBox(width: 5),
-          ExportButton(isMobile: isMobile),
-          const SizedBox(width: 5),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        ImportButton(isMobile: isMobile),
+        const SizedBox(width: 5),
+        ExportButton(isMobile: isMobile),
+        const SizedBox(width: 5),
+      ],
     );
   }
 }
