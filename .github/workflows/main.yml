@@ -111,7 +111,7 @@ jobs:
       - name: Start ChromeDriver
         run: chromedriver --port=4444 &
       - name: Run integration tests
-        run: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d chrome
+        run: xvfb-run -a flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d chrome
 
   deploy:
     runs-on: ubuntu-latest
