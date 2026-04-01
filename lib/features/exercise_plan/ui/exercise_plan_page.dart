@@ -48,6 +48,7 @@ class _ExercisePlanPageState extends State<ExercisePlanPage> {
     return Column(
       children: [
         _buildPlanStringRow(context, state),
+        _buildUnitSummaryRow(state),
         Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.all(8),
@@ -72,6 +73,25 @@ class _ExercisePlanPageState extends State<ExercisePlanPage> {
         ),
         _buildAddButton(cubit),
       ],
+    );
+  }
+
+  Widget _buildUnitSummaryRow(ExercisePlanState state) {
+    final summary = state.unitSummary;
+    if (summary.isEmpty) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Wrap(
+        spacing: 16,
+        children: summary.entries
+            .map(
+              (e) => Text(
+                '${e.value} ${e.key}',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 
