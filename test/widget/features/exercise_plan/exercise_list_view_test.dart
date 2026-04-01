@@ -144,8 +144,11 @@ void main() {
               .tap(find.byType(DropdownButton<ExerciseType?>));
           await tester.pumpAndSettle();
 
-          // Select Alle to reset
-          await tester.tap(find.text('Alle').last);
+          // Scroll "Alle" into view and select it to reset
+          final alleFinder = find.text('Alle').last;
+          await tester.ensureVisible(alleFinder);
+          await tester.pumpAndSettle();
+          await tester.tap(alleFinder);
           await tester.pumpAndSettle();
 
           expect(find.byType(ExerciseListItem), findsNWidgets(3));
