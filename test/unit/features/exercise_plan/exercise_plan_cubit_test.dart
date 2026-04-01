@@ -248,7 +248,8 @@ void main() {
             isA<ExercisePlanState>()
                 .having((s) => s.entries.length, 'entries count', 3)
                 .having((s) => s.entries[0].selectedExerciseId, 'first id', 2)
-                .having((s) => s.entries[1].selectedExerciseId, 'second id', 1),
+                .having((s) => s.entries[1].selectedExerciseId, 'second id', 1)
+                .having((s) => s.entries[2].selectedExerciseId, 'third id', 3),
           ],
         );
 
@@ -297,7 +298,8 @@ void main() {
             isA<ExercisePlanState>()
                 .having((s) => s.entries.length, 'entries count', 3)
                 .having((s) => s.entries[0].selectedExerciseId, 'first id', 2)
-                .having((s) => s.entries[1].selectedExerciseId, 'second id', 1),
+                .having((s) => s.entries[1].selectedExerciseId, 'second id', 1)
+                .having((s) => s.entries[2].selectedExerciseId, 'third id', 3),
           ],
         );
 
