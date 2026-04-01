@@ -127,6 +127,10 @@ void main() {
         expect(find.text('Schwimmabzeichen Bronze'), findsOneWidget);
 
         // Save the trainee changes
+        // On smaller screens the save button may be below the visible viewport
+        // inside the SingleChildScrollView, so scroll it into view first.
+        await tester.ensureVisible(find.text('Editieren'));
+        await tester.pump(const Duration(milliseconds: 500));
         await tester.tap(find.text('Editieren'));
         await tester.pump(const Duration(seconds: 2));
 
