@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_organizer/domain/exercise.dart';
+import 'package:training_organizer/domain/exercise_plan/exercise.dart';
 
 class ExerciseCarouselItem extends StatelessWidget {
   final Exercise exercise;

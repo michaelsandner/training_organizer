@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
-import 'package:training_organizer/domain/exercise.dart';
-import 'package:training_organizer/domain/exercise_plan_entry.dart';
-import 'package:training_organizer/domain/exercise_repository.dart';
-import 'package:training_organizer/domain/exercise_type.dart';
+import 'package:training_organizer/domain/exercise_plan/exercise.dart';
+import 'package:training_organizer/domain/exercise_plan/exercise_plan_entry.dart';
+import 'package:training_organizer/domain/exercise_plan/exercise_repository.dart';
+import 'package:training_organizer/domain/exercise_plan/exercise_type.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_state.dart';
 
 class ExercisePlanCubit extends Cubit<ExercisePlanState> {
