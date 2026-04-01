@@ -40,16 +40,23 @@ void main() {
       'And group and certificate management works',
       (WidgetTester tester) async {
         await tester.pumpWidget(const MyApp());
-        await tester.pumpAndSettle();
+        // Use a fixed-duration pump for the initial render so that the
+        // repeating ballPulse LoadingIndicator animation (which is shown
+        // during file import) never causes pumpAndSettle to hang.
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 1));
 
         // When open Overview page
         // The first tab (Mitglieder) is shown by default.
         // With no trainees loaded, NoTraineeDataState is displayed.
         expect(find.text('Keine Mitgliedsdaten geladen'), findsOneWidget);
 
-        // And import trainees
+        // And import trainees — triggers async loading + LoadingIndicator with
+        // a continuous ballPulse animation; use a fixed-duration pump to avoid
+        // pumpAndSettle hanging on the never-settling animation ticker.
         await tester.tap(find.text('Datei importieren'));
-        await tester.pumpAndSettle();
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 3));
 
         // Then all trainees should be displayed
         // 20 trainees (2 per group) should be visible with the default "All" filter
@@ -57,9 +64,9 @@ void main() {
 
         // When selecting group Aktiv
         await tester.tap(find.byType(DropdownButton<FilterableGroup>));
-        await tester.pumpAndSettle();
+        await tester.pump(const Duration(milliseconds: 500));
         await tester.tap(find.text('Aktiv').last);
-        await tester.pumpAndSettle();
+        await tester.pump(const Duration(milliseconds: 500));
 
         // 2 active trainees should be displayed
         expect(find.byType(TraineeListItem), findsNWidgets(2));
@@ -70,7 +77,7 @@ void main() {
         // from Aktiv to Freizeit.
         final upgradeButton = find.byIcon(Icons.upgrade_sharp).first;
         await tester.tap(upgradeButton);
-        await tester.pumpAndSettle();
+        await tester.pump(const Duration(milliseconds: 500));
 
         // Then the member is displayed in the group Freizeit (leisure).
         // After the upgrade, _changeTraineeGroup automatically switches the
@@ -83,43 +90,43 @@ void main() {
         // "AktivA Anton" sorts first (A < F), so the first edit button belongs
         // to the promoted trainee.
         await tester.tap(find.byIcon(Icons.edit).first);
-        await tester.pumpAndSettle();
+        await tester.pump(const Duration(milliseconds: 500));
 
         // Verify we are on the edit page for the correct trainee
         expect(find.text('Bearbeiten'), findsOneWidget);
 
         // And adding a new certificate to the Trainee
         await tester.tap(find.text('Abzeichen hinzufügen'));
-        await tester.pumpAndSettle();
+        await tester.pump(const Duration(milliseconds: 500));
 
         // Select "Bronze" (displayed as "Schwimmabzeichen Bronze") in the dialog.
         // The dialog has a DropdownButtonFormField<String> for selecting a qualification.
         await tester.tap(find.byType(DropdownButtonFormField<String>));
-        await tester.pumpAndSettle();
+        await tester.pump(const Duration(milliseconds: 500));
         await tester.tap(find.text('Schwimmabzeichen Bronze').last);
-        await tester.pumpAndSettle();
+        await tester.pump(const Duration(milliseconds: 500));
 
         // Confirm adding the certificate
         await tester.tap(find.text('Hinzufügen'));
-        await tester.pumpAndSettle();
+        await tester.pump(const Duration(milliseconds: 500));
 
         // Then the new certificate is displayed in the edit view
         expect(find.text('Schwimmabzeichen Bronze'), findsOneWidget);
 
         // Save the trainee changes
         await tester.tap(find.text('Editieren'));
-        await tester.pumpAndSettle();
+        await tester.pump(const Duration(seconds: 2));
 
         // Confirm the save dialog
         await tester.tap(find.text('Ja'));
-        await tester.pumpAndSettle();
+        await tester.pump(const Duration(seconds: 2));
 
         // Then the new certificate is displayed in the Overview view.
         // We are back on the overview in the Freizeit group.
         // Tap the promoted trainee's row (first item in the list, sorted by surname)
         // to open the QualificationOverlay dialog showing their certifications.
         await tester.tap(find.byType(QualificationOverlay).first);
-        await tester.pumpAndSettle();
+        await tester.pump(const Duration(milliseconds: 500));
 
         expect(find.text('Ausbildungen'), findsOneWidget);
         final qualificationDialog = find.byType(AlertDialog);
