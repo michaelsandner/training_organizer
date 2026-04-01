@@ -12,22 +12,13 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
   void toggleAttendance(Trainee trainee, TraineesCubit traineesCubit) {
     final selectedDate = state.selectedDate;
-    final hasDate = trainee.attendanceDates.any(
-      (d) =>
-          d.year == selectedDate.year &&
-          d.month == selectedDate.month &&
-          d.day == selectedDate.day,
-    );
+    final hasDate =
+        trainee.attendanceDates.any((d) => _isSameDate(d, selectedDate));
 
     final updatedDates = List<DateTime>.from(trainee.attendanceDates);
 
     if (hasDate) {
-      updatedDates.removeWhere(
-        (d) =>
-            d.year == selectedDate.year &&
-            d.month == selectedDate.month &&
-            d.day == selectedDate.day,
-      );
+      updatedDates.removeWhere((d) => _isSameDate(d, selectedDate));
     } else {
       updatedDates.add(selectedDate);
     }
@@ -38,15 +29,14 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
   bool isAttending(Trainee trainee) {
     final selectedDate = state.selectedDate;
-    return trainee.attendanceDates.any(
-      (d) =>
-          d.year == selectedDate.year &&
-          d.month == selectedDate.month &&
-          d.day == selectedDate.day,
-    );
+    return trainee.attendanceDates.any((d) => _isSameDate(d, selectedDate));
   }
 
   int getAttendanceCount(Trainee trainee) {
     return trainee.attendanceDates.length;
+  }
+
+  bool _isSameDate(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 }

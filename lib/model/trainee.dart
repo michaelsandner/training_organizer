@@ -209,8 +209,7 @@ class Trainee {
         'qualifications': qualifications.toJson()['qualifications'],
         'isTrainer': isTrainer,
         'attendanceDates': attendanceDates
-            .map((d) =>
-                '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}')
+            .map((d) => d.toIso8601String().split('T')[0])
             .toList(),
       };
 
