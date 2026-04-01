@@ -149,7 +149,7 @@ class AttendanceListHeader extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
               maxLines: 1,
-              overflow: TextOverflow.visible,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           SizedBox(

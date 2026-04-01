@@ -196,7 +196,7 @@ class Trainee {
 
   @override
   int get hashCode => Object.hash(forename, surname, email, phone,
-      trainingGroup, isMember, isTrainer, attendanceDates.length);
+      trainingGroup, isMember, isTrainer, Object.hashAll(attendanceDates));
 
   Map<String, dynamic> toJson() => {
         'surname': surname,
