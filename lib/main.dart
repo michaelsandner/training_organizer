@@ -7,6 +7,8 @@ import 'package:training_organizer/data/performance_data_file_handler.dart';
 import 'package:training_organizer/di/service_locator.dart';
 import 'package:training_organizer/domain/usecases/filter_trainees_usecase.dart';
 import 'package:training_organizer/domain/usecases/send_email_usecase.dart';
+import 'package:training_organizer/features/attendance/attendance_cubit.dart';
+import 'package:training_organizer/features/attendance/attendance_page.dart';
 import 'package:training_organizer/features/edit/trainee_view.dart';
 import 'package:training_organizer/features/email/email_cubit.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise_repository.dart';
@@ -63,6 +65,9 @@ class MyApp extends StatelessWidget {
             localStorageRepository: getIt<LocalStorageRepository>(),
           )..init(),
         ),
+        BlocProvider(
+          create: (context) => AttendanceCubit(),
+        ),
       ],
       child: MaterialApp(
         title: 'Training Organizer',
@@ -87,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -109,6 +114,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         text: 'Mitglieder',
                       ),
                       Tab(
+                        icon: Icon(Icons.check_box),
+                        text: 'Anwesenheit',
+                      ),
+                      Tab(
                         icon: Icon(Icons.list),
                         text: 'Statistik',
                       ),
@@ -127,6 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               ExercisePlanPage(),
               TraineeView(),
+              AttendancePage(),
               StatisticsView(),
             ],
           ),
