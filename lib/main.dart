@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/app_drawer.dart';
-import 'package:training_organizer/blocklist/ui/pdf_view.dart';
 import 'package:training_organizer/data/file_handler.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
 import 'package:training_organizer/data/performance_data_file_handler.dart';
@@ -88,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -102,20 +101,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     isScrollable: false,
                     tabs: [
                       Tab(
+                        icon: Icon(Icons.fitness_center),
+                        text: 'Trainingsplan',
+                      ),
+                      Tab(
                         icon: Icon(Icons.accessibility),
                         text: 'Mitglieder',
                       ),
                       Tab(
-                        icon: Icon(Icons.document_scanner),
-                        text: 'Blocklisten',
-                      ),
-                      Tab(
                         icon: Icon(Icons.list),
                         text: 'Statistik',
-                      ),
-                      Tab(
-                        icon: Icon(Icons.fitness_center),
-                        text: 'Trainingsplan',
                       ),
                     ],
                     labelPadding: EdgeInsets.zero,
@@ -130,10 +125,9 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Center(
           child: TabBarView(
             children: [
-              const TraineeView(),
-              PdfView(),
-              const StatisticsView(),
               const ExercisePlanPage(),
+              const TraineeView(),
+              const StatisticsView(),
             ],
           ),
         ),
