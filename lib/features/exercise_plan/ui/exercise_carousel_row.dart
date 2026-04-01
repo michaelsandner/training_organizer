@@ -5,7 +5,6 @@ import 'package:training_organizer/domain/exercise_plan/exercise.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise_type.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_carousel_item.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_carousel_name_row.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_carousel_type_row.dart';
 
 class ExerciseCarouselRow extends StatefulWidget {
   final int index;
@@ -128,12 +127,58 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ExerciseCarouselTypeRow(
-                  selectedType: widget.selectedType,
-                  onTypeChanged: widget.onTypeChanged,
-                  onMoveUp: widget.onMoveUp,
-                  onMoveDown: widget.onMoveDown,
-                  onRemove: widget.onRemove,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: DropdownButton<ExerciseType>(
+                        value: widget.selectedType,
+                        isExpanded: true,
+                        underline: const SizedBox(),
+                        items: ExerciseType.values
+                            .map((type) => DropdownMenuItem(
+                                  value: type,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: 16,
+                                        height: 16,
+                                        decoration: BoxDecoration(
+                                          color: type.color,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(type.displayName),
+                                    ],
+                                  ),
+                                ))
+                            .toList(),
+                        onChanged: (type) {
+                          if (type != null) widget.onTypeChanged(type);
+                        },
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        // Collapse/Expand Button
+                        IconButton(
+                          icon: Icon(_collapsed
+                              ? Icons.expand_more
+                              : Icons.expand_less),
+                          tooltip: _collapsed ? 'Aufklappen' : 'Zuklappen',
+                          onPressed: () =>
+                              setState(() => _collapsed = !_collapsed),
+                        ),
+                        // Löschen
+                        IconButton(
+                          icon: const Icon(Icons.delete_outline),
+                          onPressed: widget.onRemove,
+                          tooltip: 'Entfernen',
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 4),
                 ExerciseCarouselNameRow(
