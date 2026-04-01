@@ -122,12 +122,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         drawer: const AppDrawer(),
-        body: Center(
+        body: const Center(
           child: TabBarView(
             children: [
-              const ExercisePlanPage(),
-              const TraineeView(),
-              const StatisticsView(),
+              ExercisePlanPage(),
+              TraineeView(),
+              StatisticsView(),
             ],
           ),
         ),
