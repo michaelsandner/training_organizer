@@ -127,83 +127,89 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    // Dropdown für Typ
+                    DropdownButton<ExerciseType>(
+                      value: widget.selectedType,
+                      underline: const SizedBox(),
+                      items: ExerciseType.values
+                          .map((type) => DropdownMenuItem(
+                                value: type,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 16,
+                                      height: 16,
+                                      decoration: BoxDecoration(
+                                        color: type.color,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(type.displayName),
+                                  ],
+                                ),
+                              ))
+                          .toList(),
+                      onChanged: (type) {
+                        if (type != null) widget.onTypeChanged(type);
+                      },
+                    ),
+                    // Move up, Move down, Delete – share remaining space evenly
                     Expanded(
                       child: Row(
                         children: [
-                          // Dropdown für Typ
-                          DropdownButton<ExerciseType>(
-                            value: widget.selectedType,
-                            underline: const SizedBox(),
-                            items: ExerciseType.values
-                                .map((type) => DropdownMenuItem(
-                                      value: type,
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 16,
-                                            height: 16,
-                                            decoration: BoxDecoration(
-                                              color: type.color,
-                                              shape: BoxShape.circle,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Text(type.displayName),
-                                        ],
-                                      ),
-                                    ))
-                                .toList(),
-                            onChanged: (type) {
-                              if (type != null) widget.onTypeChanged(type);
-                            },
+                          Expanded(
+                            child: IconButton(
+                              icon: const Icon(Icons.arrow_upward),
+                              onPressed: widget.onMoveUp,
+                              tooltip: 'Nach oben',
+                            ),
+                          ),
+                          Expanded(
+                            child: IconButton(
+                              icon: const Icon(Icons.arrow_downward),
+                              onPressed: widget.onMoveDown,
+                              tooltip: 'Nach unten',
+                            ),
+                          ),
+                          Expanded(
+                            child: IconButton(
+                              icon: const Icon(Icons.delete_outline),
+                              onPressed: widget.onRemove,
+                              tooltip: 'Entfernen',
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    Row(
-                      children: [
-                        // Move up
-                        IconButton(
-                          icon: const Icon(Icons.arrow_upward),
-                          onPressed: widget.onMoveUp,
-                          tooltip: 'Nach oben',
-                        ),
-                        // Move down
-                        IconButton(
-                          icon: const Icon(Icons.arrow_downward),
-                          onPressed: widget.onMoveDown,
-                          tooltip: 'Nach unten',
-                        ),
-                        // Collapse/Expand Button
-                        IconButton(
-                          icon: Icon(_collapsed
-                              ? Icons.expand_more
-                              : Icons.expand_less),
-                          tooltip: _collapsed ? 'Aufklappen' : 'Zuklappen',
-                          onPressed: () =>
-                              setState(() => _collapsed = !_collapsed),
-                        ),
-                        // Löschen
-                        IconButton(
-                          icon: const Icon(Icons.delete_outline),
-                          onPressed: widget.onRemove,
-                          tooltip: 'Entfernen',
-                        ),
-                      ],
-                    ),
                   ],
                 ),
                 const SizedBox(height: 4),
-                Padding(
-                  padding: const EdgeInsets.only(left: 4, right: 4),
-                  child: Text(
-                    selectedExercise != null ? selectedExercise.name : '-',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 4, right: 4),
+                        child: Text(
+                          selectedExercise != null
+                              ? selectedExercise.name
+                              : '-',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    // Collapse/Expand Button in der Kopfzeile
+                    IconButton(
+                      icon: Icon(
+                          _collapsed ? Icons.expand_more : Icons.expand_less),
+                      tooltip: _collapsed ? 'Aufklappen' : 'Zuklappen',
+                      onPressed: () =>
+                          setState(() => _collapsed = !_collapsed),
+                    ),
+                  ],
                 ),
               ],
             ),
