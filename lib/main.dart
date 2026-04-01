@@ -10,7 +10,7 @@ import 'package:training_organizer/domain/filter_trainees_usecase.dart';
 import 'package:training_organizer/domain/send_email_usecase.dart';
 import 'package:training_organizer/features/edit/trainee_view.dart';
 import 'package:training_organizer/features/email/email_cubit.dart';
-import 'package:training_organizer/features/exercise_plan/domain/exercise_repository.dart';
+import 'package:training_organizer/domain/exercise_repository.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_cubit.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_page.dart';
 import 'package:training_organizer/features/overview/selection/filter_trainees_cubit.dart';

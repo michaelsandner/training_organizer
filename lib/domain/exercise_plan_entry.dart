@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:training_organizer/features/exercise_plan/domain/exercise_type.dart';
+import 'package:training_organizer/domain/exercise_type.dart';
 
 class ExercisePlanEntry with EquatableMixin {
   final ExerciseType type;

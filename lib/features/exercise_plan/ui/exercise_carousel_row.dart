@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:training_organizer/features/exercise_plan/domain/exercise.dart';
-import 'package:training_organizer/features/exercise_plan/domain/exercise_type.dart';
+import 'package:training_organizer/domain/exercise.dart';
+import 'package:training_organizer/domain/exercise_type.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_carousel_item.dart';
 
 class ExerciseCarouselRow extends StatefulWidget {
