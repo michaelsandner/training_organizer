@@ -19,59 +19,66 @@ class AttendancePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return BlocBuilder<TraineesCubit, TraineesState>(
-      builder: (context, traineesState) {
-        if (traineesState.trainees.isEmpty) {
-          return const Center(
-            child: Text('Keine Teilnehmer vorhanden'),
-          );
-        }
-        return Padding(
-          padding: isMobile(screenSize)
-              ? const EdgeInsets.all(5)
-              : const EdgeInsets.all(16.0),
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        DropDown(),
-                        const AttendanceDatePicker(),
-                      ],
-                    ),
-                  ),
-                  const AttendanceListHeader(),
-                  Expanded(
-                    child: BlocBuilder<FilterTraineesCubit,
-                        FilterTraineesState>(
-                      builder: (context, filterState) {
-                        return BlocBuilder<AttendanceCubit, AttendanceState>(
-                          builder: (context, attendanceState) {
-                            final trainees = filterState.selectedTrainees;
-                            return ListView.builder(
-                              itemCount: trainees.length,
-                              itemBuilder: (context, index) {
-                                return AttendanceListItem(
-                                  trainee: trainees[index],
-                                );
-                              },
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              const AttendanceButtonRow(),
-            ],
-          ),
-        );
+    return BlocListener<FilterTraineesCubit, FilterTraineesState>(
+      listener: (context, filterState) {
+        context
+            .read<AttendanceCubit>()
+            .adjustDateForGroup(filterState.selectedGroup);
       },
+      child: BlocBuilder<TraineesCubit, TraineesState>(
+        builder: (context, traineesState) {
+          if (traineesState.trainees.isEmpty) {
+            return const Center(
+              child: Text('Keine Teilnehmer vorhanden'),
+            );
+          }
+          return Padding(
+            padding: isMobile(screenSize)
+                ? const EdgeInsets.all(5)
+                : const EdgeInsets.all(16.0),
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          DropDown(),
+                          const AttendanceDatePicker(),
+                        ],
+                      ),
+                    ),
+                    const AttendanceListHeader(),
+                    Expanded(
+                      child: BlocBuilder<FilterTraineesCubit,
+                          FilterTraineesState>(
+                        builder: (context, filterState) {
+                          return BlocBuilder<AttendanceCubit, AttendanceState>(
+                            builder: (context, attendanceState) {
+                              final trainees = filterState.selectedTrainees;
+                              return ListView.builder(
+                                itemCount: trainees.length,
+                                itemBuilder: (context, index) {
+                                  return AttendanceListItem(
+                                    trainee: trainees[index],
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const AttendanceButtonRow(),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -81,29 +88,38 @@ class AttendanceDatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AttendanceCubit, AttendanceState>(
-      builder: (context, state) {
-        final cubit = context.read<AttendanceCubit>();
-        final formattedDate =
-            '${state.selectedDate.day.toString().padLeft(2, '0')}.${state.selectedDate.month.toString().padLeft(2, '0')}.${state.selectedDate.year}';
-        return TextButton.icon(
-          onPressed: () async {
-            final picked = await showDatePicker(
-              context: context,
-              initialDate: state.selectedDate,
-              firstDate: DateTime(2020),
-              lastDate: DateTime(2100),
-              selectableDayPredicate: (DateTime day) {
-                return day.weekday == DateTime.wednesday ||
-                    day.weekday == DateTime.saturday;
+    return BlocBuilder<FilterTraineesCubit, FilterTraineesState>(
+      builder: (context, filterState) {
+        return BlocBuilder<AttendanceCubit, AttendanceState>(
+          builder: (context, state) {
+            final cubit = context.read<AttendanceCubit>();
+            final allowedWeekday =
+                AttendanceState.getAllowedWeekday(filterState.selectedGroup);
+            final formattedDate =
+                '${state.selectedDate.day.toString().padLeft(2, '0')}.${state.selectedDate.month.toString().padLeft(2, '0')}.${state.selectedDate.year}';
+            return TextButton.icon(
+              onPressed: () async {
+                final picked = await showDatePicker(
+                  context: context,
+                  initialDate: state.selectedDate,
+                  firstDate: DateTime(2020),
+                  lastDate: DateTime(2100),
+                  selectableDayPredicate: (DateTime day) {
+                    if (allowedWeekday != null) {
+                      return day.weekday == allowedWeekday;
+                    }
+                    return day.weekday == DateTime.wednesday ||
+                        day.weekday == DateTime.saturday;
+                  },
+                );
+                if (picked != null) {
+                  cubit.setSelectedDate(picked);
+                }
               },
+              icon: const Icon(Icons.calendar_today),
+              label: Text(formattedDate),
             );
-            if (picked != null) {
-              cubit.setSelectedDate(picked);
-            }
           },
-          icon: const Icon(Icons.calendar_today),
-          label: Text(formattedDate),
         );
       },
     );
@@ -127,11 +143,13 @@ class AttendanceListHeader extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 60,
+            width: 80,
             child: Text(
               'Anwesend',
               style: TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.visible,
             ),
           ),
           SizedBox(

@@ -170,11 +170,43 @@ void main() {
         });
       });
     });
+
+    group('Given a block group is selected', () {
+      group('When adjustDateForGroup is called with group1', () {
+        blocTest<AttendanceCubit, AttendanceState>(
+          'Then selected date should be a saturday',
+          build: () => AttendanceCubit(),
+          act: (cubit) =>
+              cubit.adjustDateForGroup(FilterableGroup.group1),
+          verify: (cubit) {
+            expect(cubit.state.selectedDate.weekday, DateTime.saturday);
+          },
+        );
+      });
+    });
+
+    group('Given a wednesday group is selected', () {
+      group('When adjustDateForGroup is called with wednesday', () {
+        blocTest<AttendanceCubit, AttendanceState>(
+          'Then selected date should be a wednesday',
+          build: () {
+            final cubit = AttendanceCubit();
+            cubit.setSelectedDate(DateTime(2024, 1, 13)); // Saturday
+            return cubit;
+          },
+          act: (cubit) =>
+              cubit.adjustDateForGroup(FilterableGroup.wednesday),
+          verify: (cubit) {
+            expect(cubit.state.selectedDate.weekday, DateTime.wednesday);
+          },
+        );
+      });
+    });
   });
 
   group('AttendanceState', () {
     group('Given getDefaultAttendanceDate', () {
-      group('When called', () {
+      group('When called without group', () {
         test('Then should return a wednesday or saturday', () {
           final date = AttendanceState.getDefaultAttendanceDate();
           expect(
@@ -182,6 +214,75 @@ void main() {
                 date.weekday == DateTime.saturday,
             true,
           );
+        });
+      });
+
+      group('When called with a block group', () {
+        test('Then should return a saturday', () {
+          final date = AttendanceState.getDefaultAttendanceDate(
+              group: FilterableGroup.group1);
+          expect(date.weekday, DateTime.saturday);
+        });
+      });
+
+      group('When called with wednesday group', () {
+        test('Then should return a wednesday', () {
+          final date = AttendanceState.getDefaultAttendanceDate(
+              group: FilterableGroup.wednesday);
+          expect(date.weekday, DateTime.wednesday);
+        });
+      });
+
+      group('When called with active group', () {
+        test('Then should return a wednesday', () {
+          final date = AttendanceState.getDefaultAttendanceDate(
+              group: FilterableGroup.active);
+          expect(date.weekday, DateTime.wednesday);
+        });
+      });
+
+      group('When called with leisure group', () {
+        test('Then should return a wednesday', () {
+          final date = AttendanceState.getDefaultAttendanceDate(
+              group: FilterableGroup.leisure);
+          expect(date.weekday, DateTime.wednesday);
+        });
+      });
+    });
+
+    group('Given getAllowedWeekday', () {
+      group('When called with block groups', () {
+        test('Then should return saturday', () {
+          expect(AttendanceState.getAllowedWeekday(FilterableGroup.group1),
+              DateTime.saturday);
+          expect(AttendanceState.getAllowedWeekday(FilterableGroup.group2),
+              DateTime.saturday);
+          expect(AttendanceState.getAllowedWeekday(FilterableGroup.group3),
+              DateTime.saturday);
+          expect(AttendanceState.getAllowedWeekday(FilterableGroup.group4),
+              DateTime.saturday);
+          expect(AttendanceState.getAllowedWeekday(FilterableGroup.group5),
+              DateTime.saturday);
+        });
+      });
+
+      group('When called with wednesday, active or leisure', () {
+        test('Then should return wednesday', () {
+          expect(
+              AttendanceState.getAllowedWeekday(FilterableGroup.wednesday),
+              DateTime.wednesday);
+          expect(AttendanceState.getAllowedWeekday(FilterableGroup.active),
+              DateTime.wednesday);
+          expect(AttendanceState.getAllowedWeekday(FilterableGroup.leisure),
+              DateTime.wednesday);
+        });
+      });
+
+      group('When called with all or null', () {
+        test('Then should return null', () {
+          expect(
+              AttendanceState.getAllowedWeekday(FilterableGroup.all), null);
+          expect(AttendanceState.getAllowedWeekday(null), null);
         });
       });
     });
