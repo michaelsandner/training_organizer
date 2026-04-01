@@ -47,7 +47,10 @@ void main() {
         await tester.pump(const Duration(seconds: 1));
 
         // When open Overview page
-        // The first tab (Mitglieder) is shown by default.
+        // The first tab is Trainingsplan; navigate to the Mitglieder tab.
+        await tester.tap(find.text('Mitglieder'));
+        await tester.pump(const Duration(milliseconds: 500));
+
         // With no trainees loaded, NoTraineeDataState is displayed.
         expect(find.text('Keine Mitgliedsdaten geladen'), findsOneWidget);
 
