@@ -13,6 +13,7 @@ class Trainee {
   final bool isMember;
   final Qualifications qualifications;
   final bool isTrainer;
+  final List<DateTime> attendanceDates;
 
   Trainee({
     this.surname = '',
@@ -26,6 +27,7 @@ class Trainee {
     this.isMember = false,
     this.qualifications = const Qualifications(),
     this.isTrainer = false,
+    this.attendanceDates = const [],
   });
 
   factory Trainee.fromJson(dynamic json) {
@@ -49,6 +51,10 @@ class Trainee {
       isMember: json['isMember'] ?? false,
       qualifications: Qualifications.fromJson(json['qualifications']),
       isTrainer: json['isTrainer'] ?? false,
+      attendanceDates: (json['attendanceDates'] as List<dynamic>?)
+              ?.map((d) => DateTime.parse(d as String))
+              .toList() ??
+          [],
     );
   }
 
@@ -137,6 +143,7 @@ class Trainee {
     String? dateOfBirth,
     String? registrationDate,
     bool? isTrainer,
+    List<DateTime>? attendanceDates,
   }) {
     return Trainee(
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
@@ -150,6 +157,7 @@ class Trainee {
       isMember: isMember ?? this.isMember,
       qualifications: qualifications ?? this.qualifications,
       isTrainer: isTrainer ?? this.isTrainer,
+      attendanceDates: attendanceDates ?? this.attendanceDates,
     );
   }
 
@@ -165,7 +173,8 @@ class Trainee {
         qualifications: qualifications,
         isTrainer: isTrainer,
         comment: comment,
-        isMember: isMember);
+        isMember: isMember,
+        attendanceDates: attendanceDates);
   }
 
   @override
@@ -199,6 +208,10 @@ class Trainee {
         'isMember': isMember,
         'qualifications': qualifications.toJson()['qualifications'],
         'isTrainer': isTrainer,
+        'attendanceDates': attendanceDates
+            .map((d) =>
+                '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}')
+            .toList(),
       };
 
   String getTrainingGroupValue() {

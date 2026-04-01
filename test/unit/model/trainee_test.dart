@@ -108,7 +108,8 @@ void main() {
           'qualifications': [
             {'name': 'Silber', 'date': null},
             {'name': 'Gold', 'date': null}
-          ]
+          ],
+          'attendanceDates': [],
         };
 
         final output = input.toJson();
@@ -197,7 +198,8 @@ void main() {
           'comment': 'this is a comment',
           'isMember': false,
           'isTrainer': false,
-          'qualifications': []
+          'qualifications': [],
+          'attendanceDates': [],
         };
 
         final output = input.toJson();
