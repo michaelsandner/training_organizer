@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:training_organizer/blocklist/ui/blocklist_page.dart';
 import 'package:training_organizer/features/email/send_email_page.dart';
 import 'package:training_organizer/features/performance_data/performance_data_page.dart';
 import 'package:training_organizer/features/rescue_qualification/rescue_qualification_page.dart';
@@ -20,6 +21,18 @@ class AppDrawer extends StatelessWidget {
               'Menü',
               style: TextStyle(color: Colors.white, fontSize: 24),
             ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.document_scanner),
+            title: const Text('Blocklisten'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const BlocklistPage(),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.mail),

@@ -11,6 +11,8 @@ import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/features/overview/selection/filter_trainees_cubit.dart';
 
 class PdfView extends StatelessWidget {
+  const PdfView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final selectionCubit = context.read<FilterTraineesCubit>();
