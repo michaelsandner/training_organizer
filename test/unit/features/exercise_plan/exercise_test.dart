@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/features/exercise_plan/domain/exercise.dart';
-import 'package:training_organizer/features/exercise_plan/domain/exercise_type.dart';
+import 'package:training_organizer/domain/exercise.dart';
+import 'package:training_organizer/domain/exercise_type.dart';
 
 void main() {
   group('Exercise', () {

@@ -1,4 +1,4 @@
-import 'package:training_organizer/features/exercise_plan/domain/exercise_plan_entry.dart';
+import 'package:training_organizer/domain/exercise_plan_entry.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/domain/performance_data.dart';
 
