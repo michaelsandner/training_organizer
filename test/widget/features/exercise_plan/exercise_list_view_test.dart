@@ -75,6 +75,17 @@ void main() {
 
           expect(find.text('Alle'), findsOneWidget);
         });
+
+        testWidgets('Then exercises are grouped by type with headers',
+            (tester) async {
+          await tester.pumpWidget(buildWidget());
+
+          // Verify type headers are shown (as separate text widgets)
+          // 'Einschwimmen' appears as header and in the dropdown
+          expect(find.text('Einschwimmen'), findsOneWidget);
+          expect(find.text('Technik-Kraul'), findsOneWidget);
+          expect(find.text('Spiel'), findsOneWidget);
+        });
       });
     });
 
@@ -88,12 +99,28 @@ void main() {
           await tester.tap(find.text('Alle'));
           await tester.pumpAndSettle();
 
-          // Select "Einschwimmen" type
+          // Select "Einschwimmen" type - use last since header also shows it
           await tester.tap(find.text('Einschwimmen').last);
           await tester.pumpAndSettle();
 
           expect(find.text('Einschwimmen Strecke'), findsOneWidget);
           expect(find.byType(ExerciseListItem), findsOneWidget);
+        });
+
+        testWidgets('Then no type headers are displayed', (tester) async {
+          await tester.pumpWidget(buildWidget());
+
+          // Open the dropdown
+          await tester.tap(find.text('Alle'));
+          await tester.pumpAndSettle();
+
+          // Select "Spiel" type
+          await tester.tap(find.text('Spiel').last);
+          await tester.pumpAndSettle();
+
+          // Only the exercise item, no separate header
+          expect(find.byType(ExerciseListItem), findsOneWidget);
+          expect(find.text('Wasserball'), findsOneWidget);
         });
       });
     });
