@@ -21,6 +21,18 @@ class ExercisePlanState with EquatableMixin {
     return entries.map((e) => e.selectedExerciseId).join('-');
   }
 
+  Map<String, int> get unitSummary {
+    final exerciseById = {for (final e in exercises) e.id: e};
+    final summary = <String, int>{};
+    for (final entry in entries) {
+      final exercise = exerciseById[entry.selectedExerciseId];
+      if (exercise != null) {
+        summary[exercise.unit] = (summary[exercise.unit] ?? 0) + entry.distance;
+      }
+    }
+    return summary;
+  }
+
   ExercisePlanState copyWith({
     List<Exercise>? exercises,
     List<ExercisePlanEntry>? entries,
