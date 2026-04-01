@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/features/overview/trainees_state.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/domain/trainees/filter_trainees_usecase.dart';
+import 'package:training_organizer/domain/usecases/filter_trainees_usecase.dart';
 import 'package:training_organizer/features/overview/selection/filter_trainees_state.dart';
 
 class FilterTraineesCubit extends Cubit<FilterTraineesState> {
