@@ -39,7 +39,7 @@ class ExerciseGroupedList extends StatelessWidget {
   ) {
     int count = 0;
     for (final type in types) {
-      count += 1 + grouped[type]!.length;
+      count += 1 + grouped[type]!.length; // 1 header + exercises
     }
     return count;
   }
@@ -61,7 +61,7 @@ class ExerciseGroupedList extends StatelessWidget {
           collapseAll: collapseAll,
         );
       }
-      offset += 1 + exercises.length;
+      offset += 1 + exercises.length; // 1 header + exercises
     }
     return const SizedBox.shrink();
   }
