@@ -69,6 +69,13 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
       _pageController.dispose();
       _currentPage = _initialPage;
       _pageController = PageController(initialPage: _currentPage);
+    } else if (oldWidget.selectedExerciseId != widget.selectedExerciseId) {
+      final newPage = _initialPage;
+      if (newPage != _currentPage) {
+        _pageController.dispose();
+        _currentPage = newPage;
+        _pageController = PageController(initialPage: _currentPage);
+      }
     }
     if (oldWidget.collapseAll != widget.collapseAll) {
       setState(() {
