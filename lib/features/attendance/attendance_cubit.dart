@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/features/attendance/attendance_state.dart';
 import 'package:training_organizer/features/overview/trainees_cubit.dart';
+import 'package:training_organizer/features/overview/trainees_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 class AttendanceCubit extends Cubit<AttendanceState> {
@@ -8,6 +9,16 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
   void setSelectedDate(DateTime date) {
     emit(state.copyWith(selectedDate: date));
+  }
+
+  void adjustDateForGroup(FilterableGroup group) {
+    final allowedWeekday = AttendanceState.getAllowedWeekday(group);
+    if (allowedWeekday != null &&
+        state.selectedDate.weekday != allowedWeekday) {
+      final newDate =
+          AttendanceState.getDefaultAttendanceDate(group: group);
+      emit(state.copyWith(selectedDate: newDate));
+    }
   }
 
   void toggleAttendance(Trainee trainee, TraineesCubit traineesCubit) {

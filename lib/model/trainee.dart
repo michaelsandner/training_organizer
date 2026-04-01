@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:training_organizer/features/overview/trainees_state.dart';
 import 'package:training_organizer/model/qualifications.dart';
 
@@ -190,11 +191,12 @@ class Trainee {
       other.isMember == isMember &&
       other.isTrainer == isTrainer &&
       other.comment == comment &&
-      other.qualifications == qualifications;
+      other.qualifications == qualifications &&
+      listEquals(other.attendanceDates, attendanceDates);
 
   @override
-  int get hashCode => Object.hash(
-      forename, surname, email, phone, trainingGroup, isMember, isTrainer);
+  int get hashCode => Object.hash(forename, surname, email, phone,
+      trainingGroup, isMember, isTrainer, attendanceDates.length);
 
   Map<String, dynamic> toJson() => {
         'surname': surname,

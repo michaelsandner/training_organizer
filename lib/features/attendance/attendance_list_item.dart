@@ -28,7 +28,7 @@ class AttendanceListItem extends StatelessWidget {
             child: Text('${trainee.forename} ${trainee.surname}'),
           ),
           SizedBox(
-            width: 60,
+            width: 80,
             child: Center(
               child: Checkbox(
                 value: isAttending,

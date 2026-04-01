@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:training_organizer/features/overview/trainees_state.dart';
 
 @immutable
 class AttendanceState with EquatableMixin {
@@ -26,9 +27,18 @@ class AttendanceState with EquatableMixin {
   @override
   List<Object?> get props => [selectedDate];
 
-  static DateTime getDefaultAttendanceDate() {
+  static DateTime getDefaultAttendanceDate({FilterableGroup? group}) {
+    final allowedWeekday = getAllowedWeekday(group);
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
+
+    if (allowedWeekday != null) {
+      if (today.weekday == allowedWeekday) {
+        return today;
+      }
+      final daysUntil = (allowedWeekday - today.weekday + 7) % 7;
+      return today.add(Duration(days: daysUntil == 0 ? 7 : daysUntil));
+    }
 
     if (today.weekday == DateTime.wednesday ||
         today.weekday == DateTime.saturday) {
@@ -44,5 +54,22 @@ class AttendanceState with EquatableMixin {
         ? daysUntilWednesday
         : daysUntilSaturday;
     return today.add(Duration(days: daysToAdd));
+  }
+
+  static int? getAllowedWeekday(FilterableGroup? group) {
+    switch (group) {
+      case FilterableGroup.group1:
+      case FilterableGroup.group2:
+      case FilterableGroup.group3:
+      case FilterableGroup.group4:
+      case FilterableGroup.group5:
+        return DateTime.saturday;
+      case FilterableGroup.wednesday:
+      case FilterableGroup.active:
+      case FilterableGroup.leisure:
+        return DateTime.wednesday;
+      default:
+        return null;
+    }
   }
 }
