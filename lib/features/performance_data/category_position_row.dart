@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_organizer/domain/category_position.dart';
+import 'package:training_organizer/domain/performance_data/category_position.dart';
 
 /// A single editable row for a [CategoryPosition].
 class CategoryPositionRow extends StatefulWidget {

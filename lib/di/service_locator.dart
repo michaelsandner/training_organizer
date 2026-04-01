@@ -4,10 +4,10 @@ import 'package:training_organizer/data/file_handler.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
 import 'package:training_organizer/data/local_storage_service.dart';
 import 'package:training_organizer/data/performance_data_file_handler.dart';
-import 'package:training_organizer/domain/filter_trainees_usecase.dart';
-import 'package:training_organizer/domain/send_email_usecase.dart';
+import 'package:training_organizer/domain/trainees/filter_trainees_usecase.dart';
+import 'package:training_organizer/domain/email/send_email_usecase.dart';
 import 'package:training_organizer/data/exercise_data_repository.dart';
-import 'package:training_organizer/domain/exercise_repository.dart';
+import 'package:training_organizer/domain/exercise_plan/exercise_repository.dart';
 
 final GetIt getIt = GetIt.instance;
 

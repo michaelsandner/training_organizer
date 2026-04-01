@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:training_organizer/domain/exercise_plan_entry.dart';
+import 'package:training_organizer/domain/exercise_plan/exercise_plan_entry.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/domain/performance_data.dart';
+import 'package:training_organizer/domain/performance_data/performance_data.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
 
 class LocalStorageService implements LocalStorageRepository {
