@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_carousel_row.dart';
+import 'package:training_organizer/features/exercise_plan/ui/exercise_list_view.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_cubit.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_state.dart';
 
@@ -13,6 +14,7 @@ class ExercisePlanPage extends StatefulWidget {
 
 class _ExercisePlanPageState extends State<ExercisePlanPage> {
   bool _collapseAll = false;
+  bool _showListView = false;
 
   void _toggleCollapseAll() {
     setState(() {
@@ -37,8 +39,61 @@ class _ExercisePlanPageState extends State<ExercisePlanPage> {
         if (state.exercises.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
+        if (_showListView) {
+          return Column(
+            children: [
+              _buildViewToggleRow(),
+              const Expanded(child: ExerciseListView()),
+            ],
+          );
+        }
         return _buildBody(context, state);
       },
+    );
+  }
+
+  Widget _buildViewToggleRow() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Row(
+        children: [
+          const Text(
+            'Ansicht: ',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          ToggleButtons(
+            isSelected: [!_showListView, _showListView],
+            onPressed: (index) {
+              setState(() {
+                _showListView = index == 1;
+              });
+            },
+            borderRadius: BorderRadius.circular(8),
+            children: const [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    Icon(Icons.swipe, size: 18),
+                    SizedBox(width: 4),
+                    Text('Swipe'),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    Icon(Icons.list, size: 18),
+                    SizedBox(width: 4),
+                    Text('Liste'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -47,6 +102,7 @@ class _ExercisePlanPageState extends State<ExercisePlanPage> {
 
     return Column(
       children: [
+        _buildViewToggleRow(),
         _buildPlanStringRow(context, state),
         _buildUnitSummaryRow(state),
         Expanded(
