@@ -149,7 +149,12 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
                                         ),
                                       ),
                                       const SizedBox(width: 8),
-                                      Text(type.displayName),
+                                      Flexible(
+                                        child: Text(
+                                          type.displayName,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ))
