@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:training_organizer/data/file_handler.dart';
 import 'package:training_organizer/di/service_locator.dart';
 import 'package:training_organizer/features/overview/qualification_overlay.dart';
+import 'package:training_organizer/features/overview/selection/filter_trainees_cubit.dart';
+import 'package:training_organizer/features/overview/trainee_list.dart';
 import 'package:training_organizer/features/overview/trainee_list_item.dart';
 import 'package:training_organizer/features/overview/trainees_state.dart';
 import 'package:training_organizer/main.dart';
@@ -62,8 +65,15 @@ void main() {
         await tester.pump(const Duration(seconds: 3));
 
         // Then all trainees should be displayed
-        // 20 trainees (2 per group) should be visible with the default "All" filter
-        expect(find.byType(TraineeListItem), findsNWidgets(20));
+        // 20 trainees (2 per group) should be loaded with the default "All" filter.
+        // On smaller screens (like the Android emulator), ListView.builder only
+        // mounts visible items + cacheExtent, so we verify the underlying cubit
+        // state holds all trainees rather than counting rendered widgets.
+        final traineeListContext = tester.element(find.byType(TraineeList));
+        final filterCubit =
+            BlocProvider.of<FilterTraineesCubit>(traineeListContext);
+        expect(filterCubit.state.selectedTrainees.length, 20);
+        expect(find.byType(TraineeListItem), findsWidgets);
 
         // When selecting group Aktiv
         await tester.tap(find.byType(DropdownButton<FilterableGroup>));
