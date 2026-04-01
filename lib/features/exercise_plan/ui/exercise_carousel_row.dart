@@ -43,6 +43,7 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
   bool _collapsed = false;
   late PageController _pageController;
   late int _currentPage;
+  Key _pageViewKey = UniqueKey();
 
   List<Exercise> get _exercisesForType =>
       widget.allExercises.where((e) => e.type == widget.selectedType).toList();
@@ -53,6 +54,13 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
     if (_exercisesForType.isEmpty) return 0;
     if (idx < 0) return 0;
     return idx.clamp(0, _exercisesForType.length - 1);
+  }
+
+  void _resetPageController() {
+    _pageController.dispose();
+    _currentPage = _initialPage;
+    _pageController = PageController(initialPage: _currentPage);
+    _pageViewKey = UniqueKey();
   }
 
   @override
@@ -66,15 +74,11 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
   void didUpdateWidget(covariant ExerciseCarouselRow oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.selectedType != widget.selectedType) {
-      _pageController.dispose();
-      _currentPage = _initialPage;
-      _pageController = PageController(initialPage: _currentPage);
+      _resetPageController();
     } else if (oldWidget.selectedExerciseId != widget.selectedExerciseId) {
       final newPage = _initialPage;
       if (newPage != _currentPage) {
-        _pageController.dispose();
-        _currentPage = newPage;
-        _pageController = PageController(initialPage: _currentPage);
+        _resetPageController();
       }
     }
     if (oldWidget.collapseAll != widget.collapseAll) {
@@ -239,6 +243,7 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
               },
             ),
             child: PageView.builder(
+              key: _pageViewKey,
               controller: _pageController,
               itemCount: exercises.length,
               onPageChanged: (page) {
