@@ -95,6 +95,22 @@ jobs:
       - run: flutter pub get
       - run: flutter test
 
+  integration_tests:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{env.FLUTTER_VERSION}}
+      - run: flutter pub get
+      - name: Start ChromeDriver
+        run: chromedriver --port=4444 &
+      - name: Run integration tests
+        run: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d chrome
+
   deploy:
     runs-on: ubuntu-latest
     needs: [build_web, tests, analyzer, validate_exercise_ids]
