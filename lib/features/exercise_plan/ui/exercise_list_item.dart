@@ -16,7 +16,13 @@ class ExerciseListItem extends StatefulWidget {
 }
 
 class _ExerciseListItemState extends State<ExerciseListItem> {
-  bool _collapsed = true;
+  late bool _collapsed;
+
+  @override
+  void initState() {
+    super.initState();
+    _collapsed = widget.collapseAll;
+  }
 
   @override
   void didUpdateWidget(covariant ExerciseListItem oldWidget) {
