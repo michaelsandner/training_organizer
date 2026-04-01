@@ -4,6 +4,7 @@ import 'package:training_organizer/features/exercise_plan/ui/exercise_carousel_r
 import 'package:training_organizer/features/exercise_plan/ui/exercise_list_view.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_cubit.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_state.dart';
+import 'package:training_organizer/features/exercise_plan/ui/exercise_view_toggle_row.dart';
 
 class ExercisePlanPage extends StatefulWidget {
   const ExercisePlanPage({super.key});
@@ -42,7 +43,14 @@ class _ExercisePlanPageState extends State<ExercisePlanPage> {
         if (_showListView) {
           return Column(
             children: [
-              _buildViewToggleRow(),
+              ExerciseViewToggleRow(
+                showListView: _showListView,
+                onViewChanged: (value) {
+                  setState(() {
+                    _showListView = value;
+                  });
+                },
+              ),
               const Expanded(child: ExerciseListView()),
             ],
           );
@@ -52,57 +60,19 @@ class _ExercisePlanPageState extends State<ExercisePlanPage> {
     );
   }
 
-  Widget _buildViewToggleRow() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: Row(
-        children: [
-          const Text(
-            'Ansicht: ',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          ToggleButtons(
-            isSelected: [!_showListView, _showListView],
-            onPressed: (index) {
-              setState(() {
-                _showListView = index == 1;
-              });
-            },
-            borderRadius: BorderRadius.circular(8),
-            children: const [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  children: [
-                    Icon(Icons.swipe, size: 18),
-                    SizedBox(width: 4),
-                    Text('Swipe'),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  children: [
-                    Icon(Icons.list, size: 18),
-                    SizedBox(width: 4),
-                    Text('Liste'),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildBody(BuildContext context, ExercisePlanState state) {
     final cubit = context.read<ExercisePlanCubit>();
 
     return Column(
       children: [
-        _buildViewToggleRow(),
+        ExerciseViewToggleRow(
+          showListView: _showListView,
+          onViewChanged: (value) {
+            setState(() {
+              _showListView = value;
+            });
+          },
+        ),
         _buildPlanStringRow(context, state),
         _buildUnitSummaryRow(state),
         Expanded(
