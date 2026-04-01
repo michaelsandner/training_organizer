@@ -17,10 +17,19 @@ void main() {
 
   group('Given app has started', () {
     setUp(() async {
+      // Reset the entire GetIt container so each test starts with a clean
+      // dependency graph, then re-register all app services via the standard
+      // service locator. Finally, swap out the real FileExporter with the
+      // test-specific mock that reads from the bundled JSON asset instead of
+      // opening a native file picker. allowReassignment lets us overwrite the
+      // registration that setupServiceLocator() already created for FileExporter.
       await getIt.reset();
       setupServiceLocator();
-      getIt.unregister<FileExporter>();
-      getIt.registerLazySingleton<FileExporter>(() => MockFileExporter());
+      getIt.allowReassignment = true;
+      getIt.registerLazySingleton<FileExporter>(
+        () => MockTestTraineeFileExporter(),
+      );
+      getIt.allowReassignment = false;
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.clear();

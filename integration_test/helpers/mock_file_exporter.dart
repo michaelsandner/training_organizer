@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:training_organizer/data/file_handler.dart';
 import 'package:training_organizer/model/trainee.dart';
 
-class MockFileExporter extends FileExporter {
+class MockTestTraineeFileExporter extends FileExporter {
   @override
   Future<List<Trainee>> importTrainees() async {
     final jsonString = await rootBundle.loadString(
