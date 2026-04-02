@@ -1,44 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:training_organizer/features/attendance/attendance_statistics_section.dart';
+import 'package:training_organizer/domain/usecases/get_attendance_statistics_usecase.dart';
 
-class AttendanceStatisticsSumRow extends StatelessWidget {
-  final List<DateTime> dates;
-  final Map<DateTime, int> sums;
+class AttendanceStatisticsSumRow {
+  static Map<int, int> _computeGroupTotals(
+      AttendanceSectionData sectionData) {
+    final totals = <int, int>{};
+    for (var i = 0; i < sectionData.groupData.length; i++) {
+      var total = 0;
+      for (final count in sectionData.groupData[i].counts.values) {
+        total += count;
+      }
+      totals[i] = total;
+    }
+    return totals;
+  }
 
-  const AttendanceStatisticsSumRow({
-    super.key,
-    required this.dates,
-    required this.sums,
-  });
+  static TableRow buildRow({
+    required AttendanceSectionData sectionData,
+  }) {
+    final groupTotals = _computeGroupTotals(sectionData);
+    var grandTotal = 0;
+    for (final total in groupTotals.values) {
+      grandTotal += total;
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
+    return TableRow(
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
+      ),
       children: [
-        const SizedBox(
-          width: AttendanceStatisticsSection.groupLabelWidth,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
+        const Padding(
+          padding: EdgeInsets.all(6.0),
+          child: Text(
+            'Gesamt',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        ...List.generate(
+          sectionData.groupData.length,
+          (i) => Padding(
+            padding: const EdgeInsets.all(6.0),
             child: Text(
-              'Gesamt',
-              style: TextStyle(
+              '${groupTotals[i] ?? 0}',
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 13,
+                fontSize: 12,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
         ),
-        ...dates.map(
-          (date) => SizedBox(
-            width: AttendanceStatisticsSection.cellWidth,
-            child: Text(
-              '${sums[date] ?? 0}',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
-              ),
+        Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: Text(
+            '$grandTotal',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
       ],

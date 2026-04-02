@@ -85,18 +85,15 @@ class AttendancePage extends StatelessWidget {
                           child: BlocBuilder<FilterTraineesCubit,
                               FilterTraineesState>(
                             builder: (context, filterState) {
-                              return BlocBuilder<AttendanceCubit,
-                                  AttendanceState>(
-                                builder: (context, attendanceState) {
-                                  final trainees =
-                                      filterState.selectedTrainees;
-                                  return ListView.builder(
-                                    itemCount: trainees.length,
-                                    itemBuilder: (context, index) {
-                                      return AttendanceListItem(
-                                        trainee: trainees[index],
-                                      );
-                                    },
+                              final trainees = filterState.selectedTrainees;
+                              return ListView.builder(
+                                itemCount: trainees.length,
+                                itemBuilder: (context, index) {
+                                  final trainee = trainees[index];
+                                  return AttendanceListItem(
+                                    key: ValueKey(
+                                        '${trainee.forename}_${trainee.surname}_${trainee.dateOfBirth}'),
+                                    trainee: trainee,
                                   );
                                 },
                               );
