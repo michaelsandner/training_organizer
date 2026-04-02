@@ -33512,14 +33512,14 @@ a65:function a65(){},
 b2n(a){var s,r
 switch(a){case"einschwimmen":return B.iW
 case"anf\xe4nger":return B.xS
-case"rettungsschwimmen":return B.xT
 case"technik-brust":return B.qL
 case"technik-kraul":return B.qM
 case"technik-r\xfccken":return B.xU
-case"ausschwimmen":return B.xV
-case"spiel":return B.xW
-case"ausdauer":return B.xX
+case"rettungsschwimmen":return B.xT
 case"kraft":return B.xY
+case"ausdauer":return B.xX
+case"spiel":return B.xW
+case"ausschwimmen":return B.xV
 default:for(s=0;s<10;++s){r=B.t0[s]
 if(r.b===a)return r}throw A.j(A.cz("Unknown exercise type: "+a,null))}},
 cD:function cD(a,b){this.a=a
@@ -119231,34 +119231,34 @@ A.cD.prototype={
 D(){return"ExerciseType."+this.b},
 acL(){switch(this.a){case 0:return"einschwimmen"
 case 1:return"anf\xe4nger"
-case 2:return"rettungsschwimmen"
 case 3:return"technik-brust"
 case 4:return"technik-kraul"
 case 5:return"technik-r\xfccken"
-case 6:return"ausschwimmen"
-case 7:return"spiel"
+case 2:return"rettungsschwimmen"
+case 9:return"kraft"
 case 8:return"ausdauer"
-case 9:return"kraft"}},
+case 7:return"spiel"
+case 6:return"ausschwimmen"}},
 gHj(){switch(this.a){case 0:return"Einschwimmen"
 case 1:return"Anf\xe4nger-Schwimmen"
 case 3:return"Technik-Brust"
 case 4:return"Technik-Kraul"
 case 5:return"Technik-R\xfccken"
 case 2:return"Rettungsschwimmen"
-case 8:return"Ausdauer"
 case 9:return"Kraft"
+case 8:return"Ausdauer"
 case 7:return"Spiel"
 case 6:return"Ausschwimmen"}},
 gbY(){switch(this.a){case 0:return B.tu
 case 1:return B.aPo
-case 2:return B.cf
 case 3:return B.tt
 case 4:return B.tt
 case 5:return B.tt
-case 6:return B.tu
-case 7:return B.nI
+case 2:return B.cf
+case 9:return B.Jw
 case 8:return B.Jw
-case 9:return B.Jw}}}
+case 7:return B.nI
+case 6:return B.tu}}}
 A.Xf.prototype={
 qK(a){var s,r,q,p,o,n,m=null,l=A.fw(a,"Z","")
 if(l.length>=15){s=A.e3(B.o.ad(l,0,4),m)
