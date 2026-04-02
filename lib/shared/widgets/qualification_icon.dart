@@ -9,37 +9,30 @@ class QualificationIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (qualification.iconName == null) {
-      return qualification.icon;
-    }
-    if (qualification.isUp2Date == QualificationValidity.expired) {
-      return Stack(
-        children: [
-          SvgPicture.asset(
+    final baseIcon = qualification.iconName != null
+        ? SvgPicture.asset(
             qualification.iconName!,
             width: 25,
             height: 25,
-          ),
-          const Icon(Icons.error_outline, color: Colors.red, size: 25)
+          )
+        : qualification.icon;
+
+    if (qualification.isUp2Date == QualificationValidity.expired) {
+      return Stack(
+        children: [
+          baseIcon,
+          const Icon(Icons.error_outline, color: Colors.red, size: 25),
         ],
       );
     }
     if (qualification.isUp2Date == QualificationValidity.expiring) {
       return Stack(
         children: [
-          SvgPicture.asset(
-            qualification.iconName!,
-            width: 25,
-            height: 25,
-          ),
-          const Icon(Icons.warning_amber, color: Colors.yellow, size: 25)
+          baseIcon,
+          const Icon(Icons.warning_amber, color: Colors.yellow, size: 25),
         ],
       );
     }
-    return SvgPicture.asset(
-      qualification.iconName!,
-      width: 25,
-      height: 25,
-    );
+    return baseIcon;
   }
 }

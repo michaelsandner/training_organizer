@@ -16,7 +16,7 @@ class EhKurs extends Qualification {
   String get shortName => 'EH-Kurs (< 2 Jahre)';
 
   @override
-  Icon get icon => const Icon(Icons.add, color: Colors.red);
+  Icon get icon => const Icon(Icons.add_circle, color: Colors.red);
 
   @override
   String? get iconName => null;
