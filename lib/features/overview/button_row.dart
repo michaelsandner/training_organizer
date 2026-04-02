@@ -102,7 +102,9 @@ class ImportButton extends StatelessWidget {
       heroTag: 'importButton',
       onPressed: () async {
         final trainees = await fileCubit.loadFile();
-        cubit.updateTraineeList(trainees);
+        if (trainees != null) {
+          cubit.updateTraineeList(trainees);
+        }
       },
       icon: const Icon(Icons.data_object),
       label: Text(title),

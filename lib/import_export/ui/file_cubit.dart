@@ -11,17 +11,19 @@ class FileCubit extends Cubit<FileState> {
     emit(state.copyWith(showLoadingSpinner: shouldShow));
   }
 
-  Future<List<Trainee>> loadFile() async {
+  Future<List<Trainee>?> loadFile() async {
     try {
       setShowLoadingIndicator(true);
-      emit(state.copyWith(errorMessage: null));
+      emit(state.copyWith(clearErrorMessage: true));
       final trainees = await _fileExporter.importTrainees();
       setShowLoadingIndicator(false);
+      if (trainees.isEmpty) return null;
       return trainees;
     } catch (e) {
       setShowLoadingIndicator(false);
-      emit(state.copyWith(errorMessage: 'Import failed: ${e.toString()}'));
-      return [];
+      emit(state.copyWith(
+          errorMessage: 'Import fehlgeschlagen: ${e.toString()}'));
+      return null;
     }
   }
 
