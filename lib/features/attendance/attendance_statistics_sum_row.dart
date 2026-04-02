@@ -39,20 +39,13 @@ class AttendanceStatisticsSumRow {
       children: [
         const Padding(
           padding: EdgeInsets.all(6.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.functions, size: 14),
-              SizedBox(width: 2),
-              Text(
-                'ø',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
-              ),
-            ],
+          child: Text(
+            'ø',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
         Padding(
