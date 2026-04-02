@@ -132,6 +132,8 @@ class Trainee {
     }
   }
 
+  static final DateFormat _germanDateFormat = DateFormat('dd.MM.yyyy');
+
   static List<DateTime> _parseAttendanceDates(dynamic dates) {
     if (dates is! List) return [];
     final result = <DateTime>[];
@@ -145,15 +147,17 @@ class Trainee {
   }
 
   static DateTime? _tryParseDate(dynamic d) {
-    try {
-      if (d is String) {
-        return DateTime.tryParse(d) ?? DateFormat('dd.MM.yyyy').parse(d);
+    if (d is String) {
+      final iso = DateTime.tryParse(d);
+      if (iso != null) return iso;
+      try {
+        return _germanDateFormat.parse(d);
+      } catch (_) {
+        return null;
       }
-      if (d is int) {
-        return DateTime.fromMillisecondsSinceEpoch(d);
-      }
-    } catch (_) {
-      // Skip unparseable dates
+    }
+    if (d is int) {
+      return DateTime.fromMillisecondsSinceEpoch(d);
     }
     return null;
   }
