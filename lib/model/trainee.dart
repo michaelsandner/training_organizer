@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:training_organizer/features/overview/trainees_state.dart';
 import 'package:training_organizer/model/qualifications.dart';
 
@@ -52,10 +53,7 @@ class Trainee {
       isMember: json['isMember'] ?? false,
       qualifications: Qualifications.fromJson(json['qualifications']),
       isTrainer: json['isTrainer'] ?? false,
-      attendanceDates: (json['attendanceDates'] as List<dynamic>?)
-              ?.map((d) => DateTime.parse(d as String))
-              .toList() ??
-          [],
+      attendanceDates: _parseAttendanceDates(json['attendanceDates']),
     );
   }
 
@@ -132,6 +130,32 @@ class Trainee {
       default:
         return Group.waitingList;
     }
+  }
+
+  static List<DateTime> _parseAttendanceDates(dynamic dates) {
+    if (dates is! List) return [];
+    final result = <DateTime>[];
+    for (final d in dates) {
+      final parsed = _tryParseDate(d);
+      if (parsed != null) {
+        result.add(parsed);
+      }
+    }
+    return result;
+  }
+
+  static DateTime? _tryParseDate(dynamic d) {
+    try {
+      if (d is String) {
+        return DateTime.tryParse(d) ?? DateFormat('dd.MM.yyyy').parse(d);
+      }
+      if (d is int) {
+        return DateTime.fromMillisecondsSinceEpoch(d);
+      }
+    } catch (_) {
+      // Skip unparseable dates
+    }
+    return null;
   }
 
   Trainee copyWith({
