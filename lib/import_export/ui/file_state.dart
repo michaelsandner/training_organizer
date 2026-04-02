@@ -29,11 +29,13 @@ class FileState with EquatableMixin {
     ExportState? exportState,
     bool? showLoadingSpinner,
     String? errorMessage,
+    bool clearErrorMessage = false,
   }) {
     return FileState(
       exportState: exportState ?? this.exportState,
       showLoadingSpinner: showLoadingSpinner ?? this.showLoadingSpinner,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage:
+          clearErrorMessage ? null : (errorMessage ?? this.errorMessage),
     );
   }
 

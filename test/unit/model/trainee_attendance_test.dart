@@ -216,5 +216,45 @@ void main() {
         });
       });
     });
+
+    group('Given trainee with attendance dates exported and re-imported', () {
+      group('When toJson then fromJson is called', () {
+        test('Then attendance dates should survive the round-trip', () {
+          final original = Trainee(
+            surname: 'Mustermann',
+            forename: 'Max',
+            email: 'email@web.de',
+            phone: '000111',
+            dateOfBirth: '01.05.2000',
+            registrationDate: '01.01.2023',
+            trainingGroup: Group.group1,
+            comment: 'test',
+            isMember: true,
+            isTrainer: false,
+            attendanceDates: [
+              DateTime(2024, 1, 13),
+              DateTime(2024, 3, 16),
+              DateTime(2024, 6, 1),
+            ],
+          );
+
+          final json = original.toJson();
+          final imported = Trainee.fromJson(json);
+
+          expect(imported.attendanceDates.length, 3);
+          expect(imported.attendanceDates[0].year, 2024);
+          expect(imported.attendanceDates[0].month, 1);
+          expect(imported.attendanceDates[0].day, 13);
+          expect(imported.attendanceDates[1].month, 3);
+          expect(imported.attendanceDates[1].day, 16);
+          expect(imported.attendanceDates[2].month, 6);
+          expect(imported.attendanceDates[2].day, 1);
+          expect(imported.surname, 'Mustermann');
+          expect(imported.forename, 'Max');
+          expect(imported.trainingGroup, Group.group1);
+          expect(imported.isMember, true);
+        });
+      });
+    });
   });
 }
