@@ -70,8 +70,13 @@ class TraineesCubit extends Cubit<TraineesState> {
     final selectedGroup =
         _filterTraineesCubit?.state.selectedGroup ?? FilterableGroup.all;
     final updatedTraineeList = [...state.trainees];
-    updatedTraineeList.removeWhere((element) => element == oldTrainee);
-    updatedTraineeList.add(newTrainee);
+    final index =
+        updatedTraineeList.indexWhere((element) => element == oldTrainee);
+    if (index >= 0) {
+      updatedTraineeList[index] = newTrainee;
+    } else {
+      updatedTraineeList.add(newTrainee);
+    }
     emit(state.copyWith(trainees: updatedTraineeList));
     _saveTrainees(updatedTraineeList);
     _filterTraineesCubit?.setSelectedGroup(selectedGroup, updatedTraineeList);
