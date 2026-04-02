@@ -4,6 +4,7 @@ import 'package:training_organizer/model/qualifications/ausbilder_r1.dart';
 import 'package:training_organizer/model/qualifications/ausbilder_r2.dart';
 import 'package:training_organizer/model/qualifications/ausbilder_s1.dart';
 import 'package:training_organizer/model/qualifications/ausbilder_s2.dart';
+import 'package:training_organizer/model/qualifications/eh_kurs.dart';
 import 'package:training_organizer/model/qualifications/fachsan.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';
 import 'package:training_organizer/model/qualifications/gruppenleiter.dart';
@@ -38,6 +39,7 @@ const String ausbilderS2 = 'AusbilderS2';
 const String ausbilderR1 = 'AusbilderR1';
 const String ausbilderR2 = 'AusbilderR2';
 const String gruppenleiter = 'Gruppenleiter';
+const String ehKurs = 'EhKurs';
 
 /// All available qualification name constants.
 const List<String> allQualificationNames = [
@@ -59,6 +61,7 @@ const List<String> allQualificationNames = [
   ausbilderR1,
   ausbilderR2,
   gruppenleiter,
+  ehKurs,
 ];
 
 class QualificationFactory {
@@ -113,6 +116,8 @@ class QualificationFactory {
         return AusbilderR2(date);
       case gruppenleiter:
         return Gruppenleiter(date);
+      case ehKurs:
+        return EhKurs(date);
       default:
     }
 

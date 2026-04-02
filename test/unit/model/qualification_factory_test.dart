@@ -22,6 +22,7 @@ void main() {
       {'name': 'AusbilderR1', 'date': '13.01.2015'},
       {'name': 'AusbilderR2', 'date': '2000-10-10'},
       {'name': 'Gruppenleiter', 'date': null},
+      {'name': 'EhKurs', 'date': '13.01.2018'},
     ];
 
     group('When calling createQualifications', () {
@@ -65,6 +66,8 @@ void main() {
         expect(qualifications[16].date, null);
         expect(qualifications[17].name, 'Gruppenleiter');
         expect(qualifications[17].date, null);
+        expect(qualifications[18].name, 'EhKurs');
+        expect(qualifications[18].date!.year, 2018);
       });
     });
   });
