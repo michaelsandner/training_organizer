@@ -57,7 +57,7 @@ class GetAttendanceStatisticsUseCase {
     List<Group> groups,
     int weekday,
   ) {
-    final groupKeys = groups.map((g) => g.toString().split('.').last).toSet();
+    final groupKeys = groups.map((g) => g.name).toSet();
     final dateSet = <DateTime>{};
     for (final trainee in trainees) {
       for (final entry in trainee.attendanceDates.entries) {
@@ -82,7 +82,7 @@ class GetAttendanceStatisticsUseCase {
     final result = <GroupAttendanceData>[];
 
     for (final group in groups) {
-      final groupKey = group.toString().split('.').last;
+      final groupKey = group.name;
       final counts = <DateTime, int>{};
       for (final date in dates) {
         counts[date] = 0;

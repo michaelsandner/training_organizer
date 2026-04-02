@@ -185,8 +185,7 @@ class Trainee {
       }
     }
     if (parsed.isEmpty) return {};
-    final groupKey = group.toString().split('.').last;
-    return {groupKey: parsed};
+    return {group.name: parsed};
   }
 
   static DateTime? _tryParseDate(dynamic d) {
@@ -313,6 +312,6 @@ class Trainee {
       };
 
   String getTrainingGroupValue() {
-    return trainingGroup.toString().split('.').last;
+    return trainingGroup.name;
   }
 }
