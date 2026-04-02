@@ -55,11 +55,11 @@ class FileExporter implements FileRepository {
   }
 
   static String _getFileName() {
-    final currentYear = DateTime.now().year;
-    final currentMonth = DateTime.now().month;
-    final currentDay = DateTime.now().day;
-
-    return 'export_${currentYear}_${currentMonth}_$currentDay.json';
+    final now = DateTime.now();
+    final date = '${now.year}_${now.month}_${now.day}';
+    final time =
+        '${now.hour.toString().padLeft(2, '0')}_${now.minute.toString().padLeft(2, '0')}_${now.second.toString().padLeft(2, '0')}';
+    return 'export_${date}_$time.json';
   }
 
   @override
@@ -114,7 +114,10 @@ class FileExporter implements FileRepository {
 
   static String _getCsvFileName(String qualificationSuffix) {
     final now = DateTime.now();
-    return 'export_${now.year}_${now.month}_${now.day}_$qualificationSuffix.csv';
+    final date = '${now.year}_${now.month}_${now.day}';
+    final time =
+        '${now.hour.toString().padLeft(2, '0')}_${now.minute.toString().padLeft(2, '0')}_${now.second.toString().padLeft(2, '0')}';
+    return 'export_${date}_${time}_$qualificationSuffix.csv';
   }
 
   @override
