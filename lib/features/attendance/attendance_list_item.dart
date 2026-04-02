@@ -25,7 +25,7 @@ class AttendanceListItem extends StatelessWidget {
         children: [
           Expanded(
             flex: 3,
-            child: Text('${trainee.forename} ${trainee.surname}'),
+            child: Text('${trainee.surname} ${trainee.forename}'),
           ),
           SizedBox(
             width: 80,
