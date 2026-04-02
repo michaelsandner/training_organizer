@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:training_organizer/domain/ical_parser/ical_import_result.dart';
+import 'package:training_organizer/features/performance_data/ical_import_row.dart';
 
 /// Preview of changes to a single performance data category.
 class IcalChangePreview {
@@ -47,7 +48,7 @@ class IcalImportDialog extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             for (final row in importResult.displayRows)
-              _buildRow(row.label, '${row.value}'),
+              IcalImportRow(label: row.label, value: '${row.value}'),
             const Divider(height: 24),
             const Text(
               'Änderungen an Leistungsdaten:',
@@ -60,10 +61,13 @@ class IcalImportDialog extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 4),
-              _buildRow('Aktueller Wert:', '${preview.currentValue}'),
-              _buildRow(
-                'Neuer Wert:',
-                '${preview.newValue}',
+              IcalImportRow(
+                label: 'Aktueller Wert:',
+                value: '${preview.currentValue}',
+              ),
+              IcalImportRow(
+                label: 'Neuer Wert:',
+                value: '${preview.newValue}',
                 highlighted: true,
               ),
               const SizedBox(height: 8),
@@ -81,25 +85,6 @@ class IcalImportDialog extends StatelessWidget {
           child: const Text('Übernehmen'),
         ),
       ],
-    );
-  }
-
-  Widget _buildRow(String label, String value, {bool highlighted = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label),
-          Text(
-            value,
-            style: TextStyle(
-              fontWeight: highlighted ? FontWeight.bold : FontWeight.normal,
-              color: highlighted ? Colors.blue : null,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

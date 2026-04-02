@@ -1,9 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise_type.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_carousel_item.dart';
+import 'package:training_organizer/features/exercise_plan/ui/exercise_carousel.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_carousel_name_row.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_carousel_type_row.dart';
 
@@ -43,57 +41,18 @@ class ExerciseCarouselRow extends StatefulWidget {
 
 class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
   bool _collapsed = false;
-  late PageController _pageController;
-  late int _currentPage;
-  Key _pageViewKey = UniqueKey();
 
   List<Exercise> get _exercisesForType =>
       widget.allExercises.where((e) => e.type == widget.selectedType).toList();
 
-  int get _initialPage {
-    final idx =
-        _exercisesForType.indexWhere((e) => e.id == widget.selectedExerciseId);
-    if (_exercisesForType.isEmpty) return 0;
-    if (idx < 0) return 0;
-    return idx.clamp(0, _exercisesForType.length - 1);
-  }
-
-  void _resetPageController() {
-    _pageController.dispose();
-    _currentPage = _initialPage;
-    _pageController = PageController(initialPage: _currentPage);
-    _pageViewKey = UniqueKey();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _currentPage = _initialPage;
-    _pageController = PageController(initialPage: _currentPage);
-  }
-
   @override
   void didUpdateWidget(covariant ExerciseCarouselRow oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.selectedType != widget.selectedType) {
-      _resetPageController();
-    } else if (oldWidget.selectedExerciseId != widget.selectedExerciseId) {
-      final newPage = _initialPage;
-      if (newPage != _currentPage) {
-        _resetPageController();
-      }
-    }
     if (oldWidget.collapseAll != widget.collapseAll) {
       setState(() {
         _collapsed = widget.collapseAll;
       });
     }
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
   }
 
   @override
@@ -148,87 +107,20 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
           ),
           if (!_collapsed)
             if (exercisesForType.isNotEmpty)
-              _buildCarousel(exercisesForType)
+              ExerciseCarousel(
+                exercises: exercisesForType,
+                selectedExerciseId: widget.selectedExerciseId,
+                selectedType: widget.selectedType,
+                distance: widget.distance,
+                onExerciseChanged: widget.onExerciseChanged,
+                onDistanceChanged: widget.onDistanceChanged,
+              )
             else
               const Padding(
                 padding: EdgeInsets.all(16),
                 child: Text('Keine Übungen für diesen Typ vorhanden'),
               ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildCarousel(List<Exercise> exercises) {
-    if (exercises.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.all(16),
-        child: Text('Keine Übungen für diesen Typ vorhanden'),
-      );
-    }
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          height: 140,
-          width: double.infinity,
-          child: ScrollConfiguration(
-            behavior: ScrollConfiguration.of(context).copyWith(
-              dragDevices: {
-                PointerDeviceKind.touch,
-                PointerDeviceKind.mouse,
-                PointerDeviceKind.stylus,
-              },
-            ),
-            child: PageView.builder(
-              key: _pageViewKey,
-              controller: _pageController,
-              itemCount: exercises.length,
-              onPageChanged: (page) {
-                setState(() => _currentPage = page);
-                widget.onExerciseChanged(exercises[page].id);
-              },
-              itemBuilder: (context, pageIndex) {
-                if (pageIndex < 0 || pageIndex >= exercises.length) {
-                  return const SizedBox.shrink();
-                }
-                return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: ExerciseCarouselItem(
-                    exercise: exercises[pageIndex],
-                    distance: widget.distance,
-                    color: widget.selectedType.color,
-                    onDistanceChanged: widget.onDistanceChanged,
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-        if (exercises.length > 1) _buildPageIndicator(exercises.length),
-      ],
-    );
-  }
-
-  Widget _buildPageIndicator(int pageCount) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(pageCount, (index) {
-          return Container(
-            width: 8,
-            height: 8,
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: index == _currentPage
-                  ? widget.selectedType.color
-                  : widget.selectedType.color.withAlpha(80),
-            ),
-          );
-        }),
       ),
     );
   }
