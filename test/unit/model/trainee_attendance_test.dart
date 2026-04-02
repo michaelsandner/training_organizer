@@ -78,6 +78,60 @@ void main() {
       });
     });
 
+    group('Given attendance dates in German format', () {
+      group('When fromJson is called', () {
+        test('Then attendance dates should be parsed', () {
+          final inputJson = {
+            'surname': 'Mustermann',
+            'forename': 'Max',
+            'email': 'email@web.de',
+            'dateOfBirth': '2000-05-01',
+            'trainingGroup': 'group1',
+            'phone': '000111',
+            'comment': '',
+            'isMember': false,
+            'isTrainer': false,
+            'qualifications': null,
+            'attendanceDates': ['13.01.2024', '17.01.2024'],
+          };
+
+          final output = Trainee.fromJson(inputJson);
+
+          expect(output.attendanceDates.length, 2);
+          expect(output.attendanceDates[0].year, 2024);
+          expect(output.attendanceDates[0].month, 1);
+          expect(output.attendanceDates[0].day, 13);
+          expect(output.attendanceDates[1].day, 17);
+        });
+      });
+    });
+
+    group('Given invalid attendance dates in JSON', () {
+      group('When fromJson is called', () {
+        test('Then invalid dates should be skipped', () {
+          final inputJson = {
+            'surname': 'Mustermann',
+            'forename': 'Max',
+            'email': 'email@web.de',
+            'dateOfBirth': '2000-05-01',
+            'trainingGroup': 'group1',
+            'phone': '000111',
+            'comment': '',
+            'isMember': false,
+            'isTrainer': false,
+            'qualifications': null,
+            'attendanceDates': ['2024-01-13', 'invalid-date', '2024-01-20'],
+          };
+
+          final output = Trainee.fromJson(inputJson);
+
+          expect(output.attendanceDates.length, 2);
+          expect(output.attendanceDates[0].day, 13);
+          expect(output.attendanceDates[1].day, 20);
+        });
+      });
+    });
+
     group('Given trainee with attendance dates', () {
       group('When toJson is called', () {
         test('Then attendance dates should be serialized', () {
