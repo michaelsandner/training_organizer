@@ -5,9 +5,11 @@ import 'package:training_organizer/features/overview/trainees_state.dart';
 @immutable
 class AttendanceState with EquatableMixin {
   final DateTime selectedDate;
+  final bool showStatistics;
 
   const AttendanceState({
     required this.selectedDate,
+    this.showStatistics = false,
   });
 
   factory AttendanceState.initial() {
@@ -18,14 +20,16 @@ class AttendanceState with EquatableMixin {
 
   AttendanceState copyWith({
     DateTime? selectedDate,
+    bool? showStatistics,
   }) {
     return AttendanceState(
       selectedDate: selectedDate ?? this.selectedDate,
+      showStatistics: showStatistics ?? this.showStatistics,
     );
   }
 
   @override
-  List<Object?> get props => [selectedDate];
+  List<Object?> get props => [selectedDate, showStatistics];
 
   static DateTime getDefaultAttendanceDate({FilterableGroup? group}) {
     final allowedWeekday = getAllowedWeekday(group);
