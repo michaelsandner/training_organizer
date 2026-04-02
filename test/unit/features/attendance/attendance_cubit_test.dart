@@ -79,7 +79,8 @@ void main() {
       });
 
       group('When toggleAttendance is called', () {
-        test('Then trainee should have the selected date added', () {
+        test('Then trainee should have the selected date added under its group',
+            () {
           final mockFilterTraineesCubit = MockFilterTraineesCubit();
           when(() => mockFilterTraineesCubit.state)
               .thenReturn(FilterTraineesState.initial());
@@ -96,11 +97,12 @@ void main() {
           cubit.toggleAttendance(trainee, traineesCubit);
 
           final updatedTrainee = traineesCubit.state.trainees.first;
-          expect(updatedTrainee.attendanceDates.length, 1);
-          expect(updatedTrainee.attendanceDates.first.year, selectedDate.year);
-          expect(
-              updatedTrainee.attendanceDates.first.month, selectedDate.month);
-          expect(updatedTrainee.attendanceDates.first.day, selectedDate.day);
+          expect(updatedTrainee.attendanceDates.containsKey('group1'), true);
+          final group1Dates = updatedTrainee.attendanceDates['group1']!;
+          expect(group1Dates.length, 1);
+          expect(group1Dates.first.year, selectedDate.year);
+          expect(group1Dates.first.month, selectedDate.month);
+          expect(group1Dates.first.day, selectedDate.day);
         });
       });
     });
@@ -123,7 +125,9 @@ void main() {
             email: 'email@email.de',
             dateOfBirth: '2000-10-10',
             trainingGroup: Group.group1,
-            attendanceDates: [selectedDate],
+            attendanceDates: {
+              'group1': [selectedDate],
+            },
           );
 
           final traineesCubit = TraineesCubit()
@@ -133,7 +137,7 @@ void main() {
           cubit.toggleAttendance(trainee, traineesCubit);
 
           final updatedTrainee = traineesCubit.state.trainees.first;
-          expect(updatedTrainee.attendanceDates.isEmpty, true);
+          expect(updatedTrainee.allAttendanceDates.isEmpty, true);
         });
       });
 
@@ -146,7 +150,9 @@ void main() {
             email: 'email@email.de',
             dateOfBirth: '2000-10-10',
             trainingGroup: Group.group1,
-            attendanceDates: [selectedDate],
+            attendanceDates: {
+              'group1': [selectedDate],
+            },
           );
 
           expect(cubit.isAttending(trainee), true);
@@ -154,22 +160,21 @@ void main() {
       });
     });
 
-    group('Given a trainee with multiple attendance dates', () {
+    group('Given a trainee with multiple attendance dates across groups', () {
       final trainee = Trainee(
         surname: 'Musterman',
         forename: 'Max',
         email: 'email@email.de',
         dateOfBirth: '2000-10-10',
-        trainingGroup: Group.group1,
-        attendanceDates: [
-          DateTime(2024, 1, 13),
-          DateTime(2024, 1, 17),
-          DateTime(2024, 1, 20),
-        ],
+        trainingGroup: Group.group2,
+        attendanceDates: {
+          'group1': [DateTime(2024, 1, 13), DateTime(2024, 1, 17)],
+          'group2': [DateTime(2024, 1, 20)],
+        },
       );
 
       group('When getAttendanceCount is called', () {
-        test('Then should return 3', () {
+        test('Then should return total count across all groups', () {
           expect(cubit.getAttendanceCount(trainee), 3);
         });
       });

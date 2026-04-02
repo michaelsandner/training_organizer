@@ -27,28 +27,37 @@ class AttendanceCubit extends Cubit<AttendanceState> {
 
   void toggleAttendance(Trainee trainee, TraineesCubit traineesCubit) {
     final selectedDate = state.selectedDate;
-    final hasDate =
-        trainee.attendanceDates.any((d) => _isSameDate(d, selectedDate));
+    final groupKey = trainee.getTrainingGroupValue();
+    final groupDates = trainee.attendanceDatesForGroup(groupKey);
+    final hasDate = groupDates.any((d) => _isSameDate(d, selectedDate));
 
-    final updatedDates = List<DateTime>.from(trainee.attendanceDates);
+    final updatedGroupDates = List<DateTime>.from(groupDates);
 
     if (hasDate) {
-      updatedDates.removeWhere((d) => _isSameDate(d, selectedDate));
+      updatedGroupDates.removeWhere((d) => _isSameDate(d, selectedDate));
     } else {
-      updatedDates.add(selectedDate);
+      updatedGroupDates.add(selectedDate);
     }
 
-    final updatedTrainee = trainee.copyWith(attendanceDates: updatedDates);
+    final updatedDatesMap =
+        Map<String, List<DateTime>>.from(trainee.attendanceDates);
+    if (updatedGroupDates.isEmpty) {
+      updatedDatesMap.remove(groupKey);
+    } else {
+      updatedDatesMap[groupKey] = updatedGroupDates;
+    }
+
+    final updatedTrainee = trainee.copyWith(attendanceDates: updatedDatesMap);
     traineesCubit.replaceTrainee(trainee, updatedTrainee);
   }
 
   bool isAttending(Trainee trainee) {
     final selectedDate = state.selectedDate;
-    return trainee.attendanceDates.any((d) => _isSameDate(d, selectedDate));
+    return trainee.allAttendanceDates.any((d) => _isSameDate(d, selectedDate));
   }
 
   int getAttendanceCount(Trainee trainee) {
-    return trainee.attendanceDates.length;
+    return trainee.allAttendanceDates.length;
   }
 
   bool _isSameDate(DateTime a, DateTime b) {

@@ -20,19 +20,25 @@ void main() {
           forename: 'Max',
           surname: 'Mustermann',
           trainingGroup: Group.group1,
-          attendanceDates: [saturday1, saturday2],
+          attendanceDates: {
+            'group1': [saturday1, saturday2],
+          },
         ),
         Trainee(
           forename: 'Anna',
           surname: 'Schmidt',
           trainingGroup: Group.group1,
-          attendanceDates: [saturday1],
+          attendanceDates: {
+            'group1': [saturday1],
+          },
         ),
         Trainee(
           forename: 'Hans',
           surname: 'Mueller',
           trainingGroup: Group.group2,
-          attendanceDates: [saturday1, saturday2],
+          attendanceDates: {
+            'group2': [saturday1, saturday2],
+          },
         ),
       ];
 
@@ -105,13 +111,17 @@ void main() {
           forename: 'Lisa',
           surname: 'Weber',
           trainingGroup: Group.wednesday,
-          attendanceDates: [wednesday1, wednesday2],
+          attendanceDates: {
+            'wednesday': [wednesday1, wednesday2],
+          },
         ),
         Trainee(
           forename: 'Tom',
           surname: 'Fischer',
           trainingGroup: Group.active,
-          attendanceDates: [wednesday1],
+          attendanceDates: {
+            'active': [wednesday1],
+          },
         ),
       ];
 
@@ -147,7 +157,7 @@ void main() {
           forename: 'Max',
           surname: 'Mustermann',
           trainingGroup: Group.group1,
-          attendanceDates: [],
+          attendanceDates: {},
         ),
       ];
 
@@ -173,13 +183,17 @@ void main() {
           forename: 'Max',
           surname: 'Mustermann',
           trainingGroup: Group.group1,
-          attendanceDates: [saturday],
+          attendanceDates: {
+            'group1': [saturday],
+          },
         ),
         Trainee(
           forename: 'Lisa',
           surname: 'Weber',
           trainingGroup: Group.wednesday,
-          attendanceDates: [DateTime(2024, 1, 3)], // Wednesday
+          attendanceDates: {
+            'wednesday': [DateTime(2024, 1, 3)], // Wednesday
+          },
         ),
       ];
 
@@ -197,7 +211,7 @@ void main() {
       });
     });
 
-    group('Given trainees with Wednesday dates in Saturday group', () {
+    group('Given trainees with Wednesday dates in Saturday group key', () {
       final wednesday = DateTime(2024, 1, 3); // Wednesday
 
       final trainees = [
@@ -205,7 +219,9 @@ void main() {
           forename: 'Max',
           surname: 'Mustermann',
           trainingGroup: Group.group1,
-          attendanceDates: [wednesday],
+          attendanceDates: {
+            'group1': [wednesday],
+          },
         ),
       ];
 

@@ -15,7 +15,7 @@ class Trainee {
   final bool isMember;
   final Qualifications qualifications;
   final bool isTrainer;
-  final List<DateTime> attendanceDates;
+  final Map<String, List<DateTime>> attendanceDates;
 
   Trainee({
     this.surname = '',
@@ -29,10 +29,17 @@ class Trainee {
     this.isMember = false,
     this.qualifications = const Qualifications(),
     this.isTrainer = false,
-    this.attendanceDates = const [],
+    this.attendanceDates = const {},
   });
 
+  List<DateTime> get allAttendanceDates =>
+      attendanceDates.values.expand((dates) => dates).toList();
+
+  List<DateTime> attendanceDatesForGroup(String groupKey) =>
+      attendanceDates[groupKey] ?? [];
+
   factory Trainee.fromJson(dynamic json) {
+    final group = mapGroupToEnum(json['trainingGroup']);
     return Trainee(
       surname: json['surname'] ?? '',
       forename: json['forename'] ?? '',
@@ -48,12 +55,12 @@ class Trainee {
               json['phone'] == 'null'
           ? ''
           : json['phone'],
-      trainingGroup: mapGroupToEnum(json['trainingGroup']),
+      trainingGroup: group,
       comment: json['comment'] ?? '',
       isMember: json['isMember'] ?? false,
       qualifications: Qualifications.fromJson(json['qualifications']),
       isTrainer: json['isTrainer'] ?? false,
-      attendanceDates: _parseAttendanceDates(json['attendanceDates']),
+      attendanceDates: _parseAttendanceDates(json['attendanceDates'], group),
     );
   }
 
@@ -134,16 +141,52 @@ class Trainee {
 
   static final DateFormat _germanDateFormat = DateFormat('dd.MM.yyyy');
 
-  static List<DateTime> _parseAttendanceDates(dynamic dates) {
-    if (dates is! List) return [];
-    final result = <DateTime>[];
-    for (final d in dates) {
-      final parsed = _tryParseDate(d);
-      if (parsed != null) {
-        result.add(parsed);
+  static Map<String, List<DateTime>> _parseAttendanceDates(
+      dynamic dates, Group group) {
+    if (dates == null) return {};
+    if (dates is Map) {
+      return _parseGroupedAttendanceDates(dates);
+    }
+    if (dates is List) {
+      return _parseFlatAttendanceDates(dates, group);
+    }
+    return {};
+  }
+
+  static Map<String, List<DateTime>> _parseGroupedAttendanceDates(
+      Map<dynamic, dynamic> dates) {
+    final result = <String, List<DateTime>>{};
+    for (final entry in dates.entries) {
+      final groupKey = entry.key.toString();
+      final dateList = entry.value;
+      if (dateList is List) {
+        final parsed = <DateTime>[];
+        for (final d in dateList) {
+          final date = _tryParseDate(d);
+          if (date != null) {
+            parsed.add(date);
+          }
+        }
+        if (parsed.isNotEmpty) {
+          result[groupKey] = parsed;
+        }
       }
     }
     return result;
+  }
+
+  static Map<String, List<DateTime>> _parseFlatAttendanceDates(
+      List<dynamic> dates, Group group) {
+    final parsed = <DateTime>[];
+    for (final d in dates) {
+      final date = _tryParseDate(d);
+      if (date != null) {
+        parsed.add(date);
+      }
+    }
+    if (parsed.isEmpty) return {};
+    final groupKey = group.toString().split('.').last;
+    return {groupKey: parsed};
   }
 
   static DateTime? _tryParseDate(dynamic d) {
@@ -172,7 +215,7 @@ class Trainee {
     String? dateOfBirth,
     String? registrationDate,
     bool? isTrainer,
-    List<DateTime>? attendanceDates,
+    Map<String, List<DateTime>>? attendanceDates,
   }) {
     return Trainee(
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
@@ -220,11 +263,34 @@ class Trainee {
       other.isTrainer == isTrainer &&
       other.comment == comment &&
       other.qualifications == qualifications &&
-      listEquals(other.attendanceDates, attendanceDates);
+      _attendanceDatesEqual(other.attendanceDates, attendanceDates);
+
+  static bool _attendanceDatesEqual(
+    Map<String, List<DateTime>> a,
+    Map<String, List<DateTime>> b,
+  ) {
+    if (a.length != b.length) return false;
+    for (final key in a.keys) {
+      if (!b.containsKey(key)) return false;
+      if (!listEquals(a[key], b[key])) return false;
+    }
+    return true;
+  }
 
   @override
-  int get hashCode => Object.hash(forename, surname, email, phone,
-      trainingGroup, isMember, isTrainer, Object.hashAll(attendanceDates));
+  int get hashCode => Object.hash(
+        forename,
+        surname,
+        email,
+        phone,
+        trainingGroup,
+        isMember,
+        isTrainer,
+        Object.hashAllUnordered(
+          attendanceDates.entries
+              .map((e) => Object.hash(e.key, Object.hashAll(e.value))),
+        ),
+      );
 
   Map<String, dynamic> toJson() => {
         'surname': surname,
@@ -238,9 +304,12 @@ class Trainee {
         'isMember': isMember,
         'qualifications': qualifications.toJson()['qualifications'],
         'isTrainer': isTrainer,
-        'attendanceDates': attendanceDates
-            .map((d) => d.toIso8601String().split('T')[0])
-            .toList(),
+        'attendanceDates': attendanceDates.map(
+          (groupKey, dates) => MapEntry(
+            groupKey,
+            dates.map((d) => d.toIso8601String().split('T')[0]).toList(),
+          ),
+        ),
       };
 
   String getTrainingGroupValue() {
