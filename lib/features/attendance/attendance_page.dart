@@ -92,7 +92,7 @@ class AttendancePage extends StatelessWidget {
                                   final trainee = trainees[index];
                                   return AttendanceListItem(
                                     key: ValueKey(
-                                        '${trainee.forename}_${trainee.surname}_${trainee.dateOfBirth}'),
+                                        '${trainee.surname}_${trainee.forename}_${trainee.dateOfBirth}'),
                                     trainee: trainee,
                                   );
                                 },
