@@ -22,10 +22,12 @@ void main() {
               comment: 'Kommentar',
               isMember: true,
               isTrainer: false,
-              attendanceDates: [
-                DateTime(2024, 1, 13),
-                DateTime(2024, 3, 16),
-              ],
+              attendanceDates: {
+                'group1': [
+                  DateTime(2024, 1, 13),
+                  DateTime(2024, 3, 16),
+                ],
+              },
             ),
             Trainee(
               surname: 'Schmidt',
@@ -38,11 +40,13 @@ void main() {
               comment: '',
               isMember: false,
               isTrainer: true,
-              attendanceDates: [
-                DateTime(2024, 1, 17),
-                DateTime(2024, 1, 24),
-                DateTime(2024, 2, 7),
-              ],
+              attendanceDates: {
+                'wednesday': [
+                  DateTime(2024, 1, 17),
+                  DateTime(2024, 1, 24),
+                  DateTime(2024, 2, 7),
+                ],
+              },
             ),
           ];
 
@@ -58,19 +62,19 @@ void main() {
           expect(imported[0].surname, 'Müller');
           expect(imported[0].forename, 'Hans');
           expect(imported[0].trainingGroup, Group.group1);
-          expect(imported[0].attendanceDates.length, 2);
-          expect(imported[0].attendanceDates[0].year, 2024);
-          expect(imported[0].attendanceDates[0].month, 1);
-          expect(imported[0].attendanceDates[0].day, 13);
-          expect(imported[0].attendanceDates[1].month, 3);
-          expect(imported[0].attendanceDates[1].day, 16);
+          expect(imported[0].allAttendanceDates.length, 2);
+          expect(imported[0].attendanceDates['group1']![0].year, 2024);
+          expect(imported[0].attendanceDates['group1']![0].month, 1);
+          expect(imported[0].attendanceDates['group1']![0].day, 13);
+          expect(imported[0].attendanceDates['group1']![1].month, 3);
+          expect(imported[0].attendanceDates['group1']![1].day, 16);
 
           expect(imported[1].surname, 'Schmidt');
           expect(imported[1].trainingGroup, Group.wednesday);
           expect(imported[1].isTrainer, true);
-          expect(imported[1].attendanceDates.length, 3);
-          expect(imported[1].attendanceDates[0].month, 1);
-          expect(imported[1].attendanceDates[0].day, 17);
+          expect(imported[1].allAttendanceDates.length, 3);
+          expect(imported[1].attendanceDates['wednesday']![0].month, 1);
+          expect(imported[1].attendanceDates['wednesday']![0].day, 17);
         });
       });
     });
@@ -95,6 +99,7 @@ void main() {
 
           expect(imported.length, 1);
           expect(imported[0].attendanceDates.isEmpty, true);
+          expect(imported[0].allAttendanceDates.isEmpty, true);
         });
       });
     });

@@ -109,7 +109,7 @@ void main() {
             {'name': 'Silber', 'date': null},
             {'name': 'Gold', 'date': null}
           ],
-          'attendanceDates': [],
+          'attendanceDates': {},
         };
 
         final output = input.toJson();
@@ -199,7 +199,7 @@ void main() {
           'isMember': false,
           'isTrainer': false,
           'qualifications': [],
-          'attendanceDates': [],
+          'attendanceDates': {},
         };
 
         final output = input.toJson();

@@ -57,12 +57,15 @@ class GetAttendanceStatisticsUseCase {
     List<Group> groups,
     int weekday,
   ) {
+    final groupKeys = groups.map((g) => g.toString().split('.').last).toSet();
     final dateSet = <DateTime>{};
     for (final trainee in trainees) {
-      if (groups.contains(trainee.trainingGroup)) {
-        for (final date in trainee.attendanceDates) {
-          if (date.weekday == weekday) {
-            dateSet.add(DateTime(date.year, date.month, date.day));
+      for (final entry in trainee.attendanceDates.entries) {
+        if (groupKeys.contains(entry.key)) {
+          for (final date in entry.value) {
+            if (date.weekday == weekday) {
+              dateSet.add(DateTime(date.year, date.month, date.day));
+            }
           }
         }
       }
@@ -79,14 +82,15 @@ class GetAttendanceStatisticsUseCase {
     final result = <GroupAttendanceData>[];
 
     for (final group in groups) {
+      final groupKey = group.toString().split('.').last;
       final counts = <DateTime, int>{};
       for (final date in dates) {
         counts[date] = 0;
       }
 
       for (final trainee in trainees) {
-        if (trainee.trainingGroup != group) continue;
-        for (final date in trainee.attendanceDates) {
+        final groupDates = trainee.attendanceDatesForGroup(groupKey);
+        for (final date in groupDates) {
           final normalizedDate = DateTime(date.year, date.month, date.day);
           if (counts.containsKey(normalizedDate)) {
             counts[normalizedDate] = counts[normalizedDate]! + 1;
