@@ -18,16 +18,6 @@ class AttendanceStatisticsDateRow {
             textAlign: TextAlign.center,
           ),
         ),
-        ...sectionData.groupData.map(
-          (data) => Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Text(
-              '${data.counts[date] ?? 0}',
-              style: const TextStyle(fontSize: 12),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
         Padding(
           padding: const EdgeInsets.all(6.0),
           child: Text(
@@ -37,6 +27,16 @@ class AttendanceStatisticsDateRow {
               fontSize: 12,
             ),
             textAlign: TextAlign.center,
+          ),
+        ),
+        ...sectionData.groupData.map(
+          (data) => Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Text(
+              '${data.counts[date] ?? 0}',
+              style: const TextStyle(fontSize: 12),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ],

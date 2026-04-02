@@ -47,9 +47,9 @@ class AttendanceStatisticsSection extends StatelessWidget {
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               columnWidths: {
                 0: const FixedColumnWidth(80),
-                for (int i = 1; i <= groupCount; i++)
+                1: const FixedColumnWidth(60),
+                for (int i = 2; i <= groupCount + 1; i++)
                   i: const FlexColumnWidth(1),
-                groupCount + 1: const FixedColumnWidth(60),
               },
               children: [
                 AttendanceStatisticsGroupHeader.buildRow(
