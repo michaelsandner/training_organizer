@@ -35,6 +35,10 @@ void main() {
             true,
           );
         });
+
+        test('Then showStatistics should be false', () {
+          expect(cubit.state.showStatistics, false);
+        });
       });
     });
 
@@ -198,6 +202,36 @@ void main() {
               cubit.adjustDateForGroup(FilterableGroup.wednesday),
           verify: (cubit) {
             expect(cubit.state.selectedDate.weekday, DateTime.wednesday);
+          },
+        );
+      });
+    });
+
+    group('Given statistics view is hidden', () {
+      group('When toggleStatisticsView is called', () {
+        blocTest<AttendanceCubit, AttendanceState>(
+          'Then showStatistics should be true',
+          build: () => AttendanceCubit(),
+          act: (cubit) => cubit.toggleStatisticsView(),
+          verify: (cubit) {
+            expect(cubit.state.showStatistics, true);
+          },
+        );
+      });
+    });
+
+    group('Given statistics view is shown', () {
+      group('When toggleStatisticsView is called', () {
+        blocTest<AttendanceCubit, AttendanceState>(
+          'Then showStatistics should be false',
+          build: () {
+            final cubit = AttendanceCubit();
+            cubit.toggleStatisticsView();
+            return cubit;
+          },
+          act: (cubit) => cubit.toggleStatisticsView(),
+          verify: (cubit) {
+            expect(cubit.state.showStatistics, false);
           },
         );
       });

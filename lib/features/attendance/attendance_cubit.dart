@@ -11,6 +11,10 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     emit(state.copyWith(selectedDate: date));
   }
 
+  void toggleStatisticsView() {
+    emit(state.copyWith(showStatistics: !state.showStatistics));
+  }
+
   void adjustDateForGroup(FilterableGroup group) {
     final allowedWeekday = AttendanceState.getAllowedWeekday(group);
     if (allowedWeekday != null &&
