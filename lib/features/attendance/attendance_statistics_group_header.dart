@@ -29,14 +29,14 @@ class AttendanceStatisticsGroupHeader {
             textAlign: TextAlign.center,
           ),
         ),
-        ...sectionData.groupData.map(
-          (data) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.0),
+          child: Center(
             child: RotatedBox(
               quarterTurns: 3,
               child: Text(
-                _groupDisplayName(data.group),
-                style: const TextStyle(
+                'Gesamt',
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
                 ),
@@ -45,17 +45,21 @@ class AttendanceStatisticsGroupHeader {
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
-          child: RotatedBox(
-            quarterTurns: 3,
-            child: Text(
-              'Gesamt',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
+        ...sectionData.groupData.map(
+          (data) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Center(
+              child: RotatedBox(
+                quarterTurns: 3,
+                child: Text(
+                  _groupDisplayName(data.group),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              textAlign: TextAlign.center,
             ),
           ),
         ),

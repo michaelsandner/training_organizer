@@ -2,26 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:training_organizer/domain/usecases/get_attendance_statistics_usecase.dart';
 
 class AttendanceStatisticsSumRow {
-  static Map<int, int> _computeGroupTotals(
+  static Map<int, double> _computeGroupAverages(
       AttendanceSectionData sectionData) {
-    final totals = <int, int>{};
+    final averages = <int, double>{};
+    final dateCount = sectionData.dates.length;
     for (var i = 0; i < sectionData.groupData.length; i++) {
       var total = 0;
       for (final count in sectionData.groupData[i].counts.values) {
         total += count;
       }
-      totals[i] = total;
+      averages[i] = dateCount > 0 ? total / dateCount : 0;
     }
-    return totals;
+    return averages;
+  }
+
+  static String _formatAverage(double value) {
+    if (value == value.roundToDouble()) {
+      return value.toStringAsFixed(0);
+    }
+    return value.toStringAsFixed(1);
   }
 
   static TableRow buildRow({
     required AttendanceSectionData sectionData,
   }) {
-    final groupTotals = _computeGroupTotals(sectionData);
-    var grandTotal = 0;
-    for (final total in groupTotals.values) {
-      grandTotal += total;
+    final groupAverages = _computeGroupAverages(sectionData);
+    var totalSum = 0.0;
+    for (final avg in groupAverages.values) {
+      totalSum += avg;
     }
 
     return TableRow(
@@ -31,9 +39,27 @@ class AttendanceStatisticsSumRow {
       children: [
         const Padding(
           padding: EdgeInsets.all(6.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.functions, size: 14),
+              SizedBox(width: 2),
+              Text(
+                'ø',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(6.0),
           child: Text(
-            'Gesamt',
-            style: TextStyle(
+            _formatAverage(totalSum),
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 12,
             ),
@@ -45,24 +71,13 @@ class AttendanceStatisticsSumRow {
           (i) => Padding(
             padding: const EdgeInsets.all(6.0),
             child: Text(
-              '${groupTotals[i] ?? 0}',
+              _formatAverage(groupAverages[i] ?? 0),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 12,
               ),
               textAlign: TextAlign.center,
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: Text(
-            '$grandTotal',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
-            textAlign: TextAlign.center,
           ),
         ),
       ],
