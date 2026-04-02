@@ -53,7 +53,7 @@ class TraineeListItem extends StatelessWidget {
                   child: QualificationOverlay(
                     trainee: trainee,
                     child: ItemTextBox(
-                      text: '${trainee.forename} ${trainee.surname}',
+                      text: '${trainee.surname} ${trainee.forename}',
                       isMember: trainee.isMember,
                     ),
                   ),
