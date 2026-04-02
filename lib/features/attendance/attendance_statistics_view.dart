@@ -5,23 +5,23 @@ import 'package:training_organizer/model/trainee.dart';
 
 class AttendanceStatisticsView extends StatelessWidget {
   final List<Trainee> trainees;
+  final GetAttendanceStatisticsUseCase _useCase;
 
-  const AttendanceStatisticsView({
+  AttendanceStatisticsView({
     super.key,
     required this.trainees,
-  });
+    GetAttendanceStatisticsUseCase? useCase,
+  }) : _useCase = useCase ?? GetAttendanceStatisticsUseCase();
 
   @override
   Widget build(BuildContext context) {
-    final useCase = GetAttendanceStatisticsUseCase();
-
-    final saturdayData = useCase.execute(
+    final saturdayData = _useCase.execute(
       trainees,
       GetAttendanceStatisticsUseCase.saturdayGroups,
       DateTime.saturday,
     );
 
-    final wednesdayData = useCase.execute(
+    final wednesdayData = _useCase.execute(
       trainees,
       GetAttendanceStatisticsUseCase.wednesdayGroups,
       DateTime.wednesday,
