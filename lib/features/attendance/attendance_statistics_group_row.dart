@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:training_organizer/features/attendance/attendance_statistics_section.dart';
 import 'package:training_organizer/features/overview/trainees_state.dart';
-import 'package:training_organizer/model/trainee.dart';
+import 'package:training_organizer/model/training_group.dart';
 
 class AttendanceStatisticsGroupRow extends StatelessWidget {
   final Group group;
@@ -16,7 +16,9 @@ class AttendanceStatisticsGroupRow extends StatelessWidget {
   });
 
   String _groupDisplayName(Group group) {
-    return Trainee(trainingGroup: group).groupName;
+    return trainingGroups
+        .singleWhere((element) => element.group == group)
+        .name;
   }
 
   @override
