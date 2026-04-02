@@ -19,22 +19,22 @@ enum ExerciseType {
         return 'einschwimmen';
       case ExerciseType.anfaenger:
         return 'anfänger';
-      case ExerciseType.rettungsschwimmen:
-        return 'rettungsschwimmen';
       case ExerciseType.technikBrust:
         return 'technik-brust';
       case ExerciseType.technikKraul:
         return 'technik-kraul';
       case ExerciseType.technikRuecken:
         return 'technik-rücken';
-      case ExerciseType.ausschwimmen:
-        return 'ausschwimmen';
-      case ExerciseType.spiel:
-        return 'spiel';
-      case ExerciseType.ausdauer:
-        return 'ausdauer';
+      case ExerciseType.rettungsschwimmen:
+        return 'rettungsschwimmen';
       case ExerciseType.kraft:
         return 'kraft';
+      case ExerciseType.ausdauer:
+        return 'ausdauer';
+      case ExerciseType.spiel:
+        return 'spiel';
+      case ExerciseType.ausschwimmen:
+        return 'ausschwimmen';
     }
   }
 
@@ -52,10 +52,10 @@ enum ExerciseType {
         return 'Technik-Rücken';
       case ExerciseType.rettungsschwimmen:
         return 'Rettungsschwimmen';
-      case ExerciseType.ausdauer:
-        return 'Ausdauer';
       case ExerciseType.kraft:
         return 'Kraft';
+      case ExerciseType.ausdauer:
+        return 'Ausdauer';
       case ExerciseType.spiel:
         return 'Spiel';
       case ExerciseType.ausschwimmen:
@@ -69,22 +69,22 @@ enum ExerciseType {
         return Colors.orange;
       case ExerciseType.anfaenger:
         return Colors.teal;
-      case ExerciseType.rettungsschwimmen:
-        return Colors.red;
       case ExerciseType.technikBrust:
         return Colors.cyan;
       case ExerciseType.technikKraul:
         return Colors.cyan;
       case ExerciseType.technikRuecken:
         return Colors.cyan;
-      case ExerciseType.ausschwimmen:
-        return Colors.orange;
-      case ExerciseType.spiel:
-        return Colors.green;
-      case ExerciseType.ausdauer:
-        return Colors.purple;
+      case ExerciseType.rettungsschwimmen:
+        return Colors.red;
       case ExerciseType.kraft:
         return Colors.purple;
+      case ExerciseType.ausdauer:
+        return Colors.purple;
+      case ExerciseType.spiel:
+        return Colors.green;
+      case ExerciseType.ausschwimmen:
+        return Colors.orange;
     }
   }
 
@@ -94,22 +94,22 @@ enum ExerciseType {
         return ExerciseType.einschwimmen;
       case 'anfänger':
         return ExerciseType.anfaenger;
-      case 'rettungsschwimmen':
-        return ExerciseType.rettungsschwimmen;
       case 'technik-brust':
         return ExerciseType.technikBrust;
       case 'technik-kraul':
         return ExerciseType.technikKraul;
       case 'technik-rücken':
         return ExerciseType.technikRuecken;
-      case 'ausschwimmen':
-        return ExerciseType.ausschwimmen;
-      case 'spiel':
-        return ExerciseType.spiel;
-      case 'ausdauer':
-        return ExerciseType.ausdauer;
+      case 'rettungsschwimmen':
+        return ExerciseType.rettungsschwimmen;
       case 'kraft':
         return ExerciseType.kraft;
+      case 'ausdauer':
+        return ExerciseType.ausdauer;
+      case 'spiel':
+        return ExerciseType.spiel;
+      case 'ausschwimmen':
+        return ExerciseType.ausschwimmen;
       default:
         // fallback for legacy/enum names
         for (final type in ExerciseType.values) {
