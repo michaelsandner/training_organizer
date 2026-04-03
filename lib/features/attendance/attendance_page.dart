@@ -87,6 +87,7 @@ class AttendancePage extends StatelessWidget {
                             builder: (context, filterState) {
                               final trainees = filterState.selectedTrainees;
                               return ListView.builder(
+                                padding: const EdgeInsets.only(bottom: 80),
                                 itemCount: trainees.length,
                                 itemBuilder: (context, index) {
                                   final trainee = trainees[index];
