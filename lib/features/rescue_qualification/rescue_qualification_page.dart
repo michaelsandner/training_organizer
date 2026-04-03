@@ -75,6 +75,7 @@ class _RescueQualificationBody extends StatelessWidget {
             ),
             Expanded(
               child: ListView.builder(
+                padding: const EdgeInsets.only(bottom: 80),
                 itemCount: filtered.length,
                 itemBuilder: (context, index) {
                   return RescueQualificationListItem(
