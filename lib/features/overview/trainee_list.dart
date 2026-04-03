@@ -21,7 +21,7 @@ class _TraineeListState extends State<TraineeList> {
     return BlocBuilder<FilterTraineesCubit, FilterTraineesState>(
       builder: (context, state) {
         return ListView.builder(
-          padding: const EdgeInsets.only(bottom: 50),
+          padding: const EdgeInsets.only(bottom: 80),
           itemCount: state.selectedTrainees.length,
           itemExtent: 40, // Fixed height improves performance
           itemBuilder: (BuildContext context, int index) {
