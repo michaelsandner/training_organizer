@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:external_path/external_path.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
+import 'package:training_organizer/data/web_downloader_stub.dart'
+    if (dart.library.js_interop) 'package:training_organizer/data/web_downloader_web.dart';
 import 'package:training_organizer/domain/file/file_repository.dart';
 import 'package:training_organizer/model/trainee.dart';
 
@@ -13,9 +16,10 @@ class FileExporter implements FileRepository {
     String json = encodeJson(trainees);
 
     if (kIsWeb) {
-      await FilePicker.platform.saveFile(
-        fileName: _getFileName(),
-        bytes: utf8.encode(json),
+      await downloadFileOnWeb(
+        Uint8List.fromList(utf8.encode(json)),
+        _getFileName(),
+        'application/json',
       );
     } else if (Platform.isWindows) {
       await _exportFileOnWindows(json);
@@ -73,9 +77,10 @@ class FileExporter implements FileRepository {
     final fileName = _getCsvFileName(qualificationSuffix);
 
     if (kIsWeb) {
-      await FilePicker.platform.saveFile(
-        fileName: fileName,
-        bytes: utf8.encode(csv),
+      await downloadFileOnWeb(
+        Uint8List.fromList(utf8.encode(csv)),
+        fileName,
+        'text/csv',
       );
     } else {
       String? outputFile = await FilePicker.platform.saveFile(
