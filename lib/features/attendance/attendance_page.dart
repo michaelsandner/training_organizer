@@ -9,6 +9,7 @@ import 'package:training_organizer/features/attendance/attendance_state.dart';
 import 'package:training_organizer/features/attendance/attendance_statistics_view.dart';
 import 'package:training_organizer/features/attendance/attendance_view_toggle.dart';
 import 'package:training_organizer/features/edit/drop_down.dart';
+import 'package:training_organizer/features/edit/no_trainee_data_state.dart';
 import 'package:training_organizer/features/overview/selection/filter_trainees_cubit.dart';
 import 'package:training_organizer/features/overview/selection/filter_trainees_state.dart';
 import 'package:training_organizer/features/overview/trainees_cubit.dart';
@@ -30,9 +31,7 @@ class AttendancePage extends StatelessWidget {
       child: BlocBuilder<TraineesCubit, TraineesState>(
         builder: (context, traineesState) {
           if (traineesState.trainees.isEmpty) {
-            return const Center(
-              child: Text('Keine Teilnehmer vorhanden'),
-            );
+            return const NoTraineeDataState();
           }
           return BlocBuilder<AttendanceCubit, AttendanceState>(
             builder: (context, attendanceState) {
