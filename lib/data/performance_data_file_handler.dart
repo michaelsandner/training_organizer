@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:external_path/external_path.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
+import 'package:training_organizer/data/web_downloader_stub.dart'
+    if (dart.library.js_interop) 'package:training_organizer/data/web_downloader_web.dart';
 import 'package:training_organizer/domain/performance_data/performance_data.dart';
 import 'package:training_organizer/domain/performance_data/performance_data_repository.dart';
 
@@ -26,9 +29,10 @@ class PerformanceDataFileHandler implements PerformanceDataRepository {
     final json = jsonEncode(data.toJson());
 
     if (kIsWeb) {
-      await FilePicker.platform.saveFile(
-        fileName: _getFileName(),
-        bytes: utf8.encode(json),
+      await downloadFileOnWeb(
+        Uint8List.fromList(utf8.encode(json)),
+        _getFileName(),
+        'application/json',
       );
     } else if (Platform.isWindows) {
       await _exportFileOnWindows(json);
