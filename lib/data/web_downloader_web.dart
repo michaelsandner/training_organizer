@@ -26,7 +26,10 @@ Future<void> downloadFileOnWeb(
   anchor.click();
   anchor.remove();
   // Revoke the URL after a short delay to ensure the browser has started
-  // the download before the object URL is invalidated.
+  // the download before the object URL is invalidated. The cleanup is
+  // intentionally fire-and-forget: waiting 1 s for a URL revocation would
+  // block the caller for no user-visible reason.
+  // ignore: unawaited_futures
   Future.delayed(const Duration(seconds: 1), () {
     web.URL.revokeObjectURL(url);
   });
