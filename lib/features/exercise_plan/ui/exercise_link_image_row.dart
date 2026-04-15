@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_image_detail_page.dart';
+import 'package:training_organizer/features/exercise_plan/ui/exercise_image_placeholder.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExerciseLinkImageRow extends StatelessWidget {
@@ -16,23 +17,28 @@ class ExerciseLinkImageRow extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (exercise.imageName != null)
-          GestureDetector(
-            onTap: () => _openImageDetailPage(context),
-            child: Hero(
-              tag: 'exercise-image-${exercise.id}',
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  'assets/images/${exercise.imageName}',
-                  fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) {
-                    return const Icon(Icons.broken_image, size: 48);
-                  },
-                ),
-              ),
+        GestureDetector(
+          onTap: () => _openImageDetailPage(context),
+          child: Hero(
+            tag: 'exercise-image-${exercise.id}',
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: exercise.imageName != null
+                  ? Image.asset(
+                      'assets/images/${exercise.imageName}',
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) {
+                        return ExerciseImagePlaceholder(
+                          color: exercise.type.color,
+                        );
+                      },
+                    )
+                  : ExerciseImagePlaceholder(
+                      color: exercise.type.color,
+                    ),
             ),
           ),
+        ),
         if (exercise.link != null)
           IconButton(
             onPressed: () => _openLink(context),

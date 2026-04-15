@@ -39,6 +39,25 @@ void main() {
           expect(hero.tag, 'exercise-image-1');
         });
 
+        testWidgets('Then the background color matches exercise type',
+            (tester) async {
+          await tester.pumpWidget(buildWidget());
+
+          final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
+          expect(
+            scaffold.backgroundColor,
+            ExerciseType.technikKraul.color.withAlpha(30),
+          );
+        });
+
+        testWidgets('Then the AppBar uses exercise type color',
+            (tester) async {
+          await tester.pumpWidget(buildWidget());
+
+          final appBar = tester.widget<AppBar>(find.byType(AppBar));
+          expect(appBar.backgroundColor, ExerciseType.technikKraul.color);
+        });
+
         testWidgets('Then the description section is displayed',
             (tester) async {
           await tester.pumpWidget(buildWidget());
@@ -80,6 +99,43 @@ void main() {
           await tester.pumpAndSettle();
 
           expect(find.byType(ExerciseImageDetailPage), findsNothing);
+        });
+      });
+    });
+
+    group('Given an exercise without an image', () {
+      const exerciseNoImage = Exercise(
+        id: 5,
+        name: 'Sprint',
+        description: 'Schnell schwimmen',
+        type: ExerciseType.ausdauer,
+        unit: 'Meter',
+      );
+
+      group('When the page is rendered', () {
+        testWidgets('Then a placeholder icon is shown', (tester) async {
+          await tester.pumpWidget(buildWidget(ex: exerciseNoImage));
+
+          expect(find.byIcon(Icons.pool), findsOneWidget);
+        });
+
+        testWidgets('Then a Hero widget wraps the placeholder',
+            (tester) async {
+          await tester.pumpWidget(buildWidget(ex: exerciseNoImage));
+
+          final hero = tester.widget<Hero>(find.byType(Hero));
+          expect(hero.tag, 'exercise-image-5');
+        });
+
+        testWidgets('Then the background color matches exercise type',
+            (tester) async {
+          await tester.pumpWidget(buildWidget(ex: exerciseNoImage));
+
+          final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
+          expect(
+            scaffold.backgroundColor,
+            ExerciseType.ausdauer.color.withAlpha(30),
+          );
         });
       });
     });

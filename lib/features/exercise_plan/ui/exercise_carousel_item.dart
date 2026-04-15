@@ -84,20 +84,16 @@ class ExerciseCarouselItem extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (exercise.link != null || exercise.imageName != null)
-                    Expanded(
-                      flex: 1,
-                      child: ExerciseLinkImageRow(exercise: exercise),
-                    ),
+                  Expanded(
+                    flex: 1,
+                    child: ExerciseLinkImageRow(exercise: exercise),
+                  ),
                   Expanded(
                     flex: 4,
                     child: Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                         top: 8,
-                        left: (exercise.link != null ||
-                                exercise.imageName != null)
-                            ? 8
-                            : 0,
+                        left: 8,
                       ),
                       child: ExerciseDescriptionSection(exercise: exercise),
                     ),
