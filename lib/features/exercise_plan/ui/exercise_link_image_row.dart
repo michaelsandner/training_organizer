@@ -5,28 +5,42 @@ import 'package:url_launcher/url_launcher.dart';
 class ExerciseLinkImageRow extends StatelessWidget {
   final Exercise exercise;
   final Axis direction;
+  final bool iconOnly;
 
   const ExerciseLinkImageRow({
     super.key,
     required this.exercise,
     this.direction = Axis.horizontal,
+    this.iconOnly = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final children = [
       if (exercise.link != null)
-        TextButton.icon(
-          onPressed: () => _openLink(context),
-          icon: const Icon(Icons.link),
-          label: const Text('Link'),
-        ),
+        iconOnly
+            ? IconButton(
+                onPressed: () => _openLink(context),
+                icon: const Icon(Icons.link),
+                tooltip: 'Link',
+              )
+            : TextButton.icon(
+                onPressed: () => _openLink(context),
+                icon: const Icon(Icons.link),
+                label: const Text('Link'),
+              ),
       if (exercise.imageName != null)
-        TextButton.icon(
-          onPressed: () => _showImageDialog(context),
-          icon: const Icon(Icons.image),
-          label: const Text('Bild'),
-        ),
+        iconOnly
+            ? IconButton(
+                onPressed: () => _showImageDialog(context),
+                icon: const Icon(Icons.image),
+                tooltip: 'Bild',
+              )
+            : TextButton.icon(
+                onPressed: () => _showImageDialog(context),
+                icon: const Icon(Icons.image),
+                label: const Text('Bild'),
+              ),
     ];
 
     if (direction == Axis.vertical) {

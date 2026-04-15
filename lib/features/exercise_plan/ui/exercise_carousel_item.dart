@@ -87,6 +87,7 @@ class ExerciseCarouselItem extends StatelessWidget {
                     ExerciseLinkImageRow(
                       exercise: exercise,
                       direction: Axis.vertical,
+                      iconOnly: true,
                     )
                   else
                     const SizedBox(width: 32),
