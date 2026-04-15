@@ -20,7 +20,7 @@ class ExerciseCarouselItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: color.withAlpha(30),
+      color: color.withAlpha(50),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(color: color, width: 2),
@@ -61,6 +61,7 @@ class ExerciseCarouselItem extends StatelessWidget {
                       initialValue: distance.toString(),
                       keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
+                      textAlignVertical: TextAlignVertical.center,
                       style: const TextStyle(fontSize: 14, height: 1.1),
                       decoration: const InputDecoration(
                         isDense: true,
@@ -77,7 +78,10 @@ class ExerciseCarouselItem extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 4),
-                  Text(exercise.unit),
+                  Text(
+                    exercise.unit,
+                    style: const TextStyle(fontSize: 14, height: 1.1),
+                  ),
                 ],
               ),
               const SizedBox(height: 8),
@@ -91,10 +95,7 @@ class ExerciseCarouselItem extends StatelessWidget {
                   Expanded(
                     flex: 4,
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8,
-                        left: 8,
-                      ),
+                      padding: const EdgeInsets.only(left: 8),
                       child: ExerciseDescriptionSection(exercise: exercise),
                     ),
                   ),

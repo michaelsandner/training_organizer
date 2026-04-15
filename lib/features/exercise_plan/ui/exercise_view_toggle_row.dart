@@ -13,40 +13,45 @@ class ExerciseViewToggleRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
       child: Row(
         children: [
-          const Text(
-            'Ansicht: ',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          const Expanded(
+            child: Text(
+              'Ansicht: ',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
-          ToggleButtons(
-            isSelected: [!showListView, showListView],
-            onPressed: (index) => onViewChanged(index == 1),
-            borderRadius: BorderRadius.circular(8),
-            children: const [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  children: [
-                    Icon(Icons.swipe, size: 18),
-                    SizedBox(width: 4),
-                    Text('Swipe'),
-                  ],
+          Center(
+            child: ToggleButtons(
+              isSelected: [!showListView, showListView],
+              onPressed: (index) => onViewChanged(index == 1),
+              borderRadius: BorderRadius.circular(8),
+              children: const [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    children: [
+                      Icon(Icons.swipe, size: 18),
+                      SizedBox(width: 4),
+                      Text('Swipe'),
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  children: [
-                    Icon(Icons.list, size: 18),
-                    SizedBox(width: 4),
-                    Text('Liste'),
-                  ],
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    children: [
+                      Icon(Icons.list, size: 18),
+                      SizedBox(width: 4),
+                      Text('Liste'),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          const Expanded(child: SizedBox.shrink()),
         ],
       ),
     );
