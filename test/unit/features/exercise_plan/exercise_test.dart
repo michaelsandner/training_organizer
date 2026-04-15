@@ -25,6 +25,30 @@ void main() {
           expect(exercise.imageName, isNull);
           expect(exercise.link, isNull);
           expect(exercise.unit, 'Meter');
+          expect(exercise.material, isNull);
+          expect(exercise.varianten, isNull);
+        });
+      });
+    });
+
+    group('Given a JSON map with material and varianten', () {
+      group('When fromJson is called', () {
+        test('Then material and varianten are set', () {
+          final json = {
+            'id': 1,
+            'name': 'Wasserball',
+            'description': 'Spiele Wasserball',
+            'type': 'spiel',
+            'imageName': null,
+            'unit': 'Minuten',
+            'material': '1 Wasserball',
+            'varianten': 'Nur mit links werfen',
+          };
+
+          final exercise = Exercise.fromJson(json);
+
+          expect(exercise.material, '1 Wasserball');
+          expect(exercise.varianten, 'Nur mit links werfen');
         });
       });
     });
@@ -96,6 +120,8 @@ void main() {
             description: 'Schwimme nur Kraul Beine',
             type: ExerciseType.technikKraul,
             unit: 'Meter',
+            material: 'Brett',
+            varianten: 'Nur Beine',
           );
 
           final json = exercise.toJson();
@@ -107,6 +133,8 @@ void main() {
           expect(json['imageName'], isNull);
           expect(json['link'], isNull);
           expect(json['unit'], 'Meter');
+          expect(json['material'], 'Brett');
+          expect(json['varianten'], 'Nur Beine');
         });
       });
     });

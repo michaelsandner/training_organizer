@@ -9,6 +9,8 @@ class Exercise with EquatableMixin {
   final String? imageName;
   final String? link;
   final String unit;
+  final String? material;
+  final String? varianten;
 
   const Exercise({
     required this.id,
@@ -18,6 +20,8 @@ class Exercise with EquatableMixin {
     this.imageName,
     this.link,
     required this.unit,
+    this.material,
+    this.varianten,
   });
 
   factory Exercise.fromJson(Map<String, dynamic> json) {
@@ -29,6 +33,8 @@ class Exercise with EquatableMixin {
       imageName: json['imageName'] as String?,
       link: json['link'] as String?,
       unit: json['unit'] as String? ?? '',
+      material: json['material'] as String?,
+      varianten: json['varianten'] as String?,
     );
   }
 
@@ -41,9 +47,12 @@ class Exercise with EquatableMixin {
       'imageName': imageName,
       'link': link,
       'unit': unit,
+      'material': material,
+      'varianten': varianten,
     };
   }
 
   @override
-  List<Object?> get props => [id, name, description, type, imageName, link, unit];
+  List<Object?> get props =>
+      [id, name, description, type, imageName, link, unit, material, varianten];
 }

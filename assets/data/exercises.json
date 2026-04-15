@@ -168,6 +168,16 @@
       "imageName": "wasserball.png",
       "link": "spiegel.de",
       "unit": "Minuten"
+    },
+    {
+      "id": 61,
+      "name": "Wasserball",
+      "description": "- Bildet zwei Mannschaften\n- Mit dem Ball darf nicht gelaufen werden\n- Der Ball muss durch Passen zum gegnerischen Tor transportiert werden\n- Tore zählen nur, wenn alle Spieler in der gegnerischen Hälfte sind",
+      "type": "spiel",
+      "imageName": null,
+      "unit": "Minuten",
+      "material": "- 1 Wasserball\n- 2 Tore (z.B. Schwimmbretter als Markierung)\n- Hütchen zur Spielfeldmarkierung",
+      "varianten": "- Nur mit der schwachen Hand werfen\n- Ball darf nur mit dem Kopf gespielt werden\n- Jeder Spieler muss den Ball berührt haben, bevor ein Tor erzielt werden kann"
     }
   ]
 }

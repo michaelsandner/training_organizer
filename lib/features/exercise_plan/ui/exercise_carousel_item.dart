@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise.dart';
+import 'package:training_organizer/features/exercise_plan/ui/exercise_description_section.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_link_image_row.dart';
 
 class ExerciseCarouselItem extends StatelessWidget {
@@ -94,7 +95,7 @@ class ExerciseCarouselItem extends StatelessWidget {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8),
-                      child: Text(exercise.description),
+                      child: ExerciseDescriptionSection(exercise: exercise),
                     ),
                   ),
                 ],
@@ -105,5 +106,4 @@ class ExerciseCarouselItem extends StatelessWidget {
       ),
     );
   }
-
 }
