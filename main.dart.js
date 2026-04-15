@@ -365,7 +365,7 @@ b4P(a){var s,r,q=a.graphemeLayoutBounds,p=B.l.fC(q,t.i)
 q=p.a
 s=J.aS(q)
 r=p.$ti.y[1]
-return new A.uB(new A.x(r.a(s.i(q,0)),r.a(s.i(q,1)),r.a(s.i(q,2)),r.a(s.i(q,3))),new A.cD(J.ag(a.graphemeClusterTextRange.start),J.ag(a.graphemeClusterTextRange.end)),B.t1[J.ag(a.dir.value)])},
+return new A.uB(new A.x(r.a(s.i(q,0)),r.a(s.i(q,1)),r.a(s.i(q,2)),r.a(s.i(q,3))),new A.cD(J.ag(a.graphemeClusterTextRange.start),J.ag(a.graphemeClusterTextRange.end)),B.t0[J.ag(a.dir.value)])},
 bqf(a){var s,r="chromium/canvaskit.js"
 switch(a.a){case 0:s=A.b([],t.s)
 if(A.b7S())s.push(r)
@@ -33473,7 +33473,7 @@ this.c=c},
 a68:function a68(){},
 b2k(a){var s,r
 switch(a){case"einschwimmen":return B.iW
-case"anf\xe4nger":return B.xR
+case"wassergew\xf6hnung":case"anf\xe4nger":return B.xR
 case"technik-brust":return B.qL
 case"technik-kraul":return B.qM
 case"technik-r\xfccken":return B.xT
@@ -33482,7 +33482,7 @@ case"kraft":return B.xX
 case"ausdauer":return B.xW
 case"spiel":return B.xV
 case"ausschwimmen":return B.xU
-default:for(s=0;s<10;++s){r=B.t0[s]
+default:for(s=0;s<10;++s){r=B.t1[s]
 if(r.b===a)return r}throw A.k(A.cR("Unknown exercise type: "+a,null))}},
 cC:function cC(a,b){this.a=a
 this.b=b},
@@ -38695,7 +38695,7 @@ Vs(a){var s,r,q,p,o,n,m,l=A.b([],t.Lx)
 for(s=a.a,r=J.aS(s),q=a.$ti.y[1],p=0;p<r.gB(s);++p){o=q.a(r.i(s,p))
 n=o.rect
 m=J.ag(o.dir.value)
-l.push(new A.ic(n[0],n[1],n[2],n[3],B.t1[m]))}return l},
+l.push(new A.ic(n[0],n[1],n[2],n[3],B.t0[m]))}return l},
 eM(a){var s,r,q=this.a
 q===$&&A.a()
 s=q.a.getGlyphPositionAtCoordinate(a.a,a.b)
@@ -45021,7 +45021,7 @@ m=A.hQ(s.i(0,"fontWeightIndex"))
 l=m!=null?A.bq9(m):"normal"
 r=A.b_l(s.i(0,"fontSize"))
 if(r==null)r=null
-p=new A.aF8(new A.all(r,l,A.cl(s.i(0,"fontFamily")),B.aKw[o],B.t1[n]))
+p=new A.aF8(new A.all(r,l,A.cl(s.i(0,"fontFamily")),B.aKw[o],B.t0[n]))
 break
 case"TextInput.clearClient":p=B.U0
 break
@@ -119104,7 +119104,7 @@ A.a68.prototype={}
 A.cC.prototype={
 D(){return"ExerciseType."+this.b},
 acJ(){switch(this.a){case 0:return"einschwimmen"
-case 1:return"anf\xe4nger"
+case 1:return"wassergew\xf6hnung"
 case 3:return"technik-brust"
 case 4:return"technik-kraul"
 case 5:return"technik-r\xfccken"
@@ -119114,7 +119114,7 @@ case 8:return"ausdauer"
 case 7:return"spiel"
 case 6:return"ausschwimmen"}},
 gHh(){switch(this.a){case 0:return"Einschwimmen"
-case 1:return"Anf\xe4nger-Schwimmen"
+case 1:return"Wassergew\xf6hnung"
 case 3:return"Technik-Brust"
 case 4:return"Technik-Kraul"
 case 5:return"Technik-R\xfccken"
@@ -120568,7 +120568,7 @@ j=j.gbX()
 j=A.d5(50,j.az()>>>16&255,j.az()>>>8&255,j.az()&255)
 s=o.a.d
 r=t.Hj
-r=A.E(new A.a_(B.t0,new A.aM9(),r),r.h("ak.E"))
+r=A.E(new A.a_(B.t1,new A.aM9(),r),r.h("ak.E"))
 s=A.dl(A.GC(n,8,n,n,!0,r,new A.aMa(o),B.OZ,s,t.uT),1)
 r=o.d
 q=A.fa(r?B.lQ:B.r5,n,n,n)
@@ -120715,7 +120715,7 @@ $0(){return A.dm(this.a,!1).dl()},
 $S:0}
 A.Wa.prototype={
 E(a){var s,r,q=this,p=null,o=A.b([B.a_l],t.Ho)
-B.l.J(o,new A.a_(B.t0,new A.ami(),t.Fg))
+B.l.J(o,new A.a_(B.t1,new A.ami(),t.Fg))
 o=A.dl(A.GC(p,8,p,p,!0,o,new A.amj(q),B.OZ,q.c,t.kP),1)
 s=q.d
 r=A.fa(s?B.yA:B.yz,p,p,p)
@@ -130116,7 +130116,7 @@ B.aMd=s([],t.Fe)
 B.t3=s([],t.Ef)
 B.a0z=new A.ix(B.aMd,B.t3,null)
 B.iW=new A.cC(0,"einschwimmen")
-B.xR=new A.cC(1,"anfaenger")
+B.xR=new A.cC(1,"wassergewoehnung")
 B.xS=new A.cC(2,"rettungsschwimmen")
 B.qL=new A.cC(3,"technikBrust")
 B.qM=new A.cC(4,"technikKraul")
@@ -130733,7 +130733,6 @@ B.uP=new A.wU(1,"repeated")
 B.uQ=new A.wU(2,"mirror")
 B.or=new A.wU(3,"decal")
 B.Ee=s([B.el,B.uP,B.uQ,B.or],A.a9("q<wU>"))
-B.t0=s([B.iW,B.xR,B.xS,B.qL,B.qM,B.xT,B.xU,B.xV,B.xW,B.xX],A.a9("q<cC>"))
 B.aN7=new A.qK("en",null,"US")
 B.Ef=s([B.aN7],t.ss)
 B.b4K=new A.pm(0,0)
@@ -130765,7 +130764,7 @@ B.by=new A.Mf(0,"upstream")
 B.aLq=s([B.by,B.M],A.a9("q<Mf>"))
 B.bk=new A.wM(0,"rtl")
 B.aw=new A.wM(1,"ltr")
-B.t1=s([B.bk,B.aw],A.a9("q<wM>"))
+B.t0=s([B.bk,B.aw],A.a9("q<wM>"))
 B.aXo=new A.rB(0,"solid")
 B.Po=new A.rB(1,"double")
 B.aXr=new A.rB(2,"dotted")
@@ -130829,6 +130828,7 @@ B.aSZ=new A.am(0.66416338,0.0734653)
 B.aSW=new A.am(0.68675338,0.06974996)
 B.aTb=new A.am(0.70678034,0.06529512)
 B.Eh=s([B.aTf,B.aTe,B.aT1,B.aT4,B.aTd,B.aSV,B.aT_,B.aT2,B.aSY,B.aTa,B.aTi,B.aSZ,B.aSW,B.aTb],A.a9("q<+(G,G)>"))
+B.t1=s([B.iW,B.xR,B.xS,B.qL,B.qM,B.xT,B.xU,B.xV,B.xW,B.xX],A.a9("q<cC>"))
 B.aLS=s(["click","scroll"],t.s)
 B.T9=new A.pH()
 B.jO=new A.a0x(1,"page")
