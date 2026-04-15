@@ -65,14 +65,14 @@ class ExerciseLinkImageRow extends StatelessWidget {
             : 'https://$link',
       );
 
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else if (context.mounted) {
+      final launched =
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!launched && context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Link konnte nicht geöffnet werden')),
         );
       }
-    } on FormatException {
+    } on Exception {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Ungültiger Link')),
