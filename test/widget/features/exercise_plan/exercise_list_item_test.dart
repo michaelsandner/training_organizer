@@ -22,6 +22,25 @@ void main() {
     unit: 'Meter',
   );
 
+  const exerciseWithLink = Exercise(
+    id: 3,
+    name: 'Wasserball-Übung',
+    description: 'Im Wasser wird ein Ball geworfen',
+    type: ExerciseType.spiel,
+    link: 'spiegel.de',
+    unit: 'Minuten',
+  );
+
+  const exerciseWithLinkAndImage = Exercise(
+    id: 4,
+    name: 'Wasserball-Übung mit Bild',
+    description: 'Im Wasser wird ein Ball geworfen',
+    type: ExerciseType.spiel,
+    imageName: 'wasserball.png',
+    link: 'spiegel.de',
+    unit: 'Minuten',
+  );
+
   Widget buildWidget({
     Exercise ex = exercise,
     bool collapseAll = true,
@@ -95,24 +114,61 @@ void main() {
 
     group('Given an exercise with an image', () {
       group('When the item is expanded', () {
-        testWidgets('Then the show image button is displayed',
-            (tester) async {
+        testWidgets('Then the Bild button is displayed', (tester) async {
           await tester.pumpWidget(buildWidget(
             ex: exerciseWithImage,
             collapseAll: false,
           ));
 
-          expect(find.text('Bild anzeigen'), findsOneWidget);
+          expect(find.text('Bild'), findsOneWidget);
         });
       });
     });
 
     group('Given an exercise without an image', () {
       group('When the item is expanded', () {
-        testWidgets('Then no show image button is displayed', (tester) async {
+        testWidgets('Then no Bild button is displayed', (tester) async {
           await tester.pumpWidget(buildWidget(collapseAll: false));
 
-          expect(find.text('Bild anzeigen'), findsNothing);
+          expect(find.text('Bild'), findsNothing);
+        });
+      });
+    });
+
+    group('Given an exercise with a link', () {
+      group('When the item is expanded', () {
+        testWidgets('Then the Link button is displayed', (tester) async {
+          await tester.pumpWidget(buildWidget(
+            ex: exerciseWithLink,
+            collapseAll: false,
+          ));
+
+          expect(find.text('Link'), findsOneWidget);
+        });
+      });
+    });
+
+    group('Given an exercise without a link', () {
+      group('When the item is expanded', () {
+        testWidgets('Then no Link button is displayed', (tester) async {
+          await tester.pumpWidget(buildWidget(collapseAll: false));
+
+          expect(find.text('Link'), findsNothing);
+        });
+      });
+    });
+
+    group('Given an exercise with both link and image', () {
+      group('When the item is expanded', () {
+        testWidgets('Then both Link and Bild buttons are displayed',
+            (tester) async {
+          await tester.pumpWidget(buildWidget(
+            ex: exerciseWithLinkAndImage,
+            collapseAll: false,
+          ));
+
+          expect(find.text('Link'), findsOneWidget);
+          expect(find.text('Bild'), findsOneWidget);
         });
       });
     });

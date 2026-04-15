@@ -7,6 +7,7 @@ class Exercise with EquatableMixin {
   final String description;
   final ExerciseType type;
   final String? imageName;
+  final String? link;
   final String unit;
 
   const Exercise({
@@ -15,6 +16,7 @@ class Exercise with EquatableMixin {
     required this.description,
     required this.type,
     this.imageName,
+    this.link,
     required this.unit,
   });
 
@@ -25,6 +27,7 @@ class Exercise with EquatableMixin {
       description: json['description'] as String? ?? '',
       type: ExerciseType.fromString(json['type'] as String),
       imageName: json['imageName'] as String?,
+      link: json['link'] as String?,
       unit: json['unit'] as String? ?? '',
     );
   }
@@ -36,10 +39,11 @@ class Exercise with EquatableMixin {
       'description': description,
       'type': type.toStorageString(),
       'imageName': imageName,
+      'link': link,
       'unit': unit,
     };
   }
 
   @override
-  List<Object?> get props => [id, name, description, type, imageName, unit];
+  List<Object?> get props => [id, name, description, type, imageName, link, unit];
 }

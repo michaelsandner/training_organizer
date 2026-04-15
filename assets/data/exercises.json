@@ -159,6 +159,15 @@
       "type": "kraft",
       "imageName": null,
       "unit": "Meter"
+    },
+    {
+      "id": 10,
+      "name": "Wasserball-Übung",
+      "description": "- Zweiergruppen bilden\n- Im Wasser stehend oder schwimmend wird ein Ball hin- und hergeworfen\n- Ziel ist es, den Ball möglichst lange in der Luft zu halten",
+      "type": "spiel",
+      "imageName": "wasserball.png",
+      "link": "spiegel.de",
+      "unit": "Minuten"
     }
   ]
 }

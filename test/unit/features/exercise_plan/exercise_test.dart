@@ -23,6 +23,7 @@ void main() {
           expect(exercise.description, 'Schwimme x meter');
           expect(exercise.type, ExerciseType.einschwimmen);
           expect(exercise.imageName, isNull);
+          expect(exercise.link, isNull);
           expect(exercise.unit, 'Meter');
         });
       });
@@ -47,6 +48,45 @@ void main() {
       });
     });
 
+    group('Given a JSON map with link', () {
+      group('When fromJson is called', () {
+        test('Then link is set', () {
+          final json = {
+            'id': 1,
+            'name': 'Test',
+            'description': 'desc',
+            'type': 'spiel',
+            'imageName': null,
+            'link': 'spiegel.de',
+            'unit': 'Minuten',
+          };
+
+          final exercise = Exercise.fromJson(json);
+
+          expect(exercise.link, 'spiegel.de');
+        });
+      });
+    });
+
+    group('Given a JSON map without link field', () {
+      group('When fromJson is called', () {
+        test('Then link is null', () {
+          final json = {
+            'id': 1,
+            'name': 'Test',
+            'description': 'desc',
+            'type': 'spiel',
+            'imageName': null,
+            'unit': 'Minuten',
+          };
+
+          final exercise = Exercise.fromJson(json);
+
+          expect(exercise.link, isNull);
+        });
+      });
+    });
+
     group('Given an Exercise instance', () {
       group('When toJson is called', () {
         test('Then it returns the correct JSON map', () {
@@ -65,6 +105,7 @@ void main() {
           expect(json['description'], 'Schwimme nur Kraul Beine');
           expect(json['type'], 'technik-kraul');
           expect(json['imageName'], isNull);
+          expect(json['link'], isNull);
           expect(json['unit'], 'Meter');
         });
       });
