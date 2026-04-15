@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 enum ExerciseType {
   einschwimmen,
-  anfaenger,
+  wassergewoehnung,
   rettungsschwimmen,
   technikBrust,
   technikKraul,
@@ -17,8 +17,8 @@ enum ExerciseType {
     switch (this) {
       case ExerciseType.einschwimmen:
         return 'einschwimmen';
-      case ExerciseType.anfaenger:
-        return 'anfänger';
+      case ExerciseType.wassergewoehnung:
+        return 'wassergewöhnung';
       case ExerciseType.technikBrust:
         return 'technik-brust';
       case ExerciseType.technikKraul:
@@ -42,8 +42,8 @@ enum ExerciseType {
     switch (this) {
       case ExerciseType.einschwimmen:
         return 'Einschwimmen';
-      case ExerciseType.anfaenger:
-        return 'Anfänger-Schwimmen';
+      case ExerciseType.wassergewoehnung:
+        return 'Wassergewöhnung';
       case ExerciseType.technikBrust:
         return 'Technik-Brust';
       case ExerciseType.technikKraul:
@@ -67,7 +67,7 @@ enum ExerciseType {
     switch (this) {
       case ExerciseType.einschwimmen:
         return Colors.orange;
-      case ExerciseType.anfaenger:
+      case ExerciseType.wassergewoehnung:
         return Colors.teal;
       case ExerciseType.technikBrust:
         return Colors.cyan;
@@ -92,8 +92,9 @@ enum ExerciseType {
     switch (value) {
       case 'einschwimmen':
         return ExerciseType.einschwimmen;
-      case 'anfänger':
-        return ExerciseType.anfaenger;
+      case 'wassergewöhnung':
+      case 'anfänger': // backward compatibility
+        return ExerciseType.wassergewoehnung;
       case 'technik-brust':
         return ExerciseType.technikBrust;
       case 'technik-kraul':
