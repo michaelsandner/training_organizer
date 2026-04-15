@@ -71,3 +71,9 @@ flutter test              # all unit and widget tests
 flutter test test/unit/   # unit tests only
 flutter test test/widget/ # widget tests only
 ```
+
+Integration tests run on an Android emulator (see CI workflow for the full setup):
+
+```bash
+flutter test integration_test/app_test.dart -d <device_id>
+```
