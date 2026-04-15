@@ -118,12 +118,31 @@ class _ExerciseListItemState extends State<ExerciseListItem> {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  ExerciseDescriptionSection(exercise: exercise),
-                  if (exercise.link != null || exercise.imageName != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: ExerciseLinkImageRow(exercise: exercise),
-                    ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (exercise.imageName != null ||
+                          exercise.link != null)
+                        Expanded(
+                          flex: 1,
+                          child:
+                              ExerciseLinkImageRow(exercise: exercise),
+                        ),
+                      Expanded(
+                        flex: 4,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            left: (exercise.imageName != null ||
+                                    exercise.link != null)
+                                ? 8
+                                : 0,
+                          ),
+                          child: ExerciseDescriptionSection(
+                              exercise: exercise),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
