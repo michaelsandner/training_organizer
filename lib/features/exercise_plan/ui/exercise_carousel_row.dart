@@ -77,7 +77,7 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            padding: const EdgeInsets.only(left: 12, right: 12, bottom: 4),
             decoration: BoxDecoration(
               color: widget.selectedType.color.withAlpha(50),
               borderRadius:
@@ -144,7 +144,6 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
                 ExerciseCarouselNameRow(
                   exerciseName:
                       selectedExercise != null ? selectedExercise.name : '-',
