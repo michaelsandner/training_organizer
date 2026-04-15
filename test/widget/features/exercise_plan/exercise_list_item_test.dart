@@ -114,61 +114,62 @@ void main() {
 
     group('Given an exercise with an image', () {
       group('When the item is expanded', () {
-        testWidgets('Then the Bild button is displayed', (tester) async {
+        testWidgets('Then the image thumbnail is displayed with Hero',
+            (tester) async {
           await tester.pumpWidget(buildWidget(
             ex: exerciseWithImage,
             collapseAll: false,
           ));
 
-          expect(find.text('Bild'), findsOneWidget);
+          expect(find.byType(Hero), findsOneWidget);
         });
       });
     });
 
     group('Given an exercise without an image', () {
       group('When the item is expanded', () {
-        testWidgets('Then no Bild button is displayed', (tester) async {
+        testWidgets('Then no image thumbnail is displayed', (tester) async {
           await tester.pumpWidget(buildWidget(collapseAll: false));
 
-          expect(find.text('Bild'), findsNothing);
+          expect(find.byType(Hero), findsNothing);
         });
       });
     });
 
     group('Given an exercise with a link', () {
       group('When the item is expanded', () {
-        testWidgets('Then the Link button is displayed', (tester) async {
+        testWidgets('Then the link icon is displayed', (tester) async {
           await tester.pumpWidget(buildWidget(
             ex: exerciseWithLink,
             collapseAll: false,
           ));
 
-          expect(find.text('Link'), findsOneWidget);
+          expect(find.byIcon(Icons.link), findsOneWidget);
         });
       });
     });
 
     group('Given an exercise without a link', () {
       group('When the item is expanded', () {
-        testWidgets('Then no Link button is displayed', (tester) async {
+        testWidgets('Then no link icon is displayed', (tester) async {
           await tester.pumpWidget(buildWidget(collapseAll: false));
 
-          expect(find.text('Link'), findsNothing);
+          expect(find.byIcon(Icons.link), findsNothing);
         });
       });
     });
 
     group('Given an exercise with both link and image', () {
       group('When the item is expanded', () {
-        testWidgets('Then both Link and Bild buttons are displayed',
+        testWidgets('Then both link icon and image thumbnail are displayed',
             (tester) async {
           await tester.pumpWidget(buildWidget(
             ex: exerciseWithLinkAndImage,
             collapseAll: false,
           ));
 
-          expect(find.text('Link'), findsOneWidget);
-          expect(find.text('Bild'), findsOneWidget);
+          expect(find.byIcon(Icons.link), findsOneWidget);
+          expect(find.byType(Hero), findsOneWidget);
         });
       });
     });
