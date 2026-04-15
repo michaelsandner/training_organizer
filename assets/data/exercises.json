@@ -31,8 +31,11 @@
     {
       "id": 5,
       "name": "Büffel-Spiel",
-      "description": "- Kleingruppen\n- Die Kinder tauchen den Kopf abwechselnd ins Wasser und Pusten 1, 2 oder 3 mal ins Wasser (Rauchzeichen)\n- Die anderen Kinder in der Gruppe müssen erraten, wie oft ins Wasser gepustet wurde",
+      "description": "Zeichen durch mehrmaliges, abgesetztes Blubberblasen geben. Ausatmen durch Mund und Nase oder nur durch Mund / Nase.",
+      "varianten": "- 1x Blubbern bedeutet 'Hallo' \n- 2x Blubbern 'Büffel in Sicht' \n- 3x Blubbern 'Cowboy in Sicht'",
       "type": "wassergewöhnung",
+      "imageName": "bueffel.png",
+      "link": "https://ims.brk.de/doc/7a3e6d704f90b3452d4293aca3142769",
       "unit": "Minuten"
     },
     {
@@ -149,6 +152,33 @@
       "name": "Ausschwimmen Zeit",
       "description": "Es wird x Minuten lang locker geschwommen",
       "type": "ausschwimmen",
+      "unit": "Minuten"
+    },
+    {
+      "id": 22,
+      "name": "Fortbewegen im Wasser",
+      "description": "Sich auf verschiedene Arten durch das Becken bewegen\nKrokodil = Mit den Händen Krokodilmaul bilden\nKänguru = Hüpfen\nFlamingo = Möglichst große Schritte\nElefant = Einen Rüssel mit den Händen bilden",
+      "type": "wassergewöhnung",
+      "unit": "Minuten"
+    },
+    {
+      "id": 23,
+      "name": "Pumpe",
+      "description": "Paarweise abwechselndes Untertauchen mit Handfassung. Die Partner schauen sich gegenseitig an.",
+      "material": "Schwimmnudel",
+      "varianten": "- Der Abtauchende schaut den Auftauchenden an\n- schnelleres Pumpen\n- Statt an den Händen halten sich beide Kinder jeweils am Ende einer Schwimmnudel fest.",
+      "imageName": "pumpe.png",
+      "type": "wassergewöhnung",
+      "unit": "Minuten"
+    },
+    {
+      "id": 24,
+      "name": "Blubbern",
+      "description": "Kind atmet in das Wasser und erzeugt dabei Blubbergeräusche.",
+      "varianten": "- Unterhaltung mit Blubbergeräuschen\n- Alle meine Entchen“-Lied blubbern\n- Blubbern unter Wasser mit geöffneten Augen",
+      "imageName": "blubbern.png",
+      "link": "https://ims.brk.de/doc/7a3e6d704f90b3452d4293aca3142769",
+      "type": "wassergewöhnung",
       "unit": "Minuten"
     }
   ]
