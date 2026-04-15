@@ -121,22 +121,15 @@ class _ExerciseListItemState extends State<ExerciseListItem> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (exercise.imageName != null ||
-                          exercise.link != null)
-                        Expanded(
-                          flex: 1,
-                          child:
-                              ExerciseLinkImageRow(exercise: exercise),
-                        ),
+                      Expanded(
+                        flex: 1,
+                        child:
+                            ExerciseLinkImageRow(exercise: exercise),
+                      ),
                       Expanded(
                         flex: 4,
                         child: Padding(
-                          padding: EdgeInsets.only(
-                            left: (exercise.imageName != null ||
-                                    exercise.link != null)
-                                ? 8
-                                : 0,
-                          ),
+                          padding: const EdgeInsets.only(left: 8),
                           child: ExerciseDescriptionSection(
                               exercise: exercise),
                         ),

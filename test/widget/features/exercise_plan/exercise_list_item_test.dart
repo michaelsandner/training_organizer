@@ -128,10 +128,12 @@ void main() {
 
     group('Given an exercise without an image', () {
       group('When the item is expanded', () {
-        testWidgets('Then no image thumbnail is displayed', (tester) async {
+        testWidgets('Then a placeholder image is displayed with Hero',
+            (tester) async {
           await tester.pumpWidget(buildWidget(collapseAll: false));
 
-          expect(find.byType(Hero), findsNothing);
+          expect(find.byType(Hero), findsOneWidget);
+          expect(find.byIcon(Icons.pool), findsOneWidget);
         });
       });
     });
