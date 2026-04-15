@@ -4,30 +4,40 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ExerciseLinkImageRow extends StatelessWidget {
   final Exercise exercise;
+  final Axis direction;
 
   const ExerciseLinkImageRow({
     super.key,
     required this.exercise,
+    this.direction = Axis.horizontal,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        if (exercise.link != null)
-          TextButton.icon(
-            onPressed: () => _openLink(context),
-            icon: const Icon(Icons.link),
-            label: const Text('Link'),
-          ),
-        if (exercise.imageName != null)
-          TextButton.icon(
-            onPressed: () => _showImageDialog(context),
-            icon: const Icon(Icons.image),
-            label: const Text('Bild'),
-          ),
-      ],
-    );
+    final children = [
+      if (exercise.link != null)
+        TextButton.icon(
+          onPressed: () => _openLink(context),
+          icon: const Icon(Icons.link),
+          label: const Text('Link'),
+        ),
+      if (exercise.imageName != null)
+        TextButton.icon(
+          onPressed: () => _showImageDialog(context),
+          icon: const Icon(Icons.image),
+          label: const Text('Bild'),
+        ),
+    ];
+
+    if (direction == Axis.vertical) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children,
+      );
+    }
+
+    return Row(children: children);
   }
 
   Future<void> _openLink(BuildContext context) async {
