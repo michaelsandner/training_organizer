@@ -61,7 +61,7 @@ void main() {
                     Navigator.of(context).push(
                       MaterialPageRoute<void>(
                         builder: (_) =>
-                            ExerciseImageDetailPage(exercise: exercise),
+                            const ExerciseImageDetailPage(exercise: exercise),
                       ),
                     );
                   },
