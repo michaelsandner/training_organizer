@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise.dart';
+import 'package:training_organizer/features/exercise_plan/ui/exercise_link_image_row.dart';
 
 class ExerciseCarouselItem extends StatelessWidget {
   final Exercise exercise;
@@ -83,14 +84,10 @@ class ExerciseCarouselItem extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 32),
                 child: Text(exercise.description),
               ),
-              if (exercise.imageName != null)
+              if (exercise.link != null || exercise.imageName != null)
                 Padding(
                   padding: const EdgeInsets.only(left: 32, top: 4),
-                  child: TextButton.icon(
-                    onPressed: () => _showImageDialog(context),
-                    icon: const Icon(Icons.image),
-                    label: const Text('Bild anzeigen'),
-                  ),
+                  child: ExerciseLinkImageRow(exercise: exercise),
                 ),
             ],
           ),
@@ -99,38 +96,4 @@ class ExerciseCarouselItem extends StatelessWidget {
     );
   }
 
-  void _showImageDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => Dialog(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                exercise.name,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Image.asset(
-                'assets/images/${exercise.imageName}',
-                errorBuilder: (context, error, stackTrace) {
-                  return const Text('Bild nicht gefunden');
-                },
-              ),
-              const SizedBox(height: 16),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Schließen'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
