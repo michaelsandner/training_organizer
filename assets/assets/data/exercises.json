@@ -8,140 +8,126 @@
       "unit": "Meter"
     },
     {
-      "id": 11,
+      "id": 2,
       "name": "Einschwimmen Zeit",
       "description": "Es wird x Minuten lang locker geschwommen",
       "type": "einschwimmen",
       "unit": "Minuten"
     },
     {
-      "id": 101,
+      "id": 3,
       "name": "Kellner-Siel",
       "description": "- Zweiergruppen\n- Ein Kind legt sich auf den Rücken\n- Das zweite Kind trägt den 'Tisch' durch das Wasser",
       "type": "wassergewöhnung",
       "unit": "Minuten"
     },
     {
-      "id": 103,
+      "id": 4,
       "name": "Hechtschießen",
       "description": "- Die Kinder stellen sich am Beckenrand auf mit einem Schwimmbrett\n- Das Schwimmbrett wird mit beiden Armen über den Kopf gehalten\n- Mit einem Fuß wird sich am Beckenrand abgestoßen und nach Vorne geschossen\n- Forgeschritten: Auf dem Beckenrand stehen",
       "type": "wassergewöhnung",
       "unit": "Minuten"
     },
     {
-      "id": 102,
+      "id": 5,
       "name": "Büffel-Spiel",
       "description": "- Kleingruppen\n- Die Kinder tauchen den Kopf abwechselnd ins Wasser und Pusten 1, 2 oder 3 mal ins Wasser (Rauchzeichen)\n- Die anderen Kinder in der Gruppe müssen erraten, wie oft ins Wasser gepustet wurde",
       "type": "wassergewöhnung",
       "unit": "Minuten"
     },
     {
-      "id": 104,
+      "id": 6,
       "name": "Motorboot",
       "description": "- Die Kinder bilden Zweiergruppen\n- Ein Kind (das Boot) legt sich flach auf den Bauch und hält dabei das Brett mit ausgestreckten Armen\n- Das zweite Kind hält das Kind an den Füßen und schiebt das Boot durchs Wasser",
       "type": "wassergewöhnung",
       "unit": "Minuten"
     },
     {
-      "id": 105,
+      "id": 7,
       "name": "Ü-Eier pusten",
       "description": "- Jedes Kind bekommt ein Ü-Ei\n- Die Kinder laufen durch das Wasser und pusten das Ü-Ei vor sich her\n- Der Mund soll dabei möglichst komplett im Wasser sein",
       "type": "wassergewöhnung",
       "unit": "Minuten"
     },
     {
-      "id": 201,
-      "name": "Achselgriff",
-      "description": "- Rettling liegt auf dem Rücken\n- Retter greift unter die Achseln und zieht den Rettling durch das Wasser\n- Bei Anfängern nicht mehr als 25 Meter",
-      "type": "rettungsschwimmen",
-      "unit": "Meter"
-    },
-    {
-      "id": 202,
-      "name": "Transportschwimmen zu zweit",
-      "description": "- Rettling liegt auf dem Rücken\n- Retter schwimmt Brust\n- Rettling hält sich mit den Händen an den Schultern des Retters fest",
-      "type": "rettungsschwimmen",
-      "unit": "Meter"
-    },
-    {
-      "id": 2,
-      "name": "Beine",
-      "description": "- Schwimme nur Kraul Beine\n- Die ausgestreckten Arme halten dabei ein Brett, einen Pullboy oder kein Hilfsmittel",
-      "type": "technik-kraul",
-      "unit": "Meter"
-    },
-    {
-      "id": 3,
-      "name": "Daumen an der Körperseite",
-      "description": "Beim Kraularmschlag wird der Daumen an der Körperseite geführt",
-      "type": "technik-kraul",
-      "unit": "Meter"
-    },
-    {
-      "id": 4,
+      "id": 8,
       "name": "Gleitphase verlängern",
       "description": "Brustschwimmen mit extra langer Gleitphase",
       "type": "technik-brust",
       "unit": "Meter"
     },
     {
-      "id": 41,
+      "id": 9,
       "name": "Beinschlag mit Brett",
       "description": "- Das Brett wird mit gestreckten Armen vor dem Körper gehalten\n- Es wird nur mit den Beinen geschwommen.",
       "type": "technik-brust",
       "unit": "Meter"
     },
     {
-      "id": 5,
+      "id": 10,
+      "name": "Beine",
+      "description": "- Schwimme nur Kraul Beine\n- Die ausgestreckten Arme halten dabei ein Brett, einen Pullboy oder kein Hilfsmittel",
+      "type": "technik-kraul",
+      "unit": "Meter"
+    },
+    {
+      "id": 11,
+      "name": "Daumen an der Körperseite",
+      "description": "Beim Kraularmschlag wird der Daumen an der Körperseite geführt",
+      "type": "technik-kraul",
+      "unit": "Meter"
+    },
+    {
+      "id": 12,
       "name": "Rücken: Wechselbeinschlag",
       "description": "Rückenschwimmen mit Wechselbeinschlag",
       "type": "technik-rücken",
       "unit": "Meter"
     },
     {
-      "id": 6,
-      "name": "Ameisen-Spiel",
-      "description": "- Bildet zwei Mannschaften\n- Jede Mannschaft hat einen 'Ameisenhaufen' bestehend aus Schwimmhilfen (z.B. Nudeln, Bretter, etc.)\n- Ziel ist es, so viele Schwimmhilfen wie möglich von der gegnerischen Seite in den eigenen Ameisenhaufen zu transportieren\n- Es darf immer nur ein Gegenstand transportiert werden",
-      "type": "spiel",
-      "unit": "Minuten"
-    },
-    {
-      "id": 7,
-      "name": "Ausschwimmen Strecke",
-      "description": "Es wird x Meter lang locker geschwommen",
-      "type": "ausschwimmen",
+      "id": 13,
+      "name": "Achselgriff",
+      "description": "- Rettling liegt auf dem Rücken\n- Retter greift unter die Achseln und zieht den Rettling durch das Wasser\n- Bei Anfängern nicht mehr als 25 Meter",
+      "type": "rettungsschwimmen",
       "unit": "Meter"
     },
     {
-      "id": 71,
-      "name": "Ausschwimmen Zeit",
-      "description": "Es wird x Minuten lang locker geschwommen",
-      "type": "ausschwimmen",
-      "unit": "Minuten"
-    },
-    {
-      "id": 8,
-      "name": "Langestrecke",
-      "description": "Es wird x Meter lang geschwommen",
-      "type": "ausdauer",
+      "id": 14,
+      "name": "Transportschwimmen zu zweit",
+      "description": "- Rettling liegt auf dem Rücken\n- Retter schwimmt Brust\n- Rettling hält sich mit den Händen an den Schultern des Retters fest",
+      "type": "rettungsschwimmen",
       "unit": "Meter"
     },
     {
-      "id": 81,
-      "name": "Fliegermarsch",
-      "description": "- Es wird 25 Meter schnell geschwommen\n- Danach wird langsam zurückgelaufen und sich dabei erholt\n- Für die Runden wird die Disziplin angesagt oder gewürfelt",
-      "type": "ausdauer",
-      "unit": "Minuten"
-    },
-    {
-      "id": 9,
+      "id": 15,
       "name": "Beinschlag mit Brett hochkant",
       "description": "- Das Brett wird mit gestreckten Armen vor dem Körper gehalten\n- Es wird nur mit den Beinen geschwommen\n- Das Brett wird dabei hochkant in das Wasser gedrückt",
       "type": "kraft",
       "unit": "Meter"
     },
     {
-      "id": 10,
+      "id": 16,
+      "name": "Langestrecke",
+      "description": "Es wird x Meter lang geschwommen",
+      "type": "ausdauer",
+      "unit": "Meter"
+    },
+    {
+      "id": 17,
+      "name": "Fliegermarsch",
+      "description": "- Es wird 25 Meter schnell geschwommen\n- Danach wird langsam zurückgelaufen und sich dabei erholt\n- Für die Runden wird die Disziplin angesagt oder gewürfelt",
+      "type": "ausdauer",
+      "unit": "Minuten"
+    },
+    {
+      "id": 18,
+      "name": "Ameisen-Spiel",
+      "description": "- Bildet zwei Mannschaften\n- Jede Mannschaft hat einen 'Ameisenhaufen' bestehend aus Schwimmhilfen (z.B. Nudeln, Bretter, etc.)\n- Ziel ist es, so viele Schwimmhilfen wie möglich von der gegnerischen Seite in den eigenen Ameisenhaufen zu transportieren\n- Es darf immer nur ein Gegenstand transportiert werden",
+      "type": "spiel",
+      "unit": "Minuten"
+    },
+    {
+      "id": 19,
       "name": "Wasserball-Übung",
       "description": "- Bildet zwei Mannschaften\n- Mit dem Ball darf nicht gelaufen werden\n- Der Ball muss durch Passen zum gegnerischen Tor transportiert werden\n- Tore zählen nur, wenn alle Spieler in der gegnerischen Hälfte sind",
       "type": "spiel",
@@ -150,6 +136,20 @@
       "unit": "Minuten",
       "material": "- 1 Wasserball\n- 2 Tore (z.B. Schwimmbretter als Markierung)\n- Hütchen zur Spielfeldmarkierung",
       "varianten": "- Nur mit der schwachen Hand werfen\n- Ball darf nur mit dem Kopf gespielt werden\n- Jeder Spieler muss den Ball berührt haben, bevor ein Tor erzielt werden kann"
+    },
+    {
+      "id": 20,
+      "name": "Ausschwimmen Strecke",
+      "description": "Es wird x Meter lang locker geschwommen",
+      "type": "ausschwimmen",
+      "unit": "Meter"
+    },
+    {
+      "id": 21,
+      "name": "Ausschwimmen Zeit",
+      "description": "Es wird x Minuten lang locker geschwommen",
+      "type": "ausschwimmen",
+      "unit": "Minuten"
     }
   ]
 }
