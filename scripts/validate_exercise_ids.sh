@@ -12,8 +12,8 @@ fi
 # Valid exercise types (storage strings and enum name fallbacks from ExerciseType.fromString)
 VALID_TYPES=(
   "einschwimmen"
-  "anfänger"
-  "anfaenger"
+  "wassergewöhnung"
+  "wassergewoehnung"
   "rettungsschwimmen"
   "technik-brust"
   "technikBrust"
