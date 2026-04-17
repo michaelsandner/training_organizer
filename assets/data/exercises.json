@@ -40,8 +40,10 @@
     },
     {
       "id": 6,
-      "name": "Motorboot",
+      "name": "Motorboot / Schubkarre",
       "description": "- Die Kinder bilden Zweiergruppen\n- Ein Kind (das Boot) legt sich flach auf den Bauch und hält dabei das Brett mit ausgestreckten Armen\n- Das zweite Kind hält das Kind an den Füßen und schiebt das Boot durchs Wasser",
+      "varianten": "- Die im Wasser liegende Kind pustet ins Wasser und simuliert einen Motor",
+      "material": "Schwimmbrett pro Gruppe",
       "type": "wassergewöhnung",
       "unit": "Minuten"
     },
@@ -55,21 +57,24 @@
     {
       "id": 8,
       "name": "Gleitphase verlängern",
-      "description": "Brustschwimmen mit extra langer Gleitphase",
+      "description": "Brustschwimmen mit extra langer Gleitphase\nDer Kopf soll dabei unter Wasser bleiben",
+      "varianten": "mit Schwimmbrett",
+      "material": "Schwimmbrett",
       "type": "technik-brust",
       "unit": "Meter"
     },
     {
       "id": 9,
       "name": "Beinschlag mit Brett",
-      "description": "- Das Brett wird mit gestreckten Armen vor dem Körper gehalten\n- Es wird nur mit den Beinen geschwommen.",
+      "description": "Das Brett wird mit gestreckten Armen vor dem Körper gehalten\nEs wird nur mit den Beinen geschwommen.\nDer Kopf soll in der Gleitphase unter Wasser bleiben",
       "type": "technik-brust",
+      "material": "Schwimmbrett",
       "unit": "Meter"
     },
     {
       "id": 10,
       "name": "Beine",
-      "description": "- Schwimme nur Kraul Beine\n- Die ausgestreckten Arme halten dabei ein Brett, einen Pullboy oder kein Hilfsmittel",
+      "description": "- Schwimme nur Kraul Beine\n- Die ausgestreckten Arme halten dabei ein Brett, einen Pull Buoy oder kein Hilfsmittel",
       "type": "technik-kraul",
       "unit": "Meter"
     },
@@ -82,7 +87,7 @@
     },
     {
       "id": 12,
-      "name": "Rücken: Wechselbeinschlag",
+      "name": "Wechselbeinschlag",
       "description": "Rückenschwimmen mit Wechselbeinschlag",
       "type": "technik-rücken",
       "unit": "Meter"
@@ -180,6 +185,171 @@
       "link": "https://ims.brk.de/doc/7a3e6d704f90b3452d4293aca3142769",
       "type": "wassergewöhnung",
       "unit": "Minuten"
+    },
+    {
+      "id": 25,
+      "name": "Waschen/Scheibenwischer",
+      "description": "Die Kinder waschen sicht mit den Händen das komplette gesicht",
+      "type": "wassergewöhnung",
+      "unit": "Minuten"
+    },
+    {
+      "id": 26,
+      "name": "Schweben/Baumstämme",
+      "description": "Das Kind hält sich zunächst am Beckenrand fest und lässt die Füße hochtreiben.\nDer Po wird angespannt und die Beine gestreckt. Es versucht diese Position zu halten, als würde es wie ein Baumstamm im Wasser liegen.",
+      "varianten": "- Frei im Wasser mit einer Schwimmnudel\n- Durchs Wasser schieben, ziehen oder rollen lassen",
+      "type": "wassergewöhnung",
+      "unit": "Minuten"
+    },
+    {
+      "id": 27,
+      "name": "Tauchen",
+      "description": "Das Kind taucht mit dem Kopf unter Wasser",
+      "varianten": "- Unter einer Nudel hinduch tauchen\n- Gegenstände vom Beckenboden aufheben",
+      "type": "wassergewöhnung",
+      "unit": "Minuten"
+    },
+    {
+      "id": 28,
+      "name": "Armzug am Beckenrand",
+      "description": "Das Kind liegt auf einem Schwimmbrett am Beckenrand. Die Arme führen den Armzug im Wasser durch. Mit einem Merkspruch wird den Kindern die Bewegung verdeutlicht: „Die Hände zum Tor, zusammen und vor. Pause. Anschlag am Beckenrand“.",
+      "varianten": "- Führung der Hände durch Ausbilder*in\n- Unterschiedliche Geschwindigkeiten\n- Merksatz: Puddingschüssel",
+      "type": "technik-brust",
+      "unit": "Minuten"
+    },
+    {
+      "id": 29,
+      "name": "Armzug mit gebeugtem Oberkörper",
+      "description": "Das Kind steht im Wasser. Der Oberkörper ist in das Wasser gebeugt und führt die Armbewegung durch. Der Ausbilder beobachtet die Übung und korrigiert gegebenenfalls.",
+      "varianten": "- mit gebäugtem Oberkörper im Gehen\n- Um die Wette laufen",
+      "type": "technik-brust",
+      "unit": "Minuten"
+    },
+    {
+      "id": 30,
+      "name": "Welche Zahl zeige",
+      "description": "Ein Kind oder Ausbilder*in zeigt eine Zahl unter Wasser. Die Kinder müssen die Zahl erkennen.",
+      "varianten": "- Schnick Schnack Schnuck",
+      "type": "wassergewöhnung",
+      "unit": "Minuten"
+    },
+    {
+      "id": 31,
+      "name": "Wer hat Angst vom weißen Hai",
+      "description": "Ein Kind ist der weiße Hai und schwimmt durch das Becken. Alle anderen Kinder müssen vor dem Hai weglaufen. Wer vom Hai gefangen wird, ist auch ein Hai.",
+      "type": "spiel",
+      "unit": "Minuten"
+    },
+    {
+      "id": 32,
+      "name": "Fritten fangen",
+      "description": "Einer aus der Gruppe wird als Fänger bestimmt. Er bekommt eine Wasser-Nudel (Fritte). Mit dieser Fritte versucht er einen aus der Gruppe in die Wasser-Nudel (Fritte) zu bekommen. Dieser wird dann neuer Fänger.",
+      "type": "spiel",
+      "material": "Schwimmnudel",
+      "unit": "Minuten"
+    },
+    {
+      "id": 33,
+      "name": "Tic Tac Toe",
+      "description": "Die Kinder bilden zwei Teams. Jedes Kind schwimmt 25 Meter und legt dann einen Ring in ein Tic Tac Toe Feld. Das Team, das zuerst drei Ringe in einer Reihe hat, gewinnt.",
+      "type": "spiel",
+      "varianten": "Streckentaucen",
+      "material": "Tauchringr",
+      "unit": "Minuten"
+    },
+    {
+      "id": 34,
+      "name": "Rettungsring",
+      "description": "Die Kinder retten einen Verletzen mit dem Rettungsring",
+      "type": "rettungsschwimmen",
+      "varianten": "- Weitwurf\n- Zielwurf\n- Wettrennen (liegend, sitzend, ...)",
+      "material": "Rettungsring",
+      "unit": "Minuten"
+    },
+    {
+      "id": 35,
+      "name": "Schwimmen mit Faust",
+      "description": "Die Kinder schwimmen Kraul mit geschlossenen Fäusten",
+      "type": "technik-kraul",
+      "varianten": "- Mit einem oder mehreren Fingern",
+      "unit": "Meter"
+    },
+    {
+      "id": 36,
+      "name": "Entenschwimmen",
+      "description": "Die Arme bewegen sich beim Schwimmen nur in der Druckphase.\nVon der Hüfte bis in die gestreckte Haltung drücken",
+      "type": "technik-kraul",
+      "unit": "Meter"
+    },
+    {
+      "id": 37,
+      "name": "Brustschwimmen mit Brett",
+      "description": "Das Schwimmbrett wird mit gestreckten Armen vor dem Körper gehalten.\nEs wird nur mit den Beinen geschwommen.\nDer Kopf soll in der Gleitphase unter Wasser bleiben",
+      "varianten": "Mit Pull Buoy",
+      "material": "Schwimmbrett, Pull Buoy",
+      "type": "technik-brust",
+      "unit": "Meter"
+    },
+    {
+      "id": 38,
+      "name": "Grätschbeinschlag mit Brett",
+      "description": "Das Schwimmbrett wird mit gestreckten Armen vor dem Körper gehalten.\nEs wird nur mit den Beinen geschwommen.\nAlternativ kann eine Schwimmnudel als Schaal um den Hals gelegt werden",
+      "varianten": "- Schwimmnudel als Schaal\n- Pull Buoy",
+      "material": "Schwimmnudel, Schwimmbrett, Pull Buoy",
+      "type": "technik-rücken",
+      "unit": "Meter"
+    },
+    {
+      "id": 39,
+      "name": "Wechselbeinschlag mit Brett",
+      "description": "Das Schwimmbrett wird mit gestreckten Armen vor dem Körper gehalten.\nEs wird nur mit den Beinen geschwommen.\nAlternativ kann eine Schwimmnudel als Schaal um den Hals gelegt werden",
+      "varianten": "- Schwimmnudel als Schaal\n- Pull Buoy",
+      "material": "Schwimmnudel, Schwimmbrett, Pull Buoy",
+      "type": "technik-rücken",
+      "unit": "Meter"
+    },
+    {
+      "id": 40,
+      "name": "Seepferdchen reiten",
+      "description": "Die Kinder setzen sich im Wasser auf die Schwimmnudel",
+      "varianten": "- Auf die Schwimmnudel stellen",
+      "material": "Schwimmnudel",
+      "type": "spiel",
+      "unit": "Meter"
+    },
+    {
+      "id": 41,
+      "name": "Streckentauchen",
+      "description": "Die Kinder springen vom Block ins Wasser und tauchen so weit wie möglich unter Wasser.\nDer Armzug geht im Gegensatz zum Brustschwimmen bis in die gestreckte Armlage neben den Oberschenkeln.\nEs darf immer nur ein Kind im Wasser tauchen!",
+      "varianten": "- Auf die Schwimmnudel stellen",
+      "type": "rettungsschwimmen",
+      "unit": "Meter"
+    },
+    {
+      "id": 42,
+      "name": "Brustschwimmen",
+      "description": "Die Kinder schwimmen die komplette Brust-Lage.\nDer Kopf soll in der Gleitphase unter Wasser bleiben.\nDer Armzug geht nur bis zur Brust bevor die Arme wieder gesteckt werden.",
+      "varianten": "- Unterschiedliches Tempo",
+      "type": "technik-brust",
+      "unit": "Meter"
+    },
+    {
+      "id": 43,
+      "name": "Pull Buoy transportieren",
+      "description": "Die Kinder halten das Brett mit gestreckten Armen vor dem Körper und transportieren den Pull Buoy auf dem Brett. Es wird nur mit den Beinen geschwommen.",
+      "varianten": "- liegender/aufrechter Pull Buoy",
+      "material": "Schwimmbrett, Pull Buoy",
+      "type": "technik-brust",
+      "unit": "Meter"
+    },
+    {
+      "id": 44,
+      "name": "Kopf, Achsel, Hüfte",
+      "description": "Die Kinder berühren während des Armzugs mit der Hand nacheinander den Kopf, die Achsel und die Hüfte.",
+      "varianten": "- Nur Kopf\n- Kopf und Achsel\n- Kopf, Achsel und Hüfte\n- Mit Brett oder Pull Buoy",
+      "material": "Schwimmbrett, Pull Buoy",
+      "type": "technik-kraul",
+      "unit": "Meter"
     }
   ]
 }
