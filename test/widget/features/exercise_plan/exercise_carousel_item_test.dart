@@ -94,7 +94,6 @@ void main() {
           final container = tester.widget<Container>(containerFinder);
           final decoration = container.decoration! as BoxDecoration;
 
-          expect(containerFinder, findsOneWidget);
           expect(decoration.color, exercise.type.color.withAlpha(30));
         });
       });
