@@ -83,9 +83,10 @@ void main() {
             (tester) async {
           await tester.pumpWidget(buildCarouselItem());
 
-          final card = tester.widget<Card>(find.byType(Card));
+          final container = tester.widget<Container>(find.byType(Container).first);
+          final decoration = container.decoration! as BoxDecoration;
 
-          expect(card.color, exercise.type.color.withAlpha(50));
+          expect(decoration.color, exercise.type.color.withAlpha(30));
         });
       });
     });
