@@ -19,11 +19,11 @@ class ExerciseCarouselItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: color.withAlpha(50),
-      shape: RoundedRectangleBorder(
+    return Container(
+      decoration: BoxDecoration(
+        color: color.withAlpha(30),
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: color, width: 2),
+        border: Border.all(color: color, width: 2),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
