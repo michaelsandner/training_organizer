@@ -88,8 +88,16 @@ void main() {
               return false;
             }
             final decoration = widget.decoration;
-            return decoration is BoxDecoration &&
-                decoration.color == exercise.type.color.withAlpha(30);
+            if (decoration is! BoxDecoration) {
+              return false;
+            }
+
+            final border = decoration.border;
+            return decoration.color == exercise.type.color.withAlpha(30) &&
+                decoration.borderRadius == BorderRadius.circular(12) &&
+                border is Border &&
+                border.top.color == exercise.type.color &&
+                border.top.width == 2;
           });
           final container = tester.widget<Container>(containerFinder);
           final decoration = container.decoration! as BoxDecoration;
