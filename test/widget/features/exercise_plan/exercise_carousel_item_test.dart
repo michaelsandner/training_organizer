@@ -83,9 +83,18 @@ void main() {
             (tester) async {
           await tester.pumpWidget(buildCarouselItem());
 
-          final container = tester.widget<Container>(find.byType(Container).first);
+          final containerFinder = find.byWidgetPredicate((widget) {
+            if (widget is! Container) {
+              return false;
+            }
+            final decoration = widget.decoration;
+            return decoration is BoxDecoration &&
+                decoration.color == exercise.type.color.withAlpha(30);
+          });
+          final container = tester.widget<Container>(containerFinder);
           final decoration = container.decoration! as BoxDecoration;
 
+          expect(containerFinder, findsOneWidget);
           expect(decoration.color, exercise.type.color.withAlpha(30));
         });
       });
