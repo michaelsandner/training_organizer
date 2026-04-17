@@ -56,17 +56,16 @@ class ExerciseCarouselItem extends StatelessWidget {
                   const SizedBox(width: 8),
                   SizedBox(
                     width: 60,
-                    height: 28,
                     child: TextFormField(
                       initialValue: distance.toString(),
                       keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
-                      textAlignVertical: TextAlignVertical.center,
-                      style: const TextStyle(fontSize: 14, height: 1.1),
+                      style: const TextStyle(fontSize: 14),
                       decoration: const InputDecoration(
                         isDense: true,
+                        isCollapsed: true,
                         contentPadding:
-                            EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                            EdgeInsets.symmetric(vertical: 6, horizontal: 4),
                         border: OutlineInputBorder(),
                       ),
                       onChanged: (value) {
