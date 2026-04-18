@@ -14,6 +14,10 @@ class ExercisePlanBody extends StatelessWidget {
   final bool collapseAll;
   final ValueChanged<bool> onViewChanged;
   final VoidCallback onToggleCollapseAll;
+  final VoidCallback onSave;
+  final VoidCallback onLoad;
+  final VoidCallback onExport;
+  final VoidCallback onImport;
 
   const ExercisePlanBody({
     super.key,
@@ -22,6 +26,10 @@ class ExercisePlanBody extends StatelessWidget {
     required this.collapseAll,
     required this.onViewChanged,
     required this.onToggleCollapseAll,
+    required this.onSave,
+    required this.onLoad,
+    required this.onExport,
+    required this.onImport,
   });
 
   @override
@@ -32,6 +40,10 @@ class ExercisePlanBody extends StatelessWidget {
         ExerciseViewToggleRow(
           showListView: showListView,
           onViewChanged: onViewChanged,
+          onSave: onSave,
+          onLoad: onLoad,
+          onExport: onExport,
+          onImport: onImport,
         ),
         ExercisePlanStringRow(
           planString: state.planString,

@@ -3,11 +3,19 @@ import 'package:flutter/material.dart';
 class ExerciseViewToggleRow extends StatelessWidget {
   final bool showListView;
   final ValueChanged<bool> onViewChanged;
+  final VoidCallback onSave;
+  final VoidCallback onLoad;
+  final VoidCallback onExport;
+  final VoidCallback onImport;
 
   const ExerciseViewToggleRow({
     super.key,
     required this.showListView,
     required this.onViewChanged,
+    required this.onSave,
+    required this.onLoad,
+    required this.onExport,
+    required this.onImport,
   });
 
   @override
@@ -16,42 +24,55 @@ class ExerciseViewToggleRow extends StatelessWidget {
       padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
       child: Row(
         children: [
-          const Expanded(
-            child: Text(
-              'Ansicht: ',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          Center(
-            child: ToggleButtons(
-              isSelected: [!showListView, showListView],
-              onPressed: (index) => onViewChanged(index == 1),
-              borderRadius: BorderRadius.circular(8),
-              children: const [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  child: Row(
-                    children: [
-                      Icon(Icons.swipe, size: 18),
-                      SizedBox(width: 4),
-                      Text('Swipe'),
-                    ],
-                  ),
+          ToggleButtons(
+            isSelected: [!showListView, showListView],
+            onPressed: (index) => onViewChanged(index == 1),
+            borderRadius: BorderRadius.circular(8),
+            children: const [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    Icon(Icons.swipe, size: 18),
+                    SizedBox(width: 4),
+                    Text('Swipe'),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  child: Row(
-                    children: [
-                      Icon(Icons.list, size: 18),
-                      SizedBox(width: 4),
-                      Text('Liste'),
-                    ],
-                  ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    Icon(Icons.list, size: 18),
+                    SizedBox(width: 4),
+                    Text('Liste'),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          const Expanded(child: SizedBox.shrink()),
+          const Spacer(),
+          IconButton(
+            icon: const Icon(Icons.save),
+            tooltip: 'Speichern',
+            onPressed: onSave,
+          ),
+          IconButton(
+            icon: const Icon(Icons.folder_open),
+            tooltip: 'Laden',
+            onPressed: onLoad,
+          ),
+          const SizedBox(width: 8),
+          IconButton(
+            icon: const Icon(Icons.file_download),
+            tooltip: 'Exportieren',
+            onPressed: onExport,
+          ),
+          IconButton(
+            icon: const Icon(Icons.file_upload),
+            tooltip: 'Importieren',
+            onPressed: onImport,
+          ),
         ],
       ),
     );

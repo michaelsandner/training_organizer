@@ -5,6 +5,7 @@ import 'package:training_organizer/data/file_handler.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
 import 'package:training_organizer/data/performance_data_file_handler.dart';
 import 'package:training_organizer/di/service_locator.dart';
+import 'package:training_organizer/domain/exercise_plan/exercise_collection_repository.dart';
 import 'package:training_organizer/domain/usecases/filter_trainees_usecase.dart';
 import 'package:training_organizer/domain/usecases/send_email_usecase.dart';
 import 'package:training_organizer/features/attendance/attendance_cubit.dart';
@@ -12,6 +13,7 @@ import 'package:training_organizer/features/attendance/attendance_page.dart';
 import 'package:training_organizer/features/edit/trainee_view.dart';
 import 'package:training_organizer/features/email/email_cubit.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise_repository.dart';
+import 'package:training_organizer/features/exercise_plan/ui/exercise_collection_cubit.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_cubit.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_page.dart';
 import 'package:training_organizer/features/overview/selection/filter_trainees_cubit.dart';
@@ -63,6 +65,12 @@ class MyApp extends StatelessWidget {
           create: (context) => ExercisePlanCubit(
             getIt<ExerciseRepository>(),
             localStorageRepository: getIt<LocalStorageRepository>(),
+          )..init(),
+        ),
+        BlocProvider(
+          create: (context) => ExerciseCollectionCubit(
+            getIt<LocalStorageRepository>(),
+            getIt<ExerciseCollectionRepository>(),
           )..init(),
         ),
         BlocProvider(
