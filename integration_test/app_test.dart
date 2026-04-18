@@ -5,6 +5,8 @@ import 'package:integration_test/integration_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:training_organizer/data/file_handler.dart';
 import 'package:training_organizer/di/service_locator.dart';
+import 'package:training_organizer/domain/exercise_plan/exercise_collection_repository.dart';
+import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_cubit.dart';
 import 'package:training_organizer/features/overview/qualification_overlay.dart';
 import 'package:training_organizer/features/overview/selection/filter_trainees_cubit.dart';
 import 'package:training_organizer/features/overview/trainee_list.dart';
@@ -12,12 +14,15 @@ import 'package:training_organizer/features/overview/trainee_list_item.dart';
 import 'package:training_organizer/features/overview/trainees_state.dart';
 import 'package:training_organizer/main.dart';
 
+import 'helpers/mock_exercise_collection_file_handler.dart';
 import 'helpers/mock_file_exporter.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Given app has started', () {
+    late MockExerciseCollectionFileHandler mockCollectionFileHandler;
+
     setUp(() async {
       // Reset the entire GetIt container so each test starts with a clean
       // dependency graph, then re-register all app services via the standard
@@ -27,9 +32,13 @@ void main() {
       // registration that setupServiceLocator() already created for FileExporter.
       await getIt.reset();
       setupServiceLocator();
+      mockCollectionFileHandler = MockExerciseCollectionFileHandler();
       getIt.allowReassignment = true;
       getIt.registerLazySingleton<FileExporter>(
         () => MockTestTraineeFileExporter(),
+      );
+      getIt.registerLazySingleton<ExerciseCollectionRepository>(
+        () => mockCollectionFileHandler,
       );
       getIt.allowReassignment = false;
 
@@ -154,6 +163,154 @@ void main() {
           ),
           findsAtLeastNWidgets(1),
         );
+      },
+    );
+
+    testWidgets(
+      'When two exercise plans are saved And exported And another plan saved '
+      'And exported And imported And loaded '
+      'Then the exercise plan is displayed in the swipe view',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(const MyApp());
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 1));
+
+        // We are on the Trainingsplan tab by default.
+        // Wait for exercises to load.
+        await tester.pump(const Duration(seconds: 2));
+
+        // Get the ExercisePlanCubit to read the current plan string.
+        final exercisePlanContext =
+            tester.element(find.byType(ToggleButtons).first);
+        final exercisePlanCubit =
+            BlocProvider.of<ExercisePlanCubit>(exercisePlanContext);
+
+        // The default plan should have entries loaded.
+        expect(exercisePlanCubit.state.entries.isNotEmpty, true);
+
+        // Record the default plan string for Plan A.
+        final planStringA = exercisePlanCubit.state.planString;
+
+        // --- Save Plan A ---
+        // Tap the save button (Icons.save).
+        await tester.tap(find.byIcon(Icons.save));
+        await tester.pump(const Duration(milliseconds: 500));
+
+        // We should be on the save page.
+        expect(find.text('Trainingsplan speichern'), findsOneWidget);
+
+        // Enter a name and save.
+        await tester.enterText(
+            find.byType(TextField).first, 'Plan A');
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.tap(find.text('Speichern'));
+        await tester.pump(const Duration(seconds: 1));
+
+        // Verify Plan A is in the list.
+        expect(find.text('Plan A'), findsOneWidget);
+
+        // --- Save Plan B (same plan, different name) ---
+        await tester.enterText(
+            find.byType(TextField).first, 'Plan B');
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.tap(find.text('Speichern'));
+        await tester.pump(const Duration(seconds: 1));
+
+        // Verify both plans are in the list.
+        expect(find.text('Plan A'), findsOneWidget);
+        expect(find.text('Plan B'), findsOneWidget);
+
+        // Go back to the exercise plan page.
+        await tester.tap(find.byIcon(Icons.arrow_back));
+        await tester.pump(const Duration(milliseconds: 500));
+
+        // --- Export collection (with 2 plans) ---
+        await tester.tap(find.byIcon(Icons.file_download));
+        await tester.pump(const Duration(milliseconds: 500));
+
+        // Enter filename in the export dialog.
+        expect(find.text('Trainingspläne exportieren'), findsOneWidget);
+        await tester.enterText(
+            find.byType(TextField).first, 'export_first');
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.tap(find.text('Exportieren'));
+        await tester.pump(const Duration(seconds: 1));
+
+        // Verify the mock stored the export (2 plans).
+        expect(mockCollectionFileHandler.lastExportedCollections?.length, 2);
+
+        // --- Save Plan C ---
+        await tester.tap(find.byIcon(Icons.save));
+        await tester.pump(const Duration(milliseconds: 500));
+        expect(find.text('Trainingsplan speichern'), findsOneWidget);
+
+        await tester.enterText(
+            find.byType(TextField).first, 'Plan C');
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.tap(find.text('Speichern'));
+        await tester.pump(const Duration(seconds: 1));
+
+        // Verify 3 plans are in the list.
+        expect(find.text('Plan A'), findsOneWidget);
+        expect(find.text('Plan B'), findsOneWidget);
+        expect(find.text('Plan C'), findsOneWidget);
+
+        // Go back.
+        await tester.tap(find.byIcon(Icons.arrow_back));
+        await tester.pump(const Duration(milliseconds: 500));
+
+        // --- Export collection again (with 3 plans) ---
+        await tester.tap(find.byIcon(Icons.file_download));
+        await tester.pump(const Duration(milliseconds: 500));
+        await tester.enterText(
+            find.byType(TextField).first, 'export_second');
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.tap(find.text('Exportieren'));
+        await tester.pump(const Duration(seconds: 1));
+
+        // The mock now holds the 3-plan export.
+        expect(mockCollectionFileHandler.lastExportedCollections?.length, 3);
+
+        // Overwrite the mock's stored export with the first export (2 plans)
+        // to simulate importing the first exported file.
+        mockCollectionFileHandler.setImportData([
+          mockCollectionFileHandler.lastExportedCollections![0],
+          mockCollectionFileHandler.lastExportedCollections![1],
+        ]);
+
+        // --- Import collection ---
+        // Since there are existing plans, the warning dialog should appear.
+        await tester.tap(find.byIcon(Icons.file_upload));
+        await tester.pump(const Duration(milliseconds: 500));
+
+        // Confirm the import warning.
+        expect(find.text('Trainingspläne importieren'), findsOneWidget);
+        await tester.tap(find.text('Importieren'));
+        await tester.pump(const Duration(seconds: 1));
+
+        // --- Click load button ---
+        await tester.tap(find.byIcon(Icons.folder_open));
+        await tester.pump(const Duration(milliseconds: 500));
+
+        // We should be on the load page.
+        expect(find.text('Trainingsplan laden'), findsOneWidget);
+
+        // Verify 2 plans are displayed (from the first export).
+        expect(find.text('Plan A'), findsOneWidget);
+        expect(find.text('Plan B'), findsOneWidget);
+
+        // Select Plan A.
+        await tester.tap(find.text('Plan A'));
+        await tester.pump(const Duration(milliseconds: 500));
+
+        // The load button should now be enabled.
+        await tester.ensureVisible(find.text('Laden'));
+        await tester.tap(find.text('Laden'));
+        await tester.pump(const Duration(seconds: 1));
+
+        // We should be back on the exercise plan page.
+        // The plan should have been applied.
+        expect(exercisePlanCubit.state.planString, planStringA);
       },
     );
   });
