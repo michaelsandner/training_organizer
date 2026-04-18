@@ -97,7 +97,7 @@ class _ExercisePlanPageState extends State<ExercisePlanPage> {
               onPressed: () {
                 ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
               },
-              child: const Text('Dismiss'),
+              child: const Text('Schließen'),
             ),
           ],
         ),
