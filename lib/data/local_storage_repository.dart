@@ -1,3 +1,4 @@
+import 'package:training_organizer/domain/exercise_plan/exercise_plan_collection.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise_plan_entry.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/domain/performance_data/performance_data.dart';
@@ -9,4 +10,6 @@ abstract interface class LocalStorageRepository {
   Future<void> savePerformanceData(PerformanceData data);
   Future<List<ExercisePlanEntry>?> loadExercisePlan();
   Future<void> saveExercisePlan(List<ExercisePlanEntry> entries);
+  Future<List<ExercisePlanCollection>?> loadExerciseCollections();
+  Future<void> saveExerciseCollections(List<ExercisePlanCollection> collections);
 }
