@@ -39,10 +39,26 @@ void main() {
       });
 
       group('When toggle buttons are laid out', () {
-        testWidgets('Then they are at the start of the row', (tester) async {
+        testWidgets('Then they are positioned at the start of the row',
+            (tester) async {
           await tester.pumpWidget(buildWidget());
 
-          expect(find.byType(ToggleButtons), findsOneWidget);
+          final toggleLeft = tester.getTopLeft(find.byType(ToggleButtons)).dx;
+
+          // The toggle should be near the left edge (after 8px padding).
+          expect(toggleLeft, closeTo(8.0, 1.0));
+        });
+      });
+
+      group('When action buttons are rendered', () {
+        testWidgets('Then save, load, export, and import icons are shown',
+            (tester) async {
+          await tester.pumpWidget(buildWidget());
+
+          expect(find.byIcon(Icons.save), findsOneWidget);
+          expect(find.byIcon(Icons.folder_open), findsOneWidget);
+          expect(find.byIcon(Icons.file_download), findsOneWidget);
+          expect(find.byIcon(Icons.file_upload), findsOneWidget);
         });
       });
     });
