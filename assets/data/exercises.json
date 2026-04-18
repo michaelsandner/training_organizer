@@ -3,20 +3,20 @@
     {
       "id": 1,
       "name": "Einschwimmen Strecke",
-      "description": "Es wird x Meter lang locker geschwommen",
+      "description": "Es wird x Meter locker geschwommen",
       "type": "einschwimmen",
       "unit": "Meter"
     },
     {
       "id": 2,
       "name": "Einschwimmen Zeit",
-      "description": "Es wird x Minuten lang locker geschwommen",
+      "description": "Es wird x Minuten locker geschwommen",
       "type": "einschwimmen",
       "unit": "Minuten"
     },
     {
       "id": 3,
-      "name": "Kellner-Siel",
+      "name": "Kellner-Spiel",
       "description": "- Zweiergruppen\n- Ein Kind legt sich auf den Rücken\n- Das zweite Kind trägt den 'Tisch' durch das Wasser",
       "type": "wassergewöhnung",
       "unit": "Minuten"
@@ -227,7 +227,7 @@
     },
     {
       "id": 30,
-      "name": "Welche Zahl zeige",
+      "name": "Welche Zahl zeige ich",
       "description": "Ein Kind oder Ausbilder*in zeigt eine Zahl unter Wasser. Die Kinder müssen die Zahl erkennen.",
       "varianten": "- Schnick Schnack Schnuck",
       "type": "wassergewöhnung",
@@ -235,7 +235,7 @@
     },
     {
       "id": 31,
-      "name": "Wer hat Angst vom weißen Hai",
+      "name": "Wer hat Angst vor dem weißen Hai",
       "description": "Ein Kind ist der weiße Hai und schwimmt durch das Becken. Alle anderen Kinder müssen vor dem Hai weglaufen. Wer vom Hai gefangen wird, ist auch ein Hai.",
       "type": "spiel",
       "unit": "Minuten"
@@ -254,7 +254,7 @@
       "description": "Die Kinder bilden zwei Teams. Jedes Kind schwimmt 25 Meter und legt dann einen Ring in ein Tic Tac Toe Feld. Das Team, das zuerst drei Ringe in einer Reihe hat, gewinnt.",
       "type": "spiel",
       "varianten": "Streckentaucen",
-      "material": "Tauchringr",
+      "material": "Tauchringe",
       "unit": "Minuten"
     },
     {
@@ -264,7 +264,7 @@
       "type": "rettungsschwimmen",
       "varianten": "- Weitwurf\n- Zielwurf\n- Wettrennen (liegend, sitzend, ...)",
       "material": "Rettungsring",
-      "unit": "Minuten"
+      "unit": "Meter"
     },
     {
       "id": 35,
