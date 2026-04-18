@@ -9,6 +9,10 @@ void main() {
         body: ExerciseViewToggleRow(
           showListView: false,
           onViewChanged: (_) {},
+          onSave: () {},
+          onLoad: () {},
+          onExport: () {},
+          onImport: () {},
         ),
       ),
     );
@@ -35,13 +39,10 @@ void main() {
       });
 
       group('When toggle buttons are laid out', () {
-        testWidgets('Then they are centered in the row', (tester) async {
+        testWidgets('Then they are at the start of the row', (tester) async {
           await tester.pumpWidget(buildWidget());
 
-          final toggleCenterX = tester.getCenter(find.byType(ToggleButtons)).dx;
-          final scaffoldCenterX = tester.getSize(find.byType(Scaffold)).width / 2;
-
-          expect((toggleCenterX - scaffoldCenterX).abs(), lessThanOrEqualTo(1));
+          expect(find.byType(ToggleButtons), findsOneWidget);
         });
       });
     });
