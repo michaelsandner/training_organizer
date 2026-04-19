@@ -42,7 +42,7 @@ class _ExercisePlanPageState extends State<ExercisePlanPage> {
     );
   }
 
-  void _onLoad(BuildContext context) async {
+  Future<void> _onLoad(BuildContext context) async {
     final planString = await Navigator.of(context).push<String>(
       MaterialPageRoute(
         builder: (_) => BlocProvider.value(
@@ -59,17 +59,17 @@ class _ExercisePlanPageState extends State<ExercisePlanPage> {
     }
   }
 
-  void _onExport(BuildContext context) async {
+  Future<void> _onExport(BuildContext context) async {
     final fileName = await showDialog<String>(
       context: context,
       builder: (_) => const ExercisePlanExportDialog(),
     );
     if (fileName != null && context.mounted) {
-      context.read<ExerciseCollectionCubit>().exportCollections(fileName);
+      await context.read<ExerciseCollectionCubit>().exportCollections(fileName);
     }
   }
 
-  void _onImport(BuildContext context) async {
+  Future<void> _onImport(BuildContext context) async {
     final collectionCubit = context.read<ExerciseCollectionCubit>();
     final hasExisting = collectionCubit.state.collections.isNotEmpty;
 
