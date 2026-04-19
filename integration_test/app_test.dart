@@ -230,8 +230,10 @@ void main() {
 
         // Enter filename in the export dialog.
         expect(find.text('Trainingspläne exportieren'), findsOneWidget);
+        final exportDialog = find.byType(AlertDialog);
         await tester.enterText(
-            find.byType(TextField).first, 'export_first');
+            find.descendant(of: exportDialog, matching: find.byType(TextField)),
+            'export_first');
         await tester.pump(const Duration(milliseconds: 300));
         await tester.tap(find.text('Exportieren'));
         await tester.pump(const Duration(seconds: 1));
@@ -262,8 +264,11 @@ void main() {
         // --- Export collection again (with 3 plans) ---
         await tester.tap(find.byIcon(Icons.file_download));
         await tester.pump(const Duration(milliseconds: 500));
+        final exportDialog2 = find.byType(AlertDialog);
         await tester.enterText(
-            find.byType(TextField).first, 'export_second');
+            find.descendant(
+                of: exportDialog2, matching: find.byType(TextField)),
+            'export_second');
         await tester.pump(const Duration(milliseconds: 300));
         await tester.tap(find.text('Exportieren'));
         await tester.pump(const Duration(seconds: 1));
