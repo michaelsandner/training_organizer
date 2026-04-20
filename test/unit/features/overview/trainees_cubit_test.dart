@@ -470,7 +470,7 @@ void main() {
 
       group('When replaceTrainee with stale old trainee snapshot', () {
         final staleOldTrainee = Trainee(
-          surname: 'Musterman',
+          surname: 'Mustermann',
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
@@ -479,7 +479,7 @@ void main() {
           isMember: true,
         );
         final stateTrainee = Trainee(
-          surname: 'Musterman',
+          surname: 'Mustermann',
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
@@ -488,7 +488,7 @@ void main() {
           isMember: false,
         );
         final updatedTrainee = Trainee(
-          surname: 'Musterman',
+          surname: 'Mustermann',
           forename: 'Max',
           email: 'email@email.de',
           dateOfBirth: '2000-10-10',
