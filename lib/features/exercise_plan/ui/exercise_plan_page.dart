@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_collection_cubit.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_collection_state.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_list_view.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_body.dart';
 import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_cubit.dart';
