@@ -70,8 +70,7 @@ class TraineesCubit extends Cubit<TraineesState> {
     final selectedGroup =
         _filterTraineesCubit?.state.selectedGroup ?? FilterableGroup.all;
     final updatedTraineeList = [...state.trainees];
-    final index =
-        updatedTraineeList.indexWhere((element) => element == oldTrainee);
+    final index = _findTraineeIndex(updatedTraineeList, oldTrainee);
     if (index >= 0) {
       updatedTraineeList[index] = newTrainee;
     } else {
@@ -80,6 +79,27 @@ class TraineesCubit extends Cubit<TraineesState> {
     emit(state.copyWith(trainees: updatedTraineeList));
     _saveTrainees(updatedTraineeList);
     _filterTraineesCubit?.setSelectedGroup(selectedGroup, updatedTraineeList);
+  }
+
+  int _findTraineeIndex(List<Trainee> trainees, Trainee trainee) {
+    final identicalIndex =
+        trainees.indexWhere((element) => identical(element, trainee));
+    if (identicalIndex >= 0) {
+      return identicalIndex;
+    }
+
+    final equalIndex = trainees.indexWhere((element) => element == trainee);
+    if (equalIndex >= 0) {
+      return equalIndex;
+    }
+
+    return trainees.indexWhere(
+      (element) =>
+          element.surname == trainee.surname &&
+          element.forename == trainee.forename &&
+          element.dateOfBirth == trainee.dateOfBirth &&
+          element.registrationDate == trainee.registrationDate,
+    );
   }
 
   bool isDowngradePossible(Trainee trainee) {
