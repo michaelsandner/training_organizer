@@ -97,6 +97,7 @@ class TraineesCubit extends Cubit<TraineesState> {
       (element) =>
           element.surname == trainee.surname &&
           element.forename == trainee.forename &&
+          element.email == trainee.email &&
           element.dateOfBirth == trainee.dateOfBirth &&
           element.registrationDate == trainee.registrationDate,
     );
