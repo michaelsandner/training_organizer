@@ -6,7 +6,7 @@ Write tests for existing or new code following the project's testing conventions
 
 Place the test file so it mirrors the `lib/` path:
 
-- `lib/features/overview/trainees_cubit.dart` → `test/unit/features/overview/trainees_cubit_test.dart`
+- `lib/ui/features/overview/trainees_cubit.dart` → `test/unit/features/overview/trainees_cubit_test.dart`
 - `lib/domain/usecases/filter_trainees_usecase.dart` → `test/unit/domain/filter_trainees_usecase_test.dart`
 
 ## Template
