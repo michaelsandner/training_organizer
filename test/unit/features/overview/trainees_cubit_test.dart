@@ -550,6 +550,46 @@ void main() {
           ],
         );
       });
+
+      group('When replaceTrainee with stale old trainee snapshot and normalized date values', () {
+        final staleOldTrainee = Trainee(
+          surname: 'Mustermann',
+          forename: 'Max',
+          email: 'email@email.de',
+          dateOfBirth: '2000-10-10',
+          registrationDate: '2020-01-01',
+          trainingGroup: Group.group1,
+          isTrainer: false,
+        );
+        final stateTrainee = Trainee(
+          surname: 'Mustermann',
+          forename: 'Max',
+          email: 'email@email.de',
+          dateOfBirth: '10.10.2000',
+          registrationDate: '01.01.2020',
+          trainingGroup: Group.group1,
+          isTrainer: false,
+        );
+        final updatedTrainee = Trainee(
+          surname: 'Mustermann',
+          forename: 'Max',
+          email: 'email@email.de',
+          dateOfBirth: '10.10.2000',
+          registrationDate: '01.01.2020',
+          trainingGroup: Group.group1,
+          isTrainer: true,
+        );
+
+        blocTest<TraineesCubit, TraineesState>(
+          'Then trainee should still be replaced instead of being duplicated',
+          seed: () => state.copyWith(trainees: [stateTrainee]),
+          build: () => cubit,
+          act: (cubit) => cubit.replaceTrainee(staleOldTrainee, updatedTrainee),
+          expect: () => [
+            state.copyWith(trainees: [updatedTrainee]),
+          ],
+        );
+      });
     });
 
     group('Given FilterTraineesCubit is set', () {
