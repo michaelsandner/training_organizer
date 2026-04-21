@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise_type.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_carousel.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_carousel_item.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_description_section.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_link_image_row.dart';
+import 'package:training_organizer/ui/features/exercise_plan/ui/exercise_carousel.dart';
+import 'package:training_organizer/ui/features/exercise_plan/ui/exercise_carousel_item.dart';
+import 'package:training_organizer/ui/features/exercise_plan/ui/exercise_description_section.dart';
+import 'package:training_organizer/ui/features/exercise_plan/ui/exercise_link_image_row.dart';
 
 void main() {
   const exercise = Exercise(

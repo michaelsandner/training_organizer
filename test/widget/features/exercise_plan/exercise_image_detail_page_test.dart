@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise_type.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_image_detail_page.dart';
+import 'package:training_organizer/ui/features/exercise_plan/ui/exercise_image_detail_page.dart';
 
 void main() {
   const exercise = Exercise(

@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:training_organizer/data/web_downloader_stub.dart'
     if (dart.library.js_interop) 'package:training_organizer/data/web_downloader_web.dart';
 import 'package:training_organizer/domain/performance_data/performance_data.dart';
-import 'package:training_organizer/domain/performance_data/performance_data_repository.dart';
+import 'package:training_organizer/domain/repositories/performance_data_repository.dart';
 
 class PerformanceDataFileHandler implements PerformanceDataRepository {
   @override

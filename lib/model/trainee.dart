@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:training_organizer/features/overview/trainees_state.dart';
+import 'package:training_organizer/ui/features/overview/trainees_state.dart';
 import 'package:training_organizer/model/qualifications.dart';
 
 class Trainee {

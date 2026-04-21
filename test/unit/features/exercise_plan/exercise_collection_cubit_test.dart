@@ -2,10 +2,10 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
-import 'package:training_organizer/domain/exercise_plan/exercise_collection_repository.dart';
+import 'package:training_organizer/domain/repositories/exercise_collection_repository.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise_plan_collection.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_collection_cubit.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_collection_state.dart';
+import 'package:training_organizer/ui/features/exercise_plan/ui/exercise_collection_cubit.dart';
+import 'package:training_organizer/ui/features/exercise_plan/ui/exercise_collection_state.dart';
 
 class MockLocalStorageRepository extends Mock
     implements LocalStorageRepository {}

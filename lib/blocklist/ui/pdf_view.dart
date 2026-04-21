@@ -8,7 +8,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/features/overview/selection/filter_trainees_cubit.dart';
+import 'package:training_organizer/ui/features/overview/selection/filter_trainees_cubit.dart';
 
 class PdfView extends StatelessWidget {
   const PdfView({super.key});
