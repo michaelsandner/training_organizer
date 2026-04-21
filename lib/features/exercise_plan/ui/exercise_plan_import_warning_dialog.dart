@@ -8,7 +8,7 @@ class ExercisePlanImportWarningDialog extends StatelessWidget {
     return AlertDialog(
       title: const Text('Trainingspläne importieren'),
       content: const Text(
-        'Beim Import werden alle gespeicherten Trainingspläne gelöscht. Fortfahren?',
+        'Beim Import werden alle lokal gespeicherten Trainingspläne gelöscht. Fortfahren?',
       ),
       actions: [
         TextButton(
