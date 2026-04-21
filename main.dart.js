@@ -112465,9 +112465,9 @@ s=23
 return A.N(a0.bt(),$async$pP)
 case 23:s=n.pop()
 break
-case 14:for(f=h,a=m.wL$;a0=f,a1=a.length,a0<a1;++f)a[f].a.wy()
-B.l.JT(a,h,a1)
-if(m.c!=null)m.a9(new A.awk())
+case 14:a=m.wL$
+if(h<a.length){for(f=h;a0=f,a1=a.length,a0<a1;++f)a[f].a.wy()
+B.l.JT(a,h,a1)}if(m.c!=null)m.a9(new A.awk())
 p=2
 s=11
 break
