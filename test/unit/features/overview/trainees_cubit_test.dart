@@ -516,7 +516,8 @@ void main() {
           dateOfBirth: '2000-10-10',
           registrationDate: '01.01.2020',
           trainingGroup: Group.group1,
-          isTrainer: true,
+          isMember: false,
+          isTrainer: false,
         );
         final stateTrainee = Trainee(
           surname: 'Mustermann',
@@ -525,6 +526,7 @@ void main() {
           dateOfBirth: '2000-10-10',
           registrationDate: '01.01.2020',
           trainingGroup: Group.group1,
+          isMember: true,
           isTrainer: false,
         );
         final updatedTrainee = Trainee(
@@ -534,11 +536,12 @@ void main() {
           dateOfBirth: '2000-10-10',
           registrationDate: '01.01.2020',
           trainingGroup: Group.group1,
+          isMember: true,
           isTrainer: true,
         );
 
         blocTest<TraineesCubit, TraineesState>(
-          'Then trainee should update trainer flag without duplication',
+          'Then trainee should still be replaced instead of being duplicated',
           seed: () => state.copyWith(trainees: [stateTrainee]),
           build: () => cubit,
           act: (cubit) => cubit.replaceTrainee(staleOldTrainee, updatedTrainee),
