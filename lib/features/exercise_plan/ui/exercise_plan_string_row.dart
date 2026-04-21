@@ -21,7 +21,7 @@ class ExercisePlanStringRow extends StatelessWidget {
       child: Row(
         children: [
           const Text(
-            'Trainingsplan: ',
+            'Trainingsplan ID: ',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           Expanded(
