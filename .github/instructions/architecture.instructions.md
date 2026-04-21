@@ -11,7 +11,7 @@ The project follows a Clean Architecture approach with three layers.
 Contains business logic, entities, repository interfaces, and use cases.
 
 - **Use cases** live in `lib/domain/usecases/` (e.g., `FilterTraineesUseCase`, `SendEmailUseCase`, `GetAttendanceStatisticsUseCase`)
-- **Repository interfaces** define the data-access contract (e.g., `FileRepository`, `EmailRepository`, `ExerciseRepository`)
+- **Repository interfaces** live in `lib/domain/repositories/` (e.g., `FileRepository`, `EmailRepository`, `ExerciseRepository`)
 - Feature-specific domain logic is in its own subfolder (e.g., `lib/domain/exercise_plan/`, `lib/domain/ical_parser/`)
 
 ## Data Layer (`lib/data/`)
@@ -22,11 +22,13 @@ Contains implementations of repository interfaces and data sources.
 - File handlers for import/export (e.g., `FileExporter`, `PerformanceDataFileHandler`)
 - Platform-specific code uses stub/conditional imports (e.g., `web_downloader_stub.dart` / `web_downloader_web.dart`)
 
-## Presentation Layer (`lib/features/`)
+## Presentation Layer (`lib/ui/`)
 
-Organized by feature — each feature has its own folder containing widgets, cubits, and states.
+Organized into features and shared components.
 
-Current features:
+### Features (`lib/ui/features/`)
+
+Each feature has its own folder containing widgets, cubits, and states.
 
 | Folder                   | Description                                   |
 | ------------------------ | --------------------------------------------- |
@@ -34,12 +36,15 @@ Current features:
 | `edit/`                  | Add/edit trainee data                          |
 | `email/`                 | Email composition                              |
 | `exercise_plan/`         | Exercise plan with carousel and list views     |
+| `import_export/`         | File import/export cubit and state             |
 | `overview/`              | Trainee list, filtering, and selection         |
 | `performance_data/`      | Performance data and iCal import               |
 | `rescue_qualification/`  | Rescue qualification management                |
 | `statistic/`             | Statistics and charts                          |
 
-Shared widgets used across features live in `lib/shared/widgets/`.
+### Shared Widgets (`lib/ui/shared/widgets/`)
+
+Widgets used across multiple features live in `lib/ui/shared/widgets/`.
 
 ## Models (`lib/model/`)
 
