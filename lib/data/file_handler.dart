@@ -6,7 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:training_organizer/data/web_downloader_stub.dart'
     if (dart.library.js_interop) 'package:training_organizer/data/web_downloader_web.dart';
-import 'package:training_organizer/domain/file/file_repository.dart';
+import 'package:training_organizer/domain/repositories/file_repository.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 class FileExporter implements FileRepository {

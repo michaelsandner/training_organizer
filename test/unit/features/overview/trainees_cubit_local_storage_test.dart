@@ -1,12 +1,12 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:training_organizer/features/overview/trainees_cubit.dart';
-import 'package:training_organizer/features/overview/trainees_state.dart';
+import 'package:training_organizer/ui/features/overview/trainees_cubit.dart';
+import 'package:training_organizer/ui/features/overview/trainees_state.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/features/overview/selection/filter_trainees_cubit.dart';
-import 'package:training_organizer/features/overview/selection/filter_trainees_state.dart';
+import 'package:training_organizer/ui/features/overview/selection/filter_trainees_cubit.dart';
+import 'package:training_organizer/ui/features/overview/selection/filter_trainees_state.dart';
 
 class MockLocalStorageRepository extends Mock
     implements LocalStorageRepository {}

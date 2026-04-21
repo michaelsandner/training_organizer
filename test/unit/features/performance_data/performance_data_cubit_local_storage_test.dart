@@ -5,8 +5,8 @@ import 'package:training_organizer/data/performance_data_file_handler.dart';
 import 'package:training_organizer/domain/performance_data/category_position.dart';
 import 'package:training_organizer/domain/performance_data/performance_category.dart';
 import 'package:training_organizer/domain/performance_data/performance_data.dart';
-import 'package:training_organizer/features/performance_data/performance_data_cubit.dart';
-import 'package:training_organizer/features/performance_data/performance_data_state.dart';
+import 'package:training_organizer/ui/features/performance_data/performance_data_cubit.dart';
+import 'package:training_organizer/ui/features/performance_data/performance_data_state.dart';
 import 'package:training_organizer/data/local_storage_repository.dart';
 
 class MockPerformanceDataFileHandler extends Mock

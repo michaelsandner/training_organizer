@@ -6,7 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:training_organizer/data/web_downloader_stub.dart'
     if (dart.library.js_interop) 'package:training_organizer/data/web_downloader_web.dart';
-import 'package:training_organizer/domain/exercise_plan/exercise_collection_repository.dart';
+import 'package:training_organizer/domain/repositories/exercise_collection_repository.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise_plan_collection.dart';
 
 class ExerciseCollectionFileHandler implements ExerciseCollectionRepository {

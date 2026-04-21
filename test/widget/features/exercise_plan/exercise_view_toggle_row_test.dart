@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_view_toggle_row.dart';
+import 'package:training_organizer/ui/features/exercise_plan/ui/exercise_view_toggle_row.dart';
 
 void main() {
   Widget buildWidget() {

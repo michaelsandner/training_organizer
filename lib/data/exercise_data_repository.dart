@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise.dart';
-import 'package:training_organizer/domain/exercise_plan/exercise_repository.dart';
+import 'package:training_organizer/domain/repositories/exercise_repository.dart';
 
 class ExerciseDataRepository implements ExerciseRepository {
   @override

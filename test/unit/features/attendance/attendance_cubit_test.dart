@@ -1,13 +1,13 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:training_organizer/features/attendance/attendance_cubit.dart';
-import 'package:training_organizer/features/attendance/attendance_state.dart';
-import 'package:training_organizer/features/overview/trainees_cubit.dart';
-import 'package:training_organizer/features/overview/trainees_state.dart';
+import 'package:training_organizer/ui/features/attendance/attendance_cubit.dart';
+import 'package:training_organizer/ui/features/attendance/attendance_state.dart';
+import 'package:training_organizer/ui/features/overview/trainees_cubit.dart';
+import 'package:training_organizer/ui/features/overview/trainees_state.dart';
 import 'package:training_organizer/model/trainee.dart';
-import 'package:training_organizer/features/overview/selection/filter_trainees_cubit.dart';
-import 'package:training_organizer/features/overview/selection/filter_trainees_state.dart';
+import 'package:training_organizer/ui/features/overview/selection/filter_trainees_cubit.dart';
+import 'package:training_organizer/ui/features/overview/selection/filter_trainees_state.dart';
 
 class MockFilterTraineesCubit extends Mock implements FilterTraineesCubit {}
 

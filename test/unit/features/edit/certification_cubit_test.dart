@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:training_organizer/features/edit/certification_cubit.dart';
-import 'package:training_organizer/features/edit/certification_state.dart';
+import 'package:training_organizer/ui/features/edit/certification_cubit.dart';
+import 'package:training_organizer/ui/features/edit/certification_state.dart';
 import 'package:training_organizer/model/qualifications.dart';
 import 'package:training_organizer/model/qualifications/bronze.dart';
 import 'package:training_organizer/model/qualifications/gold.dart';

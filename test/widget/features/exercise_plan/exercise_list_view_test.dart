@@ -5,10 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise_type.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_list_item.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_list_view.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_cubit.dart';
-import 'package:training_organizer/features/exercise_plan/ui/exercise_plan_state.dart';
+import 'package:training_organizer/ui/features/exercise_plan/ui/exercise_list_item.dart';
+import 'package:training_organizer/ui/features/exercise_plan/ui/exercise_list_view.dart';
+import 'package:training_organizer/ui/features/exercise_plan/ui/exercise_plan_cubit.dart';
+import 'package:training_organizer/ui/features/exercise_plan/ui/exercise_plan_state.dart';
 
 class MockExercisePlanCubit extends MockCubit<ExercisePlanState>
     implements ExercisePlanCubit {}

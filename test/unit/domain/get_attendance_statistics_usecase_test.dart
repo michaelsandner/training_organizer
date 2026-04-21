@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:training_organizer/domain/usecases/get_attendance_statistics_usecase.dart';
-import 'package:training_organizer/features/overview/trainees_state.dart';
+import 'package:training_organizer/ui/features/overview/trainees_state.dart';
 import 'package:training_organizer/model/trainee.dart';
 
 void main() {
