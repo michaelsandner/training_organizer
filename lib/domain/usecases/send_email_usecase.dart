@@ -15,7 +15,7 @@ class SendEmailUseCase {
 
   Future<void> sendEmailToInvitedListTrainees(List<Trainee> trainees) async {
     String email = _getEmails(trainees);
-    String cc = 'info@wasserwacht-langenzeen.de';
+    String cc = 'info@wasserwacht-langenzenn.de';
 
     final String subject = Uri.encodeComponent(getInvitedInvitationSubject());
 
