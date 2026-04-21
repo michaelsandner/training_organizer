@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_organizer/features/attendance/attendance_cubit.dart';
+import 'package:training_organizer/features/overview/item_text_box.dart';
 import 'package:training_organizer/features/overview/trainees_cubit.dart';
 import 'package:training_organizer/model/trainee.dart';
 
@@ -25,7 +26,10 @@ class AttendanceListItem extends StatelessWidget {
         children: [
           Expanded(
             flex: 3,
-            child: Text('${trainee.surname} ${trainee.forename}'),
+            child: ItemTextBox(
+              text: '${trainee.surname} ${trainee.forename}',
+              isMember: trainee.isMember,
+            ),
           ),
           SizedBox(
             width: 80,
