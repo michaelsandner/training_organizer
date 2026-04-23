@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:training_organizer/ui/features/email/email_cubit.dart';
+import 'package:training_organizer/ui/features/overview/selection/filter_trainees_cubit.dart';
 import 'package:training_organizer/ui/features/overview/trainees_cubit.dart';
 import 'package:training_organizer/ui/features/overview/trainees_state.dart';
 import 'package:training_organizer/ui/features/edit/basic_trainee_info.dart';
@@ -283,7 +285,17 @@ class _AddTraineeState extends State<AddTrainee> {
                           child: const Text('Löschen'),
                         ),
                       EmailButton(
-                          trainee: widget.trainee ?? createTraineeFromInputs()),
+                          onPressed: () {
+                            final emailCubit = context.read<EmailCubit>();
+                            final selectedGroup = context
+                                .read<FilterTraineesCubit>()
+                                .state
+                                .selectedGroup;
+                            emailCubit.sendMailToTrainee(
+                              widget.trainee ?? createTraineeFromInputs(),
+                              selectedGroup,
+                            );
+                          }),
                     ],
                   ),
                 )

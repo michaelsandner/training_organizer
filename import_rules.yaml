@@ -11,6 +11,10 @@ rules:
     target: lib/data/**
     disallow: lib/ui/**
 
+  - reason: Shared widgets should not depend on feature-specific code.
+    target: lib/ui/shared/widgets/**
+    disallow: lib/ui/features/**
+
   - reason: Unit tests should stay free of direct IO dependencies.
     target: test/unit/**
     disallow: dart:io
