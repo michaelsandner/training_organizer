@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_organizer/blocklist/ui/pdf_view.dart';
+import 'package:training_organizer/ui/features/blocklist/pdf_view.dart';
 
 class BlocklistPage extends StatelessWidget {
   const BlocklistPage({super.key});

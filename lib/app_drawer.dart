@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_organizer/blocklist/ui/blocklist_page.dart';
+import 'package:training_organizer/ui/features/blocklist/blocklist_page.dart';
 import 'package:training_organizer/ui/features/email/send_email_page.dart';
 import 'package:training_organizer/ui/features/performance_data/performance_data_page.dart';
 import 'package:training_organizer/ui/features/rescue_qualification/rescue_qualification_page.dart';

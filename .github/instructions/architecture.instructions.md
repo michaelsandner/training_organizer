@@ -33,6 +33,7 @@ Each feature has its own folder containing widgets, cubits, and states.
 | Folder                   | Description                                   |
 | ------------------------ | --------------------------------------------- |
 | `attendance/`            | Attendance tracking with date picker and stats |
+| `blocklist/`             | PDF blocklist generation and preview           |
 | `edit/`                  | Add/edit trainee data                          |
 | `email/`                 | Email composition                              |
 | `exercise_plan/`         | Exercise plan with carousel and list views     |
