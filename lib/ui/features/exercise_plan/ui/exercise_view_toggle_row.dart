@@ -52,27 +52,29 @@ class ExerciseViewToggleRow extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          IconButton(
-            icon: const Icon(Icons.save),
-            tooltip: 'Speichern',
-            onPressed: onSave,
-          ),
-          IconButton(
-            icon: const Icon(Icons.folder_open),
-            tooltip: 'Laden',
-            onPressed: onLoad,
-          ),
-          const SizedBox(width: 8),
-          IconButton(
-            icon: const Icon(Icons.file_download),
-            tooltip: 'Exportieren',
-            onPressed: onExport,
-          ),
-          IconButton(
-            icon: const Icon(Icons.file_upload),
-            tooltip: 'Importieren',
-            onPressed: onImport,
-          ),
+          if (!showListView) ...[
+            IconButton(
+              icon: const Icon(Icons.save),
+              tooltip: 'Speichern',
+              onPressed: onSave,
+            ),
+            IconButton(
+              icon: const Icon(Icons.folder_open),
+              tooltip: 'Laden',
+              onPressed: onLoad,
+            ),
+            const SizedBox(width: 8),
+            IconButton(
+              icon: const Icon(Icons.file_download),
+              tooltip: 'Exportieren',
+              onPressed: onExport,
+            ),
+            IconButton(
+              icon: const Icon(Icons.file_upload),
+              tooltip: 'Importieren',
+              onPressed: onImport,
+            ),
+          ],
         ],
       ),
     );
