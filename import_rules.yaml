@@ -1,0 +1,17 @@
+severity: error
+rules:
+  - reason: Domain code must not depend on the data or UI layers, except for the shared trainees state currently used by use cases.
+    target: lib/domain/**
+    disallow:
+      - lib/data/**
+      - lib/ui/**
+    exclude_disallow:
+      - lib/ui/features/overview/trainees_state.dart
+
+  - reason: Data layer code must not depend on the UI layer.
+    target: lib/data/**
+    disallow: lib/ui/**
+
+  - reason: Unit tests should stay free of direct IO dependencies.
+    target: test/unit/**
+    disallow: dart:io
