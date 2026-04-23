@@ -50,7 +50,7 @@ class AktivenAusbildungen extends StatelessWidget {
                     dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
                         textStyle: TextStyle(fontWeight: FontWeight.bold)),
-                    pointColorMapper: (_, __) => Colors.red),
+                    pointColorMapper: (_, _) => Colors.red),
               ],
             ),
           ],

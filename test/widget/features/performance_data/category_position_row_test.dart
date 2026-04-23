@@ -26,7 +26,7 @@ void main() {
           accentColor: Colors.blue,
           categoryPath: categoryPath,
           onChanged: onChanged,
-          onRemoved: onRemoved ?? (_, __) {},
+          onRemoved: onRemoved ?? (_, _) {},
         ),
       ),
     );
@@ -39,7 +39,7 @@ void main() {
             (tester) async {
           CategoryPosition? captured;
           await tester.pumpWidget(buildWidget(
-            onChanged: (_, __, updated) => captured = updated,
+            onChanged: (_, _, updated) => captured = updated,
           ));
 
           await tester.enterText(
@@ -61,7 +61,7 @@ void main() {
             (tester) async {
           CategoryPosition? captured;
           await tester.pumpWidget(buildWidget(
-            onChanged: (_, __, updated) => captured = updated,
+            onChanged: (_, _, updated) => captured = updated,
           ));
 
           await tester.enterText(
@@ -87,7 +87,7 @@ void main() {
             (tester) async {
           int callCount = 0;
           await tester.pumpWidget(buildWidget(
-            onChanged: (_, __, ___) => callCount++,
+            onChanged: (_, _, _) => callCount++,
           ));
 
           await tester.enterText(
@@ -108,7 +108,7 @@ void main() {
             (tester) async {
           CategoryPosition? captured;
           await tester.pumpWidget(buildWidget(
-            onChanged: (_, __, updated) => captured = updated,
+            onChanged: (_, _, updated) => captured = updated,
           ));
 
           await tester.enterText(
@@ -130,7 +130,7 @@ void main() {
           int? capturedIndex;
 
           await tester.pumpWidget(buildWidget(
-            onChanged: (_, __, ___) {},
+            onChanged: (_, _, _) {},
             onRemoved: (path, index) {
               capturedPath = path;
               capturedIndex = index;
