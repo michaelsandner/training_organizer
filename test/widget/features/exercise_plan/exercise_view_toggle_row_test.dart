@@ -50,7 +50,7 @@ void main() {
         });
       });
 
-      group('When action buttons are rendered', () {
+      group('When action buttons are rendered in swipe view', () {
         testWidgets('Then save, load, export, and import icons are shown',
             (tester) async {
           await tester.pumpWidget(buildWidget());
@@ -59,6 +59,31 @@ void main() {
           expect(find.byIcon(Icons.folder_open), findsOneWidget);
           expect(find.byIcon(Icons.file_download), findsOneWidget);
           expect(find.byIcon(Icons.file_upload), findsOneWidget);
+        });
+      });
+
+      group('When action buttons are rendered in list view', () {
+        testWidgets('Then save, load, export, and import icons are hidden',
+            (tester) async {
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: ExerciseViewToggleRow(
+                  showListView: true,
+                  onViewChanged: (_) {},
+                  onSave: () {},
+                  onLoad: () {},
+                  onExport: () {},
+                  onImport: () {},
+                ),
+              ),
+            ),
+          );
+
+          expect(find.byIcon(Icons.save), findsNothing);
+          expect(find.byIcon(Icons.folder_open), findsNothing);
+          expect(find.byIcon(Icons.file_download), findsNothing);
+          expect(find.byIcon(Icons.file_upload), findsNothing);
         });
       });
     });
