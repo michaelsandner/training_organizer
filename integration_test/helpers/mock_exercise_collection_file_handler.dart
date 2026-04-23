@@ -1,4 +1,4 @@
-import 'package:training_organizer/domain/exercise_plan/exercise_collection_repository.dart';
+import 'package:training_organizer/domain/repositories/exercise_collection_repository.dart';
 import 'package:training_organizer/domain/exercise_plan/exercise_plan_collection.dart';
 
 class MockExerciseCollectionFileHandler
