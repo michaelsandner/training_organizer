@@ -20,7 +20,7 @@ class QualificationOverlay extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             final qualifications =
-                trainee.qualifications.qualifications;
+                trainee.qualifications.getOnlyHighestQualifications();
             return AlertDialog(
               title: const Text('Ausbildungen'),
               content: qualifications.isEmpty
