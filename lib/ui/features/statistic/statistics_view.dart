@@ -120,7 +120,7 @@ class _JugendschwimmausbildungenState
                     dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
                         textStyle: TextStyle(fontWeight: FontWeight.bold)),
-                    pointColorMapper: (_, __) => Colors.green),
+                    pointColorMapper: (_, _) => Colors.green),
               ],
             ),
           ],
