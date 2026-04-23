@@ -12,6 +12,7 @@ import 'package:training_organizer/ui/features/overview/selection/filter_trainee
 import 'package:training_organizer/ui/features/overview/trainee_list.dart';
 import 'package:training_organizer/ui/features/overview/trainee_list_item.dart';
 import 'package:training_organizer/ui/features/overview/trainees_state.dart';
+import 'package:training_organizer/ui/shared/widgets/qualification_icon.dart';
 import 'package:training_organizer/main.dart';
 
 import 'helpers/mock_exercise_collection_file_handler.dart';
@@ -159,7 +160,7 @@ void main() {
         expect(
           find.descendant(
             of: qualificationDialog,
-            matching: find.byIcon(Icons.check_circle),
+            matching: find.byType(QualificationIcon),
           ),
           findsAtLeastNWidgets(1),
         );
