@@ -1381,6 +1381,7 @@ SOFTWARE.
 
 --------------------------------------------------------------------------------
 bloc
+mocktail
 
 The MIT License (MIT)
 Copyright (c) 2026 Felix Angelov
@@ -1405,7 +1406,6 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------
 bloc_test
-mocktail
 
 The MIT License (MIT)
 Copyright (c) 2024 Felix Angelov
