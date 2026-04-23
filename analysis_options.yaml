@@ -10,7 +10,7 @@
 include: package:flutter_lints/flutter.yaml
 
 plugins:
-  import_rules: ^0.0.7
+  import_rules: ^0.0.4
 
 linter:
   # The lint rules applied to this project can be customized in the
