@@ -162,7 +162,9 @@ class _AddTraineeState extends State<AddTrainee> {
       child: PopScope(
         onPopInvokedWithResult: (didPop, result) {
           if (didPop && widget.trainee != null) {
-            cubit.processTrainee(widget.trainee, createTraineeFromInputs());
+            if (_formKey.currentState?.validate() == true) {
+              cubit.processTrainee(widget.trainee, createTraineeFromInputs());
+            }
           }
         },
         child: Scaffold(
