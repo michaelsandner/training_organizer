@@ -8,6 +8,7 @@ import 'package:training_organizer/ui/features/overview/trainees_cubit.dart';
 import 'package:training_organizer/ui/features/overview/trainees_state.dart';
 import 'package:training_organizer/ui/features/edit/basic_trainee_info.dart';
 import 'package:training_organizer/ui/features/edit/certification_cubit.dart';
+import 'package:training_organizer/ui/features/edit/certification_state.dart';
 import 'package:training_organizer/ui/features/edit/create_certification.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 import 'package:training_organizer/model/trainee.dart';
@@ -199,7 +200,13 @@ class _AddTraineeState extends State<AddTrainee> {
 
     return BlocProvider<CertificationCubit>.value(
       value: _certificationCubit,
-      child: Scaffold(
+      child: BlocListener<CertificationCubit, CertificationState>(
+        listener: (context, state) {
+          if (widget.trainee != null) {
+            cubit.processTrainee(widget.trainee, createTraineeFromInputs());
+          }
+        },
+        child: Scaffold(
         appBar: AppBar(
           title: widget.trainee == null
               ? const Text('Hinzufügen')
@@ -303,7 +310,9 @@ class _AddTraineeState extends State<AddTrainee> {
             ),
           ),
         ),
+        ),
       ),
     );
   }
 }
+
