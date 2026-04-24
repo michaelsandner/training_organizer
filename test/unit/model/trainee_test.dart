@@ -106,8 +106,8 @@ void main() {
           'isMember': true,
           'isTrainer': true,
           'qualifications': [
-            {'name': 'Silber', 'date': null},
-            {'name': 'Gold', 'date': null}
+            {'name': 'Silber', 'date': null, 'isAchievedIntern': true},
+            {'name': 'Gold', 'date': null, 'isAchievedIntern': true}
           ],
           'attendanceDates': {},
         };

@@ -3,9 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 
 /// Dialog for adding a new certification to a trainee.
-/// Shows a dropdown of all available qualifications and a date picker.
+/// Shows a dropdown of all available qualifications, a date picker, and an
+/// intern/extern toggle.
 class AddCertificationDialog extends StatefulWidget {
-  final void Function(String name, DateTime? date) onConfirm;
+  final void Function(String name, DateTime? date, bool isAchievedIntern)
+      onConfirm;
   final QualificationFactory qualificationFactory;
 
   const AddCertificationDialog({
@@ -22,6 +24,7 @@ class AddCertificationDialog extends StatefulWidget {
 class _AddCertificationDialogState extends State<AddCertificationDialog> {
   String? _selectedQualification;
   DateTime? _selectedDate;
+  bool _isAchievedIntern = true;
   final _dateController = TextEditingController();
 
   @override
@@ -86,6 +89,17 @@ class _AddCertificationDialogState extends State<AddCertificationDialog> {
             readOnly: true,
             onTap: _pickDate,
           ),
+          const SizedBox(height: 8),
+          SwitchListTile(
+            title: const Text('Intern erworben'),
+            value: _isAchievedIntern,
+            onChanged: (value) {
+              setState(() {
+                _isAchievedIntern = value;
+              });
+            },
+            contentPadding: EdgeInsets.zero,
+          ),
         ],
       ),
       actions: [
@@ -97,7 +111,8 @@ class _AddCertificationDialogState extends State<AddCertificationDialog> {
           onPressed: _selectedQualification == null
               ? null
               : () {
-                  widget.onConfirm(_selectedQualification!, _selectedDate);
+                  widget.onConfirm(
+                      _selectedQualification!, _selectedDate, _isAchievedIntern);
                   Navigator.of(context).pop();
                 },
           child: const Text('Hinzufügen'),

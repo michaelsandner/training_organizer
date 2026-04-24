@@ -210,4 +210,40 @@ void main() {
       });
     });
   });
+
+  group('Given no trainee (neuer Teilnehmer)', () {
+    late CertificationCubit cubit;
+
+    setUp(() {
+      cubit = CertificationCubit(null, qualificationFactory);
+    });
+
+    tearDown(() => cubit.close());
+
+    group('When addQualification is called with isAchievedIntern false', () {
+      blocTest<CertificationCubit, CertificationState>(
+        'Then state contains Bronze qualification with isAchievedIntern false',
+        build: () => CertificationCubit(null, qualificationFactory),
+        act: (cubit) =>
+            cubit.addQualification(bronze, null, isAchievedIntern: false),
+        verify: (cubit) {
+          expect(cubit.state.qualifications.length, 1);
+          expect(cubit.state.qualifications.first.name, bronze);
+          expect(cubit.state.qualifications.first.isAchievedIntern, isFalse);
+        },
+      );
+    });
+
+    group('When addQualification is called without isAchievedIntern', () {
+      blocTest<CertificationCubit, CertificationState>(
+        'Then state contains Bronze qualification with isAchievedIntern true by default',
+        build: () => CertificationCubit(null, qualificationFactory),
+        act: (cubit) => cubit.addQualification(bronze, null),
+        verify: (cubit) {
+          expect(cubit.state.qualifications.length, 1);
+          expect(cubit.state.qualifications.first.isAchievedIntern, isTrue);
+        },
+      );
+    });
+  });
 }
