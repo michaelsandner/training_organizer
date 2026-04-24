@@ -8,7 +8,6 @@ import 'package:training_organizer/ui/features/overview/trainees_cubit.dart';
 import 'package:training_organizer/ui/features/overview/trainees_state.dart';
 import 'package:training_organizer/ui/features/edit/basic_trainee_info.dart';
 import 'package:training_organizer/ui/features/edit/certification_cubit.dart';
-import 'package:training_organizer/ui/features/edit/certification_state.dart';
 import 'package:training_organizer/ui/features/edit/create_certification.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 import 'package:training_organizer/model/trainee.dart';
@@ -25,13 +24,15 @@ class AddTrainee extends StatefulWidget {
 }
 
 class _AddTraineeState extends State<AddTrainee> {
-  TextEditingController sureNameController = TextEditingController();
-  TextEditingController foreNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController dateOfBirthController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController registrationDateController = TextEditingController();
-  TextEditingController commentController = TextEditingController();
+  final TextEditingController sureNameController = TextEditingController();
+  final TextEditingController foreNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController dateOfBirthController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController registrationDateController =
+      TextEditingController();
+  final TextEditingController commentController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Group? group = Group.waitingList;
 
   late final CertificationCubit _certificationCubit;
@@ -70,7 +71,6 @@ class _AddTraineeState extends State<AddTrainee> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final cubit = context.read<TraineesCubit>();
 
     void clearInputControllers() {
@@ -85,43 +85,6 @@ class _AddTraineeState extends State<AddTrainee> {
       isMember = false;
       isTrainer = false;
       _certificationCubit.reset();
-    }
-
-    Future<void> showAcceptDialog(Trainee newTrainee) async {
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Änderung'),
-            content: Text(
-                'Möchtest du die Änderungen für ${foreNameController.text} ${sureNameController.text} durchführen?'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  cubit.processTrainee(widget.trainee, newTrainee);
-                  Navigator.of(context).pop();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                          '${foreNameController.text} ${sureNameController.text} geändert'),
-                    ),
-                  );
-                  clearInputControllers();
-                },
-                child: const Text('Ja'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Nein'),
-              ),
-            ],
-          );
-        },
-      );
     }
 
     Future<void> showDeleteDialog() async {
@@ -177,32 +140,28 @@ class _AddTraineeState extends State<AddTrainee> {
       );
     }
 
-    void onPressed() async {
+    void onPressed() {
       // Validate will return true if the form is valid, or false if
       // the form is invalid.
-      if (formKey.currentState!.validate()) {
+      if (_formKey.currentState!.validate()) {
         final newTrainee = createTraineeFromInputs();
 
-        if (widget.trainee == null) {
-          cubit.processTrainee(widget.trainee, newTrainee);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  '${foreNameController.text} ${sureNameController.text} hinzugefügt'),
-            ),
-          );
-          clearInputControllers();
-        } else {
-          await showAcceptDialog(newTrainee);
-        }
+        cubit.processTrainee(widget.trainee, newTrainee);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                '${foreNameController.text} ${sureNameController.text} hinzugefügt'),
+          ),
+        );
+        clearInputControllers();
       }
     }
 
     return BlocProvider<CertificationCubit>.value(
       value: _certificationCubit,
-      child: BlocListener<CertificationCubit, CertificationState>(
-        listener: (context, state) {
-          if (widget.trainee != null) {
+      child: PopScope(
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop && widget.trainee != null) {
             cubit.processTrainee(widget.trainee, createTraineeFromInputs());
           }
         },
@@ -216,7 +175,7 @@ class _AddTraineeState extends State<AddTrainee> {
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Form(
-              key: formKey,
+              key: _formKey,
               child: Column(children: [
                 BasicTraineeInfo(
                   foreNameController: foreNameController,
@@ -280,12 +239,11 @@ class _AddTraineeState extends State<AddTrainee> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ElevatedButton(
-                        onPressed: onPressed,
-                        child: widget.trainee != null
-                            ? const Text('Editieren')
-                            : const Text('Hinzufügen'),
-                      ),
+                      if (widget.trainee == null)
+                        ElevatedButton(
+                          onPressed: onPressed,
+                          child: const Text('Hinzufügen'),
+                        ),
                       if (widget.trainee != null)
                         ElevatedButton(
                           onPressed: showDeleteDialog,

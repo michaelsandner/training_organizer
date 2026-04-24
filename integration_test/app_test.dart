@@ -136,7 +136,7 @@ void main() {
         // Then the new certificate is displayed in the edit view
         expect(find.text('Schwimmabzeichen Bronze'), findsOneWidget);
 
-        // The certificate is auto-saved when added — no need to click "Editieren".
+        // Changes are saved automatically when navigating back.
         // Navigate back to the overview using the AppBar back button.
         await tester.pageBack();
         await tester.pump(const Duration(seconds: 2));
