@@ -12,7 +12,7 @@ import 'package:training_organizer/ui/features/edit/create_certification.dart';
 import 'package:training_organizer/model/qualifications/qualification_factory.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/services/date_service.dart';
-import 'package:training_organizer/ui/shared/widgets/email_button.dart';
+import 'package:training_organizer/ui/features/edit/email_button.dart';
 
 class AddTrainee extends StatefulWidget {
   /// null if new trainee is added
