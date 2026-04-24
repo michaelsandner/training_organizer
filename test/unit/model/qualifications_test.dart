@@ -27,8 +27,12 @@ void main() {
         test('Then it returns the correct map', () {
           expect(qualifications.toJson(), {
             'qualifications': [
-              {'name': 'Pirat', 'date': '01.01.2020'},
-              {'name': 'Bronze', 'date': '02.02.2021'},
+              {'name': 'Pirat', 'date': '01.01.2020', 'isAchievedIntern': true},
+              {
+                'name': 'Bronze',
+                'date': '02.02.2021',
+                'isAchievedIntern': true
+              },
             ]
           });
         });
@@ -477,6 +481,88 @@ void main() {
           expect(
             qualifications.getOnlyHighestQualifications(),
             containsAll([goldQ, piratQ]),
+          );
+        });
+      });
+    });
+
+    group('Given a Qualifications object with an external (isAchievedIntern=false) Bronze from a given year',
+        () {
+      final externalBronze = Bronze(DateTime(2023, 4, 1))
+        ..isAchievedIntern = false;
+      final qualifications = Qualifications(qualifications: [externalBronze]);
+
+      group('When hasQualificationFromYear is called', () {
+        test('Then it returns false because the cert is external', () {
+          expect(
+            qualifications.hasQualificationFromYear(bronze, 2023),
+            isFalse,
+          );
+        });
+      });
+
+      group('When hasQualification is called', () {
+        test('Then it returns false because the cert is external', () {
+          expect(qualifications.hasQualification(bronze), isFalse);
+        });
+      });
+
+      group('When hasQualificationAndNoHigherQualification is called', () {
+        test('Then it returns false because the cert is external', () {
+          expect(
+            qualifications.hasQualificationAndNoHigherQualification(bronze),
+            isFalse,
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with an internal Bronze and an external Silber',
+        () {
+      final internalBronze = Bronze(DateTime(2023, 4, 1));
+      final externalSilber = Silber(DateTime(2023, 5, 1))
+        ..isAchievedIntern = false;
+      final qualifications =
+          Qualifications(qualifications: [internalBronze, externalSilber]);
+
+      group('When hasQualificationFromYear is called for internal Bronze', () {
+        test('Then it returns true', () {
+          expect(
+            qualifications.hasQualificationFromYear(bronze, 2023),
+            isTrue,
+          );
+        });
+      });
+
+      group('When hasQualificationFromYear is called for external Silber', () {
+        test('Then it returns false because the cert is external', () {
+          expect(
+            qualifications.hasQualificationFromYear(silber, 2023),
+            isFalse,
+          );
+        });
+      });
+    });
+
+    group(
+        'Given a Qualifications object with internal Bronze and external RettungsschwimmerSilber',
+        () {
+      final internalRsBronze = RsBronze(null);
+      final externalRsSilber = RsSilber(null)..isAchievedIntern = false;
+      final qualifications =
+          Qualifications(qualifications: [internalRsBronze, externalRsSilber]);
+
+      group(
+          'When hasQualificationAndNoHigherQualification is called for RettungsschwimmerBronze',
+          () {
+        test(
+            'Then it returns true because the external Silber does not suppress the internal Bronze',
+            () {
+          expect(
+            qualifications.hasQualificationAndNoHigherQualification(
+                rettungsschwimmerBronze),
+            isTrue,
           );
         });
       });

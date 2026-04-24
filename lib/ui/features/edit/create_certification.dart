@@ -32,7 +32,16 @@ class CreateCertification extends StatelessWidget {
                 return ListTile(
                   leading: QualificationIcon(qualification: qualification),
                   title: Text(qualification.fullName),
-                  subtitle: dateText.isNotEmpty ? Text(dateText) : null,
+                  subtitle: qualification.isAchievedIntern
+                      ? (dateText.isNotEmpty ? Text(dateText) : null)
+                      : Text(
+                          dateText.isNotEmpty
+                              ? '$dateText · Extern'
+                              : 'Extern',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () => cubit.removeQualification(index),
@@ -49,8 +58,9 @@ class CreateCertification extends StatelessWidget {
                     context: context,
                     builder: (_) => AddCertificationDialog(
                       qualificationFactory: cubit.qualificationFactory,
-                      onConfirm: (name, date) {
-                        cubit.addQualification(name, date);
+                      onConfirm: (name, date, isAchievedIntern) {
+                        cubit.addQualification(name, date,
+                            isAchievedIntern: isAchievedIntern);
                       },
                     ),
                   );

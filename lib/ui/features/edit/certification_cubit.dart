@@ -20,8 +20,10 @@ class CertificationCubit extends Cubit<CertificationState> {
           ),
         );
 
-  void addQualification(String name, DateTime? date) {
-    final qualification = _qualificationFactory.createQualification(name, date);
+  void addQualification(String name, DateTime? date,
+      {bool isAchievedIntern = true}) {
+    final qualification = _qualificationFactory.createQualification(name, date,
+        isAchievedIntern: isAchievedIntern);
     final updatedList = [...state.qualifications, qualification];
     emit(CertificationState(qualifications: updatedList));
   }

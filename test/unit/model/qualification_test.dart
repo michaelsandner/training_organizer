@@ -222,6 +222,7 @@ void main() {
           final expectedJson = {
             'name': 'Bronze',
             'date': null,
+            'isAchievedIntern': true,
           };
 
           expect(bronzequalification.toJson(), expectedJson);
@@ -235,6 +236,22 @@ void main() {
           final expectedJson = {
             'name': 'Bronze',
             'date': '09.09.2020',
+            'isAchievedIntern': true,
+          };
+
+          expect(bronzequalification.toJson(), expectedJson);
+        });
+      });
+
+      group('When toJson is called with isAchievedIntern false', () {
+        test('Then it should store isAchievedIntern as false', () {
+          final bronzequalification = Bronze(DateTime(2020, 9, 9))
+            ..isAchievedIntern = false;
+
+          final expectedJson = {
+            'name': 'Bronze',
+            'date': '09.09.2020',
+            'isAchievedIntern': false,
           };
 
           expect(bronzequalification.toJson(), expectedJson);

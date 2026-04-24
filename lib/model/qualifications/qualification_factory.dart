@@ -71,14 +71,23 @@ class QualificationFactory {
     for (var element in qualifications) {
       DateTime? parsedDate = parseDateFromJson(element);
       final name = element['name'];
+      final isAchievedIntern = element['isAchievedIntern'] as bool? ?? true;
 
-      result.add(createQualification(name, parsedDate));
+      result.add(createQualification(name, parsedDate,
+          isAchievedIntern: isAchievedIntern));
     }
 
     return result;
   }
 
-  Qualification createQualification(String name, DateTime? date) {
+  Qualification createQualification(String name, DateTime? date,
+      {bool isAchievedIntern = true}) {
+    final Qualification qualification = _buildQualification(name, date);
+    qualification.isAchievedIntern = isAchievedIntern;
+    return qualification;
+  }
+
+  Qualification _buildQualification(String name, DateTime? date) {
     switch (name) {
       case pirat:
         return Pirat(date);
@@ -119,9 +128,8 @@ class QualificationFactory {
       case ehKurs:
         return EhKurs(date);
       default:
+        throw ArgumentError('$name is not a qualification');
     }
-
-    throw ArgumentError('$name is not a qualification');
   }
 
   static DateTime? parseDateFromJson(dynamic json) {
