@@ -29,19 +29,30 @@ class CreateCertification extends StatelessWidget {
                 final dateText = qualification.date != null
                     ? DateFormat('dd.MM.yyyy').format(qualification.date!)
                     : '';
+                final String? subtitleText;
+                if (!qualification.isAchievedIntern) {
+                  subtitleText =
+                      dateText.isNotEmpty ? '$dateText · Extern' : 'Extern';
+                } else if (dateText.isNotEmpty) {
+                  subtitleText = dateText;
+                } else {
+                  subtitleText = null;
+                }
                 return ListTile(
                   leading: QualificationIcon(qualification: qualification),
                   title: Text(qualification.fullName),
-                  subtitle: qualification.isAchievedIntern
-                      ? (dateText.isNotEmpty ? Text(dateText) : null)
-                      : Text(
-                          dateText.isNotEmpty
-                              ? '$dateText · Extern'
-                              : 'Extern',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ),
+                  subtitle: subtitleText != null
+                      ? Text(
+                          subtitleText,
+                          style: qualification.isAchievedIntern
+                              ? null
+                              : TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondary,
+                                ),
+                        )
+                      : null,
                   trailing: IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () => cubit.removeQualification(index),
