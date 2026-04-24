@@ -65,6 +65,13 @@ class _AddTraineeState extends State<AddTrainee> {
 
   @override
   void dispose() {
+    sureNameController.dispose();
+    foreNameController.dispose();
+    emailController.dispose();
+    dateOfBirthController.dispose();
+    phoneController.dispose();
+    registrationDateController.dispose();
+    commentController.dispose();
     _certificationCubit.close();
     super.dispose();
   }
@@ -161,7 +168,7 @@ class _AddTraineeState extends State<AddTrainee> {
       value: _certificationCubit,
       child: PopScope(
         onPopInvokedWithResult: (didPop, result) {
-          if (didPop && widget.trainee != null) {
+          if (didPop && widget.trainee != null && context.mounted) {
             if (_formKey.currentState?.validate() == true) {
               cubit.processTrainee(widget.trainee, createTraineeFromInputs());
             }
