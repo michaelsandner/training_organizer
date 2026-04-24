@@ -131,21 +131,14 @@ void main() {
 
         // Confirm adding the certificate
         await tester.tap(find.text('Hinzufügen'));
-        await tester.pump(const Duration(milliseconds: 500));
+        await tester.pump(const Duration(seconds: 2));
 
         // Then the new certificate is displayed in the edit view
         expect(find.text('Schwimmabzeichen Bronze'), findsOneWidget);
 
-        // Save the trainee changes
-        // On smaller screens the save button may be below the visible viewport
-        // inside the SingleChildScrollView, so scroll it into view first.
-        await tester.ensureVisible(find.text('Editieren'));
-        await tester.pump(const Duration(milliseconds: 500));
-        await tester.tap(find.text('Editieren'));
-        await tester.pump(const Duration(seconds: 2));
-
-        // Confirm the save dialog
-        await tester.tap(find.text('Ja'));
+        // The certificate is auto-saved when added — no need to click "Editieren".
+        // Navigate back to the overview using the AppBar back button.
+        await tester.pageBack();
         await tester.pump(const Duration(seconds: 2));
 
         // Then the new certificate is displayed in the Overview view.
