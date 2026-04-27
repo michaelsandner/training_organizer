@@ -23,12 +23,16 @@ class Qualifications {
     };
   }
 
+  /// Qualifications for which the isAchievedIntern flag is respected in statistics.
+  static const Set<String> _internCheckedInStatistics = {gold, silber, bronze};
+
   bool hasQualificationFromYear(String qualificationName, int year) {
     for (var element in qualifications) {
       if (element.name == qualificationName &&
-          element.isAchievedIntern &&
           element.date != null &&
-          element.date!.year == year) {
+          element.date!.year == year &&
+          (!_internCheckedInStatistics.contains(qualificationName) ||
+              element.isAchievedIntern)) {
         return true;
       }
     }
@@ -38,9 +42,10 @@ class Qualifications {
   bool hasQualification(String qualificationName) {
     for (var element in qualifications) {
       if (element.name == qualificationName &&
-          element.isAchievedIntern &&
           (element.isUp2Date == QualificationValidity.valid ||
-              element.isUp2Date == QualificationValidity.expiring)) {
+              element.isUp2Date == QualificationValidity.expiring) &&
+          (!_internCheckedInStatistics.contains(qualificationName) ||
+              element.isAchievedIntern)) {
         return true;
       }
     }
@@ -51,9 +56,10 @@ class Qualifications {
   bool hasQualificationAndNoHigherQualification(String qualificationName) {
     final hasValidQualification = qualifications.any((element) =>
         element.name == qualificationName &&
-        element.isAchievedIntern &&
         (element.isUp2Date == QualificationValidity.valid ||
-            element.isUp2Date == QualificationValidity.expiring));
+            element.isUp2Date == QualificationValidity.expiring) &&
+        (!_internCheckedInStatistics.contains(qualificationName) ||
+            element.isAchievedIntern));
 
     if (qualificationName == ausbildungsAssistent &&
         _hasAusbilderQualification()) {
@@ -71,9 +77,8 @@ class Qualifications {
     }
 
     if ((qualificationName == rettungsschwimmerBronze) &&
-        qualifications.any((element) =>
-            element.isAchievedIntern &&
-            element.name == rettungsschwimmerSilber)) {
+        qualifications
+            .any((element) => element.name == rettungsschwimmerSilber)) {
       return false;
     }
     return hasValidQualification;
@@ -81,21 +86,18 @@ class Qualifications {
 
   bool _hasAusbilderQualification() {
     return qualifications.any((element) =>
-        element.isAchievedIntern &&
-        (element.name == ausbilderS1 ||
-            element.name == ausbilderS2 ||
-            element.name == ausbilderR1 ||
-            element.name == ausbilderR2));
+        element.name == ausbilderS1 ||
+        element.name == ausbilderS2 ||
+        element.name == ausbilderR1 ||
+        element.name == ausbilderR2);
   }
 
   bool _hasWasserretterQualification() {
-    return qualifications.any(
-        (element) => element.isAchievedIntern && element.name == wasserretter);
+    return qualifications.any((element) => element.name == wasserretter);
   }
 
   bool _hasRettSanQualification() {
-    return qualifications
-        .any((element) => element.isAchievedIntern && element.name == rettsan);
+    return qualifications.any((element) => element.name == rettsan);
   }
 
   /// Returns a list of only the highest qualifications. For example, if a trainee has both RettSan and San, only RettSan will be returned for the icons, since it is the higher qualification.

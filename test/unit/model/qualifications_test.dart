@@ -546,7 +546,7 @@ void main() {
     });
 
     group(
-        'Given a Qualifications object with internal Bronze and external RettungsschwimmerSilber',
+        'Given a Qualifications object with internal RsBronze and external RsSilber',
         () {
       final internalRsBronze = RsBronze(null);
       final externalRsSilber = RsSilber(null)..isAchievedIntern = false;
@@ -557,12 +557,12 @@ void main() {
           'When hasQualificationAndNoHigherQualification is called for RettungsschwimmerBronze',
           () {
         test(
-            'Then it returns true because the external Silber does not suppress the internal Bronze',
+            'Then it returns false because isAchievedIntern is not checked for RS-level qualifications',
             () {
           expect(
             qualifications.hasQualificationAndNoHigherQualification(
                 rettungsschwimmerBronze),
-            isTrue,
+            isFalse,
           );
         });
       });
