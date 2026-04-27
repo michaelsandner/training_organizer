@@ -196,7 +196,6 @@ void main() {
               cubit.getFilteredGroup(Group.invited), FilterableGroup.invited);
           expect(cubit.getFilteredGroup(Group.group1), FilterableGroup.group1);
           expect(cubit.getFilteredGroup(Group.group2), FilterableGroup.group2);
-          expect(cubit.getFilteredGroup(Group.group3), FilterableGroup.group3);
           expect(cubit.getFilteredGroup(Group.group4), FilterableGroup.group4);
           expect(cubit.getFilteredGroup(Group.group5), FilterableGroup.group5);
           expect(cubit.getFilteredGroup(Group.wednesday),
@@ -214,7 +213,6 @@ void main() {
           expect(cubit.getGroup(FilterableGroup.invited), Group.invited);
           expect(cubit.getGroup(FilterableGroup.group1), Group.group1);
           expect(cubit.getGroup(FilterableGroup.group2), Group.group2);
-          expect(cubit.getGroup(FilterableGroup.group3), Group.group3);
           expect(cubit.getGroup(FilterableGroup.group4), Group.group4);
           expect(cubit.getGroup(FilterableGroup.group5), Group.group5);
           expect(cubit.getGroup(FilterableGroup.wednesday), Group.wednesday);

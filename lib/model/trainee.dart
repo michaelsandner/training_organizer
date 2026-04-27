@@ -72,8 +72,6 @@ class Trainee {
         return '1';
       case Group.group2:
         return '2';
-      case Group.group3:
-        return '3';
       case Group.group4:
         return '4';
       case Group.group5:
@@ -95,8 +93,6 @@ class Trainee {
         return 'Block 1';
       case Group.group2:
         return 'Block 2';
-      case Group.group3:
-        return 'Block 3';
       case Group.group4:
         return 'Block 4';
       case Group.group5:
@@ -123,7 +119,7 @@ class Trainee {
       case 'group4':
         return Group.group4;
       case 'group3':
-        return Group.group3;
+        return Group.wednesday;
       case 'group2':
         return Group.group2;
       case 'group1':

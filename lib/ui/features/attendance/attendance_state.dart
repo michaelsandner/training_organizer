@@ -64,7 +64,6 @@ class AttendanceState with EquatableMixin {
     switch (group) {
       case FilterableGroup.group1:
       case FilterableGroup.group2:
-      case FilterableGroup.group3:
       case FilterableGroup.group4:
       case FilterableGroup.group5:
         return DateTime.saturday;

@@ -11,7 +11,6 @@ class TraineesFilterService {
         .where((element) =>
             element.trainingGroup == Group.group1 ||
             element.trainingGroup == Group.group2 ||
-            element.trainingGroup == Group.group3 ||
             element.trainingGroup == Group.group4 ||
             element.trainingGroup == Group.group5)
         .toList();
@@ -22,7 +21,6 @@ class TraineesFilterService {
         .where((element) =>
             element.trainingGroup == Group.group1 ||
             element.trainingGroup == Group.group2 ||
-            element.trainingGroup == Group.group3 ||
             element.trainingGroup == Group.group4 ||
             element.trainingGroup == Group.group5 ||
             element.trainingGroup == Group.wednesday)

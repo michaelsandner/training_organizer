@@ -47,8 +47,6 @@ class FilterTraineesUseCase {
         return FilterableGroup.group1;
       case Group.group2:
         return FilterableGroup.group2;
-      case Group.group3:
-        return FilterableGroup.group3;
       case Group.group4:
         return FilterableGroup.group4;
       case Group.group5:
@@ -72,8 +70,6 @@ class FilterTraineesUseCase {
         return Group.group1;
       case FilterableGroup.group2:
         return Group.group2;
-      case FilterableGroup.group3:
-        return Group.group3;
       case FilterableGroup.group4:
         return Group.group4;
       case FilterableGroup.group5:
