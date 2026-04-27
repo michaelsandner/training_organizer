@@ -39,10 +39,16 @@ class ExerciseCarouselRow extends StatefulWidget {
 }
 
 class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
-  bool _collapsed = false;
+  late bool _collapsed;
 
   List<Exercise> get _exercisesForType =>
       widget.allExercises.where((e) => e.type == widget.selectedType).toList();
+
+  @override
+  void initState() {
+    super.initState();
+    _collapsed = widget.collapseAll;
+  }
 
   @override
   void didUpdateWidget(covariant ExerciseCarouselRow oldWidget) {

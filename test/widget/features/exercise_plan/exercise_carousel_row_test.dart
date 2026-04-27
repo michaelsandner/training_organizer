@@ -42,23 +42,19 @@ void main() {
   group('ExerciseCarouselRow', () {
     group('Given the row is in the middle of the list', () {
       group('When move buttons are rendered', () {
-        testWidgets('Then both move up and move down buttons are shown',
-            (tester) async {
-          await tester.pumpWidget(buildRow(
-            onMoveUp: () {},
-            onMoveDown: () {},
-          ));
+        testWidgets('Then both move up and move down buttons are shown', (
+          tester,
+        ) async {
+          await tester.pumpWidget(buildRow(onMoveUp: () {}, onMoveDown: () {}));
 
           expect(find.byIcon(Icons.arrow_upward), findsOneWidget);
           expect(find.byIcon(Icons.arrow_downward), findsOneWidget);
         });
 
-        testWidgets('Then both move up and move down buttons are enabled',
-            (tester) async {
-          await tester.pumpWidget(buildRow(
-            onMoveUp: () {},
-            onMoveDown: () {},
-          ));
+        testWidgets('Then both move up and move down buttons are enabled', (
+          tester,
+        ) async {
+          await tester.pumpWidget(buildRow(onMoveUp: () {}, onMoveDown: () {}));
 
           final upButton = tester.widget<IconButton>(
             find.widgetWithIcon(IconButton, Icons.arrow_upward),
@@ -76,10 +72,7 @@ void main() {
     group('Given the row is at the top of the list', () {
       group('When move buttons are rendered', () {
         testWidgets('Then the move up button is disabled', (tester) async {
-          await tester.pumpWidget(buildRow(
-            onMoveUp: null,
-            onMoveDown: () {},
-          ));
+          await tester.pumpWidget(buildRow(onMoveUp: null, onMoveDown: () {}));
 
           final upButton = tester.widget<IconButton>(
             find.widgetWithIcon(IconButton, Icons.arrow_upward),
@@ -89,10 +82,7 @@ void main() {
         });
 
         testWidgets('Then the move down button is enabled', (tester) async {
-          await tester.pumpWidget(buildRow(
-            onMoveUp: null,
-            onMoveDown: () {},
-          ));
+          await tester.pumpWidget(buildRow(onMoveUp: null, onMoveDown: () {}));
 
           final downButton = tester.widget<IconButton>(
             find.widgetWithIcon(IconButton, Icons.arrow_downward),
@@ -106,10 +96,7 @@ void main() {
     group('Given the row is at the bottom of the list', () {
       group('When move buttons are rendered', () {
         testWidgets('Then the move up button is enabled', (tester) async {
-          await tester.pumpWidget(buildRow(
-            onMoveUp: () {},
-            onMoveDown: null,
-          ));
+          await tester.pumpWidget(buildRow(onMoveUp: () {}, onMoveDown: null));
 
           final upButton = tester.widget<IconButton>(
             find.widgetWithIcon(IconButton, Icons.arrow_upward),
@@ -119,10 +106,7 @@ void main() {
         });
 
         testWidgets('Then the move down button is disabled', (tester) async {
-          await tester.pumpWidget(buildRow(
-            onMoveUp: () {},
-            onMoveDown: null,
-          ));
+          await tester.pumpWidget(buildRow(onMoveUp: () {}, onMoveDown: null));
 
           final downButton = tester.widget<IconButton>(
             find.widgetWithIcon(IconButton, Icons.arrow_downward),
@@ -136,18 +120,16 @@ void main() {
     group('Given the title row is rendered', () {
       group('When collapse button presence is checked', () {
         testWidgets(
-            'Then no redundant collapse button exists in the title action row',
-            (tester) async {
-          await tester.pumpWidget(buildRow());
+          'Then no redundant collapse button exists in the title action row',
+          (tester) async {
+            await tester.pumpWidget(buildRow());
 
-          // The title row must not have a standalone expand_less/expand_more
-          // icon outside of ExerciseCarouselNameRow.
-          // There is exactly one collapse toggle (in the name row).
-          expect(
-            find.byIcon(Icons.expand_less),
-            findsOneWidget,
-          );
-        });
+            // The title row must not have a standalone expand_less/expand_more
+            // icon outside of ExerciseCarouselNameRow.
+            // There is exactly one collapse toggle (in the name row).
+            expect(find.byIcon(Icons.expand_less), findsOneWidget);
+          },
+        );
       });
     });
 
