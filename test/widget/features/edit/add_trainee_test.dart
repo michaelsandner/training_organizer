@@ -45,7 +45,7 @@ void main() {
         .thenReturn(FilterTraineesState.initial());
   });
 
-  List<BlocProvider> get _providers => [
+  List<BlocProvider> providers() => [
         BlocProvider<TraineesCubit>.value(value: mockTraineesCubit),
         BlocProvider<EmailCubit>.value(value: mockEmailCubit),
         BlocProvider<FilterTraineesCubit>.value(value: mockFilterTraineesCubit),
@@ -54,7 +54,7 @@ void main() {
   // Renders AddTrainee as the root (no back button — for UI content tests).
   Widget buildWidget({Trainee? trainee}) {
     return MultiBlocProvider(
-      providers: _providers,
+      providers: providers(),
       child: MaterialApp(
         home: AddTrainee(trainee: trainee),
       ),
@@ -64,7 +64,7 @@ void main() {
   // Renders AddTrainee as a pushed route (back button visible — for pop tests).
   Widget buildWidgetAsRoute({Trainee? trainee}) {
     return MultiBlocProvider(
-      providers: _providers,
+      providers: providers(),
       child: MaterialApp(
         home: Builder(
           builder: (context) => Scaffold(
