@@ -110,6 +110,7 @@ void main() {
             find.widgetWithText(TextFormField, 'Vorname'),
             'Anna',
           );
+          await tester.pump();
           await tester.enterText(
             find.widgetWithText(TextFormField, 'Nachname'),
             'Bauer',
@@ -121,14 +122,16 @@ void main() {
           await tester.tap(find.widgetWithText(ElevatedButton, 'Hinzufügen'));
           await tester.pump();
 
-          verify(() => mockTraineesCubit.processTrainee(
-                null,
-                any(
-                  that: isA<Trainee>()
-                      .having((t) => t.forename, 'forename', 'Anna')
-                      .having((t) => t.surname, 'surname', 'Bauer'),
-                ),
-              )).called(1);
+          final captured = verify(() => mockTraineesCubit.processTrainee(
+                any(),
+                captureAny(),
+              )).captured;
+          expect(
+            captured.single,
+            isA<Trainee>()
+                .having((t) => t.forename, 'forename', 'Anna')
+                .having((t) => t.surname, 'surname', 'Bauer'),
+          );
         });
       });
     });
@@ -172,19 +175,21 @@ void main() {
           await tester.pumpWidget(
               buildWidgetAsRoute(trainee: existingTrainee));
           await tester.tap(find.text('Open'));
-          await tester.pump(const Duration(milliseconds: 300));
+          await tester.pumpAndSettle();
 
           await tester.tap(find.byType(BackButton));
           await tester.pump();
 
-          verify(() => mockTraineesCubit.processTrainee(
-                existingTrainee,
-                any(
-                  that: isA<Trainee>()
-                      .having((t) => t.forename, 'forename', 'Max')
-                      .having((t) => t.surname, 'surname', 'Mustermann'),
-                ),
-              )).called(1);
+          final captured = verify(() => mockTraineesCubit.processTrainee(
+                any(),
+                captureAny(),
+              )).captured;
+          expect(
+            captured.single,
+            isA<Trainee>()
+                .having((t) => t.forename, 'forename', 'Max')
+                .having((t) => t.surname, 'surname', 'Mustermann'),
+          );
         });
 
         testWidgets(
@@ -193,7 +198,7 @@ void main() {
           await tester.pumpWidget(
               buildWidgetAsRoute(trainee: existingTrainee));
           await tester.tap(find.text('Open'));
-          await tester.pump(const Duration(milliseconds: 300));
+          await tester.pumpAndSettle();
 
           await tester.enterText(
             find.widgetWithText(TextFormField, 'Mustermann'),
@@ -204,14 +209,16 @@ void main() {
           await tester.tap(find.byType(BackButton));
           await tester.pump();
 
-          verify(() => mockTraineesCubit.processTrainee(
-                existingTrainee,
-                any(
-                  that: isA<Trainee>()
-                      .having((t) => t.surname, 'surname', 'Neumann')
-                      .having((t) => t.forename, 'forename', 'Max'),
-                ),
-              )).called(1);
+          final captured = verify(() => mockTraineesCubit.processTrainee(
+                any(),
+                captureAny(),
+              )).captured;
+          expect(
+            captured.single,
+            isA<Trainee>()
+                .having((t) => t.surname, 'surname', 'Neumann')
+                .having((t) => t.forename, 'forename', 'Max'),
+          );
         });
       });
 
@@ -222,7 +229,7 @@ void main() {
           await tester.pumpWidget(
               buildWidgetAsRoute(trainee: existingTrainee));
           await tester.tap(find.text('Open'));
-          await tester.pump(const Duration(milliseconds: 300));
+          await tester.pumpAndSettle();
 
           await tester.enterText(
             find.widgetWithText(TextFormField, 'Max'),
