@@ -125,16 +125,16 @@ class _ExerciseCarouselRowState extends State<ExerciseCarouselRow> {
                     ),
                     Row(
                       children: [
-                        // Collapse/Expand Button
                         IconButton(
-                          icon: Icon(_collapsed
-                              ? Icons.expand_more
-                              : Icons.expand_less),
-                          tooltip: _collapsed ? 'Aufklappen' : 'Zuklappen',
-                          onPressed: () =>
-                              setState(() => _collapsed = !_collapsed),
+                          icon: const Icon(Icons.arrow_upward),
+                          onPressed: widget.onMoveUp,
+                          tooltip: 'Nach oben',
                         ),
-                        // Löschen
+                        IconButton(
+                          icon: const Icon(Icons.arrow_downward),
+                          onPressed: widget.onMoveDown,
+                          tooltip: 'Nach unten',
+                        ),
                         IconButton(
                           icon: const Icon(Icons.delete_outline),
                           onPressed: widget.onRemove,
