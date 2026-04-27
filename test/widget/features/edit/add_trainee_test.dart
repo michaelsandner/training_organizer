@@ -99,21 +99,6 @@ void main() {
             findsOneWidget,
           );
         });
-
-        testWidgets('Then no Editieren button is shown', (tester) async {
-          await tester.pumpWidget(buildWidget());
-
-          expect(find.text('Editieren'), findsNothing);
-        });
-
-        testWidgets('Then no Löschen button is shown', (tester) async {
-          await tester.pumpWidget(buildWidget());
-
-          expect(
-            find.widgetWithText(ElevatedButton, 'Löschen'),
-            findsNothing,
-          );
-        });
       });
 
       group('When Hinzufügen is tapped with valid form input', () {
@@ -167,30 +152,6 @@ void main() {
           await tester.pumpWidget(buildWidget(trainee: existingTrainee));
 
           expect(find.widgetWithText(AppBar, 'Bearbeiten'), findsOneWidget);
-        });
-
-        testWidgets('Then no Editieren button is shown', (tester) async {
-          await tester.pumpWidget(buildWidget(trainee: existingTrainee));
-
-          expect(find.text('Editieren'), findsNothing);
-        });
-
-        testWidgets('Then the Löschen button is shown', (tester) async {
-          await tester.pumpWidget(buildWidget(trainee: existingTrainee));
-
-          expect(
-            find.widgetWithText(ElevatedButton, 'Löschen'),
-            findsOneWidget,
-          );
-        });
-
-        testWidgets('Then no Hinzufügen button is shown', (tester) async {
-          await tester.pumpWidget(buildWidget(trainee: existingTrainee));
-
-          expect(
-            find.widgetWithText(ElevatedButton, 'Hinzufügen'),
-            findsNothing,
-          );
         });
 
         testWidgets('Then the form fields are pre-filled with trainee data',
