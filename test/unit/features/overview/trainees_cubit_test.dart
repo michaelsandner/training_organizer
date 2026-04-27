@@ -237,42 +237,6 @@ void main() {
 
       group('When upgradeTrainee', () {
         blocTest<TraineesCubit, TraineesState>(
-          'Then trainee should be updated to group 3',
-          seed: () => state,
-          build: () => cubit,
-          act: (cubit) => cubit.upgradeTrainee(trainee),
-          expect: () => [
-            state.copyWith(
-              trainees: [
-                Trainee(
-                  surname: 'Musterman',
-                  forename: 'Max',
-                  email: 'email@email.de',
-                  dateOfBirth: '2000-10-10',
-                  trainingGroup: Group.group3,
-                ),
-              ],
-            ),
-          ],
-        );
-      });
-    });
-
-    group('Given trainee in Group 3', () {
-      late Trainee trainee;
-      setUp(() {
-        trainee = Trainee(
-          surname: 'Musterman',
-          forename: 'Max',
-          email: 'email@email.de',
-          dateOfBirth: '2000-10-10',
-          trainingGroup: Group.group3,
-        );
-        state = cubit.state.copyWith(trainees: [trainee]);
-      });
-
-      group('When upgradeTrainee', () {
-        blocTest<TraineesCubit, TraineesState>(
           'Then trainee should be updated to group wednesday',
           seed: () => state,
           build: () => cubit,

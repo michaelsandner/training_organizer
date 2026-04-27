@@ -395,7 +395,7 @@ void main() {
 
           expect(trainee.attendanceDatesForGroup('group1').length, 1);
           expect(trainee.attendanceDatesForGroup('group2').length, 1);
-          expect(trainee.attendanceDatesForGroup('group3').length, 0);
+          expect(trainee.attendanceDatesForGroup('group4').length, 0);
         });
       });
     });

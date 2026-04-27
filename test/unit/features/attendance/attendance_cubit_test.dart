@@ -296,8 +296,6 @@ void main() {
               DateTime.saturday);
           expect(AttendanceState.getAllowedWeekday(FilterableGroup.group2),
               DateTime.saturday);
-          expect(AttendanceState.getAllowedWeekday(FilterableGroup.group3),
-              DateTime.saturday);
           expect(AttendanceState.getAllowedWeekday(FilterableGroup.group4),
               DateTime.saturday);
           expect(AttendanceState.getAllowedWeekday(FilterableGroup.group5),

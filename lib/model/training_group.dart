@@ -67,19 +67,11 @@ final trainingGroups = [
     lastGroup: Group.group1,
   ),
   TrainingGroup(
-    id: 'group3',
-    name: 'Block 3',
-    shortName: '3',
-    group: Group.group3,
-    nextGroup: Group.wednesday,
-    lastGroup: Group.group4,
-  ),
-  TrainingGroup(
     id: 'group4',
     name: 'Block 4',
     shortName: '4',
     group: Group.group4,
-    nextGroup: Group.group3,
+    nextGroup: Group.wednesday,
     lastGroup: Group.group2,
   ),
   TrainingGroup(
