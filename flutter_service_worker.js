@@ -47,7 +47,7 @@ const RESOURCES = {"assets/assets/test_data/test_trainees.json": "65de26d8071d2a
 "canvaskit/skwasm_heavy.wasm": "b0be7910760d205ea4e011458df6ee01",
 "canvaskit/skwasm.js": "8060d46e9a4901ca9991edd3a26be4f0",
 "flutter.js": "24bc71911b75b5f8135c949e27a2984e",
-"flutter_bootstrap.js": "e0f5dddfff852e0cd593f5ff23d81bb2",
+"flutter_bootstrap.js": "b210fc6e1ef4da0a052ad03a0889e35a",
 "main.dart.js": "17d502ae5ab8cbae68e7d55547f14bfa",
 "version.json": "f5e460972d868f5aefd9f81dbe6f3add",
 "icons/Icon-maskable-512.png": "040c1710c5fa48b8d290df3f7579a212",
