@@ -110,7 +110,6 @@ void main() {
             find.widgetWithText(TextFormField, 'Vorname'),
             'Anna',
           );
-          await tester.pump();
           await tester.enterText(
             find.widgetWithText(TextFormField, 'Nachname'),
             'Bauer',
@@ -123,7 +122,7 @@ void main() {
           await tester.pump();
 
           final captured = verify(() => mockTraineesCubit.processTrainee(
-                any(),
+                any(that: isNull),
                 captureAny(),
               )).captured;
           expect(
@@ -181,7 +180,7 @@ void main() {
           await tester.pump();
 
           final captured = verify(() => mockTraineesCubit.processTrainee(
-                any(),
+                any(that: equals(existingTrainee)),
                 captureAny(),
               )).captured;
           expect(
@@ -210,7 +209,7 @@ void main() {
           await tester.pump();
 
           final captured = verify(() => mockTraineesCubit.processTrainee(
-                any(),
+                any(that: equals(existingTrainee)),
                 captureAny(),
               )).captured;
           expect(
