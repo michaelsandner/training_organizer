@@ -242,6 +242,29 @@ void main() {
           verifyNever(() => mockTraineesCubit.processTrainee(any(), any()));
         });
       });
+
+      group('When the user confirms deletion', () {
+        testWidgets(
+            'Then removeTrainee is called and processTrainee is not called',
+            (tester) async {
+          await tester.pumpWidget(
+              buildWidgetAsRoute(trainee: existingTrainee));
+          await tester.tap(find.text('Open'));
+          await tester.pumpAndSettle();
+
+          await tester.ensureVisible(
+              find.widgetWithText(ElevatedButton, 'Löschen'));
+          await tester.tap(find.widgetWithText(ElevatedButton, 'Löschen'));
+          await tester.pumpAndSettle();
+
+          await tester.tap(find.widgetWithText(TextButton, 'Ja'));
+          await tester.pumpAndSettle();
+
+          verify(() => mockTraineesCubit.removeTrainee(existingTrainee))
+              .called(1);
+          verifyNever(() => mockTraineesCubit.processTrainee(any(), any()));
+        });
+      });
     });
   });
 }

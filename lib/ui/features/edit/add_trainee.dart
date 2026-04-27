@@ -39,6 +39,7 @@ class _AddTraineeState extends State<AddTrainee> {
 
   bool isMember = false;
   bool isTrainer = false;
+  bool _isDeleted = false;
 
   @override
   void initState() {
@@ -107,6 +108,7 @@ class _AddTraineeState extends State<AddTrainee> {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
+                    _isDeleted = true;
                     cubit.removeTrainee(widget.trainee!);
                     Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -168,7 +170,7 @@ class _AddTraineeState extends State<AddTrainee> {
       value: _certificationCubit,
       child: PopScope(
         onPopInvokedWithResult: (didPop, result) {
-          if (didPop && widget.trainee != null && context.mounted) {
+          if (didPop && widget.trainee != null && !_isDeleted && context.mounted) {
             if (_formKey.currentState?.validate() == true) {
               cubit.processTrainee(widget.trainee, createTraineeFromInputs());
             }
