@@ -34,6 +34,7 @@ class GetAttendanceStatisticsUseCase {
   static const List<Group> wednesdayGroups = [
     Group.wednesday,
     Group.active,
+    Group.leisure,
   ];
 
   AttendanceSectionData execute(

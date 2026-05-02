@@ -80,6 +80,8 @@ class Trainee {
         return 'M';
       case Group.active:
         return 'A';
+      case Group.leisure:
+        return 'F';
       default:
         return '';
     }
