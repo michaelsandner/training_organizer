@@ -20,14 +20,14 @@ class PdfView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectionCubit = context.read<FilterTraineesCubit>();
-    final onAndroid = isAndroidBrowser();
+    final isAndroidWeb = isAndroidBrowser();
     return PdfPreview(
-        allowPrinting: !onAndroid,
-        actions: onAndroid
+        allowPrinting: !isAndroidWeb,
+        actions: isAndroidWeb
             ? [
                 PdfPreviewAction(
                   icon: const Icon(Icons.download),
-                  tooltip: 'Herunterladen',
+                  tooltip: 'PDF herunterladen',
                   onPressed: (context, build, pageFormat) async {
                     final bytes = await build(pageFormat);
                     await downloadFileOnWeb(
