@@ -1,12 +1,16 @@
 import 'dart:typed_data';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // ignore: depend_on_referenced_packages
 import 'package:pdf/pdf.dart';
 // ignore: depend_on_referenced_packages
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
+import 'package:training_organizer/data/platform_info_stub.dart'
+    if (dart.library.js_interop) 'package:training_organizer/data/platform_info_web.dart';
+import 'package:training_organizer/data/web_downloader_stub.dart'
+    if (dart.library.js_interop) 'package:training_organizer/data/web_downloader_web.dart';
 import 'package:training_organizer/model/trainee.dart';
 import 'package:training_organizer/ui/features/overview/selection/filter_trainees_cubit.dart';
 
@@ -16,7 +20,25 @@ class PdfView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectionCubit = context.read<FilterTraineesCubit>();
+    final onAndroid = isAndroidBrowser();
     return PdfPreview(
+        allowPrinting: !onAndroid,
+        actions: onAndroid
+            ? [
+                PdfPreviewAction(
+                  icon: const Icon(Icons.download),
+                  tooltip: 'Herunterladen',
+                  onPressed: (context, build, pageFormat) async {
+                    final bytes = await build(pageFormat);
+                    await downloadFileOnWeb(
+                      bytes,
+                      'blockliste.pdf',
+                      'application/pdf',
+                    );
+                  },
+                ),
+              ]
+            : const [],
         build: (format) => _generatePdf(
               format,
               selectionCubit.state.selectedTrainees,
