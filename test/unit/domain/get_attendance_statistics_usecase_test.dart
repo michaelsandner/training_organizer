@@ -123,6 +123,14 @@ void main() {
             'active': [wednesday1],
           },
         ),
+        Trainee(
+          forename: 'Karl',
+          surname: 'Braun',
+          trainingGroup: Group.leisure,
+          attendanceDates: {
+            'leisure': [wednesday1, wednesday2],
+          },
+        ),
       ];
 
       group('When execute is called with Wednesday groups', () {
@@ -145,8 +153,13 @@ void main() {
           expect(activeData.counts[wednesday1], 1);
           expect(activeData.counts[wednesday2], 0);
 
-          expect(result.sums[wednesday1], 2);
-          expect(result.sums[wednesday2], 1);
+          final leisureData =
+              result.groupData.firstWhere((d) => d.group == Group.leisure);
+          expect(leisureData.counts[wednesday1], 1);
+          expect(leisureData.counts[wednesday2], 1);
+
+          expect(result.sums[wednesday1], 3);
+          expect(result.sums[wednesday2], 2);
         });
       });
     });
