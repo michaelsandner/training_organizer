@@ -5,6 +5,7 @@ class EmailListTile extends StatelessWidget {
   final String title;
   final EmailRecipientGroup? group;
   final bool isSelected;
+  final bool isEnabled;
   final Function(bool) onChanged;
 
   const EmailListTile({
@@ -13,6 +14,7 @@ class EmailListTile extends StatelessWidget {
     required this.title,
     required this.group,
     required this.onChanged,
+    this.isEnabled = true,
   });
 
   @override
@@ -20,9 +22,11 @@ class EmailListTile extends StatelessWidget {
     return CheckboxListTile(
       title: Text(title),
       value: isSelected,
-      onChanged: (bool? newValue) {
-        onChanged(newValue ?? false);
-      },
+      onChanged: isEnabled
+          ? (bool? newValue) {
+              onChanged(newValue ?? false);
+            }
+          : null,
       dense: true,
     );
   }
