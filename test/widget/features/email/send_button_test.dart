@@ -63,8 +63,9 @@ void main() {
         testWidgets('Then the send button is disabled', (tester) async {
           await tester.pumpWidget(buildWidget());
 
-          final button =
-              tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+          final button = tester.widget<ElevatedButton>(
+            find.byWidgetPredicate((widget) => widget is ElevatedButton),
+          );
           expect(button.onPressed, isNull);
         });
       });
@@ -95,8 +96,9 @@ void main() {
         testWidgets('Then the send button is disabled', (tester) async {
           await tester.pumpWidget(buildWidget());
 
-          final button =
-              tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+          final button = tester.widget<ElevatedButton>(
+            find.byWidgetPredicate((widget) => widget is ElevatedButton),
+          );
           expect(button.onPressed, isNull);
         });
       });
@@ -131,8 +133,9 @@ void main() {
         testWidgets('Then the send button is enabled', (tester) async {
           await tester.pumpWidget(buildWidget());
 
-          final button =
-              tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+          final button = tester.widget<ElevatedButton>(
+            find.byWidgetPredicate((widget) => widget is ElevatedButton),
+          );
           expect(button.onPressed, isNotNull);
         });
       });
