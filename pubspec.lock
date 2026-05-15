@@ -398,10 +398,10 @@ packages:
     dependency: transitive
     description:
       name: import_rules
-      sha256: "5144a24d00c4039dd032f46fe2711d36394848f0e17a42a7788bac8c9316d4ff"
+      sha256: "65254398ff831cb67670276d24f622bc889f2b8ea3f36fe3bc1fa05d1ee54c86"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.7"
+    version: "0.0.8"
   integration_test:
     dependency: "direct dev"
     description: flutter
