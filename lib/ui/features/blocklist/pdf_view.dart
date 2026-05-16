@@ -27,7 +27,6 @@ class PdfView extends StatelessWidget {
             ? [
                 PdfPreviewAction(
                   icon: const Icon(Icons.download),
-                  tooltip: 'PDF herunterladen',
                   onPressed: (context, build, pageFormat) async {
                     final bytes = await build(pageFormat);
                     await downloadFileOnWeb(
