@@ -35,7 +35,7 @@ dependencies:
   mocktail: ^1.0.5
   intl: ^0.20.2
   file_picker: ^10.3.10
-  external_path: ^2.1.0
+  external_path: ^3.0.0
   printing: ^5.14.3
   url_launcher: ^6.1.10
   loading_indicator: ^3.1.1
